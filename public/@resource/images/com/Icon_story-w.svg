@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 26 26">
+    <defs>
+        <style>
+            .cls-5{fill:#fff}
+        </style>
+    </defs>
+    <g id="Icon_story_w" transform="translate(-0.07 0.149)">
+        <g id="합치기_11" fill="none" stroke="none">
+            <path d="M3.62 16.125H0V0h19.906v16.125H8l-4.38 3.494z" transform="translate(3.117 3.771)"/>
+            <path fill="#fff" d="M4.62 17.542l3.03-2.417h11.256V1H1v14.125h3.62v2.417m-1 2.077v-3.494H0V0h19.906v16.125H8L3.62 19.619z" transform="translate(3.117 3.771)"/>
+        </g>
+        <g id="그룹_351" transform="translate(7.73 10.941)">
+            <path id="사각형_340" d="M0 0H1.393V1.393H0z" class="cls-5" transform="translate(0 0)"/>
+            <path id="사각형_341" d="M0 0H1.393V1.393H0z" class="cls-5" transform="translate(4.643 0)"/>
+            <path id="사각형_342" d="M0 0H1.393V1.393H0z" class="cls-5" transform="translate(9.286 0)"/>
+        </g>
+    </g>
+</svg>

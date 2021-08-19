@@ -1,0 +1,99 @@
+@charset "UTF-8";
+
+button {-webkit-appearance:none; background-color: transparent; border:0 none;font-family: inherit;}
+button:focus,
+a:focus	{outline-color: transparent;outline-style: none;}
+.btn {display: inline-block;text-align:center;vertical-align: middle; border: 0 none; outline: none;cursor: pointer;background:transparent;box-sizing: border-box;font-size: inherit;}
+
+a.btn	{text-decoration:none;}
+input.btn,
+button.btn	{overflow:visible;margin:0;padding:0;background-color:transparent;}
+
+.btn > .ico {vertical-align: middle;}
+
+
+/* button size */
+/*42px*/
+.btn.x-small{height: 11.2vw; line-height: 11.2vw; font-size: 3.467vw;}
+/*50px*/
+.btn.small{height: 13.333vw; line-height: 13.333vw;}
+/*54px*/
+.btn.medium{height: 14.4vw; line-height: 14.4vw;}
+/*60px*/
+.btn.large{height: 16vw; line-height: 16vw;}
+/*80px*/
+.btn.x-large{height: 18.667vw; line-height: 18.667vw;}
+.btn.x-large > strong {font-weight: 700;}
+
+/* button color */
+.btn.normal{border: 1px solid #000;color: #000;background-color: #fff;}
+.btn.light{background-color:#fcfcfc;color:#989898;border: 1px solid #ebebeb;}
+.btn.light-g{background-color:#f6f6f6;}
+.btn.dark{background-color: #000;color: #fff;}
+.btn.dark-g{background-color: #535353;color: #fff;}
+.btn.full{width: 100%;}
+.btn.bdr{border: 1px solid #ebebeb;color: #000;background-color: #fff;}
+
+.btn[disabled]{cursor: auto;}
+.btn.dark[disabled] {background-color: #bfbfbf;}
+.btn.light-g[disabled] {background-color: #f6f6f6;}
+.btn[disabled] > .ico {opacity: 0.4;}
+
+.btn-close {width: 8vw; height: 8vw;}
+.btn.delete {width: 5.333vw; height: 5.333vw;}
+
+/* btn-area.col-2 */
+.btn-area{display: -ms-flexbox; display: -webkit-flex; display: flex;}
+.btn-area.col-2 .btn{display: -webkit-box; display: -ms-flexbox; display: flex; 
+    -webkit-align-items: center; -ms-flex-align: center; align-items: center;
+    -webkit-box-pack: center; -ms-flex-pack: center; justify-content: center;
+    width: 50%;}
+
+/* .btn.scroll-top */
+.btn.scroll-top { width: 10.667vw; height: 10.667vw; background-color: #fff; border: 0.267vw solid #ebebeb; box-sizing: border-box;}
+
+.btn.scroll-top {position: fixed; right: 5.333vw; bottom: 22.933vw; z-index: 10;}
+body:not(.show-scrolltop-btn) .btn.scroll-top {opacity: 0; visibility: hidden; z-index: -9999; transition: all 0.5s ease-in;}
+body.show-scrolltop-btn .btn.scroll-top {opacity: 1; visibility: visible; transition: all 0.5s ease-in 0.1s;}
+
+/* .btn.back */
+/* .btn.go-page */
+.btn.back ,
+.btn.share,
+.btn.go-page {width: 8vw; height: 8vw;}
+
+
+/* .btn.text */
+.btn.text {font-size: 3.733vw;}
+.btn.text span + .ico {margin-left: 1.333vw;}
+a.btn.text[target=_blank] {position: relative;}
+a.btn.text[target=_blank]::after {position: relative; top: 0; display: inline-block; width: 4.533vw; height: 4.533vw; background-image: url('../images/com/icon_external.svg'); transform: translateY(0); margin-left: 1.067vw;}
+
+/* button sns */
+.btn.sns {width: 10.667vw; height: 10.667vw; line-height: 10.667vw; background-color: #f8f8f8;}
+
+/* button amount */
+.btn.amount {width: 6.4vw; height: 6.4vw; background-color: #efefef; border-radius: 50%;}
+/* button bookmark */
+/* .btn.bookmark .ico.heart{transition: 0.25s;} */
+.btn.bookmark.active .ico.heart {background-image: url('../images/com/icon_heart.svg');}
+
+/* btn.view-page */
+.btn.view-page {width: 14.667vw; height: 14.667vw; border-radius: 50%; background-color: #fff;}
+.btn.view-page .ico {height: 100%; background-size: 4.8vw 4.533vw;}
+
+/* btn.address-book */
+.btn.address-book {height: 8.533vw; line-height: 8.533vw; font-size: 3.733vw; padding: 0 2.667vw;}
+
+/* btn page */
+.btn.page {width: 18.667vw; height: 18.667vw; background-color: #fff; background-repeat: no-repeat; background-position: center; background-size: 5.333vw 5.333vw; border-top: 0.267vw solid #ebebeb;}
+.btn.page.prev {background-image: url('../images/com/btn_prev.svg'); }
+.btn.page.next {background-image: url('../images/com/btn_next.svg');}
+
+/* .btn.back.bdr , .btn.share.bdr */
+.btn.back ,
+.btn.share{transition: width 0.25s ease, height 0.25s ease, border-width 0.25s ease;}
+.btn.back.bdr,
+.btn.share.bdr {width: 10.667vw; height: 10.667vw; background-color: rgba(255,255,255,0.8); transition: width 0.25s ease, height 0.25s ease, border-width 0.25s ease;}
+.btn.back.bdr > .ico,
+.btn.share.bdr > .ico{width: 100%; height: 100%; background-size: 8vw 8vw; background-position: center;}

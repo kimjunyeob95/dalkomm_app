@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="33.394" height="33.612" viewBox="0 0 33.394 33.612">
+    <defs>
+        <style>
+            .cls-2{fill:#fff}.cls-6{fill:#020202}
+        </style>
+    </defs>
+    <g id="store_05" transform="translate(-167.97 -377.327)">
+        <g id="그룹_557" transform="translate(168.364 377.897)">
+            <path id="패스_310" d="M211.435 421h-31.271v-24.186l15.635-8.578 15.635 8.578z" class="cls-2" transform="translate(-180.164 -388.236)"/>
+            <path id="패스_311" fill="none" stroke="#020202" stroke-miterlimit="10" d="M180.539 421v-24.186l15.635-8.578 15.635 8.578V421" transform="translate(-180.433 -388.236)"/>
+            <path id="사각형_480" fill="#f4f4f4" d="M0 0H30.682V5.35H0z" transform="translate(0.614 27.412)"/>
+            <path id="패스_312" fill="#ff592e" stroke="#020202" stroke-miterlimit="10" d="M227.176 462.949v-15.964h-11.24v15.964" transform="translate(-205.815 -430.187)"/>
+            <path id="사각형_481" d="M0 0H5.189V5.244H0z" class="cls-2" transform="translate(13.147 19.384)"/>
+            <g id="그룹_556" transform="translate(4.027 10.431)">
+                <path id="사각형_482" d="M0 0H1.154V1.465H0z" class="cls-6"/>
+                <path id="사각형_483" d="M0 0H1.154V1.465H0z" class="cls-6" transform="translate(11.031)"/>
+                <path id="사각형_484" d="M0 0H1.154V1.465H0z" class="cls-6" transform="translate(22.063)"/>
+            </g>
+            <path id="사각형_485" d="M0 0H1.154V1.465H0z" class="cls-6" transform="translate(4.138 20.541)"/>
+        </g>
+        <g id="그룹_558" transform="translate(186.214 397.858)">
+            <path id="패스_313" fill="#93e4f9" stroke="#000" stroke-miterlimit="10" d="M258.129 468.776h-14.878v-5.041l5.8-1.667 4.412-4.018h4.666" transform="translate(-243.251 -458.049)"/>
+            <path id="사각형_486" d="M0 0H14.693V0.737H0z" class="cls-2" transform="translate(0.457 9.844)"/>
+            <ellipse id="타원_95" cx="2.716" cy="2.745" fill="#fff" stroke="#000" stroke-miterlimit="10" rx="2.716" ry="2.745" transform="translate(3.799 7.091)"/>
+            <ellipse id="타원_96" cx=".593" cy=".599" rx=".593" ry=".599" transform="translate(5.923 9.237)"/>
+            <path id="패스_314" d="M273.948 462.649l-3.089 2.964h7.067v-2.964z" class="cls-2" transform="translate(-263.047 -461.334)"/>
+        </g>
+    </g>
+</svg>

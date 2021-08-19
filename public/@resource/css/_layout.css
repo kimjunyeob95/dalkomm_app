@@ -1,0 +1,58 @@
+@charset "UTF-8";
+/* hanbom.com _ Dal.Komm _ JeongSumin _ 20210726 */
+
+html,
+body {width: 100%; min-height: 100vh;}
+body.modal-opened{overflow:hidden;}
+
+#wrap,
+#container{position:relative; min-height: 100vh;}
+
+
+/* skip-nav */
+.skip-nav{position:relative;z-index:2000;}
+.skip-nav a{position: absolute;top: -12vw;left: 0;width:50%;height:32px;background: #333; color: white;text-align: center;}
+.skip-nav a:active,
+.skip-nav a:focus{top: 0;text-decoration:none;z-index: 1000;}
+
+/* body */
+body {width: 100%; min-height: 100%; overflow-x: hidden;}
+
+/* w-inner */
+.w-inner {padding-left: 5.333vw; padding-right: 5.333vw;}
+
+/* header */
+#header {width: 100%; z-index: 99;}
+#header:not(.only-button-header) {height: 14.667vw; background-color: #fff;}
+#header.fixed-header {position: sticky; top: 0; left: 0;}
+#header > .w-inner {height: 100%;}
+#header h1.page-title {width: 100%; height: 100%; border-bottom: 0.267vw solid #f1f1f1; font-weight: 700; font-size: 4.800vw; text-align: center; padding-top: 2.933vw; box-sizing: border-box;}
+#header h1 a.logo {display: block; width: 25.333vw; height: 3.467vw; background-image: url('../images/com/logo_dalkomm.svg'); background-repeat: no-repeat; background-position: 0 0; background-size: contain; box-sizing: border-box;}
+#header .open-search {font-size: 0; padding: 0;}
+#header .btn.back {left: 5.333vw;}
+#header .btn.back,
+#header .btn-area {position: absolute;  top: 1.6vw; z-index: 2;}
+#header .btn-area {right: 5.333vw;}
+#header .btn-area .btn + .btn{margin-left: 2.133vw;}
+#header .btn-area .btn .ico {width: 8vw; height: 8vw;}
+#header.only-button-header {position: relative; padding-top: 0;}
+#header.bg-transparent {height: 0; background-color: transparent;}
+#header.bg-transparent h1.page-title{border-bottom: 0;}
+#header.floating {position: absolute; top: 0; left: 0; background-color: transparent;}
+
+/* footer */
+nav#menu {position: fixed; display: -ms-flexbox; display: -webkit-flex; display: flex; justify-content: space-evenly; bottom: 0; left: 0; width: 100%; height: 18.667vw; background-color: #fff; border-top: 1px solid rgba(112,112,112,0.2); font-size: 0; padding-top: 1.867vw; box-sizing: border-box; z-index: 101;}
+nav#menu .img-wrap {width: 8vw; height: 8vw; margin: 0 auto;}
+nav#menu .img-wrap svg {width: 100%; height: 100%;}
+nav#menu a:not(.active) .img-wrap svg {opacity: 0.8;}
+nav#menu a.active .img-wrap svg .path-stroke {stroke: #ff592e;}
+nav#menu a.active .img-wrap svg .path-fill {fill: #ff592e;}
+nav#menu .name {display: block; font-size: 2.133vw; text-align: center;}
+nav#menu a.active .name {color: #ff592e;}
+nav#menu .img-wrap + .name {margin-top: 1.0687vw;}
+
+/* content */
+#content {min-height: calc(100vh - 14.667vw); box-sizing: border-box;}
+
+.section + .section {margin-top: 16vw;}
+.section .title-wrap {margin-bottom: 4vw;}

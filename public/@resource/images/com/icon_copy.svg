@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="14" height="16" viewBox="0 0 14 16">
+    <defs>
+        <style>
+            .cls-2,.cls-5{fill:none}.cls-2{stroke:#000}.cls-4{stroke:none}
+        </style>
+    </defs>
+    <g id="icon_copy" opacity="0.6" transform="translate(-292 -369)">
+        <g id="사각형_470" class="cls-2">
+            <path d="M0 0H10V12H0z" class="cls-4" transform="translate(296 369)"/>
+            <path d="M0.5 0.5H9.5V11.5H0.5z" class="cls-5" transform="translate(296 369)"/>
+        </g>
+        <path id="사각형_471" fill="#fbfbfb" d="M0 0H12V14H0z" transform="translate(292 371)"/>
+        <g id="사각형_469" class="cls-2">
+            <path d="M0 0H11V12H0z" class="cls-4" transform="translate(292 372)"/>
+            <path d="M0.5 0.5H10.5V11.5H0.5z" class="cls-5" transform="translate(292 372)"/>
+        </g>
+    </g>
+</svg>

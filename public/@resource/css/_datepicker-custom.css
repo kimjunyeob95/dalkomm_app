@@ -1,0 +1,45 @@
+@charset "UTF-8";
+
+.ui-datepicker {font-family: 'Montserrat'; padding: 4vw ;}
+.ui-widget.ui-widget-content {left: auto !important; right: 5.333vw !important; border: 0; box-shadow: 0 0 2.600vw rgb(0 0 0 / 20%)}
+.ui-datepicker table {table-layout: fixed; font-size: 3.733vw; margin: 0;}
+.ui-widget-header {background-color: #fff; border: 0; letter-spacing: -0.133vw; color: #1c1c1c;}
+.ui-datepicker .ui-datepicker-title {font-size: 4.267vw;}
+.ui-datepicker th {color: #a4a4a4; padding-left: 2.667vw; padding-right: 2.667vw;}
+.ui-datepicker td {width: 10.333vw; height: 10.333vw; font-weight: 600;padding: 0; box-sizing: border-box;}
+
+.ui-state-highlight,
+.ui-widget-content .ui-state-highlight, 
+.ui-widget-header .ui-state-highlight ,
+.ui-state-default, 
+.ui-widget-content .ui-state-default, 
+.ui-widget-header .ui-state-default, 
+.ui-button,
+html .ui-button.ui-state-disabled:hover, 
+html .ui-button.ui-state-disabled:active {display: flex; justify-content: center; align-items: center; width: 100%; height: 100%; border: 0; background-color: #fff; line-height: normal; font-weight: inherit; letter-spacing: -0.075vw; color: #262626; padding: 0;}
+
+
+.ui-datepicker td span, .ui-datepicker td a {text-align: center; box-sizing: border-box;}
+
+.ui-state-active, 
+.ui-widget-content .ui-state-active, 
+.ui-widget-header .ui-state-active, 
+a.ui-button:active, 
+.ui-button:active,
+.ui-button.ui-state-active:hover {border-radius: 50%; background-color: #ff592e; color: #fff;}
+
+.ui-widget-header .ui-icon {background-position: center;}
+.ui-widget-header .ui-datepicker-prev .ui-icon {background-image: url('../images/com/btn_prev.svg'); background-position: center;}
+.ui-widget-header .ui-datepicker-next .ui-icon {background-image: url('../images/com/btn_next.svg'); background-position: center;}
+.ui-datepicker .ui-datepicker-prev, 
+.ui-datepicker .ui-datepicker-next {width: 8vw; height: 8vw;}
+.ui-datepicker .ui-datepicker-prev span, 
+.ui-datepicker .ui-datepicker-next span {left: 0; width: 100%; height: 100%; margin: 0; background-size: 6.667vw 6.667vw; -webkit-transform: translateY(-50%); -ms-transform: translateY(-50%); -o-transform: translateY(-50%); transform: translateY(-50%);}
+.ui-state-hover, 
+.ui-widget-content .ui-state-hover, 
+.ui-widget-header .ui-state-hover, 
+.ui-state-focus, 
+.ui-widget-content .ui-state-focus, 
+.ui-widget-header .ui-state-focus, 
+.ui-button:hover,
+.ui-button:focus {background-color: #fff ;border: 0; color: inherit;}

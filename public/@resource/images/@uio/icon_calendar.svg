@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="38" height="38" viewBox="0 0 38 38">
+    <defs>
+        <style>
+            .cls-4{stroke:#000;fill:none}
+        </style>
+    </defs>
+    <g id="icon_calendar" opacity="0.8">
+        <g id="그룹_218" transform="translate(9.241 8.289)">
+            <g id="사각형_267" fill="#fff" stroke="#000">
+                <path stroke="none" d="M0 0H20.647V20.647H0z" transform="translate(0 1.347)"/>
+                <path fill="none" d="M0.5 0.5H20.147V20.147H0.5z" transform="translate(0 1.347)"/>
+            </g>
+            <path id="선_105" d="M0 0L0 3.591" class="cls-4" transform="translate(4.937)"/>
+            <path id="선_106" d="M0 0L0 3.591" class="cls-4" transform="translate(15.71)"/>
+            <g id="그룹_454" transform="translate(0 1)">
+                <path id="사각형_411" d="M0 0H1.5V1.5H0z" transform="translate(4.759 8.711)"/>
+                <path id="사각형_416" d="M0 0H1.5V1.5H0z" transform="translate(4.759 13.711)"/>
+                <path id="사각형_412" d="M0 0H1.5V1.5H0z" transform="translate(9.574 8.711)"/>
+                <path id="사각형_415" d="M0 0H1.5V1.5H0z" transform="translate(9.574 13.711)"/>
+                <path id="사각형_413" d="M0 0H1.5V1.5H0z" transform="translate(14.389 8.711)"/>
+                <path id="사각형_414" d="M0 0H1.5V1.5H0z" transform="translate(14.389 13.711)"/>
+            </g>
+        </g>
+    </g>
+</svg>

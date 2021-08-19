@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="33.5" height="34.936" viewBox="0 0 33.5 34.936">
+    <defs>
+        <style>
+            .cls-10,.cls-5{stroke:#000;stroke-miterlimit:10}.cls-3{fill:#f4f4f4}.cls-10,.cls-4{fill:#fff}.cls-5{fill:none}.cls-6{fill:#020202}.cls-7{fill:#ff592e}
+        </style>
+    </defs>
+    <g id="store_08" transform="translate(-743.831 -376.324)">
+        <ellipse id="타원_101" cx="6.682" cy="6.64" fill="#abf2f4" stroke="#000" stroke-miterlimit="10" rx="6.682" ry="6.64" transform="translate(763.468 397.479)"/>
+        <path id="사각형_549" d="M0 0H15.517V4.886H0z" class="cls-3" transform="translate(776.698 395.243) rotate(90)"/>
+        <path id="사각형_550" d="M0 0H15.517V4.886H0z" class="cls-3" transform="translate(748.717 395.243) rotate(90)"/>
+        <path id="사각형_551" d="M0 0H24.206V33.956H0z" class="cls-4" transform="translate(748.239 376.824)"/>
+        <path id="패스_340" d="M771.021 421.359V387.4h24.206v33.956" class="cls-5" transform="translate(-22.854 -10.579)"/>
+        <g id="그룹_590" transform="translate(752.5 395.243)">
+            <path id="사각형_552" d="M0 0H0.986V1.315H0z" class="cls-6" transform="translate(0 0)"/>
+            <path id="사각형_553" d="M0 0H0.986V1.315H0z" class="cls-6" transform="translate(7.34 0)"/>
+            <path id="사각형_554" d="M0 0H0.986V1.315H0z" class="cls-6" transform="translate(14.474 0)"/>
+        </g>
+        <g id="그룹_591" transform="translate(752.496 403.192)">
+            <path id="사각형_555" d="M0 0H0.986V1.315H0z" class="cls-7"/>
+            <path id="사각형_556" d="M0 0H0.986V1.315H0z" class="cls-7" transform="translate(7.34)"/>
+            <path id="사각형_557" d="M0 0H0.986V1.315H0z" class="cls-7" transform="translate(14.474)"/>
+        </g>
+        <g id="그룹_592" transform="translate(752.5 388.246)">
+            <path id="사각형_558" d="M0 0H0.986V1.315H0z" class="cls-6" transform="translate(0 0)"/>
+            <path id="사각형_559" d="M0 0H0.986V1.315H0z" class="cls-6" transform="translate(7.34 0)"/>
+            <path id="사각형_560" d="M0 0H0.986V1.315H0z" class="cls-6" transform="translate(14.474 0)"/>
+        </g>
+        <g id="그룹_593" transform="translate(752.5 381.249)">
+            <path id="사각형_561" d="M0 0H0.986V1.315H0z" class="cls-6"/>
+            <path id="사각형_562" d="M0 0H0.986V1.315H0z" class="cls-6" transform="translate(7.34)"/>
+            <path id="사각형_563" d="M0 0H0.986V1.315H0z" class="cls-6" transform="translate(14.474)"/>
+        </g>
+        <path id="패스_341" fill="#ff592e" stroke="#020202" stroke-miterlimit="10" d="M805.457 477.539v-8.414l-4.639-2.186-4.584 2.186v8.414" transform="translate(-40.603 -66.715)"/>
+        <path id="사각형_564" d="M0 0H5.343V2.035H0z" class="cls-4" transform="translate(757.556 403.49)"/>
+        <path id="선_231" d="M0 0L6.327 0" class="cls-5" transform="translate(770.372 410.714)"/>
+        <ellipse id="타원_102" cx="6.682" cy="6.64" fill="#93e4f9" stroke="#000" stroke-miterlimit="10" rx="6.682" ry="6.64" transform="translate(763.468 397.479)"/>
+        <ellipse id="타원_103" cx=".932" cy=".927" class="cls-10" rx=".932" ry=".927" transform="translate(772.485 402.091)"/>
+        <ellipse id="타원_104" cx=".932" cy=".927" class="cls-10" rx=".932" ry=".927" transform="translate(771.237 405.909)"/>
+        <ellipse id="타원_105" cx=".932" cy=".927" class="cls-10" rx=".932" ry=".927" transform="translate(767.197 405.909)"/>
+        <ellipse id="타원_106" cx=".932" cy=".927" class="cls-10" rx=".932" ry=".927" transform="translate(765.949 402.091)"/>
+        <ellipse id="타원_107" cx=".932" cy=".927" class="cls-10" rx=".932" ry=".927" transform="translate(769.217 399.731)"/>
+        <ellipse id="타원_108" cx=".478" cy=".475" rx=".478" ry=".475" transform="translate(769.671 403.644)"/>
+    </g>
+</svg>

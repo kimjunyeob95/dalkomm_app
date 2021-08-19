@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24" height="24" viewBox="0 0 24 24">
+    <defs>
+        <clipPath id="clip">
+            <use xlink:href="#fill"/>
+        </clipPath>
+        <style>
+            .cls-4{stroke:#000;fill:none}.cls-5{stroke:none}
+        </style>
+    </defs>
+    <g id="icon_recipt" transform="translate(-32.087 -52.087)">
+        <g id="그룹_190" transform="translate(34.856 56.702)">
+            <g id="사각형_254" fill="#fff" stroke="#000" transform="translate(0)">
+                <path id="fill" d="M0 0H18.846V0.99H0z" class="cls-5"/>
+                <path fill="none" d="M0 .49h18.846m-.5-.49v.99m.5-.49H0m.5.49V0" clip-path="url(#clip)"/>
+            </g>
+            <g id="패스_131" fill="#fff">
+                <path d="M13.199 14.083H.5V.5h12.699v13.583z" class="cls-5" transform="translate(2.564 0)"/>
+                <path fill="#000" d="M1 1v12.583h11.699V1H1M0 0h13.699v14.583H0V0z" transform="translate(2.564 0)"/>
+            </g>
+            <path id="선_84" d="M0 0L6.447 0" class="cls-4" transform="translate(6.19 3.89)"/>
+            <path id="선_85" d="M0 0L6.447 0" class="cls-4" transform="translate(6.19 6.915)"/>
+            <path id="선_86" d="M0 0L6.447 0" class="cls-4" transform="translate(6.19 9.94)"/>
+        </g>
+    </g>
+</svg>

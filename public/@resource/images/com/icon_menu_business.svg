@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 26 26">
+    <defs>
+        <style>
+            .cls-2{fill:#fff}.cls-2,.cls-3{stroke:#000}.cls-3,.cls-5{fill:none}.cls-4{stroke:none}
+        </style>
+    </defs>
+    <g id="icon_menu_09" transform="translate(-32 -552)">
+        <g id="그룹_356" transform="translate(32 552)">
+            <g id="그룹_354">
+                <g id="그룹_74" transform="translate(0 0)"/>
+            </g>
+        </g>
+        <g id="그룹_398" transform="translate(35.218 556.196)">
+            <g id="사각형_371" class="cls-2">
+                <path d="M0 0H5.869V7.826H0z" class="cls-4" transform="translate(6.848 0)"/>
+                <path d="M0.5 0.5H5.369V7.326H0.5z" class="cls-5" transform="translate(6.848 0)"/>
+            </g>
+            <g id="사각형_370" class="cls-2">
+                <path d="M0 0H19.565V15.652H0z" class="cls-4" transform="translate(0 1.956)"/>
+                <path d="M0.5 0.5H19.065V15.152H0.5z" class="cls-5" transform="translate(0 1.956)"/>
+            </g>
+            <path id="선_156" d="M0 0L18.709 0" class="cls-3" transform="translate(0.428 9.354)"/>
+            <path id="선_157" d="M0 0L0 2.201" class="cls-3" transform="translate(5.931 9.354)"/>
+            <path id="선_158" d="M0 0L0 2.201" class="cls-3" transform="translate(13.634 9.354)"/>
+        </g>
+    </g>
+</svg>

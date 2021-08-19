@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" id="Icon_back" width="30" height="30" viewBox="0 0 30 30">
+    <defs>
+        <style>
+            .cls-6{stroke:none}
+        </style>
+    </defs>
+    <g id="그룹_23" transform="translate(0.682 -0.834)">
+        <path id="사각형_29" d="M0 0H20.438V1.533H0z" transform="translate(4.797 14.988)"/>
+        <g id="패스_19" fill="#fff" stroke-linecap="square">
+            <path d="M10.176 1.067L.5 1.034V.502l9.676.033v.532z" class="cls-6" transform="translate(4.427 14.639) rotate(45)"/>
+            <path fill="#000" d="M0 0l10.676.037v1.531L0 1.532V0z" transform="translate(4.427 14.639) rotate(45)"/>
+        </g>
+        <g id="사각형_31" fill="#fff" stroke="#000" stroke-linecap="square">
+            <path d="M0 0H10.219V1.533H0z" class="cls-6" transform="translate(4.001 15.06) rotate(-45)"/>
+            <path fill="none" d="M0.5 0.5H9.719V1.033H0.5z" transform="translate(4.001 15.06) rotate(-45)"/>
+        </g>
+    </g>
+</svg>

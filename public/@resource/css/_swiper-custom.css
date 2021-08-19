@@ -1,0 +1,10 @@
+@charset "UTF-8";
+
+.swiper-wrapper.data-list + .swiper-scrollbar{margin-top: 5.867vw;}
+.swiper-container-horizontal>.swiper-scrollbar{left: 0;width: calc(100% - 10.667vw);height: 0.533vw;bottom: 0;border-radius: 0;margin-left: 5.333vw;}
+.swiper-scrollbar-drag {border-radius: 0;}
+.swiper-pagination-custom,
+.swiper-container-horizontal > .swiper-pagination-bullets {bottom: 0; font-size: 0;}
+.swiper-container-horizontal > .swiper-pagination-bullets .swiper-pagination-bullet {margin: 0 1.067vw;}
+.swiper-pagination-bullet {width: 1.6vw; height: 1.6vw; opacity: 0.1;}
+.swiper-pagination-bullet-active {background-color: #000; opacity: 1;}

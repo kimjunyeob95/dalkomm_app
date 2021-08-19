@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="335" height="200" viewBox="0 0 335 200">
+    <defs>
+        <clipPath id="clip-path">
+            <path id="사각형_439" fill="#77615c" d="M6 0h309a6 6 0 0 1 6 6v185H0V6a6 6 0 0 1 6-6z" transform="translate(348 381.415) rotate(-180)"/>
+        </clipPath>
+        <clipPath id="clip-path-2">
+            <path id="사각형_453" d="M6 0h323a6 6 0 0 1 6 6v194H0V6a6 6 0 0 1 6-6z" class="cls-2" transform="translate(20 213)"/>
+        </clipPath>
+        <linearGradient id="linear-gradient" x1=".973" x2=".5" y2="1" gradientUnits="objectBoundingBox">
+            <stop offset="0"/>
+            <stop offset=".018" stop-color="#020202"/>
+            <stop offset="1"/>
+        </linearGradient>
+        <style>
+            .cls-2{fill:#2e9fff}
+        </style>
+    </defs>
+    <g id="card_02" transform="translate(-20 -213)">
+        <path id="사각형_246" d="M6 0h323a6 6 0 0 1 6 6v194H0V6a6 6 0 0 1 6-6z" class="cls-2" transform="translate(20 213)"/>
+        <g id="마스크_그룹_31" clip-path="url(#clip-path-2)">
+            <path id="패스_294" fill="url(#linear-gradient)" d="M89.106.158H153V200H0z" transform="translate(202 213)"/>
+        </g>
+    </g>
+</svg>

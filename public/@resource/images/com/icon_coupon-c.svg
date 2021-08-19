@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="38" height="38" viewBox="0 0 38 38">
+    <defs>
+        <style>
+            .cls-3{fill:#ff592e}
+        </style>
+    </defs>
+    <g id="icon_coupon" transform="translate(-153 -50)">
+        <g id="그룹_74" transform="translate(153 50)">
+            <g id="빼기_2" fill="#fff" stroke="none">
+                <path d="M27.5 17.5H.5v-4.248C2.42 12.63 3.73 10.932 3.73 9S2.421 5.37.5 4.748V.5h27v4.248C25.58 5.368 24.27 7.068 24.27 9c0 1.933 1.31 3.631 3.231 4.253V17.5z" transform="translate(5 10)"/>
+                <path fill="#000" d="M27 17v-3.396C25.063 12.83 23.77 11.033 23.77 9S25.063 5.169 27 4.397V1H1v3.397C2.937 5.169 4.23 6.967 4.23 9S2.937 12.83 1 13.603V17h26m1 1H0v-5.127C1.903 12.42 3.23 10.826 3.23 9S1.903 5.581 0 5.127V0h28v5.126C26.097 5.581 24.77 7.173 24.77 9s1.328 3.42 3.231 3.874V18z" transform="translate(5 10)"/>
+            </g>
+            <g id="그룹_220" transform="translate(15.833 15.833)">
+                <path id="패스_143" d="M-1.461-.783l2.99-5.472H.536l-3 5.472z" class="cls-3" transform="translate(3.517 6.255)"/>
+                <circle id="타원_36" cx="1.056" cy="1.056" r="1.056" class="cls-3"/>
+                <circle id="타원_37" cx="1.056" cy="1.056" r="1.056" class="cls-3" transform="translate(4.222 3.167)"/>
+            </g>
+        </g>
+    </g>
+</svg>

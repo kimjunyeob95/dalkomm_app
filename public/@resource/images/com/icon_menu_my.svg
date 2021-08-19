@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 26 26">
+    <defs>
+        <style>
+            .cls-4{fill:none;stroke:#000;stroke-miterlimit:10}
+        </style>
+    </defs>
+    <g id="icon_menu_06" transform="translate(-217 -345)">
+        <g id="Icon_My" fill="#f0f" opacity="0.004" transform="translate(217 345)">
+            <path id="사각형_24" d="M0 0H19.5V19.5H0z" opacity="0.15" transform="translate(3.25 3.25)"/>
+            <path id="사각형_25" d="M0 0H26V26H0z" opacity="0.3"/>
+        </g>
+        <g id="그룹_361" transform="translate(218.733 347.6)">
+            <g id="그룹_362">
+                <g id="레이어_2">
+                    <circle id="타원_2" cx="9.495" cy="9.495" r="9.495" class="cls-4"/>
+                    <g id="그룹_14" transform="translate(6.224 5.626)">
+                        <path id="패스_17" d="M837.609 219.463a4.289 4.289 0 0 1-6.065 0" class="cls-4" transform="translate(-831.306 -212.981)"/>
+                        <path id="선_4" d="M0 0L0 1.971" class="cls-4" transform="translate(0 0.103)"/>
+                        <path id="선_5" d="M0 0L0 1.971" class="cls-4" transform="translate(6.541 0.103)"/>
+                        <path id="패스_18" d="M842.6 181.032v4.206h-1.405" class="cls-4" transform="translate(-839.328 -181.032)"/>
+                    </g>
+                </g>
+                <circle id="타원_53" cx="2.6" cy="2.6" r="2.6" fill="#fff" transform="translate(15.669 13.79)"/>
+                <path id="패스_194" fill="#fffdfe" stroke="#000" stroke-miterlimit="10" d="M536.8 129.551v-1.931l-1.136-.229a3.685 3.685 0 0 0-.207-.5l.642-.966-1.365-1.366-.966.642a3.778 3.778 0 0 0-.5-.207l-.229-1.136h-1.931l-.225 1.142a3.776 3.776 0 0 0-.5.207l-.966-.642-1.365 1.366.642.966a3.734 3.734 0 0 0-.208.5l-1.136.229v1.931l1.136.229a3.755 3.755 0 0 0 .208.5l-.642.966 1.365 1.366.966-.642a3.778 3.778 0 0 0 .5.207l.229 1.136h1.931l.229-1.136a3.78 3.78 0 0 0 .5-.207l.966.642 1.365-1.366-.642-.966a3.706 3.706 0 0 0 .207-.5zm-4.726.444a1.409 1.409 0 1 1 1.409-1.409 1.409 1.409 0 0 1-1.406 1.409z" transform="translate(-513.808 -113.344)"/>
+            </g>
+        </g>
+    </g>
+</svg>

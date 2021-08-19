@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 17 17">
+    <defs>
+        <style>
+            .cls-4{fill:none;stroke:#000}
+        </style>
+    </defs>
+    <g id="icon_ex" opacity="0.5" transform="translate(-340 -2281)">
+        <g id="Icon_LINK" transform="translate(357 2298) rotate(180)">
+            <g id="그룹_208" transform="translate(2.791 3.244)">
+                <path id="패스_135" d="M3.8 3.784H0V0" class="cls-4" transform="translate(0.134 6.996)"/>
+                <path id="패스_136" d="M0 5.6L5.819 0" class="cls-4" transform="translate(0.134 5.181)"/>
+                <path id="패스_205" d="M6.338 10.78h4.637V0H.134L0 5.11" class="cls-4" transform="translate(0 0)"/>
+            </g>
+        </g>
+    </g>
+</svg>

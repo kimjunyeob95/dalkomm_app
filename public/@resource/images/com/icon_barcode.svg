@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="29" height="30" viewBox="0 0 29 30">
+    <g>
+        <g>
+            <g>
+                <g>
+                    <path d="M0 0L0 14.121" transform="translate(-0.287) translate(3.973 7.57) translate(20.218) translate(0.54 0)"/>
+                    <path d="M0 0H1.08V14.121H0z" transform="translate(-0.287) translate(3.973 7.57) translate(20.218)"/>
+                </g>
+                <g>
+                    <path d="M0 0L0 14.121" transform="translate(-0.287) translate(3.973 7.57) translate(2.582) translate(1.801 0)"/>
+                    <path d="M0 0H3.601V14.121H0z" transform="translate(-0.287) translate(3.973 7.57) translate(2.582)"/>
+                </g>
+                <g>
+                    <path d="M0 0L0 14" transform="translate(-0.287) translate(3.973 7.57) translate(13.589) translate(1.725 0.43)"/>
+                    <path d="M0 0H2.881V14.121H0z" transform="translate(-0.287) translate(3.973 7.57) translate(13.589)"/>
+                </g>
+                <g>
+                    <path d="M0 0L0 14.121" transform="translate(-0.287) translate(3.973 7.57) translate(0.54 0)"/>
+                    <path d="M0 0H1.08V14.121H0z" transform="translate(-0.287) translate(3.973 7.57)"/>
+                </g>
+                <g>
+                    <path d="M0 0L0 14.121" transform="translate(-0.287) translate(3.973 7.57) translate(7.931) translate(0.54 0)"/>
+                    <path d="M0 0H1.08V14.121H0z" transform="translate(-0.287) translate(3.973 7.57) translate(7.931)"/>
+                </g>
+                <g>
+                    <path d="M0 0L0 14.121" transform="translate(-0.287) translate(3.973 7.57) translate(10.94) translate(0.54 0)"/>
+                    <path d="M0 0H1.08V14.121H0z" transform="translate(-0.287) translate(3.973 7.57) translate(10.94)"/>
+                </g>
+                <g>
+                    <path d="M0 0L0 14.121" transform="translate(-0.287) translate(3.973 7.57) translate(18.218) translate(0.36 0)"/>
+                    <path d="M0 0H0.72V14.121H0z" transform="translate(-0.287) translate(3.973 7.57) translate(18.218)"/>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" id="Icon_share" width="30" height="30" viewBox="0 0 30 30">
+    <defs>
+        <style>
+            .cls-3{fill:#fff;stroke:#000;stroke-width:1.5px}.cls-6{fill:none}.cls-5{stroke:none}
+        </style>
+    </defs>
+    <g id="그룹_428" transform="translate(0.299 1)">
+        <path id="패스_243" fill="none" stroke="#000" stroke-width="1.5px" d="M19.4 7L8.826 14.016l9.983 6.269" transform="translate(0 0.158)"/>
+        <g id="타원_75" class="cls-3" transform="translate(16.701 4)">
+            <circle cx="3" cy="3" r="3" class="cls-5"/>
+            <circle cx="3" cy="3" r="2.25" class="cls-6"/>
+        </g>
+        <g id="타원_77" class="cls-3" transform="translate(5.701 11)">
+            <circle cx="3" cy="3" r="3" class="cls-5"/>
+            <circle cx="3" cy="3" r="2.25" class="cls-6"/>
+        </g>
+        <g id="타원_76" class="cls-3" transform="translate(16.701 18)">
+            <circle cx="3" cy="3" r="3" class="cls-5"/>
+            <circle cx="3" cy="3" r="2.25" class="cls-6"/>
+        </g>
+    </g>
+</svg>

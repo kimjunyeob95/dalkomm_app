@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="12" viewBox="0 0 16 12">
+    <defs>
+        <style>
+            .cls-4{fill:#fff;stroke-miterlimit:10;stroke-width:.6px;stroke:#000}
+        </style>
+    </defs>
+    <g id="Icon_drive" opacity="0.8" transform="translate(-0.999)">
+        <g id="그룹_337" transform="translate(0.999 3.771)">
+            <path id="패스_182" d="M662.613 1799.782v-2.106a.467.467 0 0 1 .145-.333l3.416-3.336a.592.592 0 0 1 .413-.162h4.565a1.684 1.684 0 0 1 1.261.544l1.743 1.969a.586.586 0 0 0 .439.19h1.3a1.4 1.4 0 0 1 1.471 1.305v1.894a.265.265 0 0 1-.279.248h-14.235a.227.227 0 0 1-.239-.213z" class="cls-4" transform="translate(-662.131 -1793.606)"/>
+            <circle id="타원_44" cx="1.181" cy="1.181" r="1.181" class="cls-4" transform="translate(2.051 5.199)"/>
+            <circle id="타원_45" cx="1.181" cy="1.181" r="1.181" class="cls-4" transform="translate(11.136 5.199)"/>
+            <path id="선_133" fill="none" stroke="#000" stroke-width="0.5px" d="M0 0L1.126 0" transform="translate(8.425 3.562)"/>
+            <g id="합치기_10" stroke="none">
+                <path d="M-4320.7-1745.524v-.546h-.8c-.11 0-.2-.09-.2-.2v-2c0-.11.09-.2.2-.2h5c.11 0 .2.09.2.2v2c0 .11-.09.2-.2.2H-4319.442l-.058.025-1.2.521z" transform="translate(4332 1745)"/>
+                <path d="M-4320.4-1745.981l.896-.39h2.904v-1.8h-4.8v1.8h1v.39m-.6.915v-.704h-.5c-.277 0-.5-.224-.5-.5v-2c0-.276.223-.5.5-.5h5c.277 0 .5.224.5.5v2c0 .276-.223.5-.5.5h-2.88l-1.62.704z" transform="translate(4332 1745)"/>
+            </g>
+        </g>
+    </g>
+</svg>

@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 26 26">
+    <defs>
+        <style>
+            .cls-5{stroke:none}
+        </style>
+    </defs>
+    <g id="icon_menu_11" transform="translate(-126 -428)">
+        <g id="그룹_74" transform="translate(126 428)"/>
+        <g id="그룹_384" transform="translate(130.135 431.122)">
+            <g id="합치기_13" fill="#fff">
+                <path d="M11.24 10.338H.5V5.196l.022-.222c.118-1.21.722-2.335 1.701-3.165C3.22.965 4.513.5 5.87.5c1.357 0 2.652.465 3.647 1.309.98.83 1.584 1.954 1.702 3.165l.022.222v5.142z" class="cls-5" transform="translate(2.877 0)"/>
+                <path fill="#000" d="M10.74 9.838V5.22l-.019-.197c-.105-1.081-.648-2.087-1.527-2.833C8.289 1.423 7.109 1 5.87 1c-1.238 0-2.418.423-3.323 1.19-.88.746-1.422 1.752-1.528 2.833L1 5.22v4.618h9.74m1 1H0V4.926h.024C.294 2.164 2.808 0 5.87 0c3.062 0 5.577 2.164 5.847 4.926h.024v5.912z" transform="translate(2.877 0)"/>
+            </g>
+            <g id="사각형_352" fill="#fff" stroke="#000">
+                <path d="M0 0H18.063V11.741H0z" class="cls-5" transform="translate(-0.23 8.128)"/>
+                <path fill="none" d="M0.5 0.5H17.563V11.241H0.5z" transform="translate(-0.23 8.128)"/>
+            </g>
+            <path id="선_152" fill="none" stroke="#000" d="M0 0L0 2.03" transform="translate(8.895 11.457)"/>
+        </g>
+    </g>
+</svg>

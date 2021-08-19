@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 26 26">
+    <defs>
+        <style>
+            .cls-3{fill:none;stroke:#020202;stroke-miterlimit:10}
+        </style>
+    </defs>
+    <g id="icon_menu_02" transform="translate(-138 -50)">
+        <g id="그룹_74" transform="translate(138 50)"/>
+        <g id="그룹_158" transform="translate(141.611 53.467)">
+            <path id="패스_95" fill="#fff" d="M204.141 211.524h-18.857v-14.432l9.429-5.119 9.429 5.119z" transform="translate(-185.284 -191.974)"/>
+            <path id="패스_96" d="M185.658 211.524v-14.432l9.429-5.119 9.429 5.119v14.431" class="cls-3" transform="translate(-185.594 -191.974)"/>
+            <path id="패스_97" d="M227.834 260.249v-9.526h-6.778v9.526" class="cls-3" transform="translate(-214.952 -240.698)"/>
+            <path id="사각형_186" d="M0 0H0.867V0.867H0z" transform="translate(11.491 14.6) rotate(90)"/>
+        </g>
+    </g>
+</svg>

@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40">
+    <defs>
+        <style>
+            .cls-4{fill:none;stroke:#000}
+        </style>
+    </defs>
+    <g id="barcode_scan" transform="translate(-325 -122)">
+        <g id="그룹_172" transform="translate(331.667 128.37)">
+            <path id="패스_119" d="M6.486 3.277h-4v4" class="cls-4" transform="translate(-2.486 -3.277)"/>
+            <path id="패스_122" d="M4 0H0v4" class="cls-4" transform="translate(27.576 27.609) rotate(180)"/>
+            <path id="패스_120" d="M4 0H0v4" class="cls-4" transform="translate(27.576 0.033) rotate(90)"/>
+            <path id="패스_121" d="M4 0H0v4" class="cls-4" transform="translate(0 27.576) rotate(-90)"/>
+            <g id="그룹_24" transform="translate(5.967 8.887)">
+                <g id="그룹_17" transform="translate(15.396)">
+                    <path id="선_9" d="M0 0L0 10.683" transform="translate(0.411 0)"/>
+                    <path id="사각형_31" d="M0 0H0.823V10.683H0z"/>
+                </g>
+                <g id="그룹_18" transform="translate(1.966)">
+                    <path id="선_10" d="M0 0L0 10.683" transform="translate(1.371 0)"/>
+                    <path id="사각형_32" d="M0 0H2.742V10.683H0z"/>
+                </g>
+                <g id="그룹_19" transform="translate(10.348)">
+                    <path id="선_11" d="M0 0L0 9.333" transform="translate(0.139 0.743)"/>
+                    <path id="사각형_33" d="M0 0H2.194V10.683H0z"/>
+                </g>
+                <g id="그룹_20">
+                    <path id="선_12" d="M0 0L0 10.683" transform="translate(0.411 0)"/>
+                    <path id="사각형_34" d="M0 0H0.823V10.683H0z"/>
+                </g>
+                <g id="그룹_21" transform="translate(6.04)">
+                    <path id="선_13" d="M0 0L0 10.683" transform="translate(0.411 0)"/>
+                    <path id="사각형_35" d="M0 0H0.823V10.683H0z"/>
+                </g>
+                <g id="그룹_22" transform="translate(8.331)">
+                    <path id="선_14" d="M0 0L0 10.683" transform="translate(0.411 0)"/>
+                    <path id="사각형_36" d="M0 0H0.823V10.683H0z"/>
+                </g>
+                <g id="그룹_23" transform="translate(13.874)">
+                    <path id="선_15" d="M0 0L0 10.683" transform="translate(0.274 0)"/>
+                    <path id="사각형_37" d="M0 0H0.548V10.683H0z"/>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

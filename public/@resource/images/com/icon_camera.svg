@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 26 26">
+    <defs>
+        <style>
+            .cls-5{stroke:none}
+        </style>
+    </defs>
+    <g id="icon_04" transform="translate(2558 581)">
+        <g id="합치기_15" fill="#fff">
+            <path d="M20.5 16.5H.5V2.928h5.179l.093-.381.5-2.047h8.456l.5 2.047.093.381H20.5V16.5z" class="cls-5" transform="translate(-2555.5 -576.5)"/>
+            <path fill="#000" d="M20 16V3.428H14.93L14.335 1h-7.67l-.593 2.428H1V16h19m1 1H0V2.428h5.287L5.88 0h9.24l.594 2.428H21V17z" transform="translate(-2555.5 -576.5)"/>
+        </g>
+        <g id="타원_78" fill="#fff" stroke="#000" transform="translate(-2549.5 -571.69)">
+            <circle cx="4.5" cy="4.5" r="4.5" class="cls-5"/>
+            <circle cx="4.5" cy="4.5" r="4" fill="none"/>
+        </g>
+        <path id="선_176" fill="none" stroke="#000" d="M0 0L2 0" transform="translate(-2539 -571)"/>
+    </g>
+</svg>

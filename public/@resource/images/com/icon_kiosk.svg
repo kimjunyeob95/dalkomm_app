@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="12.245" viewBox="0 0 16 12.245">
+    <defs>
+        <style>
+            .cls-5{fill:none;stroke:#000;stroke-width:.5px}
+        </style>
+    </defs>
+    <g id="Icon_kiosk" opacity="0.8" transform="translate(0 0)">
+        <g id="그룹_340" transform="translate(0.216 0)">
+            <g id="패스_181" fill="#fff" stroke="none">
+                <path d="M9.346 9.861H.3V.3h9.046v9.561z" transform="translate(2.956)"/>
+                <path fill="#000" d="M.6.6v8.961h8.446V.6H.6M0 0h9.646v10.161H0V0z" transform="translate(2.956)"/>
+            </g>
+            <path id="선_127" d="M0 0L0 2.295" class="cls-5" transform="translate(6.176 9.699)"/>
+            <path id="선_128" d="M0 0L0 2.295" class="cls-5" transform="translate(9.382 9.699)"/>
+            <path id="선_129" d="M0 0L8.016 0" class="cls-5" transform="translate(3.772 11.995)"/>
+            <path id="사각형_325" d="M0 0H3.273V1.085H0z" transform="translate(6.176 10)"/>
+            <g id="그룹_335" transform="translate(4.439 1.44)">
+                <path id="사각형_326" fill="#d5d5d5" d="M0 0H6.68V6.094H0z"/>
+            </g>
+            <path id="선_130" d="M0 0L1.2 0" class="cls-5" transform="translate(9.541 8.31)"/>
+        </g>
+    </g>
+</svg>
