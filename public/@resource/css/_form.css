@@ -12,6 +12,7 @@ textarea,
 	-ms-box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	-webkit-box-sizing: border-box;
+	-webkit-tap-highlight-color : transparent;
 }
 
 input,
@@ -163,10 +164,15 @@ label,
 .select-group label strong {color: #000;}
 .select-group label .en {font-weight: 500;}
 .select-group label strong ,
-.select-group label .en {display: inline-block; vertical-align: middle; line-height: normal; transition: 0.4s ease;}
+.select-group label .en:not(.speech-bubble) {display: inline-block; vertical-align: middle; line-height: normal; transition: 0.4s ease;}
 .select-group label > .text {display: -ms-flexbox; display: -webkit-flex; display: flex;
 	-webkit-flex-direction: column; -ms-flex-direction: column; flex-direction: column;
 	-webkit-justify-content: center; -ms-flex-pack: center; justify-content: center; height: 100%;}
+.select-group label .speech-bubble {position: absolute; top: -2.400vw; left: 50%; width: fit-content; transform: translateX(-50%);}
+.select-group label .speech-bubble,
+.select-group label .speech-bubble::before {transition: 0.3s ease;}
+.select-group input:not(:checked) + label .speech-bubble {background-color: #cecece;}
+.select-group input:not(:checked) + label .speech-bubble::before {border-top-color: #cecece;}
 
 .select-group label.normal {border:0; border-top: 0.267vw solid #f0f0f0; border-bottom: 0.267vw solid #f0f0f0; transition: background-color 0.4s ease, border-color 0.4s ease; }
 .select-group label.bdr {background-color: #fff; border: 0.267vw solid #dbdbdb; color: #c5c5c5; transition: border-color 0.4s ease, color 0.4s ease;}
@@ -185,6 +191,7 @@ label,
 
 .select-group.col-2 {display: block;}
 .select-group.col-2 label {width: 50%;}
+.select-group.col-2 label:hover {background-color: transparent;}
 .select-group.col-2 label.bdr {border-top: 0;}
 .select-group.col-2 label.bdr:nth-of-type(1),
 .select-group.col-2 label.bdr:nth-of-type(2) {border-top: 0.267vw solid #dbdbdb;}

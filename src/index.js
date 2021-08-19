@@ -20,6 +20,10 @@ import MyCoupon from "Pages/Mypage/MyCoupon";
 import MyGift from "Pages/Mypage/MyGift";
 import MyGiftRecipt from "Pages/Mypage/MyGiftRecipt";
 
+//story page
+import StoryList from "Pages/Story/StoryList";
+import StoryDetail from "Pages/Story/StoryDetail";
+
 import PrivateRoute from "PrivateRoute";
 import reportWebVitals from "./reportWebVitals";
 
@@ -48,7 +52,6 @@ ReactDOM.render(
         <PrivateRoute exact path="/mypage">
           <MyPage />
         </PrivateRoute>
-
         <PrivateRoute exact path="/mypage/coupon">
           <MyCoupon />
         </PrivateRoute>
@@ -62,6 +65,9 @@ ReactDOM.render(
         <PrivateRoute exact path="/menu">
           <Menu />
         </PrivateRoute>
+
+        <Route exact path="/story/list" component={() => <StoryList />} />
+        <Route path="/story/detail/:id" component={() => <StoryDetail />} />
 
         <Route exact path="/login" component={() => <Login />} />
       </Switch>

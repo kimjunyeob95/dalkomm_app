@@ -1,4 +1,6 @@
+// eslint-disable-next-line no-unused-vars
 import axios from "axios";
+// eslint-disable-next-line no-unused-vars
 import { SERVER, headers_api } from "Config/Server";
 import React, { useEffect } from "react";
 import { useLocation, Link } from "react-router-dom";
@@ -12,6 +14,7 @@ import SwiperCore, { Autoplay, Scrollbar } from "swiper/core";
 
 function Main() {
   const { search } = useLocation();
+  // eslint-disable-next-line no-unused-vars
   const searchParams = new URLSearchParams(search);
 
   SwiperCore.use([Autoplay, Scrollbar]);
@@ -360,7 +363,7 @@ function Main() {
             {/* 달콤 스토리 */}
             <section className="section">
               <div className="w-inner">
-                <Link to="NO003.html" className="item dalkomm-story">
+                <Link to="/story/list" className="item dalkomm-story">
                   <div className="badge-wrap">
                     <span className="badge square event">EVENT</span>
                     {/* 달콤스토리 .badge.square 타입
@@ -376,7 +379,7 @@ function Main() {
                     <img src="../@resource/images/@temp/thum_event_01.jpg" alt="{title}" />
                   </div>
                   <div className="data-wrap">
-                    <p className="title">월요인은 페이코인 DAY!</p>
+                    <p className="title">월요일은 페이코인 DAY!</p>
                     <p className="text">페이코인 현장 결제 시, 아메리카노가 100원!</p>
                     <p className="date">2021.06.14 </p>
                   </div>
