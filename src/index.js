@@ -15,6 +15,13 @@ import Menu from "Pages/Menu";
 import OrderMenu from "Pages/Order/OrderMenu";
 import OrderDetail from "Pages/Order/OrderDetail";
 
+//join page
+import JoinStep1 from "Pages/Join/JoinStep1";
+import JoinStep2 from "Pages/Join/JoinStep2";
+import JoinStep3 from "Pages/Join/JoinStep3";
+import FindId from "Pages/Join/Find_id";
+import FindPw from "Pages/Join/Find_pw";
+
 //mypage page
 import MyCoupon from "Pages/Mypage/MyCoupon";
 import MyGift from "Pages/Mypage/MyGift";
@@ -35,6 +42,13 @@ ReactDOM.render(
       <ScrollToTop />
       <Switch>
         <Route exact path="/" component={() => <Main />} />
+
+        <Route exact path="/join/step1" component={() => <JoinStep1 />} />
+        <Route exact path="/join/step2" component={() => <JoinStep2 />} />
+        <Route exact path="/join/step3" component={() => <JoinStep3 />} />
+        <Route exact path="/join/findId" component={() => <FindId />} />
+        <Route exact path="/join/findPw" component={() => <FindPw />} />
+
         <PrivateRoute exact path="/pay">
           <Pay />
         </PrivateRoute>

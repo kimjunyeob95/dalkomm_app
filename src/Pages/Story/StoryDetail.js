@@ -20,7 +20,9 @@ export default function StoryDetail() {
     }
 
     $(window).on("scroll", function (e) {
+      // eslint-disable-next-line no-unused-vars
       let objHeight = $("#storyBanner").outerHeight();
+      // eslint-disable-next-line no-unused-vars
       let obj = $("#storyBanner").offset();
       if ($("body").hasClass("scroll-has") === true) {
         $("#header").addClass("bg-transparent");

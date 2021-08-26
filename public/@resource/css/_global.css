@@ -147,7 +147,7 @@ a, a:link, a:visited, a:active, a:hover{text-decoration:none;color:inherit; -web
 .ico.menu-term {background-image: url('../images/com/icon_menu_term.svg');}
 .ico.menu-privacy {background-image: url('../images/com/icon_menu_privacy.svg');}
 
-a[target=_blank]::after {content: ''; display: block; position: absolute; top: 50%; right: 0; width: 6.4vw; height: 6.4vw; background: url('../images/com/icon_external_large.png') no-repeat 0 0; background-size: cover; -webkit-transform: translateY(-50%); -ms-transform: translateY(-50%); -o-transform: translateY(-50%); transform: translateY(-50%); vertical-align: middle;}
+a[target=_blank]::after {content: ''; display: block; position: absolute; top: 50%; right: 0; width: 6.4vw; height: 6.4vw; background: url('../images/com/icon_external.svg') no-repeat 0 0; background-size: cover; -webkit-transform: translateY(-50%); -ms-transform: translateY(-50%); -o-transform: translateY(-50%); transform: translateY(-50%); vertical-align: middle;}
 
 /* flex */
 .flex-center,
@@ -442,7 +442,7 @@ a[target=_blank]::after {content: ''; display: block; position: absolute; top: 5
 .item.card .state-wrap {border-bottom-left-radius: 1.600vw; border-bottom-right-radius: 1.600vw;}
 .item.card .textarea-wrap {width: 100%; height: 34.667vw; border: 0.267vw solid #dbdbdb; border-bottom-left-radius: 1.600vw; border-bottom-right-radius: 1.600vw;}
 /* .item.info-order */
-.item.info-order {padding-top: 7.333vw; padding-bottom: 8vw;}
+.item.info-order {padding-top: 5.867vw; padding-bottom: 5.333vw;}
 .item.info-order .title {font-size: 3.733vw;}
 .item.info-order .price {font-weight: 700; font-size: 5.333vw;}
 .item.info-order .price .btn-cancle {width: 6.4vw; height: 6.4vw;}
@@ -542,7 +542,7 @@ body:not(.body-scroll) .overlay:not(.fixed-con) {-webkit-justify-content: center
 .popup .popup-body .btn-area {margin-top: 12vw;}
 
 .fixed-con {position:fixed;bottom:0;left:0;right:0;-webkit-justify-content: flex-end; -ms-flex-pack: end; justify-content: flex-end;}
-.fixed-con .popup {box-shadow: 0 -0.417vw 12.500vw 0 rgba(0, 0, 0, 0.05); z-index:100;
+.fixed-con .popup {box-shadow: 0 -0.417vw 12.500vw 0 rgba(0, 0, 0, 0.1); z-index:100;
 	/*-webkit-transition: all .7s ease 0.5s;
 	-moz-transition: all .7s ease 0.5s;
 	-ms-transition: all .7s ease 0.5s;

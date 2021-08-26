@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 export default function HeaderMain() {
   return (
-    <header id="header" className="header">
+    <header id="header" className="header floating">
       <div className="w-inner flex-both">
         <h1>
           <Link to="/" className="logo">

@@ -1,14 +1,18 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import HeaderSub from "Components/Header/HeaderSub";
 import GoContents from "Components/GoContents";
 
-import { accordion, tabLink } from "Jquery/Jquery";
+import { accordion, tabLink, contGap } from "Jquery/Jquery";
 
 export default function MyCoupon() {
   const fn_submit = () => {
     alert("쿠폰이 등록되었습니다.");
   };
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    contGap();
+  }, []);
   return (
     <React.Fragment>
       <GoContents />

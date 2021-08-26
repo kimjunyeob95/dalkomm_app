@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 import Nav from "Components/Nav/Nav";
 import GoContents from "Components/GoContents";
-import { contGap, popupOpen } from "Jquery/Jquery";
+import { contGap } from "Jquery/Jquery";
 
 export default function Menu() {
   useEffect(() => {

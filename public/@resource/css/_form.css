@@ -171,11 +171,11 @@ label,
 .select-group label .speech-bubble {position: absolute; top: -2.400vw; left: 50%; width: fit-content; transform: translateX(-50%);}
 .select-group label .speech-bubble,
 .select-group label .speech-bubble::before {transition: 0.3s ease;}
-.select-group input:not(:checked) + label .speech-bubble {background-color: #cecece;}
-.select-group input:not(:checked) + label .speech-bubble::before {border-top-color: #cecece;}
+/* .select-group input:not(:checked) + label .speech-bubble {background-color: #cecece;}
+.select-group input:not(:checked) + label .speech-bubble::before {border-top-color: #cecece;} */
 
 .select-group label.normal {border:0; border-top: 0.267vw solid #f0f0f0; border-bottom: 0.267vw solid #f0f0f0; transition: background-color 0.4s ease, border-color 0.4s ease; }
-.select-group label.bdr {background-color: #fff; border: 0.267vw solid #dbdbdb; color: #c5c5c5; transition: border-color 0.4s ease, color 0.4s ease;}
+.select-group label.bdr {background-color: #fff; border: 0.267vw solid #dbdbdb; transition: border-color 0.4s ease, color 0.4s ease;}
 
 .select-group input:checked + label.normal{background-color: #ff592e; border-color: #ff592e;}
 .select-group input:checked + label.normal,

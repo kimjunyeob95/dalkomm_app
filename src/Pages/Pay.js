@@ -87,8 +87,6 @@ export default function Pay() {
             </div>
             <div id="payGift" className="tab-content">
               <div className="w-inner">
-                <h2>서지혜님의 기프트카드</h2>
-
                 <Swiper
                   id="cardSlider"
                   className="swiper-container"
@@ -99,6 +97,7 @@ export default function Pay() {
                 >
                   <ul className="swiper-wrapper">
                     <SwiperSlide className="swiper-slide">
+                      <h2>서지혜님의 기프트카드</h2>
                       <div className="item card gift">
                         <div className="card-wrap">
                           <p className="grade en">
@@ -136,6 +135,7 @@ export default function Pay() {
                       </div>
                     </SwiperSlide>
                     <SwiperSlide className="swiper-slide">
+                      <h2>서지혜님의 기프트카드</h2>
                       <div className="item card gift">
                         <div className="card-wrap">
                           <p className="grade en">
@@ -173,6 +173,7 @@ export default function Pay() {
                       </div>
                     </SwiperSlide>
                     <SwiperSlide className="swiper-slide">
+                      <h2>서지혜님의 기프트카드</h2>
                       <div className="item card gift">
                         <div className="card-wrap">
                           <p className="grade en">
