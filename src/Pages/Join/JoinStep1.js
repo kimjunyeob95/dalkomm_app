@@ -169,6 +169,7 @@ export default function JoinStep1() {
                   </fieldset>
                   <div className="btn-area">
                     <button className="btn dark full large">인증번호 입력</button>
+                    <Link to="/join/step2">이동</Link>
                   </div>
                 </form>
               </div>

@@ -1,14 +1,14 @@
 import React from "react";
 import { Link, useHistory } from "react-router-dom";
 
-export default function HeaderSub({ title, type, icon, location, noBack, className, btnType, blindClass }) {
+export default function HeaderSub({ title, type, icon, location, noBack, className, btnType, blindClass, headerPopup, popTarget }) {
   const history = useHistory();
   return (
     <header id="header" className={`header ${className && className}`}>
       {title && !blindClass ? (
         <h1 className="page-title">{title}</h1>
       ) : (
-        <h1 className="page-title">
+        <h1>
           <span className="blind">{title}</span>
         </h1>
       )}
@@ -36,6 +36,15 @@ export default function HeaderSub({ title, type, icon, location, noBack, classNa
               <span>{title}</span>
             </i>
           </Link>
+        </div>
+      )}
+      {headerPopup && popTarget && (
+        <div className="btn-area">
+          <button type="button" className="btn open-pop" pop-target="#drinkDelete">
+            <i className="ico trash">
+              <span>메뉴삭제하기</span>
+            </i>
+          </button>
         </div>
       )}
     </header>

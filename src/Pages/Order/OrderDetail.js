@@ -1,5 +1,5 @@
 import $ from "jquery";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import HeaderSub from "Components/Header/HeaderSub";
 import { Link, useHistory } from "react-router-dom";
 import GoContents from "Components/GoContents";
@@ -9,6 +9,8 @@ import { Swiper } from "swiper/react";
 
 export default function OrderDetail() {
   const history = useHistory();
+  const [optionType, setOption] = useState({ show: false, text: "샷" });
+
   useEffect(() => {
     // 말풍선 스크롤시 hide/show
     contGap();
@@ -22,6 +24,52 @@ export default function OrderDetail() {
     $("body").removeClass("modal-opened");
     history.push("/order/menu");
   };
+  const handleOption = (e) => {
+    let attr_id = $(e).attr("id");
+
+    if (attr_id === "orderOption02") {
+      //샷
+
+      setOption({ show: true, text: "샷" });
+    } else if (attr_id === "orderOption04") {
+      //시럽
+
+      setOption({ show: true, text: "시럽" });
+    } else {
+      setOption(false);
+    }
+  };
+
+  const handleCount = (e, option, type) => {
+    let targetValue = Number($(e).siblings("input").val());
+
+    if (option === "샷") {
+      if (type === "증가") {
+        targetValue += 1;
+        $(e).siblings("input").val(targetValue);
+      } else if (type === "감소") {
+        if (targetValue < 2) {
+          return false;
+        } else {
+          targetValue -= 1;
+          $(e).siblings("input").val(targetValue);
+        }
+      }
+    } else if (option === "주문") {
+      if (type === "증가") {
+        targetValue += 1;
+        $(e).siblings("input").val(targetValue);
+      } else if (type === "감소") {
+        if (targetValue < 2) {
+          return false;
+        } else {
+          targetValue -= 1;
+          $(e).siblings("input").val(targetValue);
+        }
+      }
+    }
+  };
+
   return (
     <React.Fragment>
       <GoContents />
@@ -30,106 +78,18 @@ export default function OrderDetail() {
         <div id="container" className="container">
           <HeaderSub className="only-button-header" />
 
-          {/* <nav id="menu" className="nav">
-                <Link to="MA001.html" className="btn">
-                    <div className="img-wrap">
-                        <svg viewBox="0 0 30 30">
-                            <g>
-                                <path fill="none" stroke="#000" stroke-miterlimit="10" className="path-stroke"
-                                    d="M123.929 151.773l-10.075 8.185v12.151H134v-12.151z"
-                                    transform="translate(4.925 5.356) translate(-113.853 -151.773)" />
-                                <path d="M0 0H1.09V6.094H0z" className="path-fill"
-                                    transform="translate(4.925 5.356) translate(9.447 14.242)" />
-                            </g>
-                        </svg>
-                    </div>
-                    <span className="name en">HOME</span>
-                </Link>
-                <Link to="CA001.html" className="btn active">
-                    <div className="img-wrap">
-                        <svg viewBox="0 0 30 30">
-                            <g transform="translate(4.707 8.22)">
-                                <g id="그룹_10">
-                                    <path id="사각형_21" fill="none" stroke="#000" stroke-miterlimit="10"
-                                        className="path-stroke" d="M0 0H20.586V14.594H0z" />
-                                    <path id="선_3" fill="none" stroke="#000" stroke-miterlimit="10"
-                                        className="path-stroke" d="M0 0L3.615 0" transform="translate(2.967 3.571)" />
-                                </g>
-                            </g>
-                        </svg>
-                    </div>
-                    <span className="name en">PAY</span>
-                </Link>
-                <Link to="TO001.html" className="btn">
-                    <div className="img-wrap">
-                        <svg viewBox="0 0 30 30">
-                            <g>
-                                <path fill="#fff" stroke="#000" stroke-miterlimit="10"
-                                    d="M432.186 186.516h2.255a1.877 1.877 0 0 0 1.877-1.877v-3.856a1.877 1.877 0 0 0-1.877-1.877h-2.255"
-                                    transform="translate(0.5 0.5) translate(3.933 8.22) translate(-413.168 -176.682)" />
-                                <path fill="#ff592e"
-                                    d="M177.215 741.58h19.323s1.279 10.174-7.815 11.686-11.651-5.637-11.509-8.524"
-                                    transform="translate(0.5 0.5) translate(3.933 8.22) translate(-176.933 -738.22)" />
-                                <path fill="none" stroke="#000" stroke-miterlimit="10"
-                                    d="M330.758 167.045v7.171c0 4.866 4.33 8.363 9.671 8.363s9.671-3.5 9.671-8.363v-7.171z"
-                                    transform="translate(0.5 0.5) translate(3.933 8.22) translate(-330.758 -167.045)" />
-                            </g>
-                        </svg>
-                    </div>
-                    <span className="name en">ORDER</span>
-                </Link>
-                <Link to="ME001.html" className="btn">
-                    <div className="img-wrap">
-                        <svg viewBox="0 0 30 30">
-                            <g transform="translate(4.445 4.589)">
-                                <circle cx="10.555" cy="10.555" r="10.555" fill="none" stroke="#000"
-                                    stroke-miterlimit="10" className="path-stroke" />
-                                <g transform="translate(6.919 6.254)">
-                                    <path d="M838.286 219.463a4.767 4.767 0 0 1-6.742 0" fill="none" stroke="#000"
-                                        stroke-miterlimit="10" className="path-stroke"
-                                        transform="translate(-831.28 -212.257)" />
-                                    <path d="M0 0L0 2.191" fill="none" stroke="#000" stroke-miterlimit="10"
-                                        className="path-stroke" transform="translate(0 0.114)" />
-                                    <path d="M0 0L0 2.191" fill="none" stroke="#000" stroke-miterlimit="10"
-                                        className="path-stroke" transform="translate(7.271 0.114)" />
-                                    <path d="M842.755 181.032v4.676h-1.562" fill="none" stroke="#000"
-                                        stroke-miterlimit="10" className="path-stroke"
-                                        transform="translate(-839.12 -181.032)" />
-                                </g>
-                            </g>
-                        </svg>
-                    </div>
-                    <span className="name en">MY</span>
-                </Link>
-                <Link to="AP001.html" className="btn">
-                    <div className="img-wrap">
-                        <svg viewBox="0 0 30 30">
-                            <g transform="translate(4.754 7.637)">
-                                <path d="M0 0L20.492 0" fill="#fff" stroke="#000" stroke-miterlimit="10"
-                                    className="path-stroke" transform="translate(0 -0.637)" />
-                                <path d="M0 0L20.492 0" fill="#fff" stroke="#000" stroke-miterlimit="10"
-                                    className="path-stroke" transform="translate(0 7.363)" />
-                                <path d="M0 0L20.492 0" fill="#fff" stroke="#000" stroke-miterlimit="10"
-                                    className="path-stroke" transform="translate(0 15.363)" />
-                            </g>
-                        </svg>
-                    </div>
-                    <span className="name en">MENU</span>
-                </Link>
-            </nav> */}
-
           <div id="content" className="drink detail">
             <section className="section">
               <div className="item drink-info">
                 <div className="img-wrap">
-                  <img src="/@resource/images/@temp/product_detail_01.jpg" alt="음료 이미지" />
+                  <img src="/@resource/images/@temp/product_detail_02.jpg" alt="카라멜마끼아또" />
                 </div>
                 <div className="detail-wrap">
                   <div className="text-box">
-                    <p className="type en fc-orange">MIXTUR</p>
+                    <p className="type en fc-orange">COFFEE</p>
                     <p className="name">
-                      딸기 스무디
-                      <span className="en">Strawberry smoothie</span>
+                      카라멜마끼아또
+                      <span className="en">Caramelmcchiato</span>
                     </p>
                     <p className="text">
                       딸기 본연의 맛을 살려 갈아 만든
@@ -149,7 +109,7 @@ export default function OrderDetail() {
                 <fieldset className="fieldset">
                   <div className="field">
                     <div className="select-group col-2">
-                      <input type="radio" id="orderType01" name="orderType" defaultValue={true} />
+                      <input type="radio" id="orderType01" name="orderType" defaultChecked={true} />
                       <label htmlFor="orderType01" className="btn normal small">
                         <strong className="en">ICE</strong>
                       </label>
@@ -164,7 +124,7 @@ export default function OrderDetail() {
                     <div className="field">
                       <span className="label en">Size</span>
                       <div className="select-group col-2">
-                        <input type="radio" id="orderSize01" name="orderSize" defaultValue={true} />
+                        <input type="radio" id="orderSize01" name="orderSize" defaultChecked={true} />
                         <label htmlFor="orderSize01" className="btn bdr medium">
                           <p className="text">
                             <strong className="en">Regular</strong>
@@ -195,6 +155,7 @@ export default function OrderDetail() {
                         <input type="radio" id="orderCup03" name="orderCup" />
                         <label htmlFor="orderCup03" className="btn bdr medium">
                           <strong>개인</strong>
+                          <span className="speech-bubble small en">- 300 &#8361;</span>
                         </label>
                       </div>
                     </div>
@@ -202,19 +163,20 @@ export default function OrderDetail() {
                     <div className="field">
                       <span className="label en">Option</span>
                       <div className="select-group col-2">
-                        <input type="radio" id="orderOption01" name="orderOption" />
+                        <input type="radio" id="orderOption01" name="orderOption" defaultChecked={true} onClick={(e) => handleOption(e.target)} />
                         <label htmlFor="orderOption01" className="btn bdr medium">
                           <strong>선택 안함</strong>
                         </label>
-                        <input type="radio" id="orderOption02" name="orderOption" />
+                        <input type="radio" id="orderOption02" name="orderOption" onClick={(e) => handleOption(e.target)} />
                         <label htmlFor="orderOption02" className="btn bdr medium">
                           <strong>샷 추가</strong>
+                          <span className="speech-bubble small en">+ 500 &#8361;</span>
                         </label>
-                        <input type="radio" id="orderOption03" name="orderOption" />
+                        <input type="radio" id="orderOption03" name="orderOption" onClick={(e) => handleOption(e.target)} />
                         <label htmlFor="orderOption03" className="btn bdr medium">
                           <strong>휘핑크림</strong>
                         </label>
-                        <input type="radio" id="orderOption04" name="orderOption" />
+                        <input type="radio" id="orderOption04" name="orderOption" onClick={(e) => handleOption(e.target)} />
                         <label htmlFor="orderOption04" className="btn bdr medium">
                           <strong>시럽추가</strong>
                         </label>
@@ -286,43 +248,48 @@ export default function OrderDetail() {
                 <div className="popup-wrap">
                   <div className="popup-body">
                     <ul className="data-list">
-                      <li>
-                        <div className="item info-order">
-                          <dl className="flex-both w-inner">
-                            <dt className="title">Option 샷 추가</dt>
-                            <dd className="price flex-center">
-                              <button className="btn btn-cancle">
-                                <i className="ico close">
-                                  <span>옵션삭제</span>
-                                </i>
-                              </button>
-                              <p className="uio-amount">
-                                <button type="button" className="btn amount">
-                                  <i className="ico decrease"></i>
-                                  <span className="blind">감소</span>
+                      {optionType?.show && (
+                        <li>
+                          <div className="item info-order">
+                            <dl className="flex-both w-inner">
+                              <dt className="title" id="option_title">
+                                Option {optionType?.text} 추가
+                              </dt>
+                              <dd className="price flex-center">
+                                <button className="btn btn-cancle">
+                                  <i className="ico close">
+                                    <span>옵션삭제</span>
+                                  </i>
                                 </button>
-                                <input type="text" defaultValue="1" className="ea" />
-                                <button type="button" className="btn amount">
-                                  <i className="ico increase"></i>
-                                  <span className="blind">증가</span>
-                                </button>
-                              </p>
-                            </dd>
-                          </dl>
-                        </div>
-                      </li>
+                                <p className="uio-amount">
+                                  <button type="button" className="btn amount" onClick={(e) => handleCount(e.currentTarget, "샷", "감소")}>
+                                    <i className="ico decrease"></i>
+                                    <span className="blind">감소</span>
+                                  </button>
+                                  <input type="text" defaultValue="1" className="ea" />
+                                  <button type="button" className="btn amount" onClick={(e) => handleCount(e.currentTarget, "샷", "증가")}>
+                                    <i className="ico increase"></i>
+                                    <span className="blind">증가</span>
+                                  </button>
+                                </p>
+                              </dd>
+                            </dl>
+                          </div>
+                        </li>
+                      )}
+
                       <li>
                         <div className="item info-order">
                           <dl className="flex-both w-inner">
                             <dt className="title">주문 수량</dt>
                             <dd className="price">
                               <p className="uio-amount">
-                                <button type="button" className="btn amount">
+                                <button type="button" className="btn amount" onClick={(e) => handleCount(e.currentTarget, "주문", "감소")}>
                                   <i className="ico decrease"></i>
                                   <span className="blind">감소</span>
                                 </button>
                                 <input type="text" defaultValue="1" className="ea" />
-                                <button type="button" className="btn amount">
+                                <button type="button" className="btn amount" onClick={(e) => handleCount(e.currentTarget, "주문", "증가")}>
                                   <i className="ico increase"></i>
                                   <span className="blind">증가</span>
                                 </button>

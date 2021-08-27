@@ -24,7 +24,7 @@ export default function OrderMenu() {
 
       <div id="wrap" className="wrap">
         <div id="container" className="container">
-          <HeaderSub2 title="메뉴선택" icon="search-s" icon2="cart" location="/search" location2="/cart" />
+          <HeaderSub2 title="메뉴선택" icon="search-s" icon2="cart" location="/order/menu/search" location2="/mypage/cart" />
 
           <Nav order={3} />
 
@@ -99,12 +99,12 @@ export default function OrderMenu() {
                 <li>
                   <Link to="/order/detail/1" className="item menu">
                     <div className="img-wrap">
-                      <img src="../@resource/images/@temp/product_04.jpg" alt="딸기 스무디" />
+                      <img src="/@resource/images/@temp/product_05.jpg" alt="카라멜마끼아또" />
                     </div>
                     <div className="detail-wrap">
                       <p className="title">
-                        딸기 스무디
-                        <span className="en">Strawberry smoothie</span>
+                        카라멜마끼아또
+                        <span className="en">Caramelmcchiato</span>
                       </p>
                       <p className="price">4,300원</p>
                     </div>
@@ -119,7 +119,7 @@ export default function OrderMenu() {
                                     .bagde.round.pick : PICK
                                 */}
                     <div className="img-wrap">
-                      <img src="../@resource/images/@temp/product_03.jpg" alt="카푸치노" />
+                      <img src="/@resource/images/@temp/product_06.jpg" alt="카푸치노" />
                     </div>
                     <div className="detail-wrap">
                       <p className="title">
@@ -135,7 +135,7 @@ export default function OrderMenu() {
                   <Link to="/order/detail/1" className="item menu">
                     <span className="badge round pick">PICK</span>
                     <div className="img-wrap">
-                      <img src="../@resource/images/@temp/product_01.jpg" alt="아메리카노" />
+                      <img src="/@resource/images/@temp/product_07.jpg" alt="아메리카노" />
                     </div>
                     <div className="detail-wrap">
                       <p className="title">
@@ -150,12 +150,72 @@ export default function OrderMenu() {
                 <li>
                   <Link to="/order/detail/1" className="item menu">
                     <div className="img-wrap">
-                      <img src="../@resource/images/@temp/product_02.jpg" alt="카페라떼" />
+                      <img src="/@resource/images/@temp/product_08.jpg" alt="초코라떼" />
                     </div>
                     <div className="detail-wrap">
                       <p className="title">
-                        카페라떼
-                        <span className="en">Cafe Latte</span>
+                        초코라떼
+                        <span className="en">Chocolate Latte</span>
+                      </p>
+                      <p className="price">4,800원</p>
+                    </div>
+                  </Link>
+                </li>
+
+                <li>
+                  <Link to="/order/detail/1" className="item menu">
+                    <div className="img-wrap">
+                      <img src="/@resource/images/@temp/product_09.jpg" alt="청포도 블렌디드" />
+                    </div>
+                    <div className="detail-wrap">
+                      <p className="title">
+                        청포도 블렌디드
+                        <span className="en">Green grape Blended</span>
+                      </p>
+                      <p className="price">4,800원</p>
+                    </div>
+                  </Link>
+                </li>
+
+                <li>
+                  <Link to="/order/detail/1" className="item menu">
+                    <div className="img-wrap">
+                      <img src="/@resource/images/@temp/product_10.jpg" alt="토마토 주스" />
+                    </div>
+                    <div className="detail-wrap">
+                      <p className="title">
+                        토마토 주스
+                        <span className="en">Tomato Juice</span>
+                      </p>
+                      <p className="price">4,800원</p>
+                    </div>
+                  </Link>
+                </li>
+
+                <li>
+                  <Link to="/order/detail/1" className="item menu">
+                    <div className="img-wrap">
+                      <img src="/@resource/images/@temp/product_11.jpg" alt="딸기라떼" />
+                    </div>
+                    <div className="detail-wrap">
+                      <p className="title">
+                        딸기라떼
+                        <span className="en">Strawberry Latte</span>
+                      </p>
+                      <p className="price">4,800원</p>
+                    </div>
+                  </Link>
+                </li>
+
+                <li>
+                  <Link to="/order/detail/1" className="item menu">
+                    <div className="img-wrap">
+                      <img src="/@resource/images/@temp/product_12.jpg" alt="그린티카페라떼" />
+                    </div>
+                    <div className="detail-wrap">
+                      <p className="title">
+                        그린티카페라떼
+                        <span className="en">Green tea Cafe Latte</span>
                       </p>
                       <p className="price">4,800원</p>
                     </div>

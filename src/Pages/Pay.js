@@ -125,11 +125,11 @@ export default function Pay() {
                             <dt className="title">보유 금액</dt>
                             <dd className="price fc-orange">32,000원</dd>
                           </dl>
-                          <Link to="CA002.html" className="btn">
+                          <Link to="/mypage/giftCharge" className="btn">
                             <i className="ico money">
                               <span>충전하기</span>
                             </i>
-                            충전하기
+                            &nbsp;충전하기
                           </Link>
                         </div>
                       </div>
@@ -163,11 +163,11 @@ export default function Pay() {
                             <dt className="title">보유 금액</dt>
                             <dd className="price fc-orange">16,000원</dd>
                           </dl>
-                          <Link to="CA002.html" className="btn">
+                          <Link to="/mypage/giftCharge" className="btn">
                             <i className="ico money">
                               <span>충전하기</span>
                             </i>
-                            충전하기
+                            &nbsp;충전하기
                           </Link>
                         </div>
                       </div>
@@ -201,11 +201,11 @@ export default function Pay() {
                             <dt className="title">보유 금액</dt>
                             <dd className="price fc-orange">25,000원</dd>
                           </dl>
-                          <Link to="CA002.html" className="btn">
+                          <Link to="/mypage/giftCharge" className="btn">
                             <i className="ico money">
                               <span>충전하기</span>
                             </i>
-                            충전하기
+                            &nbsp;충전하기
                           </Link>
                         </div>
                       </div>
@@ -216,7 +216,7 @@ export default function Pay() {
 
                 <ul className="row-list flex-center">
                   <li>
-                    <Link to="ME007.html">
+                    <Link to="/mypage/giftRecipt">
                       <i className="ico recipt"></i>사용내역
                     </Link>
                   </li>

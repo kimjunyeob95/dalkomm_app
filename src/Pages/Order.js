@@ -22,7 +22,7 @@ export default function Order() {
 
       <div id="wrap" className="wrap">
         <div id="container" className="container">
-          <HeaderSub title="매장선택" type="store" location="/member/modify" icon="cart" />
+          <HeaderSub title="매장선택" type="store" location="/mypage/cart" icon="cart" />
 
           <Nav order={3} />
 
@@ -576,7 +576,7 @@ export default function Order() {
                     </ul>
                   </div>
                   <div className="w-inner btn-area flex-both">
-                    <Link to="TO002.html" className="btn full medium dark">
+                    <Link to="/order/menu?location=random" className="btn full medium dark">
                       주문하기
                     </Link>
                     <button type="button" className="btn light-g medium bookmark">

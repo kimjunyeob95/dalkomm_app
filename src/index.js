@@ -14,6 +14,7 @@ import Menu from "Pages/Menu";
 //order page
 import OrderMenu from "Pages/Order/OrderMenu";
 import OrderDetail from "Pages/Order/OrderDetail";
+import OrderSearch from "Pages/Order/OrderSearch";
 
 //join page
 import JoinStep1 from "Pages/Join/JoinStep1";
@@ -26,6 +27,8 @@ import FindPw from "Pages/Join/Find_pw";
 import MyCoupon from "Pages/Mypage/MyCoupon";
 import MyGift from "Pages/Mypage/MyGift";
 import MyGiftRecipt from "Pages/Mypage/MyGiftRecipt";
+import MyGiftCharge from "Pages/Mypage/GiftCharge";
+import MyCart from "Pages/Mypage/MyCart";
 
 //story page
 import StoryList from "Pages/Story/StoryList";
@@ -53,18 +56,18 @@ ReactDOM.render(
           <Pay />
         </PrivateRoute>
 
-        <PrivateRoute exact path="/order">
-          <Order />
-        </PrivateRoute>
-        <PrivateRoute path="/order/menu">
-          <OrderMenu />
-        </PrivateRoute>
+        <Route exact path="/order" component={() => <Order />} />
+        <Route exact path="/order/menu" component={() => <OrderMenu />} />
+        <Route exact path="/order/menu/search" component={() => <OrderSearch />} />
         <PrivateRoute path="/order/detail/:id">
           <OrderDetail />
         </PrivateRoute>
 
         <PrivateRoute exact path="/mypage">
           <MyPage />
+        </PrivateRoute>
+        <PrivateRoute exact path="/mypage/cart">
+          <MyCart />
         </PrivateRoute>
         <PrivateRoute exact path="/mypage/coupon">
           <MyCoupon />
@@ -74,6 +77,9 @@ ReactDOM.render(
         </PrivateRoute>
         <PrivateRoute exact path="/mypage/giftRecipt">
           <MyGiftRecipt />
+        </PrivateRoute>
+        <PrivateRoute exact path="/mypage/giftCharge">
+          <MyGiftCharge />
         </PrivateRoute>
 
         <PrivateRoute exact path="/menu">

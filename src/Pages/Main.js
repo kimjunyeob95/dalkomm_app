@@ -392,7 +392,7 @@ function Main() {
             <section className="section">
               <div className="title-wrap w-inner flex-both">
                 <h3 className="section-title">주변 매장 찾기</h3>
-                <Link to="TO001.html" className="btn text">
+                <Link to="/order" className="btn text">
                   <span>더 보기</span>
                   <i className="ico arr-r"></i>
                 </Link>
@@ -561,7 +561,7 @@ function Main() {
             <section className="section">
               <div className="title-wrap w-inner flex-both">
                 <h3 className="section-title">달콤 MD</h3>
-                <Link to="TO001.html" target="_blank" className="btn text">
+                <Link to="/order" target="_blank" className="btn text">
                   <span>더 보기</span>
                 </Link>
               </div>
