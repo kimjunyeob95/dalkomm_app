@@ -37,6 +37,11 @@ import MyModify from "Pages/Mypage/MyModify";
 import StoryList from "Pages/Story/StoryList";
 import StoryDetail from "Pages/Story/StoryDetail";
 
+//support page
+import NoticeList from "Pages/Support/NoticeList";
+import NoticeDetail from "Pages/Support/NoticeDetail";
+import Faq from "Pages/Support/Faq";
+
 import PrivateRoute from "PrivateRoute";
 import reportWebVitals from "./reportWebVitals";
 
@@ -100,6 +105,10 @@ ReactDOM.render(
 
         <Route exact path="/story/list" component={() => <StoryList />} />
         <Route path="/story/detail/:id" component={() => <StoryDetail />} />
+
+        <Route exact path="/support/notice/list" component={() => <NoticeList />} />
+        <Route exact path="/support/notice/detail/:id" component={() => <NoticeDetail />} />
+        <Route exact path="/support/faq" component={() => <Faq />} />
 
         <Route exact path="/login" component={() => <Login />} />
       </Switch>

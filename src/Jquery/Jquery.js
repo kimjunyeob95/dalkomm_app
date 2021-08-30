@@ -2,12 +2,17 @@ import $ from "jquery";
 
 export function accordion(e, targetN) {
   var container;
+
   if ($(e).prop("tagName") === "DIV" && $(e).hasClass("coupon")) {
     container = $(e).parent();
   } else if ($(e).prop("tagName") === "DIV" && $(e).hasClass("flex-center")) {
     container = $(e).parent().parent();
   } else if ($(e).prop("tagName") === "I") {
     container = $(e).parent().parent().parent();
+  } else if ($(e).prop("tagName") === "DIV" && $(e).hasClass("flex-both")) {
+    container = $(e).parent().parent();
+  } else if ($(e).prop("tagName") === "DIV" && $(e).hasClass("js-accordion-switche")) {
+    container = $(e).parent();
   }
 
   var slideContent = $(container).children(".js-accordion-content");

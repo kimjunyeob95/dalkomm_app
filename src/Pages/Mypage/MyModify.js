@@ -12,7 +12,7 @@ export default function MyModify() {
   }, []);
   return (
     <React.Fragment>
-      <GoContents noBack={true} />
+      <GoContents />
 
       <div id="wrap" className="wrap">
         <div id="container" className="container">
@@ -52,7 +52,9 @@ export default function MyModify() {
                   </div>
                 </fieldset>
                 <div className="btn-area">
-                  <button className="btn dark large full">정보 수정하기</button>
+                  <button type="button" className="btn dark large full">
+                    정보 수정하기
+                  </button>
                 </div>
               </form>
             </div>
@@ -91,7 +93,9 @@ export default function MyModify() {
                   </div>
                 </fieldset>
                 <div className="btn-area">
-                  <button className="btn dark large full">비밀번호 변경하기</button>
+                  <button type="button" className="btn dark large full">
+                    비밀번호 변경하기
+                  </button>
                 </div>
               </form>
             </div>
@@ -139,7 +143,9 @@ export default function MyModify() {
                   </div>
                 </fieldset>
                 <div className="btn-area">
-                  <button className="btn dark large full">휴대전화 번호 수정하기</button>
+                  <button type="button" className="btn dark large full">
+                    휴대전화 번호 수정하기
+                  </button>
                 </div>
               </form>
             </div>

@@ -63,13 +63,13 @@ export default function Menu() {
               <li>
                 <ul>
                   <li>
-                    <Link to="ME004.html" className="item depth-menu">
+                    <Link to="/mypage/orderRecipt" className="item depth-menu">
                       <i className="ico menu-order"></i>
                       <span>주문내역</span>
                     </Link>
                   </li>
                   <li>
-                    <Link to="TO001.html" className="item depth-menu">
+                    <Link to="/order" className="item depth-menu">
                       <i className="ico menu-store"></i>
                       <span>매장찾기</span>
                     </Link>
@@ -81,7 +81,7 @@ export default function Menu() {
                   <li className="new">
                     {" "}
                     {/* [D] 활성화 콘텐츠 메뉴 .new */}
-                    <Link to="NO003.html" className="item depth-menu">
+                    <Link to="/story/list" className="item depth-menu">
                       <i className="ico menu-story"></i>
                       <span>달콤스토리</span>
                       <i className="ico new">N</i> {/* [D] 활성화 콘텐츠 메뉴일시 노출*/}
@@ -90,14 +90,14 @@ export default function Menu() {
                   <li className="new">
                     {" "}
                     {/* [D] 활성화 콘텐츠 메뉴 .new */}
-                    <Link to="NO001.html" className="item depth-menu">
+                    <Link to="/support/notice/list" className="item depth-menu">
                       <i className="ico menu-notice"></i>
                       <span>공지사항</span>
                       <i className="ico new">N</i> {/* [D] 활성화 콘텐츠 메뉴일시 노출*/}
                     </Link>
                   </li>
                   <li>
-                    <Link to="ETC001.html" className="item depth-menu">
+                    <Link to="/support/faq" className="item depth-menu">
                       <i className="ico menu-faq"></i>
                       <span>FAQ</span>
                     </Link>
@@ -107,7 +107,7 @@ export default function Menu() {
               <li>
                 <ul>
                   <li>
-                    <Link to="ME004.html" className="item depth-menu">
+                    <Link to="/mypage/modify" className="item depth-menu">
                       <i className="ico menu-my"></i>
                       <span>내 정보 수정</span>
                     </Link>
