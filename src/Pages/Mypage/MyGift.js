@@ -16,7 +16,7 @@ export default function MyGift() {
 
       <div id="wrap" className="wrap">
         <div id="container" className="container">
-          <HeaderSub title="쿠폰 선물 내역" location="/mypage/giftRecipt" type="flexCenter" icon="recipt" />
+          <HeaderSub title="쿠폰 선물하기" location="/mypage/giftRecipt" type="flexCenter" icon="recipt" />
 
           {/* <nav id="menu" className="nav">
 				<Link to="MA001.html" className="btn">

@@ -18,7 +18,7 @@ export default function MyPage() {
       <GoContents />
       <div id="wrap" className="wrap">
         <div id="container" className="container">
-          <HeaderSub type="flexCenter" icon="modify" title="마이 달콤" location="/member/modify" noBack={true} />
+          <HeaderSub type="flexCenter" icon="modify" title="마이 달콤" location="/mypage/modify" noBack={true} />
           <Nav order={4} />
           <div id="content" className="mypage main">
             <div className="user-info-wrap">
@@ -44,7 +44,7 @@ export default function MyPage() {
             <div className="user-state-wrap">
               <ul className="data-list col-3">
                 <li>
-                  <Link to="ME002.html" className="item my-state">
+                  <Link to="/mypage/stamp" className="item my-state">
                     <div className="img-wrap">
                       <i className="ico stamp-c">
                         <span>보유 스탬프 수 카드</span>
@@ -74,7 +74,7 @@ export default function MyPage() {
                   </div>
                 </li>
                 <li>
-                  <Link to="ME005.html" className="item my-state">
+                  <Link to="/mypage/coupon" className="item my-state">
                     <div className="img-wrap">
                       <i className="ico coupon-c">
                         <span>쿠폰</span>
@@ -93,7 +93,7 @@ export default function MyPage() {
 
             <ul className="my-gnb-list">
               <li>
-                <Link to="ME004.html">주문 내역</Link>
+                <Link to="/mypage/orderRecipt">주문 내역</Link>
               </li>
               <li>
                 <Link to="#">즐겨 찾는 매장 관리</Link>

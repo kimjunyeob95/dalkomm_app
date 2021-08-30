@@ -29,6 +29,9 @@ import MyGift from "Pages/Mypage/MyGift";
 import MyGiftRecipt from "Pages/Mypage/MyGiftRecipt";
 import MyGiftCharge from "Pages/Mypage/GiftCharge";
 import MyCart from "Pages/Mypage/MyCart";
+import MyStamp from "Pages/Mypage/MyStamp";
+import MyOrderRecipt from "Pages/Mypage/MyOrderRecipt";
+import MyModify from "Pages/Mypage/MyModify";
 
 //story page
 import StoryList from "Pages/Story/StoryList";
@@ -66,17 +69,26 @@ ReactDOM.render(
         <PrivateRoute exact path="/mypage">
           <MyPage />
         </PrivateRoute>
+        <PrivateRoute exact path="/mypage/modify">
+          <MyModify />
+        </PrivateRoute>
         <PrivateRoute exact path="/mypage/cart">
           <MyCart />
         </PrivateRoute>
         <PrivateRoute exact path="/mypage/coupon">
           <MyCoupon />
         </PrivateRoute>
+        <PrivateRoute exact path="/mypage/stamp">
+          <MyStamp />
+        </PrivateRoute>
         <PrivateRoute exact path="/mypage/gift">
           <MyGift />
         </PrivateRoute>
         <PrivateRoute exact path="/mypage/giftRecipt">
           <MyGiftRecipt />
+        </PrivateRoute>
+        <PrivateRoute exact path="/mypage/orderRecipt">
+          <MyOrderRecipt />
         </PrivateRoute>
         <PrivateRoute exact path="/mypage/giftCharge">
           <MyGiftCharge />

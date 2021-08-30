@@ -136,7 +136,7 @@ function Main() {
                   </Link>
                 </li>
                 <li>
-                  <Link to="#" className="item my-state">
+                  <Link to="/mypage/stamp" className="item my-state">
                     <div className="img-wrap">
                       <i className="ico stamp">
                         <span>보유 스탬프</span>
