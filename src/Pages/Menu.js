@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-target-blank */
 import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 
@@ -113,13 +114,13 @@ export default function Menu() {
                     </Link>
                   </li>
                   <li>
-                    <Link to="ME004.html" target="_blank" className="item depth-menu">
+                    <a href="http://www.dalkomm.com/" target="_blank" className="item depth-menu">
                       <i className="ico menu-website"></i>
                       <span>달콤 웹사이트</span>
-                    </Link>
+                    </a>
                   </li>
                   <li>
-                    <Link to="ME004.html" className="item depth-menu">
+                    <Link to="#" className="item depth-menu">
                       <i className="ico menu-set"></i>
                       <span>앱 환경설정</span>
                     </Link>
@@ -129,19 +130,19 @@ export default function Menu() {
               <li>
                 <ul>
                   <li>
-                    <Link to="#;" className="item depth-menu">
+                    <Link to="#" className="item depth-menu">
                       <i className="ico menu-business"></i>
                       <span>사업자정보</span>
                     </Link>
                   </li>
                   <li>
-                    <Link to="ETC002.html" className="item depth-menu">
+                    <Link to="#" className="item depth-menu">
                       <i className="ico menu-term"></i>
                       <span>이용약관</span>
                     </Link>
                   </li>
                   <li>
-                    <Link to="ETC004.html" className="item depth-menu">
+                    <Link to="#" className="item depth-menu">
                       <i className="ico menu-privacy"></i>
                       <span>개인정보처리방침</span>
                     </Link>
