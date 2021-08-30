@@ -132,6 +132,7 @@ $(function () {
 //scrollCheck
 function scrollCheck() {
   var winsc = $(this).scrollTop();
+
   if (winsc == 0) {
     $("body").addClass("scroll-zero").removeClass("scroll-has");
 
