@@ -99,7 +99,7 @@ function Main() {
                 </SwiperSlide>
               </ul>
               <div className="swiper-scrollbar"></div>
-              <Link to="#" className="btn view-page">
+              <Link to="/story/list" className="btn view-page">
                 <i className="ico arr-r">
                   <span className="blind">스토리 바로가기</span>
                 </i>
