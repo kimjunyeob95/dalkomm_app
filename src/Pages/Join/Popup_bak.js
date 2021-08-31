@@ -1,6 +1,12 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import $ from "jquery";
+import { useHistory } from "react-router-dom";
 export default function Popup_bak() {
+  const history = useHistory();
+  const handleClose = () => {
+    $("body").removeClass("modal-opened");
+    history.push("/");
+  };
   return (
     <div id="popupExitJoin" className="overlay">
       <div className="popup">
@@ -14,9 +20,9 @@ export default function Popup_bak() {
         </div>
         <div className="popup-footer">
           <button className="btn normal large btn-close">취소</button>
-          <Link to="/" className="btn dark large">
+          <button className="btn dark large" onClick={() => handleClose()}>
             종료하기
-          </Link>
+          </button>
         </div>
       </div>
     </div>

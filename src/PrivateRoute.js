@@ -5,20 +5,22 @@ import { authContext } from "./ContextApi/Context";
 import * as globalFN from "Config/GlobalJs";
 
 export default function PrivateRoute({ children }) {
-  const [auth] = useContext(authContext);
+  const [state] = useContext(authContext);
   const [loading, setLoading] = useState(false);
   useEffect(() => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     setTimeout(() => {
       setLoading(true);
     }, 100);
-  }, []);
-  const { loginFlag } = auth;
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [state]);
+
   if (loading) {
     return (
       <Route
         render={({ location }) =>
-          loginFlag ? (
+          state?.loginFlag ? (
             children
           ) : (
             <Redirect

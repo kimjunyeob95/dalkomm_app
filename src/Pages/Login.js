@@ -39,28 +39,28 @@ export default function Login() {
                   </div>
                 </fieldset>
                 <div className="btn-area">
-                  <Link to="" className="btn dark full medium">
+                  <Link to="#" className="btn dark full medium">
                     로그인 하기
                   </Link>
                 </div>
 
                 <ul className="row-list flex-center">
                   <li>
-                    <Link to="LL002.html">아이디 찾기</Link>
+                    <Link to="/join/findId">아이디 찾기</Link>
                   </li>
                   <li>
-                    <Link to="LL003.html">비밀번호 찾기</Link>
+                    <Link to="/join/findPw">비밀번호 찾기</Link>
                   </li>
                 </ul>
               </form>
 
               <div className="join-induce">
                 <p className="ta-c">아직 달콤 회원이 아니신가요?</p>
-                <Link to="LJ001.html" className="btn normal full medium">
+                <Link to="/join/step1" className="btn normal full medium">
                   신규 회원 가입
                 </Link>
                 <div className="etc-btn">
-                  <Link to="#" className="btn">
+                  <Link to="/" className="btn">
                     비회원으로 둘러보기
                   </Link>
                 </div>

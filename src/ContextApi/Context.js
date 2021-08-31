@@ -1,11 +1,12 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 /* eslint-disable no-fallthrough */
-import React, { useEffect, useReducer } from "react";
+import React, { useEffect, useReducer, useState } from "react";
 import axios from "axios";
 
 export const authContext = React.createContext();
 
 export const indexInitialState = {
-  loginFlag: true,
+  loginFlag: false,
   id: "",
 };
 
@@ -28,6 +29,7 @@ export const indexReducer = (state, action) => {
 };
 
 const ContextStore = (props) => {
+  const [, setLoding] = useState(false);
   useEffect(() => {
     //로그인 유지처리
     axios.post(`https://scoreoflegends.com/api/v1/getMyInfo?seq=1`).then((res) => {
@@ -35,6 +37,7 @@ const ContextStore = (props) => {
         indexInitialState.loginFlag = true;
         indexInitialState.id = 1;
       }
+      setLoding(true);
     });
   }, []);
   return <authContext.Provider value={useReducer(indexReducer, indexInitialState)}>{props.children}</authContext.Provider>;
