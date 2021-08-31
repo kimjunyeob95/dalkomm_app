@@ -127,7 +127,7 @@ function Main() {
               </div>
             ) : (
               <div className="item my-info">
-                <p className="user">
+                <p className="user" onClick={() => dispatch({ type: "login", id: 1 })}>
                   <span className="fc-orange">로그인</span> 하고 달콤한 혜택을 누려보세요.
                 </p>
                 <Link to="#" className="btn barcode">
