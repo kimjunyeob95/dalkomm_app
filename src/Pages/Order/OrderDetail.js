@@ -460,7 +460,7 @@ export default function OrderDetail() {
                       <Link to="#" className="btn x-large normal" onClick={() => otherMenu()}>
                         다른 메뉴 더 담기
                       </Link>
-                      <Link to="/cart" className="btn x-large dark btn-close">
+                      <Link to="/mypage/cart" className="btn x-large dark btn-close">
                         장바구니 바로가기
                       </Link>
                     </div>

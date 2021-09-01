@@ -33,7 +33,7 @@ export default function HeaderSub({ title, PathName, type, icon, location, noBac
           </Link>
         </div>
       )}
-      {btnType !== "share" && location && (
+      {btnType !== "share" && location && !headerPopup && (
         <div className={`btn-area ${type === "flexCenter" && "flex-center"}`}>
           <Link to={location} className="btn">
             <i className={`ico ${icon}`}>

@@ -1,3 +1,4 @@
+import $ from "jquery";
 import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 
@@ -15,6 +16,32 @@ export default function MyCart() {
   const handleOrder = () => {
     alert("주문 버튼");
   };
+  const handleClick = (e, type) => {
+    let $thisTarget = $(e).siblings("input");
+    let $thisCount = Number($(e).siblings("input").val());
+    if (type === "증가") {
+      $thisTarget.val($thisCount + 1);
+    } else if (type === "감소") {
+      if ($thisCount < 2) {
+        return false;
+      } else {
+        $thisTarget.val($thisCount - 1);
+      }
+    }
+  };
+  const handleDelete = (e, type) => {
+    if (type === "allDelete") {
+      $(".order-list.data-list").html("");
+      $(".price.fc-orange").text("0원");
+      $(".btn.full.large.dark").remove();
+      $(".btn.open-pop").remove();
+      $("body").removeClass("modal-opened");
+      $("#drinkDelete").removeClass("active");
+    } else {
+      let $thisTarget = $(e).parent().parent();
+      $thisTarget.remove();
+    }
+  };
   return (
     <React.Fragment>
       <GoContents />
@@ -31,7 +58,7 @@ export default function MyCart() {
               <ul className="order-list data-list">
                 <li>
                   <div className="item order">
-                    <button type="button" className="btn delete">
+                    <button type="button" className="btn delete" onClick={(e) => handleDelete(e.currentTarget)}>
                       <i className="ico close">
                         <span>삭제하기</span>
                       </i>
@@ -57,12 +84,12 @@ export default function MyCart() {
                       <div className="price-wrap flex-both">
                         <p className="price fc-orange">4,300원</p>
                         <p className="uio-amount">
-                          <button type="button" className="btn amount">
+                          <button type="button" className="btn amount" onClick={(e) => handleClick(e.currentTarget, "감소")}>
                             <i className="ico decrease"></i>
                             <span className="blind">감소</span>
                           </button>
                           <input type="text" defaultValue={1} className="ea" />
-                          <button type="button" className="btn amount">
+                          <button type="button" className="btn amount" onClick={(e) => handleClick(e.currentTarget, "증가")}>
                             <i className="ico increase"></i>
                             <span className="blind">증가</span>
                           </button>
@@ -73,7 +100,7 @@ export default function MyCart() {
                 </li>
                 <li>
                   <div className="item order">
-                    <button type="button" className="btn delete">
+                    <button type="button" className="btn delete" onClick={(e) => handleDelete(e.currentTarget)}>
                       <i className="ico close">
                         <span>삭제하기</span>
                       </i>
@@ -99,12 +126,12 @@ export default function MyCart() {
                       <div className="price-wrap flex-both">
                         <p className="price fc-orange">4,300원</p>
                         <p className="uio-amount">
-                          <button type="button" className="btn amount">
+                          <button type="button" className="btn amount" onClick={(e) => handleClick(e.currentTarget, "감소")}>
                             <i className="ico decrease"></i>
                             <span className="blind">감소</span>
                           </button>
                           <input type="text" defaultValue={1} className="ea" />
-                          <button type="button" className="btn amount">
+                          <button type="button" className="btn amount" onClick={(e) => handleClick(e.currentTarget, "증가")}>
                             <i className="ico increase"></i>
                             <span className="blind">증가</span>
                           </button>
@@ -115,7 +142,7 @@ export default function MyCart() {
                 </li>
                 <li>
                   <div className="item order">
-                    <button type="button" className="btn delete">
+                    <button type="button" className="btn delete" onClick={(e) => handleDelete(e.currentTarget)}>
                       <i className="ico close">
                         <span>삭제하기</span>
                       </i>
@@ -141,12 +168,12 @@ export default function MyCart() {
                       <div className="price-wrap flex-both">
                         <p className="price fc-orange">4,300원</p>
                         <p className="uio-amount">
-                          <button type="button" className="btn amount">
+                          <button type="button" className="btn amount" onClick={(e) => handleClick(e.currentTarget, "감소")}>
                             <i className="ico decrease"></i>
                             <span className="blind">감소</span>
                           </button>
                           <input type="text" defaultValue={1} className="ea" />
-                          <button type="button" className="btn amount">
+                          <button type="button" className="btn amount" onClick={(e) => handleClick(e.currentTarget, "증가")}>
                             <i className="ico increase"></i>
                             <span className="blind">증가</span>
                           </button>
@@ -157,7 +184,7 @@ export default function MyCart() {
                 </li>
                 <li>
                   <div className="item order">
-                    <button type="button" className="btn delete">
+                    <button type="button" className="btn delete" onClick={(e) => handleDelete(e.currentTarget)}>
                       <i className="ico close">
                         <span>삭제하기</span>
                       </i>
@@ -183,12 +210,12 @@ export default function MyCart() {
                       <div className="price-wrap flex-both">
                         <p className="price fc-orange">4,300원</p>
                         <p className="uio-amount">
-                          <button type="button" className="btn amount">
+                          <button type="button" className="btn amount" onClick={(e) => handleClick(e.currentTarget, "감소")}>
                             <i className="ico decrease"></i>
                             <span className="blind">감소</span>
                           </button>
                           <input type="text" defaultValue={1} className="ea" />
-                          <button type="button" className="btn amount">
+                          <button type="button" className="btn amount" onClick={(e) => handleClick(e.currentTarget, "증가")}>
                             <i className="ico increase"></i>
                             <span className="blind">증가</span>
                           </button>
@@ -244,7 +271,7 @@ export default function MyCart() {
                       </p>
                     </div>
                     <div className="btn-area col-2">
-                      <button type="reset" className="btn large normal">
+                      <button type="reset" className="btn large normal" onClick={(e) => handleDelete(e.currentTarget, "allDelete")}>
                         삭제하기
                       </button>
                       <button type="button" className="btn large light-g btn-close">
