@@ -32,12 +32,13 @@ export default function StoryDetail() {
       if ($("body").hasClass("scroll-has") === true) {
         $("#header").addClass("fixed-header bg-transparent");
       }
-
-      if ($(this).scrollTop() > $(".story-detail-wrap").offset().top - $("#header .btn").outerHeight()) {
-        $("#header .btn").addClass("bdr");
-      } else {
-        $("#header .btn").removeClass("bdr");
-      }
+      try {
+        if ($(this).scrollTop() > $(".story-detail-wrap").offset().top - $("#header .btn").outerHeight()) {
+          $("#header .btn").addClass("bdr");
+        } else {
+          $("#header .btn").removeClass("bdr");
+        }
+      } catch (error) {}
     });
     sectionGap();
 

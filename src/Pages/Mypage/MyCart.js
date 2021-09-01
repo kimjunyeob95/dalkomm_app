@@ -1,6 +1,5 @@
 import $ from "jquery";
 import React, { useEffect } from "react";
-import { Link } from "react-router-dom";
 
 import HeaderSub from "Components/Header/HeaderSub";
 import Nav from "Components/Nav/Nav";
@@ -13,7 +12,8 @@ export default function MyCart() {
     contGap();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  const handleOrder = () => {
+  const handleOrder = (e) => {
+    console.log(e);
     alert("주문 버튼");
   };
   const handleClick = (e, type) => {
@@ -243,9 +243,9 @@ export default function MyCart() {
                     </div>
                   </div>
                   <div className="btn-area" />
-                  <Link to="#" className="btn full large dark" onClick={() => handleOrder()}>
+                  <button to="#" className="btn full large dark" onClick={(e) => handleOrder(e.currentTarget)}>
                     주문하기
-                  </Link>
+                  </button>
                 </div>
               </div>
             </div>

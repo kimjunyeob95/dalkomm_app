@@ -3,6 +3,9 @@ import { Link, useHistory } from "react-router-dom";
 
 export default function HeaderSub({ title, PathName, type, icon, location, noBack, className, btnType, blindClass, headerPopup, popTarget }) {
   const history = useHistory();
+  const handleShare = (e) => {
+    alert("공유하기 버튼");
+  };
   return (
     <header id="header" className={`header ${className && className}`}>
       {title && !blindClass && PathName !== "detail" ? (
@@ -26,11 +29,11 @@ export default function HeaderSub({ title, PathName, type, icon, location, noBac
       )}
       {btnType === "share" && (
         <div className={`btn-area ${type === "flexCenter" && "flex-center"}`}>
-          <Link to="#" className="btn">
+          <button className="btn" onClick={(e) => handleShare(e.currentTarget)}>
             <i className={`ico ${icon}`}>
               <span>{title}</span>
             </i>
-          </Link>
+          </button>
         </div>
       )}
       {btnType !== "share" && location && !headerPopup && (

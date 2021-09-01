@@ -19,7 +19,7 @@ export default function Pay() {
       <GoContents />
       <div id="wrap" className="wrap">
         <div id="container" className="container">
-          <HeaderSub type="flexCenter" title="페이" icon="gift" location="/member/modify" />
+          <HeaderSub type="flexCenter" title="페이" icon="gift" location="/mypage/gift" />
 
           <Nav order={2} />
 

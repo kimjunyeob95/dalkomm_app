@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import { Link } from "react-router-dom";
 
 import HeaderSub from "Components/Header/HeaderSub";
 import GoContents from "Components/GoContents";
@@ -13,7 +12,7 @@ export default function GiftCharge() {
   useEffect(() => {
     contGap();
   }, []);
-  const handleOnclick = () => {
+  const handleOnclick = (e) => {
     alert("결제하기 버튼 클릭");
   };
   return (
@@ -151,9 +150,9 @@ export default function GiftCharge() {
                     </div>
                   </div>
                   <div className="btn-area">
-                    <Link to="#" onClick={() => handleOnclick()} className="btn full x-large dark">
+                    <button type="button" onClick={(e) => handleOnclick(e.currentTarget)} className="btn full x-large dark">
                       <strong>결제하기</strong>
-                    </Link>
+                    </button>
                   </div>
                 </div>
               </div>
