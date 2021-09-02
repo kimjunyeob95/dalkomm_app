@@ -15,7 +15,7 @@ export default function OrderDetail() {
     // 말풍선 스크롤시 hide/show
     contGap();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [optionType]);
   const submitOrder = () => {
     alert("주문되었습니다.");
     history.push("/");
@@ -144,7 +144,7 @@ export default function OrderDetail() {
                     <div className="field">
                       <span className="label en">Cup</span>
                       <div className="select-group col-3">
-                        <input type="radio" id="orderCup01" name="orderCup" />
+                        <input type="radio" id="orderCup01" name="orderCup" defaultChecked={true} />
                         <label htmlFor="orderCup01" className="btn bdr medium">
                           <strong>매장용</strong>
                         </label>

@@ -120,7 +120,7 @@ export default function Menu() {
                     </a>
                   </li>
                   <li>
-                    <Link to="#" className="item depth-menu">
+                    <Link to="/mypage/option" className="item depth-menu">
                       <i className="ico menu-set"></i>
                       <span>앱 환경설정</span>
                     </Link>

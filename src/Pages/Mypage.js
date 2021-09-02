@@ -1,7 +1,7 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
+/* eslint-disable no-unused-vars */
 import React, { useEffect } from "react";
-
 import { Link } from "react-router-dom";
-
 import HeaderSub from "Components/Header/HeaderSub";
 import Nav from "Components/Nav/Nav";
 import GoContents from "Components/GoContents";
@@ -12,7 +12,9 @@ export default function MyPage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     contGap();
   }, []);
-
+  const handleLogout = () => {
+    alert("로그아웃 함수 호출");
+  };
   return (
     <React.Fragment>
       <GoContents />
@@ -102,7 +104,7 @@ export default function MyPage() {
                 <Link to="#">즐겨 찾는 메뉴 관리</Link>
               </li>
               <li>
-                <Link to="#">로그아웃</Link>
+                <a onClick={() => handleLogout()}>로그아웃</a>
               </li>
             </ul>
           </div>{" "}
