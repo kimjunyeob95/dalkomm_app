@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+
 import $ from "jquery";
 import React, { useEffect, useState } from "react";
 import HeaderSub from "Components/Header/HeaderSub";
@@ -9,16 +11,30 @@ import { Swiper } from "swiper/react";
 
 export default function OrderDetail() {
   const history = useHistory();
-  const [optionType, setOption] = useState({ show: false, text: "샷" });
+  const [optionType, setOption] = useState({ show: false, text: "" });
+  const [priceValue, setPrice] = useState({ curruntPrice: 0, defaultPrice: 0 });
 
   useEffect(() => {
     // 말풍선 스크롤시 hide/show
     contGap();
+    setPrice({
+      curruntPrice: Number($("#totalPrice").data("orginprice")),
+      defaultPrice: Number($("#totalPrice").data("orginprice")),
+    });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [optionType]);
+  }, []);
   const submitOrder = () => {
-    alert("주문되었습니다.");
-    history.push("/");
+    var form = $(".form")[0];
+    var formData = new FormData(form);
+    formData.append("orderCount", $("#orderCount").val());
+    if (optionType?.show) {
+      formData.append("optionCount", $("#optionCount").val());
+    }
+    history.push({
+      pathname: "/order/final",
+      from: "orderDetail",
+      orderData: formData,
+    });
   };
   const otherMenu = () => {
     $("body").removeClass("modal-opened");
@@ -26,25 +42,40 @@ export default function OrderDetail() {
   };
   const handleOption = (e) => {
     let attr_id = $(e).attr("id");
-
+    $("#optionCount").val(1);
+    let $optionCount = 1;
+    let $orderCount = Number($("#orderCount").val());
+    if (isNaN($optionCount)) $optionCount = 1;
     if (attr_id === "orderOption02") {
       //샷
-
       setOption({ show: true, text: "샷" });
+      if (optionType?.text !== "샷") {
+        setPrice((state) => ({
+          ...state,
+          curruntPrice: priceValue.defaultPrice * $orderCount + $optionCount * 500,
+        }));
+      }
     } else if (attr_id === "orderOption04") {
       //시럽
-
       setOption({ show: true, text: "시럽" });
     } else {
-      setOption(false);
+      setOption({ show: false, text: "" });
+    }
+    if (optionType.show && optionType.text === "샷" && attr_id !== "orderOption02") {
+      setPrice((state) => ({
+        ...state,
+        curruntPrice: priceValue.defaultPrice * $orderCount,
+      }));
     }
   };
 
   const handleCount = (e, option, type) => {
     let targetValue = Number($(e).siblings("input").val());
-
+    let $orderCount = Number($("#orderCount").val());
+    let $optionCount = Number($("#optionCount").val());
     if (option === "샷") {
       if (type === "증가") {
+        $optionCount += 1;
         targetValue += 1;
         $(e).siblings("input").val(targetValue);
       } else if (type === "감소") {
@@ -52,10 +83,41 @@ export default function OrderDetail() {
           return false;
         } else {
           targetValue -= 1;
+          $optionCount -= 1;
           $(e).siblings("input").val(targetValue);
         }
       }
+      setPrice((state) => ({
+        ...state,
+        curruntPrice: priceValue.defaultPrice * $orderCount + $optionCount * 500,
+      }));
     } else if (option === "주문") {
+      if (type === "증가") {
+        targetValue += 1;
+        $orderCount += 1;
+        $(e).siblings("input").val(targetValue);
+      } else if (type === "감소") {
+        if (targetValue < 2) {
+          return false;
+        } else {
+          targetValue -= 1;
+          $orderCount -= 1;
+          $(e).siblings("input").val(targetValue);
+        }
+      }
+      //옵션 샷
+      if (optionType.text === "샷") {
+        setPrice((state) => ({
+          ...state,
+          curruntPrice: priceValue.defaultPrice * $orderCount + $optionCount * 500,
+        }));
+      } else {
+        setPrice((state) => ({
+          ...state,
+          curruntPrice: priceValue.defaultPrice * $orderCount,
+        }));
+      }
+    } else if (option === "시럽") {
       if (type === "증가") {
         targetValue += 1;
         $(e).siblings("input").val(targetValue);
@@ -109,11 +171,11 @@ export default function OrderDetail() {
                 <fieldset className="fieldset">
                   <div className="field">
                     <div className="select-group col-2">
-                      <input type="radio" id="orderType01" name="orderType" defaultChecked={true} />
+                      <input type="radio" id="orderType01" name="orderType" value="ICE" defaultChecked={true} />
                       <label htmlFor="orderType01" className="btn normal small">
                         <strong className="en">ICE</strong>
                       </label>
-                      <input type="radio" id="orderType02" name="orderType" />
+                      <input type="radio" id="orderType02" name="orderType" value="HOT" />
                       <label htmlFor="orderType02" className="btn normal small">
                         <strong className="en">HOT</strong>
                       </label>
@@ -124,14 +186,14 @@ export default function OrderDetail() {
                     <div className="field">
                       <span className="label en">Size</span>
                       <div className="select-group col-2">
-                        <input type="radio" id="orderSize01" name="orderSize" defaultChecked={true} />
+                        <input type="radio" id="orderSize01" name="orderSize" value="Regular" defaultChecked={true} />
                         <label htmlFor="orderSize01" className="btn bdr medium">
                           <p className="text">
                             <strong className="en">Regular</strong>
                             <span className="en">375ml</span>
                           </p>
                         </label>
-                        <input type="radio" id="orderSize02" name="orderSize" />
+                        <input type="radio" id="orderSize02" name="orderSize" value="Large" />
                         <label htmlFor="orderSize02" className="btn bdr medium">
                           <p className="text">
                             <strong className="en">Large</strong>
@@ -144,15 +206,15 @@ export default function OrderDetail() {
                     <div className="field">
                       <span className="label en">Cup</span>
                       <div className="select-group col-3">
-                        <input type="radio" id="orderCup01" name="orderCup" defaultChecked={true} />
+                        <input type="radio" id="orderCup01" name="orderCup" value="매장용" defaultChecked={true} />
                         <label htmlFor="orderCup01" className="btn bdr medium">
                           <strong>매장용</strong>
                         </label>
-                        <input type="radio" id="orderCup02" name="orderCup" />
+                        <input type="radio" id="orderCup02" name="orderCup" value="일회용" />
                         <label htmlFor="orderCup02" className="btn bdr medium">
                           <strong>일회용</strong>
                         </label>
-                        <input type="radio" id="orderCup03" name="orderCup" />
+                        <input type="radio" id="orderCup03" name="orderCup" value="개인" />
                         <label htmlFor="orderCup03" className="btn bdr medium">
                           <strong>개인</strong>
                           <span className="speech-bubble small en">- 300 &#8361;</span>
@@ -163,20 +225,27 @@ export default function OrderDetail() {
                     <div className="field">
                       <span className="label en">Option</span>
                       <div className="select-group col-2">
-                        <input type="radio" id="orderOption01" name="orderOption" defaultChecked={true} onClick={(e) => handleOption(e.target)} />
+                        <input
+                          type="radio"
+                          id="orderOption01"
+                          name="orderOption"
+                          value="선택 안함"
+                          defaultChecked={true}
+                          onClick={(e) => handleOption(e.target)}
+                        />
                         <label htmlFor="orderOption01" className="btn bdr medium">
                           <strong>선택 안함</strong>
                         </label>
-                        <input type="radio" id="orderOption02" name="orderOption" onClick={(e) => handleOption(e.target)} />
+                        <input type="radio" id="orderOption02" name="orderOption" value="샷 추가" onClick={(e) => handleOption(e.target)} />
                         <label htmlFor="orderOption02" className="btn bdr medium">
                           <strong>샷 추가</strong>
                           <span className="speech-bubble small en">+ 500 &#8361;</span>
                         </label>
-                        <input type="radio" id="orderOption03" name="orderOption" onClick={(e) => handleOption(e.target)} />
+                        <input type="radio" id="orderOption03" name="orderOption" value="휘핑크림" onClick={(e) => handleOption(e.target)} />
                         <label htmlFor="orderOption03" className="btn bdr medium">
                           <strong>휘핑크림</strong>
                         </label>
-                        <input type="radio" id="orderOption04" name="orderOption" onClick={(e) => handleOption(e.target)} />
+                        <input type="radio" id="orderOption04" name="orderOption" value="시럽추가" onClick={(e) => handleOption(e.target)} />
                         <label htmlFor="orderOption04" className="btn bdr medium">
                           <strong>시럽추가</strong>
                         </label>
@@ -262,12 +331,20 @@ export default function OrderDetail() {
                                   </i>
                                 </button>
                                 <p className="uio-amount">
-                                  <button type="button" className="btn amount" onClick={(e) => handleCount(e.currentTarget, "샷", "감소")}>
+                                  <button
+                                    type="button"
+                                    className="btn amount"
+                                    onClick={(e) => handleCount(e.currentTarget, optionType?.text, "감소")}
+                                  >
                                     <i className="ico decrease"></i>
                                     <span className="blind">감소</span>
                                   </button>
-                                  <input type="text" defaultValue="1" className="ea" />
-                                  <button type="button" className="btn amount" onClick={(e) => handleCount(e.currentTarget, "샷", "증가")}>
+                                  <input type="text" defaultValue="1" className="ea" id="optionCount" />
+                                  <button
+                                    type="button"
+                                    className="btn amount"
+                                    onClick={(e) => handleCount(e.currentTarget, optionType?.text, "증가")}
+                                  >
                                     <i className="ico increase"></i>
                                     <span className="blind">증가</span>
                                   </button>
@@ -288,7 +365,7 @@ export default function OrderDetail() {
                                   <i className="ico decrease"></i>
                                   <span className="blind">감소</span>
                                 </button>
-                                <input type="text" defaultValue="1" className="ea" />
+                                <input type="text" defaultValue="1" className="ea" id="orderCount" />
                                 <button type="button" className="btn amount" onClick={(e) => handleCount(e.currentTarget, "주문", "증가")}>
                                   <i className="ico increase"></i>
                                   <span className="blind">증가</span>
@@ -302,7 +379,9 @@ export default function OrderDetail() {
                     <div className="item info-order">
                       <dl className="flex-both w-inner">
                         <dt className="title en">Total</dt>
-                        <dd className="price fc-orange">4,800원</dd>
+                        <dd className="price fc-orange" id="totalPrice" data-orginprice="4300" data-price={priceValue.curruntPrice}>
+                          {priceValue?.curruntPrice.toLocaleString()}원
+                        </dd>
                       </dl>
                     </div>
                   </div>
@@ -310,9 +389,9 @@ export default function OrderDetail() {
                     <button type="button" className="btn x-large light-g open-pop" pop-target="#addCart">
                       장바구니 담기
                     </button>
-                    <Link to="#" className="btn x-large dark" onClick={() => submitOrder()}>
+                    <button className="btn x-large dark" onClick={() => submitOrder()}>
                       주문하기
-                    </Link>
+                    </button>
                   </div>
                 </div>
               </div>

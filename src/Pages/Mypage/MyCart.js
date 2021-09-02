@@ -2,19 +2,23 @@ import $ from "jquery";
 import React, { useEffect } from "react";
 
 import HeaderSub from "Components/Header/HeaderSub";
+import { useHistory } from "react-router-dom";
 import Nav from "Components/Nav/Nav";
 import GoContents from "Components/GoContents";
 import { contGap } from "Jquery/Jquery";
 
 export default function MyCart() {
+  const history = useHistory();
   useEffect(() => {
     // 말풍선 스크롤시 hide/show
     contGap();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const handleOrder = (e) => {
-    console.log(e);
-    alert("주문 버튼");
+    history.push({
+      pathname: "/order/final",
+      from: "myCart",
+    });
   };
   const handleClick = (e, type) => {
     let $thisTarget = $(e).siblings("input");

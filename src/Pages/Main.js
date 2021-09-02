@@ -61,7 +61,7 @@ function Main() {
                 <SwiperSlide className="swiper-slide">
                   <div className="banner-wrap main-top-banner">
                     <div className="img-wrap">
-                      <img src="../@resource/images/@temp/banner_main_01.jpg" alt="여름 스테디셀러" />
+                      <img src="/@resource/images/@temp/banner_main_01.jpg" alt="여름 스테디셀러" />
                     </div>
                     <div className="content-wrap">
                       <div className="w-inner flex-end">
@@ -76,7 +76,7 @@ function Main() {
                 <SwiperSlide className="swiper-slide">
                   <div className="banner-wrap main-top-banner">
                     <div className="img-wrap">
-                      <img src="../@resource/images/@temp/banner_main_02.jpg" alt="분당서현점 오픈!" />
+                      <img src="/@resource/images/@temp/banner_main_02.jpg" alt="분당서현점 오픈!" />
                     </div>
                     <div className="content-wrap">
                       <div className="w-inner flex-end">
@@ -91,7 +91,7 @@ function Main() {
                 <SwiperSlide className="swiper-slide">
                   <div className="banner-wrap main-top-banner">
                     <div className="img-wrap">
-                      <img src="../@resource/images/@temp/banner_main_03.jpg" alt="새콤달콤 에이드" />
+                      <img src="/@resource/images/@temp/banner_main_03.jpg" alt="새콤달콤 에이드" />
                     </div>
                     <div className="content-wrap">
                       <div className="w-inner flex-end">
@@ -219,7 +219,7 @@ function Main() {
                   <SwiperSlide className="swiper-slide">
                     <div className="item menu">
                       <div className="img-wrap">
-                        <img src="../@resource/images/@temp/product_01.jpg" alt="아메리카노 ICE (R)" />
+                        <img src="/@resource/images/@temp/product_01.jpg" alt="아메리카노 ICE (R)" />
                       </div>
                       <div className="detail-wrap">
                         <p className="title">아메리카노 ICE (R)</p>
@@ -230,7 +230,7 @@ function Main() {
                   <SwiperSlide className="swiper-slide">
                     <div className="item menu">
                       <div className="img-wrap">
-                        <img src="../@resource/images/@temp/product_02.jpg" alt="카페라떼 HOT (R)" />
+                        <img src="/@resource/images/@temp/product_02.jpg" alt="카페라떼 HOT (R)" />
                       </div>
                       <div className="detail-wrap">
                         <p className="title">카페라떼 HOT (R)</p>
@@ -241,7 +241,7 @@ function Main() {
                   <SwiperSlide className="swiper-slide">
                     <div className="item menu">
                       <div className="img-wrap">
-                        <img src="../@resource/images/@temp/product_03.jpg" alt="카푸치노 HOT (R)" />
+                        <img src="/@resource/images/@temp/product_03.jpg" alt="카푸치노 HOT (R)" />
                       </div>
                       <div className="detail-wrap">
                         <p className="title">카푸치노 HOT (R)</p>
@@ -252,7 +252,7 @@ function Main() {
                   <SwiperSlide className="swiper-slide">
                     <div className="item menu">
                       <div className="img-wrap">
-                        <img src="../@resource/images/@temp/product_01.jpg" alt="아메리카노 ICE (R)" />
+                        <img src="/@resource/images/@temp/product_01.jpg" alt="아메리카노 ICE (R)" />
                       </div>
                       <div className="detail-wrap">
                         <p className="title">아메리카노 ICE (R)</p>
@@ -263,7 +263,7 @@ function Main() {
                   <SwiperSlide className="swiper-slide">
                     <div className="item menu">
                       <div className="img-wrap">
-                        <img src="../@resource/images/@temp/product_02.jpg" alt="카페라떼 HOT (R)" />
+                        <img src="/@resource/images/@temp/product_02.jpg" alt="카페라떼 HOT (R)" />
                       </div>
                       <div className="detail-wrap">
                         <p className="title">카페라떼 HOT (R)</p>
@@ -274,7 +274,7 @@ function Main() {
                   <SwiperSlide className="swiper-slide">
                     <div className="item menu">
                       <div className="img-wrap">
-                        <img src="../@resource/images/@temp/product_03.jpg" alt="카푸치노 HOT (R)" />
+                        <img src="/@resource/images/@temp/product_03.jpg" alt="카푸치노 HOT (R)" />
                       </div>
                       <div className="detail-wrap">
                         <p className="title">카푸치노 HOT (R)</p>
@@ -402,7 +402,7 @@ function Main() {
                     <span className="d-day num">D-30</span>
                   </div>
                   <div className="img-wrap">
-                    <img src="../@resource/images/@temp/thum_event_01.jpg" alt="{title}" />
+                    <img src="/@resource/images/@temp/thum_event_01.jpg" alt="{title}" />
                   </div>
                   <div className="data-wrap">
                     <p className="title">월요일은 페이코인 DAY!</p>
@@ -620,7 +620,7 @@ function Main() {
                   <SwiperSlide className="swiper-slide">
                     <div className="item md">
                       <div className="img-wrap">
-                        <img src="../@resource/images/@temp/md_01.jpg" alt="달콤 피크닉백" />
+                        <img src="/@resource/images/@temp/md_01.jpg" alt="달콤 피크닉백" />
                       </div>
                       <div className="data-wrap">
                         <p className="title">달콤 피크닉백</p>
@@ -635,7 +635,7 @@ function Main() {
                   <SwiperSlide className="swiper-slide">
                     <div className="item md">
                       <div className="img-wrap">
-                        <img src="../@resource/images/@temp/md_02.jpg" alt="달콤 홈카페 세트" />
+                        <img src="/@resource/images/@temp/md_02.jpg" alt="달콤 홈카페 세트" />
                       </div>
                       <div className="data-wrap">
                         <p className="title">달콤 홈카페 세트</p>
@@ -650,7 +650,7 @@ function Main() {
                   <SwiperSlide className="swiper-slide">
                     <div className="item md">
                       <div className="img-wrap">
-                        <img src="../@resource/images/@temp/md_01.jpg" alt="달콤 피크닉백" />
+                        <img src="/@resource/images/@temp/md_01.jpg" alt="달콤 피크닉백" />
                       </div>
                       <div className="data-wrap">
                         <p className="title">달콤 피크닉백</p>
@@ -665,7 +665,7 @@ function Main() {
                   <SwiperSlide className="swiper-slide">
                     <div className="item md">
                       <div className="img-wrap">
-                        <img src="../@resource/images/@temp/md_02.jpg" alt="달콤 홈카페 세트" />
+                        <img src="/@resource/images/@temp/md_02.jpg" alt="달콤 홈카페 세트" />
                       </div>
                       <div className="data-wrap">
                         <p className="title">달콤 홈카페 세트</p>
@@ -715,7 +715,7 @@ function Main() {
                 <div>
                   <div className="barcode">
                     <div className="img-wrap">
-                      <img src="../@resource/images/com/barcode.svg" alt="바코드" />
+                      <img src="/@resource/images/com/barcode.svg" alt="바코드" />
                     </div>
                     <p className="num">1309675152301202</p>
                   </div>
