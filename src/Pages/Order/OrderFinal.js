@@ -10,18 +10,23 @@ import { contGap } from "Jquery/Jquery";
 export default function OrderFinal() {
   const history = useHistory();
   const location = useLocation();
+  let orderData_json = {};
 
+  if (location?.from === "orderDetail") {
+    location?.orderData?.forEach(function (value, key) {
+      orderData_json[key] = value;
+    });
+  }
   const handleOrder = () => {
     alert("주문하기 버튼 클릭");
     history.push("/order");
   };
 
-  for (var value of location?.orderData?.entries()) {
-    console.log(value[0] + ", " + value[1]);
-  }
   useEffect(() => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     contGap();
+    if (location?.from === undefined) history.push("/order");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
     <React.Fragment>
@@ -52,80 +57,66 @@ export default function OrderFinal() {
 
                     <div className="field">
                       <span className="label">주문 메뉴</span>
-                      <ul className="order-list data-list">
-                        <li>
-                          <div className="item order">
-                            <div className="img-wrap">
-                              <img src="/@resource/images/@temp/product_05.jpg" alt="카라멜마끼아또" />
-                            </div>
-                            <div className="detail-wrap">
-                              <div className="order-info">
-                                <p className="title">카라멜마끼아또</p>
-                                <p className="info">
-                                  <span className="en">ICE</span>
-                                  <span className="en">Regular</span>
-                                  <span>매장용 컵</span>
-                                </p>
-                                <p className="option flex-both">
-                                  <span>
-                                    <em className="en">Option :</em>샷 추가
-                                  </span>
-                                  <span>
-                                    <em>횟수 :</em>1
-                                  </span>
-                                </p>
+                      {location?.from === "orderDetail" && (
+                        <ul className="order-list data-list">
+                          <li>
+                            <div className="item order">
+                              <div className="img-wrap">
+                                <img src={orderData_json?.orderImg} alt={orderData_json?.orderName} />
                               </div>
-                              <div className="price-wrap flex-both">
-                                <p className="price">
-                                  수량&nbsp; :<span>1</span>{" "}
-                                </p>
-                                <p className="price fc-orange">4,300원</p>
-                              </div>
-                            </div>
-                          </div>
-                          <select className="select medium">
-                            <option value="">쿠폰을 선택해 주세요.</option>
-                            <option value="">쿠폰1</option>
-                            <option value="">쿠폰2</option>
-                          </select>
-                        </li>
-                        <li>
-                          <div className="item order">
-                            <div className="img-wrap">
-                              <img src="/@resource/images/@temp/product_07.jpg" alt="아메리카노" />
-                            </div>
-                            <div className="detail-wrap">
-                              <div className="order-info">
-                                <p className="title">아메리카노</p>
-                                <p className="info">
-                                  <span className="en">ICE</span>
-                                  <span className="en">Regular</span>
-                                  <span>매장용 컵</span>
-                                </p>
-                                <p className="option flex-both">
-                                  <span>
-                                    <em className="en">Option :</em>샷 추가
-                                  </span>
-                                  <span>
-                                    <em>횟수 :</em>1
-                                  </span>
-                                </p>
-                              </div>
-                              <div className="price-wrap flex-both">
-                                <p className="price">
-                                  수량&nbsp; :<span>1</span>{" "}
-                                </p>
-                                <p className="price fc-orange">4,300원</p>
+                              <div className="detail-wrap">
+                                <div className="order-info">
+                                  <p className="title">{orderData_json?.orderName}</p>
+                                  <p className="info">
+                                    <span className="en">{orderData_json?.orderType}</span>
+                                    <span className="en">{orderData_json?.orderSize}</span>
+                                    <span>{orderData_json?.orderCup} 컵</span>
+                                  </p>
+                                  {orderData_json?.orderOption !== "선택 안함" ? (
+                                    orderData_json?.orderOption === "휘핑크림" ? (
+                                      <p className="option flex-both">
+                                        <span>
+                                          <em className="en">Option :</em>
+                                          {orderData_json?.orderOption}
+                                        </span>
+                                      </p>
+                                    ) : (
+                                      <p className="option flex-both">
+                                        <span>
+                                          <em className="en">Option :</em>
+                                          {orderData_json?.orderOption}
+                                        </span>
+                                        <span>
+                                          <em>횟수 :</em>
+                                          {orderData_json?.optionCount}
+                                        </span>
+                                      </p>
+                                    )
+                                  ) : (
+                                    <p className="option flex-both">
+                                      <span>
+                                        <em className="en">Option :</em>
+                                        {orderData_json?.orderOption}
+                                      </span>
+                                    </p>
+                                  )}
+                                </div>
+                                <div className="price-wrap flex-both">
+                                  <p className="price">
+                                    수량&nbsp; :<span>{orderData_json?.orderCount}</span>{" "}
+                                  </p>
+                                  <p className="price fc-orange">{Number(orderData_json?.sumPrice)?.toLocaleString()}원</p>
+                                </div>
                               </div>
                             </div>
-                          </div>
-                          <select className="select medium">
-                            <option value="">쿠폰을 선택해 주세요.</option>
-                            <option value="">쿠폰1</option>
-                            <option value="">쿠폰2</option>
-                          </select>
-                        </li>
-                      </ul>
+                            <select className="select medium">
+                              <option value="">쿠폰을 선택해 주세요.</option>
+                              <option value="">쿠폰1</option>
+                              <option value="">쿠폰2</option>
+                            </select>
+                          </li>
+                        </ul>
+                      )}
                     </div>
 
                     <div className="field">
@@ -201,7 +192,7 @@ export default function OrderFinal() {
                           <span className="en">Total</span>
                         </dt>
                         <dd className="price">
-                          <strong>2,400원</strong>
+                          {location?.from === "orderDetail" ? <strong>{Number(orderData_json?.sumPrice)?.toLocaleString()}원</strong> : null}
                         </dd>
                       </dl>
                       {/* [D] 할인 적용 시 노출 
@@ -222,7 +213,9 @@ export default function OrderFinal() {
                     <div className="item info-order">
                       <dl className="flex-both total">
                         <dt className="title">최종 결제 금액</dt>
-                        <dd className="price fc-orange">2,400원</dd>
+                        {location?.from === "orderDetail" ? (
+                          <dd className="price fc-orange">{Number(orderData_json?.sumPrice)?.toLocaleString()}원</dd>
+                        ) : null}
                       </dl>
                     </div>
                   </div>

@@ -12,7 +12,8 @@ import { Swiper } from "swiper/react";
 export default function OrderDetail() {
   const history = useHistory();
   const [optionType, setOption] = useState({ show: false, text: "" });
-  const [priceValue, setPrice] = useState({ curruntPrice: 0, defaultPrice: 0 });
+  const [cupType, setCup] = useState("포장컵");
+  const [priceValue, setPrice] = useState({ curruntPrice: 0, defaultPrice: 0, originPrice: 0 });
 
   useEffect(() => {
     // 말풍선 스크롤시 hide/show
@@ -20,6 +21,7 @@ export default function OrderDetail() {
     setPrice({
       curruntPrice: Number($("#totalPrice").data("orginprice")),
       defaultPrice: Number($("#totalPrice").data("orginprice")),
+      originPrice: Number($("#totalPrice").data("orginprice")),
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -27,6 +29,9 @@ export default function OrderDetail() {
     var form = $(".form")[0];
     var formData = new FormData(form);
     formData.append("orderCount", $("#orderCount").val());
+    formData.append("sumPrice", priceValue.curruntPrice);
+    formData.append("orderName", $("#orderName").text());
+    formData.append("orderImg", $("#orderImg").attr("src"));
     if (optionType?.show) {
       formData.append("optionCount", $("#optionCount").val());
     }
@@ -66,6 +71,50 @@ export default function OrderDetail() {
         ...state,
         curruntPrice: priceValue.defaultPrice * $orderCount,
       }));
+    }
+  };
+
+  const handleCup = (e, type) => {
+    let $orderCount = Number($("#orderCount").val());
+    let $optionCount = Number($("#optionCount").val());
+    if (isNaN($optionCount)) $optionCount = 1;
+
+    if (type === "개인컵") {
+      setCup("개인컵");
+      if (cupType !== "개인컵") {
+        //포장컵 -> 개인컵
+        if (optionType.text === "샷") {
+          setPrice((state) => ({
+            ...state,
+            defaultPrice: priceValue.originPrice - 300,
+            curruntPrice: (priceValue.originPrice - 300) * $orderCount + $optionCount * 500,
+          }));
+        } else {
+          setPrice((state) => ({
+            ...state,
+            defaultPrice: priceValue.originPrice - 300,
+            curruntPrice: (priceValue.originPrice - 300) * $orderCount,
+          }));
+        }
+      }
+    } else {
+      setCup("포장컵");
+      if (cupType === "개인컵") {
+        //개인컵 -> 포장컵
+        if (optionType.text === "샷") {
+          setPrice((state) => ({
+            ...state,
+            defaultPrice: priceValue.originPrice + 300,
+            curruntPrice: priceValue.originPrice * $orderCount + $optionCount * 500,
+          }));
+        } else {
+          setPrice((state) => ({
+            ...state,
+            defaultPrice: priceValue.originPrice,
+            curruntPrice: priceValue.originPrice * $orderCount,
+          }));
+        }
+      }
     }
   };
 
@@ -144,13 +193,13 @@ export default function OrderDetail() {
             <section className="section">
               <div className="item drink-info">
                 <div className="img-wrap">
-                  <img src="/@resource/images/@temp/product_detail_02.jpg" alt="카라멜마끼아또" />
+                  <img id="orderImg" src="/@resource/images/@temp/product_detail_02.jpg" alt="카라멜마끼아또" />
                 </div>
                 <div className="detail-wrap">
                   <div className="text-box">
                     <p className="type en fc-orange">COFFEE</p>
                     <p className="name">
-                      카라멜마끼아또
+                      <span id="orderName">카라멜마끼아또</span>
                       <span className="en">Caramelmcchiato</span>
                     </p>
                     <p className="text">
@@ -206,15 +255,22 @@ export default function OrderDetail() {
                     <div className="field">
                       <span className="label en">Cup</span>
                       <div className="select-group col-3">
-                        <input type="radio" id="orderCup01" name="orderCup" value="매장용" defaultChecked={true} />
+                        <input
+                          type="radio"
+                          id="orderCup01"
+                          name="orderCup"
+                          value="매장용"
+                          defaultChecked={true}
+                          onClick={(e) => handleCup(e.target)}
+                        />
                         <label htmlFor="orderCup01" className="btn bdr medium">
                           <strong>매장용</strong>
                         </label>
-                        <input type="radio" id="orderCup02" name="orderCup" value="일회용" />
+                        <input type="radio" id="orderCup02" name="orderCup" value="일회용" onClick={(e) => handleCup(e.target)} />
                         <label htmlFor="orderCup02" className="btn bdr medium">
                           <strong>일회용</strong>
                         </label>
-                        <input type="radio" id="orderCup03" name="orderCup" value="개인" />
+                        <input type="radio" id="orderCup03" name="orderCup" value="개인" onClick={(e) => handleCup(e.target, "개인컵")} />
                         <label htmlFor="orderCup03" className="btn bdr medium">
                           <strong>개인</strong>
                           <span className="speech-bubble small en">- 300 &#8361;</span>
