@@ -25,6 +25,12 @@ export default function OrderDetail() {
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+  useEffect(() => {
+    // 말풍선 스크롤시 hide/show
+    contGap();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [optionType]);
   const submitOrder = () => {
     var form = $(".form")[0];
     var formData = new FormData(form);
