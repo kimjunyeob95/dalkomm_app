@@ -1,7 +1,20 @@
 import React from "react";
 import { Link, useHistory } from "react-router-dom";
 
-export default function HeaderSub({ title, PathName, type, icon, location, noBack, className, btnType, blindClass, headerPopup, popTarget }) {
+export default function HeaderSub({
+  redirectBack,
+  title,
+  PathName,
+  type,
+  icon,
+  location,
+  noBack,
+  className,
+  btnType,
+  blindClass,
+  headerPopup,
+  popTarget,
+}) {
   const history = useHistory();
   const handleShare = (e) => {
     alert("공유하기 버튼");
@@ -20,7 +33,14 @@ export default function HeaderSub({ title, PathName, type, icon, location, noBac
         </h1>
       )}
 
-      {!noBack && (
+      {redirectBack && (
+        <Link to={location} className="btn back">
+          <i className="ico back">
+            <span className="blind">뒤로</span>
+          </i>
+        </Link>
+      )}
+      {!noBack && !redirectBack && (
         <button type="button" className="btn back" onClick={() => history.goBack()}>
           <i className="ico back">
             <span className="blind">뒤로</span>

@@ -19,6 +19,7 @@
     "swiper": "^6.8.1",
     "web-vitals": "^1.0.1"
   },
+
   "scripts": {
     "start": "set HTTPS=true&&react-scripts start",
     "build": "react-scripts build",
@@ -42,5 +43,6 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "proxy":"https://dev-app.dalkomm.com"
 }

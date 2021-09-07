@@ -1,12 +1,33 @@
-import React, { useEffect } from "react";
+/* eslint-disable no-unused-vars */
+/* eslint-disable jsx-a11y/anchor-is-valid */
+// eslint-disable-next-line no-unused-vars
+import axios from "axios";
+import React, { useEffect, useState, useContext } from "react";
 
 import HeaderSub from "Components/Header/HeaderSub";
 import GoContents from "Components/GoContents";
 import { contGap } from "Jquery/Jquery";
+
+import { authContext } from "ContextApi/Context";
+
 export default function MyOrderRecipt() {
+  const [state] = useContext(authContext);
+  const [axioData, setData] = useState({});
   useEffect(() => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     contGap();
+    const header_config = {
+      headers: {
+        token_optional: state?.accessToken,
+        "X-dalkomm-access-token": state?.auth,
+      },
+    };
+    axios.get(`/app/api/v2/smartorder/orderinfo`, header_config).then((res) => {
+      console.log(res);
+      setData(res.data.data);
+    });
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

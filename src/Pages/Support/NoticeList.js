@@ -1,14 +1,31 @@
-import React, { useEffect } from "react";
+/* eslint-disable no-unused-vars */
+/* eslint-disable jsx-a11y/anchor-is-valid */
+// eslint-disable-next-line no-unused-vars
+import axios from "axios";
+import React, { useEffect, useState, useContext } from "react";
 import { Link } from "react-router-dom";
 
 import HeaderSub from "Components/Header/HeaderSub";
 import GoContents from "Components/GoContents";
 import { contGap } from "Jquery/Jquery";
 
+import { authContext } from "ContextApi/Context";
+
 export default function NoticeList() {
+  const [state] = useContext(authContext);
+  const [axioData, setData] = useState({});
   useEffect(() => {
     // 말풍선 스크롤시 hide/show
     contGap();
+    const header_config = {
+      headers: {
+        Authorization: state?.auth,
+      },
+    };
+    axios.get(`/app/api/notice/list`, header_config).then((res) => {
+      setData(res.data.data);
+    });
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
@@ -17,115 +34,23 @@ export default function NoticeList() {
 
       <div id="wrap" className="wrap">
         <div id="container" className="container">
-          <HeaderSub title="공지 사항" />
+          <HeaderSub title="공지 사항" redirectBack={true} location="/menu" />
 
           <div id="content" className="notice list">
             <section className="section">
               <ul className="data-list">
-                <li>
-                  <div className="item notice">
-                    <span className="info en">2021-07-10</span>
-                    <Link to="/support/notice/detail/1" className="title-area">
-                      <h3 className="ellipsis line2">달콤 & 비트 VIP등급 혜택 변경</h3>
-                    </Link>
-                  </div>
-                </li>
-                <li>
-                  <div className="item notice">
-                    <span className="info en">2021-07-10</span>
-                    <Link to="/support/notice/detail/1" className="title-area">
-                      <h3 className="ellipsis line2">달콤 매장 스탬프 쿠폰 통합 진행</h3>
-                    </Link>
-                  </div>
-                </li>
-                <li>
-                  <div className="item notice">
-                    <span className="info en">2021-07-10</span>
-                    <Link to="/support/notice/detail/1" className="title-area">
-                      <h3 className="ellipsis line2">
-                        [더보이즈 트레저카드를 완성하라!] 이벤트 당첨자 발표[더보이즈 트레저카드를 완성하라!] 이벤트 당첨자 발표
-                      </h3>
-                    </Link>
-                  </div>
-                </li>
-                <li>
-                  <div className="item notice">
-                    <span className="info en">2021-07-10</span>
-                    <Link to="/support/notice/detail/1" className="title-area">
-                      <h3 className="ellipsis line2">달콤 & 비트 VIP등급 혜택 변경</h3>
-                    </Link>
-                  </div>
-                </li>
-                <li>
-                  <div className="item notice">
-                    <span className="info en">2021-07-10</span>
-                    <Link to="/support/notice/detail/1" className="title-area">
-                      <h3 className="ellipsis line2">달콤 매장 스탬프 쿠폰 통합 진행</h3>
-                    </Link>
-                  </div>
-                </li>
-                <li>
-                  <div className="item notice">
-                    <span className="info en">2021-07-10</span>
-                    <Link to="/support/notice/detail/1" className="title-area">
-                      <h3 className="ellipsis line2">
-                        [더보이즈 트레저카드를 완성하라!] 이벤트 당첨자 발표[더보이즈 트레저카드를 완성하라!] 이벤트 당첨자 발표
-                      </h3>
-                    </Link>
-                  </div>
-                </li>
-                <li>
-                  <div className="item notice">
-                    <span className="info en">2021-07-10</span>
-                    <Link to="/support/notice/detail/1" className="title-area">
-                      <h3 className="ellipsis line2">달콤 & 비트 VIP등급 혜택 변경</h3>
-                    </Link>
-                  </div>
-                </li>
-                <li>
-                  <div className="item notice">
-                    <span className="info en">2021-07-10</span>
-                    <Link to="/support/notice/detail/1" className="title-area">
-                      <h3 className="ellipsis line2">달콤 매장 스탬프 쿠폰 통합 진행</h3>
-                    </Link>
-                  </div>
-                </li>
-                <li>
-                  <div className="item notice">
-                    <span className="info en">2021-07-10</span>
-                    <Link to="/support/notice/detail/1" className="title-area">
-                      <h3 className="ellipsis line2">
-                        [더보이즈 트레저카드를 완성하라!] 이벤트 당첨자 발표[더보이즈 트레저카드를 완성하라!] 이벤트 당첨자 발표
-                      </h3>
-                    </Link>
-                  </div>
-                </li>
-                <li>
-                  <div className="item notice">
-                    <span className="info en">2021-07-10</span>
-                    <Link to="/support/notice/detail/1" className="title-area">
-                      <h3 className="ellipsis line2">달콤 & 비트 VIP등급 혜택 변경</h3>
-                    </Link>
-                  </div>
-                </li>
-                <li>
-                  <div className="item notice">
-                    <span className="info en">2021-07-10</span>
-                    <Link to="/support/notice/detail/1" className="title-area">
-                      <h3 className="ellipsis line2">달콤 매장 스탬프 쿠폰 통합 진행</h3>
-                    </Link>
-                  </div>
-                </li>
-                <li>
-                  <div className="item notice">
-                    <span className="info en">2021-07-10</span>
-                    <Link to="/support/notice/detail/1" className="title-area">
-                      <h3 className="ellipsis line2">
-                        [더보이즈 트레저카드를 완성하라!] 이벤트 당첨자 발표[더보이즈 트레저카드를 완성하라!] 이벤트 당첨자 발표
-                      </h3>
-                    </Link>
-                  </div>
-                </li>
+                {axioData?.list?.map((e, i) => {
+                  return (
+                    <li key={i}>
+                      <div className="item notice">
+                        <span className="info en">{e.date}</span>
+                        <Link to={`/support/notice/detail/${e.notice_id}`} className="title-area">
+                          <h3 className="ellipsis line2">{e.title}</h3>
+                        </Link>
+                      </div>
+                    </li>
+                  );
+                })}
               </ul>
             </section>
           </div>

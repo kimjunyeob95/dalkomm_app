@@ -107,12 +107,17 @@ ReactDOM.render(
           <MyOption />
         </PrivateRoute>
 
-        <PrivateRoute exact path="/menu">
+        {/* <PrivateRoute exact path="/menu">
           <Menu />
-        </PrivateRoute>
+        </PrivateRoute> */}
+        <Route exact path="/menu" component={() => <Menu />} />
 
-        <Route exact path="/story/list" component={() => <StoryList />} />
-        <Route path="/story/detail/:id" component={() => <StoryDetail />} />
+        <PrivateRoute exact path="/story/list">
+          <StoryList />
+        </PrivateRoute>
+        <PrivateRoute exact path="/story/detail/:id">
+          <StoryDetail />
+        </PrivateRoute>
 
         <Route exact path="/support/notice/list" component={() => <NoticeList />} />
         <Route exact path="/support/notice/detail/:id" component={() => <NoticeDetail />} />
