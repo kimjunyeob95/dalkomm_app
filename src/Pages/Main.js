@@ -10,6 +10,8 @@ import Nav from "Components/Nav/Nav";
 import GoContents from "Components/GoContents";
 import { accordion, scrollDetail, popupOpen, contGap, moveScrollTop } from "Jquery/Jquery";
 
+import { SERVER_DALKOMM } from "Config/Server";
+
 import { Swiper, SwiperSlide } from "swiper/react";
 import SwiperCore, { Autoplay, Scrollbar } from "swiper/core";
 
@@ -39,7 +41,7 @@ function Main() {
     }
     return result;
   };
-
+  SwiperCore.use([Autoplay, Scrollbar]);
   useEffect(() => {
     // 말풍선 스크롤시 hide/show
     scrollDetail();
@@ -48,22 +50,17 @@ function Main() {
     const body = {};
     let header_config = {
       headers: {
-        "Content-Type": "application/json",
-        "X-dalkomm-app-type": "ios",
-        "X-dalkomm-app-version": "3.0.0",
-        "X-dalkomm-access-token": getCookieValue("accessToken"),
-        Authorization: "Basic ZGFsa29tbTpkYWxrb21tX2FwcDs1NmZmM2FkODI5YmIyMmE3YjZiYThhN2I2NjZkNDE4NmVjYzVlODM2OzIwMjEwOTA3MTM0MjA3",
+        "X-dalkomm-access-token": state?.accessToken,
+        Authorization: state?.auth,
       },
     };
-    // alert(header_config.headers.Authorization);
-
     if (getCookieValue("accessToken") !== "") {
       //로그인 시
       axios
         .all([
-          axios.post(`/app/api/main`, body, header_config),
-          axios.post(`/app/api/main/user`, body, header_config),
-          axios.post(`/app/api/v2/my_account/profile`, body, header_config),
+          axios.post(`${SERVER_DALKOMM}/app/api/main`, body, header_config),
+          axios.post(`${SERVER_DALKOMM}/app/api/main/user`, body, header_config),
+          axios.post(`${SERVER_DALKOMM}/app/api/v2/my_account/profile`, body, header_config),
         ])
         .then(
           axios.spread((res1, res2, res3) => {
@@ -87,9 +84,8 @@ function Main() {
       //   SwiperCore.use([Autoplay, Scrollbar]);
       // });
       // alert(header_config.headers.Authorization);
-      axios.all([axios.post(`/app/api/main`, body, header_config)]).then(
+      axios.all([axios.post(`${SERVER_DALKOMM}/app/api/main`, body, header_config)]).then(
         axios.spread((res1, res2, res3) => {
-          alert(res1.data.data.app_version);
           let res1_data = res1.data.data;
           let res2_data = {};
           let res3_data = {};

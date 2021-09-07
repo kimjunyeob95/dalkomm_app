@@ -1,1 +1,1 @@
-export const SERVER = `https://dev-app.dalkomm.com/app`;
+export const SERVER_DALKOMM = `https://dev-app.dalkomm.com`;

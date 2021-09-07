@@ -4,6 +4,7 @@
 import axios from "axios";
 import React, { useEffect, useState, useContext } from "react";
 import { Link } from "react-router-dom";
+import { SERVER_DALKOMM } from "Config/Server";
 
 import HeaderSub from "Components/Header/HeaderSub";
 import GoContents from "Components/GoContents";
@@ -22,12 +23,12 @@ export default function NoticeList() {
         Authorization: state?.auth,
       },
     };
-    axios.get(`/app/api/notice/list`, header_config).then((res) => {
+    axios.get(`${SERVER_DALKOMM}/app/api/notice/list`, header_config).then((res) => {
       setData(res.data.data);
     });
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [state.auth]);
   return (
     <React.Fragment>
       <GoContents />
