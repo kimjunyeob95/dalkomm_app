@@ -8,7 +8,13 @@ import { useLocation, Link } from "react-router-dom";
 import HeaderMain from "Components/Header/HeaderMain";
 import Nav from "Components/Nav/Nav";
 import GoContents from "Components/GoContents";
-import { accordion, scrollDetail, popupOpen, contGap, moveScrollTop } from "Jquery/Jquery";
+import {
+  accordion,
+  scrollDetail,
+  popupOpen,
+  contGap,
+  moveScrollTop,
+} from "Jquery/Jquery";
 
 import { SERVER_DALKOMM } from "Config/Server";
 
@@ -19,48 +25,36 @@ import { authContext } from "ContextApi/Context";
 
 function Main() {
   const [state, dispatch] = useContext(authContext);
-  const [axioData, setData] = useState({});
+  const [axioData, setData] = useState(false);
   const { search } = useLocation();
   // eslint-disable-next-line no-unused-vars
   const searchParams = new URLSearchParams(search);
-
-  const getCookieValue = (key) => {
-    let cookieKey = key + "=";
-    let result = "";
-    const cookieArr = document.cookie.split(";");
-
-    for (let i = 0; i < cookieArr.length; i++) {
-      if (cookieArr[i][0] === " ") {
-        cookieArr[i] = cookieArr[i].substring(1);
-      }
-
-      if (cookieArr[i].indexOf(cookieKey) === 0) {
-        result = cookieArr[i].slice(cookieKey.length, cookieArr[i].length);
-        return result;
-      }
-    }
-    return result;
-  };
-  SwiperCore.use([Autoplay, Scrollbar]);
   useEffect(() => {
     // 말풍선 스크롤시 hide/show
-    scrollDetail();
-    contGap();
     // eslint-disable-next-line react-hooks/exhaustive-deps
     const body = {};
     let header_config = {
       headers: {
-        "X-dalkomm-access-token": state?.accessToken,
-        Authorization: state?.auth,
+        "X-dalkomm-access-token": state.accessToken,
+        Authorization: state.auth,
       },
     };
-    if (getCookieValue("accessToken") !== "") {
+
+    if (state.accessToken !== "") {
       //로그인 시
       axios
         .all([
           axios.post(`${SERVER_DALKOMM}/app/api/main`, body, header_config),
-          axios.post(`${SERVER_DALKOMM}/app/api/main/user`, body, header_config),
-          axios.post(`${SERVER_DALKOMM}/app/api/v2/my_account/profile`, body, header_config),
+          axios.post(
+            `${SERVER_DALKOMM}/app/api/main/user`,
+            body,
+            header_config
+          ),
+          axios.post(
+            `${SERVER_DALKOMM}/app/api/v2/my_account/profile`,
+            body,
+            header_config
+          ),
         ])
         .then(
           axios.spread((res1, res2, res3) => {
@@ -79,37 +73,40 @@ function Main() {
         );
     } else {
       //비로그인 시
-      // axios.post(`/app/api/main`, body, header_config).then((res) => {
-      //   setData({ res1_data: res.data.data });
-      //   SwiperCore.use([Autoplay, Scrollbar]);
-      // });
-      // alert(header_config.headers.Authorization);
-      axios.all([axios.post(`${SERVER_DALKOMM}/app/api/main`, body, header_config)]).then(
-        axios.spread((res1, res2, res3) => {
-          let res1_data = res1.data.data;
-          let res2_data = {};
-          let res3_data = {};
-          setData((origin) => {
-            return {
-              ...origin,
-              res1_data,
-              res2_data,
-              res3_data,
-            };
-          });
-        })
-      );
+      if (state.auth !== "") {
+        axios
+          .all([
+            axios.post(`${SERVER_DALKOMM}/app/api/main`, body, header_config),
+          ])
+          .then(
+            axios.spread((res1, res2, res3) => {
+              let res1_data = res1.data.data;
+              let res2_data = {};
+              let res3_data = {};
+              setData((origin) => {
+                return {
+                  ...origin,
+                  res1_data,
+                  res2_data,
+                  res3_data,
+                };
+              });
+            })
+          );
+      }
     }
-
-    // axios.post(`/api/main`, body, header_config).then((res) => {
-    //   console.log(res);
-    //   setData(res.data);
-    // });
   }, [state.auth]);
+
+  useEffect(() => {
+    SwiperCore.use([Autoplay, Scrollbar]);
+    scrollDetail();
+    contGap();
+  }, [axioData]);
   const { loginFlag, accessToken, app_version, os, isApp, auth } = state;
 
   if (axioData) {
     //axios 반환 시
+
     return (
       <React.Fragment>
         <GoContents />
@@ -128,7 +125,7 @@ function Main() {
                 slidesPerView={1}
                 scrollbar={{
                   el: "#mainVisual .swiper-scrollbar",
-                  hide: false,
+                  draggable: true,
                 }}
                 loop={false}
                 freeMode={false}
@@ -149,7 +146,9 @@ function Main() {
                             <div className="w-inner flex-end">
                               <p className="sub-copy en fc-orange">STORY</p>
                               <h2 className="main-copy">{e.title}</h2>
-                              <p className="text">꾸준히 인기있는 여름 음료 추천전</p>
+                              <p className="text">
+                                꾸준히 인기있는 여름 음료 추천전
+                              </p>
                             </div>
                           </div>
                         </div>
@@ -170,9 +169,17 @@ function Main() {
               {state?.loginFlag ? (
                 <div className="item my-info">
                   <p className="user">
-                    <span className="fc-orange">{axioData?.res2_data?.user?.user_name}</span> 고객님
+                    <span className="fc-orange">
+                      {axioData?.res2_data?.user?.user_name}
+                    </span>{" "}
+                    고객님
                   </p>
-                  <button type="button" className="btn barcode open-pop" pop-target="#zoomCardMembership" onClick={(e) => popupOpen(e.target)}>
+                  <button
+                    type="button"
+                    className="btn barcode open-pop"
+                    pop-target="#zoomCardMembership"
+                    onClick={(e) => popupOpen(e.target)}
+                  >
                     <i className="ico barcode" pop-target="#zoomCardMembership">
                       <span>바코드</span>
                     </i>
@@ -182,7 +189,8 @@ function Main() {
               ) : (
                 <div className="item my-info">
                   <p className="user">
-                    <span className="fc-orange">로그인</span> 하고 달콤한 혜택을 누려보세요.
+                    <span className="fc-orange">로그인</span> 하고 달콤한 혜택을
+                    누려보세요.
                   </p>
                   <Link to="#" className="btn barcode">
                     <i className="ico barcode">
@@ -202,7 +210,9 @@ function Main() {
                       </div>
                       <div className="data-wrap">
                         <p className="title">기프트 카드 잔액</p>
-                        <p className="state">{state?.loginFlag ? "32,000원" : "-"}</p>
+                        <p className="state">
+                          {state?.loginFlag ? "32,000원" : "-"}
+                        </p>
                       </div>
                     </Link>
                   </li>
@@ -249,7 +259,13 @@ function Main() {
                       </div>
                       <div className="data-wrap">
                         <p className="title">가까운 매장</p>
-                        <p className="state">{state?.loginFlag ? <React.Fragment>광주쌍령DT점</React.Fragment> : "-"}</p>
+                        <p className="state">
+                          {state?.loginFlag ? (
+                            <React.Fragment>광주쌍령DT점</React.Fragment>
+                          ) : (
+                            "-"
+                          )}
+                        </p>
                       </div>
                     </Link>
                   </li>
@@ -260,19 +276,29 @@ function Main() {
               {/* 나의 최근 주문 */}
               <section className="section">
                 <div className="title-wrap w-inner flex-both">
-                  <h3 className="section-title">{state?.loginFlag ? "나의 최근 주문" : "달콤 추천 메뉴"}</h3>
+                  <h3 className="section-title">
+                    {state?.loginFlag ? "나의 최근 주문" : "달콤 추천 메뉴"}
+                  </h3>
                   <Link to="/order/menu" className="btn text">
                     <span>전체 메뉴</span>
                     <i className="ico arr-r"></i>
                   </Link>
                 </div>
 
-                <Swiper id="recentlyOrder" className="swiper-container section-slider menu-slider" slidesPerView={"auto"} freeMode={false}>
+                <Swiper
+                  id="recentlyOrder"
+                  className="swiper-container section-slider menu-slider"
+                  slidesPerView={"auto"}
+                  freeMode={false}
+                >
                   <ul className="swiper-wrapper">
                     <SwiperSlide className="swiper-slide">
                       <div className="item menu">
                         <div className="img-wrap">
-                          <img src="/@resource/images/@temp/product_01.jpg" alt="아메리카노 ICE (R)" />
+                          <img
+                            src="/@resource/images/@temp/product_01.jpg"
+                            alt="아메리카노 ICE (R)"
+                          />
                         </div>
                         <div className="detail-wrap">
                           <p className="title">아메리카노 ICE (R)</p>
@@ -283,7 +309,10 @@ function Main() {
                     <SwiperSlide className="swiper-slide">
                       <div className="item menu">
                         <div className="img-wrap">
-                          <img src="/@resource/images/@temp/product_02.jpg" alt="카페라떼 HOT (R)" />
+                          <img
+                            src="/@resource/images/@temp/product_02.jpg"
+                            alt="카페라떼 HOT (R)"
+                          />
                         </div>
                         <div className="detail-wrap">
                           <p className="title">카페라떼 HOT (R)</p>
@@ -294,7 +323,10 @@ function Main() {
                     <SwiperSlide className="swiper-slide">
                       <div className="item menu">
                         <div className="img-wrap">
-                          <img src="/@resource/images/@temp/product_03.jpg" alt="카푸치노 HOT (R)" />
+                          <img
+                            src="/@resource/images/@temp/product_03.jpg"
+                            alt="카푸치노 HOT (R)"
+                          />
                         </div>
                         <div className="detail-wrap">
                           <p className="title">카푸치노 HOT (R)</p>
@@ -305,7 +337,10 @@ function Main() {
                     <SwiperSlide className="swiper-slide">
                       <div className="item menu">
                         <div className="img-wrap">
-                          <img src="/@resource/images/@temp/product_01.jpg" alt="아메리카노 ICE (R)" />
+                          <img
+                            src="/@resource/images/@temp/product_01.jpg"
+                            alt="아메리카노 ICE (R)"
+                          />
                         </div>
                         <div className="detail-wrap">
                           <p className="title">아메리카노 ICE (R)</p>
@@ -316,7 +351,10 @@ function Main() {
                     <SwiperSlide className="swiper-slide">
                       <div className="item menu">
                         <div className="img-wrap">
-                          <img src="/@resource/images/@temp/product_02.jpg" alt="카페라떼 HOT (R)" />
+                          <img
+                            src="/@resource/images/@temp/product_02.jpg"
+                            alt="카페라떼 HOT (R)"
+                          />
                         </div>
                         <div className="detail-wrap">
                           <p className="title">카페라떼 HOT (R)</p>
@@ -327,7 +365,10 @@ function Main() {
                     <SwiperSlide className="swiper-slide">
                       <div className="item menu">
                         <div className="img-wrap">
-                          <img src="/@resource/images/@temp/product_03.jpg" alt="카푸치노 HOT (R)" />
+                          <img
+                            src="/@resource/images/@temp/product_03.jpg"
+                            alt="카푸치노 HOT (R)"
+                          />
                         </div>
                         <div className="detail-wrap">
                           <p className="title">카푸치노 HOT (R)</p>
@@ -353,7 +394,10 @@ function Main() {
 
                     <ul className="coupon-list data-list accordion">
                       <li>
-                        <div className="item coupon js-accordion-switche" onClick={(e) => accordion(e.target, 0)}>
+                        <div
+                          className="item coupon js-accordion-switche"
+                          onClick={(e) => accordion(e.target, 0)}
+                        >
                           <div className="data-wrap">
                             <p className="day num fc-orange">D-3</p>
                             <p className="title">FREE 음료 쿠폰</p>
@@ -372,7 +416,10 @@ function Main() {
                                 <li>달콤커피 앱 내 테이블오더로만 이용가능</li>
                                 <li>제조음료만 가능 (베이커리 이용 불가)</li>
                                 <li>다른 혜택과 중복사용 불가</li>
-                                <li>세트, MD, 베이커리, 할인 & 프로모션 메뉴 할인 제외</li>
+                                <li>
+                                  세트, MD, 베이커리, 할인 & 프로모션 메뉴 할인
+                                  제외
+                                </li>
                                 <li>적립카드 스탬프 중복 적립 불가</li>
                               </ul>
                             </dd>
@@ -380,7 +427,10 @@ function Main() {
                         </div>
                       </li>
                       <li>
-                        <div className="item coupon js-accordion-switche" onClick={(e) => accordion(e.target, 0)}>
+                        <div
+                          className="item coupon js-accordion-switche"
+                          onClick={(e) => accordion(e.target, 0)}
+                        >
                           <div className="data-wrap">
                             <p className="day num fc-orange">~ 21.07.28</p>
                             <p className="title">FREE 음료 쿠폰</p>
@@ -399,7 +449,10 @@ function Main() {
                                 <li>달콤커피 앱 내 테이블오더로만 이용가능</li>
                                 <li>제조음료만 가능 (베이커리 이용 불가)</li>
                                 <li>다른 혜택과 중복사용 불가</li>
-                                <li>세트, MD, 베이커리, 할인 & 프로모션 메뉴 할인 제외</li>
+                                <li>
+                                  세트, MD, 베이커리, 할인 & 프로모션 메뉴 할인
+                                  제외
+                                </li>
                                 <li>적립카드 스탬프 중복 적립 불가</li>
                               </ul>
                             </dd>
@@ -407,7 +460,10 @@ function Main() {
                         </div>
                       </li>
                       <li>
-                        <div className="item coupon js-accordion-switche" onClick={(e) => accordion(e.target, 0)}>
+                        <div
+                          className="item coupon js-accordion-switche"
+                          onClick={(e) => accordion(e.target, 0)}
+                        >
                           <div className="data-wrap">
                             <p className="day num fc-orange">~ 21.08.16</p>
                             <p className="title">FREE 음료 쿠폰</p>
@@ -426,7 +482,10 @@ function Main() {
                                 <li>달콤커피 앱 내 테이블오더로만 이용가능</li>
                                 <li>제조음료만 가능 (베이커리 이용 불가)</li>
                                 <li>다른 혜택과 중복사용 불가</li>
-                                <li>세트, MD, 베이커리, 할인 & 프로모션 메뉴 할인 제외</li>
+                                <li>
+                                  세트, MD, 베이커리, 할인 & 프로모션 메뉴 할인
+                                  제외
+                                </li>
                                 <li>적립카드 스탬프 중복 적립 불가</li>
                               </ul>
                             </dd>
@@ -455,11 +514,16 @@ function Main() {
                       <span className="d-day num">D-30</span>
                     </div>
                     <div className="img-wrap">
-                      <img src="/@resource/images/@temp/thum_event_01.jpg" alt="{title}" />
+                      <img
+                        src="/@resource/images/@temp/thum_event_01.jpg"
+                        alt="{title}"
+                      />
                     </div>
                     <div className="data-wrap">
                       <p className="title">월요일은 페이코인 DAY!</p>
-                      <p className="text">페이코인 현장 결제 시, 아메리카노가 100원!</p>
+                      <p className="text">
+                        페이코인 현장 결제 시, 아메리카노가 100원!
+                      </p>
                       <p className="date">2021.06.14 </p>
                     </div>
                   </Link>
@@ -478,7 +542,12 @@ function Main() {
                     </Link>
                   </div>
 
-                  <Swiper id="searchStore" className="swiper-container section-slider store-slider" slidesPerView={"auto"} freeMode={false}>
+                  <Swiper
+                    id="searchStore"
+                    className="swiper-container section-slider store-slider"
+                    slidesPerView={"auto"}
+                    freeMode={false}
+                  >
                     <ul className="swiper-wrapper data-list">
                       <SwiperSlide className="swiper-slide">
                         <Link to="#" className="item store">
@@ -650,7 +719,9 @@ function Main() {
                   <div className="alert-info">
                     <i className="ico store-alert"></i>
                     <p className="text ta-c">
-                      앱 설정 &gt; 권한에서 <span className="fc-orange">위치 권한</span>을 허용해 주세요.
+                      앱 설정 &gt; 권한에서{" "}
+                      <span className="fc-orange">위치 권한</span>을 허용해
+                      주세요.
                       <br />
                       고객님과 가까운 매장을 추천해 드립니다.
                     </p>
@@ -668,12 +739,20 @@ function Main() {
                   </Link>
                 </div>
 
-                <Swiper id="searchStore2" className="swiper-container section-slider md-slider" slidesPerView={"auto"} freeMode={false}>
+                <Swiper
+                  id="searchStore2"
+                  className="swiper-container section-slider md-slider"
+                  slidesPerView={"auto"}
+                  freeMode={false}
+                >
                   <ul className="swiper-wrapper data-list">
                     <SwiperSlide className="swiper-slide">
                       <div className="item md">
                         <div className="img-wrap">
-                          <img src="/@resource/images/@temp/md_01.jpg" alt="달콤 피크닉백" />
+                          <img
+                            src="/@resource/images/@temp/md_01.jpg"
+                            alt="달콤 피크닉백"
+                          />
                         </div>
                         <div className="data-wrap">
                           <p className="title">달콤 피크닉백</p>
@@ -688,7 +767,10 @@ function Main() {
                     <SwiperSlide className="swiper-slide">
                       <div className="item md">
                         <div className="img-wrap">
-                          <img src="/@resource/images/@temp/md_02.jpg" alt="달콤 홈카페 세트" />
+                          <img
+                            src="/@resource/images/@temp/md_02.jpg"
+                            alt="달콤 홈카페 세트"
+                          />
                         </div>
                         <div className="data-wrap">
                           <p className="title">달콤 홈카페 세트</p>
@@ -703,7 +785,10 @@ function Main() {
                     <SwiperSlide className="swiper-slide">
                       <div className="item md">
                         <div className="img-wrap">
-                          <img src="/@resource/images/@temp/md_01.jpg" alt="달콤 피크닉백" />
+                          <img
+                            src="/@resource/images/@temp/md_01.jpg"
+                            alt="달콤 피크닉백"
+                          />
                         </div>
                         <div className="data-wrap">
                           <p className="title">달콤 피크닉백</p>
@@ -718,7 +803,10 @@ function Main() {
                     <SwiperSlide className="swiper-slide">
                       <div className="item md">
                         <div className="img-wrap">
-                          <img src="/@resource/images/@temp/md_02.jpg" alt="달콤 홈카페 세트" />
+                          <img
+                            src="/@resource/images/@temp/md_02.jpg"
+                            alt="달콤 홈카페 세트"
+                          />
                         </div>
                         <div className="data-wrap">
                           <p className="title">달콤 홈카페 세트</p>
@@ -734,7 +822,12 @@ function Main() {
               </section>
               {/* //달콤 MD */}
 
-              <button type="button" id="moveScrollTop" className="btn scroll-top" onClick={() => moveScrollTop()}>
+              <button
+                type="button"
+                id="moveScrollTop"
+                className="btn scroll-top"
+                onClick={() => moveScrollTop()}
+              >
                 <i className="ico arr-top"></i>
               </button>
             </div>
@@ -757,7 +850,9 @@ function Main() {
                 <div className="item card membership">
                   <div className="card-wrap">
                     <div>
-                      <p className="grade en">{axioData.res2_data.user.membership_name}</p>
+                      <p className="grade en">
+                        {axioData.res2_data.user.membership_name}
+                      </p>
                       <p className="sort en">
                         DAL.KOMM
                         <br />
@@ -769,7 +864,10 @@ function Main() {
                     <div>
                       <div className="barcode">
                         <div className="img-wrap">
-                          <img src="/@resource/images/com/barcode.svg" alt="바코드" />
+                          <img
+                            src="/@resource/images/com/barcode.svg"
+                            alt="바코드"
+                          />
                         </div>
                         <p className="num">1309675152301202</p>
                       </div>

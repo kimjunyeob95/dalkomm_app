@@ -14,12 +14,11 @@ export default function PrivateRoute({ children }) {
     }, 100);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [state]);
+  }, [state.loginFlag]);
 
   if (loading && state?.loginFlag) {
     return <Route render={({ location }) => children} />;
   } else if (loading && !state?.loginFlag) {
-    console.log("앱 로그인 호출");
     return (
       <Route
         render={({ location }) => (

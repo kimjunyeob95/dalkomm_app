@@ -12,13 +12,14 @@ import GoContents from "Components/GoContents";
 import { contGap } from "Jquery/Jquery";
 
 import { authContext } from "ContextApi/Context";
+import { SERVER_DALKOMM } from "Config/Server";
 
 export default function Menu() {
   const [state, dispatch] = useContext(authContext);
   const [axioData, setData] = useState();
   useEffect(() => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    contGap();
+
     const body = {};
     const header_config = {
       headers: {
@@ -26,22 +27,57 @@ export default function Menu() {
         Authorization: state?.auth,
       },
     };
-    axios
-      .all([axios.get(`/app/api/notice/is-new`, { headers: { Authorization: state?.auth } }), axios.post(`/app/api/main/user`, body, header_config)])
-      .then(
-        axios.spread((res1, res2) => {
-          let res1_data = res1.data.data;
-          let res2_data = res2.data.data;
-          setData((origin) => {
-            return {
-              ...origin,
-              res1_data,
-              res2_data,
-            };
-          });
-        })
-      );
-  }, []);
+    if (state?.loginFlag && state.accessToken) {
+      //로그인시
+      axios
+        .all([
+          axios.get(`${SERVER_DALKOMM}/app/api/notice/is-new`, {
+            headers: { Authorization: state?.auth },
+          }),
+          axios.post(
+            `${SERVER_DALKOMM}/app/api/main/user`,
+            body,
+            header_config
+          ),
+        ])
+        .then(
+          axios.spread((res1, res2) => {
+            let res1_data = res1.data.data;
+            let res2_data = res2.data.data;
+            setData((origin) => {
+              return {
+                ...origin,
+                res1_data,
+                res2_data,
+              };
+            });
+          })
+        );
+    } else if (!state.loginFlag && state.auth) {
+      //비로그인시
+      axios
+        .all([
+          axios.get(`${SERVER_DALKOMM}/app/api/notice/is-new`, {
+            headers: { Authorization: state?.auth },
+          }),
+        ])
+        .then(
+          axios.spread((res1, res2) => {
+            let res1_data = res1.data.data;
+
+            setData((origin) => {
+              return {
+                ...origin,
+                res1_data,
+              };
+            });
+          })
+        );
+    }
+  }, [state?.auth]);
+  useEffect(() => {
+    contGap();
+  }, [axioData]);
   if (axioData) {
     return (
       <React.Fragment>
@@ -52,36 +88,45 @@ export default function Menu() {
             <Nav order={5} />
 
             <div id="content" className="app-menu">
-              <div className="item my-info">
-                <div className="user-wrap flex-center">
-                  <p className="user">
-                    <span className="fc-orange">{axioData?.res2_data?.user?.user_name}</span> 고객님
-                  </p>
+              {state?.loginFlag && (
+                <div className="item my-info">
+                  <div className="user-wrap flex-center">
+                    <p className="user">
+                      <span className="fc-orange">
+                        {axioData?.res2_data?.user?.user_name}
+                      </span>{" "}
+                      고객님
+                    </p>
 
-                  <Link to="#" className="btn barcode">
-                    <i className="ico barcode">
-                      <span>바코드</span>
-                    </i>
-                  </Link>
+                    <Link to="#" className="btn barcode">
+                      <i className="ico barcode">
+                        <span>바코드</span>
+                      </i>
+                    </Link>
+                  </div>
+                  <div className="btn-area flex-center">
+                    <Link to="#" className="btn">
+                      <i className="ico giftcard">
+                        <span>바코드</span>
+                      </i>
+                    </Link>
+                    <Link to="#" className="btn">
+                      <i className="ico stamp">
+                        <span>바코드</span>
+                      </i>
+                    </Link>
+                  </div>
                 </div>
-                <div className="btn-area flex-center">
-                  <Link to="#" className="btn">
-                    <i className="ico giftcard">
-                      <span>바코드</span>
-                    </i>
-                  </Link>
-                  <Link to="#" className="btn">
-                    <i className="ico stamp">
-                      <span>바코드</span>
-                    </i>
-                  </Link>
-                </div>
-              </div>
+              )}
+
               <ul className="gnb-list">
                 <li>
                   <ul>
                     <li>
-                      <Link to="/mypage/orderRecipt" className="item depth-menu">
+                      <Link
+                        to="/mypage/orderRecipt"
+                        className="item depth-menu"
+                      >
                         <i className="ico menu-order"></i>
                         <span>주문내역</span>
                       </Link>
@@ -102,16 +147,22 @@ export default function Menu() {
                       <Link to="/story/list" className="item depth-menu">
                         <i className="ico menu-story"></i>
                         <span>달콤스토리</span>
-                        <i className="ico new">N</i> {/* [D] 활성화 콘텐츠 메뉴일시 노출*/}
+                        <i className="ico new">N</i>{" "}
+                        {/* [D] 활성화 콘텐츠 메뉴일시 노출*/}
                       </Link>
                     </li>
                     <li className="new">
                       {" "}
                       {/* [D] 활성화 콘텐츠 메뉴 .new */}
-                      <Link to="/support/notice/list" className="item depth-menu">
+                      <Link
+                        to="/support/notice/list"
+                        className="item depth-menu"
+                      >
                         <i className="ico menu-notice"></i>
                         <span>공지사항</span>
-                        {axioData?.is_new && <i className="ico new">N</i>}
+                        {state?.loginFlag && axioData?.is_new && (
+                          <i className="ico new">N</i>
+                        )}
                       </Link>
                     </li>
                     <li>
@@ -131,7 +182,11 @@ export default function Menu() {
                       </Link>
                     </li>
                     <li>
-                      <a href="http://www.dalkomm.com/" target="_blank" className="item depth-menu">
+                      <a
+                        href="http://www.dalkomm.com/"
+                        target="_blank"
+                        className="item depth-menu"
+                      >
                         <i className="ico menu-website"></i>
                         <span>달콤 웹사이트</span>
                       </a>

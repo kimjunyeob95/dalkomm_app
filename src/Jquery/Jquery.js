@@ -11,7 +11,10 @@ export function accordion(e, targetN) {
     container = $(e).parent().parent().parent();
   } else if ($(e).prop("tagName") === "DIV" && $(e).hasClass("flex-both")) {
     container = $(e).parent().parent();
-  } else if ($(e).prop("tagName") === "DIV" && $(e).hasClass("js-accordion-switche")) {
+  } else if (
+    $(e).prop("tagName") === "DIV" &&
+    $(e).hasClass("js-accordion-switche")
+  ) {
     container = $(e).parent();
   }
 
@@ -38,7 +41,10 @@ export function accordion(e, targetN) {
 
   function siblingsClose() {
     $(container).siblings().removeClass("active");
-    $(container).siblings().children(".js-accordion-content").removeClass("active");
+    $(container)
+      .siblings()
+      .children(".js-accordion-content")
+      .removeClass("active");
   }
 }
 
@@ -114,7 +120,10 @@ export function tabLink(e) {
   var tabTarget = $(e.target).data("href");
   $(e.target).parent("li").addClass("current");
   $(e.target).parent("li").siblings("li").removeClass("current");
-  $(tabTarget).addClass("active").siblings(".tab-content").removeClass("active");
+  $(tabTarget)
+    .addClass("active")
+    .siblings(".tab-content")
+    .removeClass("active");
 }
 
 export function contGap() {
@@ -122,7 +131,6 @@ export function contGap() {
     // eslint-disable-next-line no-unused-vars
     var h1 = $("nav#menu");
     var navHeight = $("nav#menu").outerHeight();
-
     // nav#menu 유무 페이지 구분 -container 패딩 값
     if ($("nav#menu").length === 0) {
       $("#container").css({ "padding-bottom": 0 });

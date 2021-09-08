@@ -23,9 +23,11 @@ export default function NoticeList() {
         Authorization: state?.auth,
       },
     };
-    axios.get(`${SERVER_DALKOMM}/app/api/notice/list`, header_config).then((res) => {
-      setData(res.data.data);
-    });
+    axios
+      .get(`${SERVER_DALKOMM}/app/api/notice/list`, header_config)
+      .then((res) => {
+        setData(res.data.data);
+      });
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state.auth]);
@@ -45,7 +47,10 @@ export default function NoticeList() {
                     <li key={i}>
                       <div className="item notice">
                         <span className="info en">{e.date}</span>
-                        <Link to={`/support/notice/detail/${e.notice_id}`} className="title-area">
+                        <Link
+                          to={`/support/notice/detail/${e.notice_id}`}
+                          className="title-area"
+                        >
                           <h3 className="ellipsis line2">{e.title}</h3>
                         </Link>
                       </div>

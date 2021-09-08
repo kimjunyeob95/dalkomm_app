@@ -59,10 +59,13 @@ export const indexReducer = (state, action) => {
       return {
         ...state,
         accessToken: "",
-        app_version: "",
-        os: "",
-        isApp: "",
         loginFlag: false,
+      };
+    }
+    case "changeAuth": {
+      return {
+        ...state,
+        auth: action.auth,
       };
     }
   }
@@ -79,7 +82,6 @@ const ContextStore = (props) => {
       indexInitialState.os = getCookieValue("os");
       indexInitialState.isApp = getCookieValue("isApp");
       indexInitialState.auth = getCookieValue("auth");
-      setLoding(true);
     } else {
       // indexInitialState.loginFlag = true;
       // indexInitialState.accessToken =
@@ -87,12 +89,17 @@ const ContextStore = (props) => {
       // indexInitialState.app_version = "3.0.0";
       // indexInitialState.os = "ios";
       // indexInitialState.isApp = "Y";
-      // indexInitialState.auth = "Basic ZGFsa29tbTpkYWxrb21tX2FwcDs1NmZmM2FkODI5YmIyMmE3YjZiYThhN2I2NjZkNDE4NmVjYzVlODM2OzIwMjEwOTA3MTM0MjA3";
+      // indexInitialState.auth =
+      //   "Basic ZGFsa29tbTpkYWxrb21tX2FwcDs1NmZmM2FkODI5YmIyMmE3YjZiYThhN2I2NjZkNDE4NmVjYzVlODM2OzIwMjEwOTA3MTM0MjA3";
       indexInitialState.auth = getCookieValue("auth");
-      setLoding(true);
     }
+    setLoding(true);
   }, []);
-  return <authContext.Provider value={useReducer(indexReducer, indexInitialState)}>{props.children}</authContext.Provider>;
+  return (
+    <authContext.Provider value={useReducer(indexReducer, indexInitialState)}>
+      {props.children}
+    </authContext.Provider>
+  );
 };
 
 export default ContextStore;

@@ -13,13 +13,18 @@ import { contGap, popupOpen } from "Jquery/Jquery";
 import Popup_logout from "./Popup_logout";
 
 import { authContext } from "ContextApi/Context";
+import { SERVER_DALKOMM } from "Config/Server";
 
 export default function MyPage() {
   const [state, dispatch] = useContext(authContext);
   const [axioData, setData] = useState();
+
+  const nativeCallbackLocation = (latitude, longitude) => {
+    alert("콜백실행" + latitude + longitude);
+  };
   useEffect(() => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    contGap();
+
     const body = {};
     const header_config = {
       headers: {
@@ -27,45 +32,80 @@ export default function MyPage() {
         Authorization: state?.auth,
       },
     };
-    axios.all([axios.post(`/app/api/main/user`, body, header_config), axios.post(`/app/api/v2/my_account/profile`, body, header_config)]).then(
-      axios.spread((res1, res2) => {
-        let res1_data = res1.data.data;
-        let res2_data = res2.data.data;
-        setData((origin) => {
-          return {
-            ...origin,
-            res1_data,
-            res2_data,
-          };
-        });
-      })
-    );
+
+    axios
+      .all([
+        axios.post(`${SERVER_DALKOMM}/app/api/main/user`, body, header_config),
+        axios.post(
+          `${SERVER_DALKOMM}/app/api/v2/my_account/profile`,
+          body,
+          header_config
+        ),
+      ])
+      .then(
+        axios.spread((res1, res2) => {
+          let res1_data = res1.data.data;
+          let res2_data = res2.data.data;
+          setData((origin) => {
+            return {
+              ...origin,
+              res1_data,
+              res2_data,
+            };
+          });
+        })
+      );
   }, []);
+
+  useEffect(() => {
+    contGap();
+  }, [axioData]);
   if (axioData) {
     return (
       <React.Fragment>
         <GoContents />
         <div id="wrap" className="wrap">
           <div id="container" className="container">
-            <HeaderSub type="flexCenter" icon="modify" title="마이 달콤" location="/mypage/modify" noBack={true} />
+            <HeaderSub
+              type="flexCenter"
+              icon="modify"
+              title="마이 달콤"
+              location="/mypage/modify"
+              noBack={true}
+            />
             <Nav order={4} />
             <div id="content" className="mypage main">
               <div className="user-info-wrap">
                 <div className="item my-info">
                   <p className="user">
-                    <strong>{axioData?.res1_data?.user?.user_name}</strong> 고객님
+                    <strong>{axioData?.res1_data?.user?.user_name}</strong>{" "}
+                    고객님
                   </p>
                   <div className="flex-center">
-                    <span className="en grade">{axioData?.res1_data?.user?.membership_name}</span>
-                    <button type="button" className="btn barcode  open-pop" pop-target="#zoomCardMembership" onClick={(e) => popupOpen(e.target)}>
-                      <i className="ico barcode-w" pop-target="#zoomCardMembership">
+                    <span className="en grade">
+                      {axioData?.res1_data?.user?.membership_name}
+                    </span>
+                    <button
+                      type="button"
+                      className="btn barcode  open-pop"
+                      pop-target="#zoomCardMembership"
+                      onClick={(e) => popupOpen(e.target)}
+                    >
+                      <i
+                        className="ico barcode-w"
+                        pop-target="#zoomCardMembership"
+                      >
                         <span>바코드</span>
                       </i>
                     </button>
                   </div>
                 </div>
                 <ul className="data-list">
-                  <li className="en">{axioData?.res2_data?.birthday.replace(/(.{4})/, "$1-").replace(/(.{7})/, "$1-")}</li>
+                  <li className="en">
+                    {axioData?.res2_data?.birthday
+                      .replace(/(.{4})/, "$1-")
+                      .replace(/(.{7})/, "$1-")}
+                  </li>
                   <li className="en">{axioData?.res2_data?.email}</li>
                 </ul>
               </div>
@@ -131,7 +171,11 @@ export default function MyPage() {
                   <Link to="#">즐겨 찾는 메뉴 관리</Link>
                 </li>
                 <li>
-                  <a className="open-pop" href="#popupExitJoin" onClick={(e) => popupOpen(e.target)}>
+                  <a
+                    className="open-pop"
+                    href="#popupExitJoin"
+                    onClick={(e) => popupOpen(e.target)}
+                  >
                     로그아웃
                   </a>
                 </li>
@@ -167,7 +211,10 @@ export default function MyPage() {
                   <div>
                     <div className="barcode">
                       <div className="img-wrap">
-                        <img src="../@resource/images/com/barcode.svg" alt="바코드" />
+                        <img
+                          src="../@resource/images/com/barcode.svg"
+                          alt="바코드"
+                        />
                       </div>
                       <p className="num">1309675152301202</p>
                     </div>

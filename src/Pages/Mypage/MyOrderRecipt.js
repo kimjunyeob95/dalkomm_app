@@ -4,6 +4,8 @@
 import axios from "axios";
 import React, { useEffect, useState, useContext } from "react";
 
+import { SERVER_DALKOMM } from "Config/Server";
+
 import HeaderSub from "Components/Header/HeaderSub";
 import GoContents from "Components/GoContents";
 import { contGap } from "Jquery/Jquery";
@@ -18,14 +20,16 @@ export default function MyOrderRecipt() {
     contGap();
     const header_config = {
       headers: {
-        token_optional: state?.accessToken,
-        "X-dalkomm-access-token": state?.auth,
+        "X-dalkomm-access-token": state?.accessToken,
+        Authorization: state?.auth,
       },
     };
-    axios.get(`/app/api/v2/smartorder/orderinfo`, header_config).then((res) => {
-      console.log(res);
-      setData(res.data.data);
-    });
+    // axios
+    //   .get(`${SERVER_DALKOMM}/app/api/v2/smartorder/orderinfo`, header_config)
+    //   .then((res) => {
+    //     console.log(res);
+    //     setData(res.data.data);
+    //   });
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -55,7 +59,10 @@ export default function MyOrderRecipt() {
 								.item.order.cancel  : 취소
 							*/}
                   <div className="img-wrap">
-                    <img src="/@resource/images/@temp/product_04.jpg" alt="딸기 스무디" />
+                    <img
+                      src="/@resource/images/@temp/product_04.jpg"
+                      alt="딸기 스무디"
+                    />
                   </div>
                   <div className="detail-wrap">
                     <div className="order-info">
@@ -76,7 +83,10 @@ export default function MyOrderRecipt() {
               <li>
                 <div className="item order complete">
                   <div className="img-wrap">
-                    <img src="/@resource/images/@temp/product_04.jpg" alt="딸기 스무디" />
+                    <img
+                      src="/@resource/images/@temp/product_04.jpg"
+                      alt="딸기 스무디"
+                    />
                   </div>
                   <div className="detail-wrap">
                     <div className="order-info">
@@ -97,7 +107,10 @@ export default function MyOrderRecipt() {
               <li>
                 <div className="item order cancel">
                   <div className="img-wrap">
-                    <img src="/@resource/images/@temp/product_04.jpg" alt="딸기 스무디" />
+                    <img
+                      src="/@resource/images/@temp/product_04.jpg"
+                      alt="딸기 스무디"
+                    />
                   </div>
                   <div className="detail-wrap">
                     <div className="order-info">

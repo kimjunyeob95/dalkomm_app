@@ -8,6 +8,7 @@ import GoContents from "Components/GoContents";
 import { contGap } from "Jquery/Jquery";
 
 import { authContext } from "ContextApi/Context";
+import { SERVER_DALKOMM } from "Config/Server";
 
 export default function NoticeDetail() {
   const [state] = useContext(authContext);
@@ -18,9 +19,14 @@ export default function NoticeDetail() {
     // 말풍선 스크롤시 hide/show
     contGap();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    axios.get(`/app/api/notice`, { params: { notice_id: id }, headers: { Authorization: state?.auth } }).then((res) => {
-      setData(res.data.data);
-    });
+    axios
+      .get(`${SERVER_DALKOMM}/app/api/notice`, {
+        params: { notice_id: id },
+        headers: { Authorization: state?.auth },
+      })
+      .then((res) => {
+        setData(res.data.data);
+      });
   }, []);
   return (
     <React.Fragment>
@@ -39,14 +45,19 @@ export default function NoticeDetail() {
                 </div>
               </div>
               <div className="item board">
-                <div dangerouslySetInnerHTML={{ __html: axioData?.content }}></div>
+                <div
+                  dangerouslySetInnerHTML={{ __html: axioData?.content }}
+                ></div>
               </div>
             </section>
 
             {/* 목록으로 버튼 영역 */}
             <div className="fixed-con active">
               <div className="btn-area">
-                <Link to="/support/notice/list" className="btn full x-large bdr">
+                <Link
+                  to="/support/notice/list"
+                  className="btn full x-large bdr"
+                >
                   <strong>목록으로</strong>
                 </Link>
               </div>
