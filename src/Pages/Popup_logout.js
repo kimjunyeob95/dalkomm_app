@@ -1,16 +1,33 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable no-unused-vars */
+/* eslint-disable jsx-a11y/anchor-is-valid */
+// eslint-disable-next-line no-unused-vars
 import React, { useContext } from "react";
 import $ from "jquery";
 import { useHistory } from "react-router-dom";
 
+import { checkMobile } from "Config/GlobalJs";
 import { authContext } from "ContextApi/Context";
 
 export default function Popup_logout() {
   const history = useHistory();
   const [, dispatch] = useContext(authContext);
   const handleClose = () => {
-    dispatch({ type: "logout" });
-    $("body").removeClass("modal-opened");
-    history.push("/");
+    try {
+      history.push("/");
+      $("body").removeClass("modal-opened");
+      dispatch({ type: "logout" });
+      if (checkMobile() === "android") {
+        window.android.fn_logout();
+      } else if (checkMobile() === "ios") {
+        window.webkit.messageHandlers.fn_logout.postMessage("");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+    // history.push("/");
+    // $("body").removeClass("modal-opened");
+    // dispatch({ type: "logout" });
   };
   return (
     <div id="popupExitJoin" className="overlay">

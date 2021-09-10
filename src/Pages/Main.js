@@ -8,6 +8,7 @@ import { useLocation, Link } from "react-router-dom";
 import HeaderMain from "Components/Header/HeaderMain";
 import Nav from "Components/Nav/Nav";
 import GoContents from "Components/GoContents";
+
 import {
   accordion,
   scrollDetail,
@@ -15,12 +16,10 @@ import {
   contGap,
   moveScrollTop,
 } from "Jquery/Jquery";
-
+import { checkMobile } from "Config/GlobalJs";
 import { SERVER_DALKOMM } from "Config/Server";
-
 import { Swiper, SwiperSlide } from "swiper/react";
 import SwiperCore, { Autoplay, Scrollbar } from "swiper/core";
-
 import { authContext } from "ContextApi/Context";
 
 function Main() {
@@ -33,6 +32,10 @@ function Main() {
     // 말풍선 스크롤시 hide/show
     // eslint-disable-next-line react-hooks/exhaustive-deps
     const body = {};
+    let location_body = {};
+    // if (state?.latitude !== "" && state?.longitude !== "") {
+    //   location_body = { latitude: state.latitude, longitude: state?.longitude };
+    // }
     let header_config = {
       headers: {
         "X-dalkomm-access-token": state.accessToken,
@@ -55,18 +58,25 @@ function Main() {
             body,
             header_config
           ),
+          axios.post(
+            `${SERVER_DALKOMM}/app/api/v2/store/around`,
+            location_body,
+            header_config
+          ),
         ])
         .then(
-          axios.spread((res1, res2, res3) => {
+          axios.spread((res1, res2, res3, res4) => {
             let res1_data = res1.data.data;
             let res2_data = res2.data.data;
             let res3_data = res3.data.data;
+            let res4_data = res4.data.data;
             setData((origin) => {
               return {
                 ...origin,
                 res1_data,
                 res2_data,
                 res3_data,
+                res4_data,
               };
             });
           })
@@ -77,11 +87,16 @@ function Main() {
         axios
           .all([
             axios.post(`${SERVER_DALKOMM}/app/api/main`, body, header_config),
+            axios.post(
+              `${SERVER_DALKOMM}/app/api/v2/store/around`,
+              location_body,
+              header_config
+            ),
           ])
           .then(
             axios.spread((res1, res2, res3) => {
               let res1_data = res1.data.data;
-              let res2_data = {};
+              let res2_data = res2.data.data;
               let res3_data = {};
               setData((origin) => {
                 return {
@@ -95,15 +110,26 @@ function Main() {
           );
       }
     }
-  }, [state.auth]);
+    // console.log(nativeCallbackLocation(1, 2));
+  }, [state?.auth]);
 
   useEffect(() => {
     SwiperCore.use([Autoplay, Scrollbar]);
     scrollDetail();
     contGap();
   }, [axioData]);
-  const { loginFlag, accessToken, app_version, os, isApp, auth } = state;
 
+  const handleLogin = (e) => {
+    try {
+      if (checkMobile() === "android") {
+        window.android.fn_login();
+      } else if (checkMobile() === "ios") {
+        window.webkit.messageHandler.fn_login.postMessage("");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
   if (axioData) {
     //axios 반환 시
 
@@ -187,7 +213,10 @@ function Main() {
                   <p className="speech-bubble">오늘은 신메뉴 어떠세요?</p>
                 </div>
               ) : (
-                <div className="item my-info">
+                <div
+                  className="item my-info"
+                  onClick={(e) => handleLogin(e.currentTarget)}
+                >
                   <p className="user">
                     <span className="fc-orange">로그인</span> 하고 달콤한 혜택을
                     누려보세요.
@@ -549,148 +578,79 @@ function Main() {
                     freeMode={false}
                   >
                     <ul className="swiper-wrapper data-list">
-                      <SwiperSlide className="swiper-slide">
-                        <Link to="#" className="item store">
-                          <div className="flex-both">
-                            <span className="btn bookmark">
-                              <i className="ico heart">
-                                <span>즐겨찾기</span>
-                              </i>
-                            </span>
-                            <span className="table-order possible"></span>{" "}
-                            {/* .table-order.possible : 테이블 오더 가능 매장 / .table-order.impossible : 테이블 오더 불가능 매장 */}
-                          </div>
-                          <div className="img-wrap">
-                            <i className="ico store-type house"></i>{" "}
-                            {/* 매장 타입별 .ico.store-type
-                                          .ico.store-type.house : 기본형 (단독건물매장)
-                                          .ico.store-type.building : 기본형 (건물내매장)
-                                          .ico.store-type.rest-area : 고속도로 휴게소점
-                                          .ico.store-type.terminal : 버스터미널점
-                                          .ico.store-type.head-office : 분당서현점(본점)
-                                          .ico.store-type.drive-thru : 광주쌍령DT점 (드라이브스루)
-                                          .ico.store-type.vivaldi-park : 비발디파크점
-                                          .ico.store-type.hospital :  병원내 지점
-                                          .ico.store-type.cinema : 영화관내 지점
-                                          .ico.store-type.theme-park : 놀이공원, 유원지, 테마파크 지점 (EX, 키자니아, 에버랜드, 유원지)
-                                      */}
-                          </div>
-                          <div className="data-wrap">
-                            <p className="place">광명역 자이스트릿점</p>
-                            <ul className="provide-list">
-                              <li>
-                                <i className="ico wifi">
-                                  <span>인터넷가능 매장</span>
-                                </i>
-                              </li>
-                              <li>
-                                <i className="ico parking">
-                                  <span>주차가능 매장</span>
-                                </i>
-                              </li>
-                              <li>
-                                <i className="ico smoking">
-                                  <span>흡연가능 매장</span>
-                                </i>
-                              </li>
-                              <li>
-                                <i className="ico kiosk">
-                                  <span>키오스크 매장</span>
-                                </i>
-                              </li>
-                              <li>
-                                <i className="ico drive">
-                                  <span>드라이브스루 매장</span>
-                                </i>
-                              </li>
-                            </ul>
-                            <p className="distance">680m</p>
-                          </div>
-                        </Link>
-                      </SwiperSlide>
-                      <SwiperSlide className="swiper-slide">
-                        <Link to="#" className="item store">
-                          <div className="flex-both">
-                            <span className="btn bookmark">
-                              <i className="ico heart">
-                                <span>즐겨찾기</span>
-                              </i>
-                            </span>
-                            <span className="table-order impossible"></span>
-                          </div>
-                          <div className="img-wrap">
-                            <i className="ico store-type hospital"></i>
-                          </div>
-                          <div className="data-wrap">
-                            <p className="place">경희의료원 본관점</p>
-                            <ul className="provide-list">
-                              <li>
-                                <i className="ico wifi">
-                                  <span>인터넷가능 매장</span>
-                                </i>
-                              </li>
-                              <li>
-                                <i className="ico parking">
-                                  <span>주차가능 매장</span>
-                                </i>
-                              </li>
-                              <li>
-                                <i className="ico smoking">
-                                  <span>흡연가능 매장</span>
-                                </i>
-                              </li>
-                              <li>
-                                <i className="ico kiosk">
-                                  <span>키오스크 매장</span>
-                                </i>
-                              </li>
-                              <li>
-                                <i className="ico drive">
-                                  <span>드라이브스루 매장</span>
-                                </i>
-                              </li>
-                            </ul>
-                            <p className="distance">1.2km</p>
-                          </div>
-                        </Link>
-                      </SwiperSlide>
-
-                      <SwiperSlide className="swiper-slide">
-                        <Link to="#" className="item store">
-                          <div className="flex-both">
-                            <span className="btn bookmark">
-                              <i className="ico heart">
-                                <span>즐겨찾기</span>
-                              </i>
-                            </span>
-                            <span className="table-order possible"></span>
-                          </div>
-                          <div className="img-wrap">
-                            <i className="ico store-type building"></i>
-                          </div>
-                          <div className="data-wrap">
-                            <p className="place">하남 하나로마트점</p>
-                            <ul className="provide-list">
-                              <li>
-                                <i className="ico wifi">
-                                  <span>인터넷가능 매장</span>
-                                </i>
-                              </li>
-                              <li>
-                                <i className="ico parking">
-                                  <span>주차가능 매장</span>
-                                </i>
-                              </li>
-                              <li>
-                                <i className="ico smoking">
-                                  <span>흡연가능 매장</span>
-                                </i>
-                              </li>
-                            </ul>
-                            <p className="distance">3km</p>
-                          </div>
-                        </Link>
-                      </SwiperSlide>
+                      {axioData.res4_data.store_list.map((e, i) => {
+                        return (
+                          <SwiperSlide className="swiper-slide" key={i}>
+                            <Link to="#" className="item store">
+                              <div className="flex-both">
+                                <span
+                                  className={`btn bookmark ${
+                                    e.store_is_favorite && "active"
+                                  }`}
+                                >
+                                  <i className="ico heart">
+                                    <span>즐겨찾기</span>
+                                  </i>
+                                </span>
+                                <span
+                                  className={`table-order ${
+                                    e.store_is_smartorder === true
+                                      ? "possible"
+                                      : "impossible"
+                                  }`}
+                                ></span>{" "}
+                                {/* .table-order.possible : 테이블 오더 가능 매장 / .table-order.impossible : 테이블 오더 불가능 매장 */}
+                              </div>
+                              <div className="img-wrap">
+                                <i className="ico store-type house"></i>{" "}
+                                {/* 매장 타입별 .ico.store-type
+                                            .ico.store-type.house : 기본형 (단독건물매장)
+                                            .ico.store-type.building : 기본형 (건물내매장)
+                                            .ico.store-type.rest-area : 고속도로 휴게소점
+                                            .ico.store-type.terminal : 버스터미널점
+                                            .ico.store-type.head-office : 분당서현점(본점)
+                                            .ico.store-type.drive-thru : 광주쌍령DT점 (드라이브스루)
+                                            .ico.store-type.vivaldi-park : 비발디파크점
+                                            .ico.store-type.hospital :  병원내 지점
+                                            .ico.store-type.cinema : 영화관내 지점
+                                            .ico.store-type.theme-park : 놀이공원, 유원지, 테마파크 지점 (EX, 키자니아, 에버랜드, 유원지)
+                                        */}
+                              </div>
+                              <div className="data-wrap">
+                                <p className="place">{e.store_name}</p>
+                                <ul className="provide-list">
+                                  <li>
+                                    <i className="ico wifi">
+                                      <span>인터넷가능 매장</span>
+                                    </i>
+                                  </li>
+                                  <li>
+                                    <i className="ico parking">
+                                      <span>주차가능 매장</span>
+                                    </i>
+                                  </li>
+                                  <li>
+                                    <i className="ico smoking">
+                                      <span>흡연가능 매장</span>
+                                    </i>
+                                  </li>
+                                  <li>
+                                    <i className="ico kiosk">
+                                      <span>키오스크 매장</span>
+                                    </i>
+                                  </li>
+                                  <li>
+                                    <i className="ico drive">
+                                      <span>드라이브스루 매장</span>
+                                    </i>
+                                  </li>
+                                </ul>
+                                <p className="distance">680m</p>
+                              </div>
+                            </Link>
+                          </SwiperSlide>
+                        );
+                      })}
                     </ul>
                   </Swiper>
 

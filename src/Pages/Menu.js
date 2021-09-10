@@ -13,6 +13,7 @@ import { contGap } from "Jquery/Jquery";
 
 import { authContext } from "ContextApi/Context";
 import { SERVER_DALKOMM } from "Config/Server";
+import { checkMobile } from "Config/GlobalJs";
 
 export default function Menu() {
   const [state, dispatch] = useContext(authContext);
@@ -74,7 +75,21 @@ export default function Menu() {
           })
         );
     }
-  }, [state?.auth]);
+  }, [state?.latitude]);
+
+  const handleOutLink = () => {
+    let linkData = { data: "http://www.dalkomm.com/" };
+    linkData = JSON.stringify(linkData);
+    try {
+      if (checkMobile() === "android") {
+        window.android.fn_callUrl(linkData);
+      } else if (checkMobile() === "ios") {
+        window.webkit.messageHandlers.fn_callUrl.postMessage(linkData);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
   useEffect(() => {
     contGap();
   }, [axioData]);
@@ -183,9 +198,8 @@ export default function Menu() {
                     </li>
                     <li>
                       <a
-                        href="http://www.dalkomm.com/"
-                        target="_blank"
-                        className="item depth-menu"
+                        onClick={() => handleOutLink()}
+                        className="item depth-menu outLink"
                       >
                         <i className="ico menu-website"></i>
                         <span>달콤 웹사이트</span>

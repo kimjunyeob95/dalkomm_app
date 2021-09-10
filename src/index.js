@@ -68,7 +68,11 @@ ReactDOM.render(
 
         <Route exact path="/order" component={() => <Order />} />
         <Route exact path="/order/menu" component={() => <OrderMenu />} />
-        <Route exact path="/order/menu/search" component={() => <OrderSearch />} />
+        <Route
+          exact
+          path="/order/menu/search"
+          component={() => <OrderSearch />}
+        />
         <PrivateRoute path="/order/detail/:id">
           <OrderDetail />
         </PrivateRoute>
@@ -119,8 +123,16 @@ ReactDOM.render(
           <StoryDetail />
         </PrivateRoute>
 
-        <Route exact path="/support/notice/list" component={() => <NoticeList />} />
-        <Route exact path="/support/notice/detail/:id" component={() => <NoticeDetail />} />
+        <Route
+          exact
+          path="/support/notice/list"
+          component={() => <NoticeList />}
+        />
+        <Route
+          exact
+          path="/support/notice/detail/:id"
+          component={() => <NoticeDetail />}
+        />
         <Route exact path="/support/faq" component={() => <Faq />} />
 
         <Route exact path="/login" component={() => <Login />} />

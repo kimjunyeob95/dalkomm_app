@@ -19,9 +19,6 @@ export default function MyPage() {
   const [state, dispatch] = useContext(authContext);
   const [axioData, setData] = useState();
 
-  const nativeCallbackLocation = (latitude, longitude) => {
-    alert("콜백실행" + latitude + longitude);
-  };
   useEffect(() => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
 
