@@ -1,4 +1,5 @@
 import $ from "jquery";
+import { checkMobile } from "Config/GlobalJs";
 
 export function accordion(e, targetN) {
   var container;
@@ -64,12 +65,22 @@ export function popupOpen(e) {
     scroll = $(e).attr("modal-scroll");
 
   if (pTag === "A") {
-    var target = $(e).attr("href");
+    var target = $(e).data("href");
   } else if (pTag === "BUTTON" || pTag === "I") {
     // eslint-disable-next-line no-redeclare
     var target = $(e).attr("pop-target");
   }
   $(e).attr("temp-id", "" + target);
+  try {
+    let if_data = JSON.stringify({ data: "Y" });
+    if (checkMobile() === "android") {
+      window.android.fn_bright(if_data);
+    } else if (checkMobile() === "ios") {
+      window.webkit.messageHandlers.fn_bright.postMessage(if_data);
+    }
+  } catch (error) {
+    console.log(error);
+  }
   modalOpen(target);
 }
 

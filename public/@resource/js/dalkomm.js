@@ -1,3 +1,21 @@
+function checkMobile() {
+  var varUA = navigator.userAgent.toLowerCase(); //userAgent 값 얻기
+
+  if (varUA.indexOf("android") > -1) {
+    //안드로이드
+    return "android";
+  } else if (
+    varUA.indexOf("iphone") > -1 ||
+    varUA.indexOf("ipad") > -1 ||
+    varUA.indexOf("ipod") > -1
+  ) {
+    //IOS
+    return "ios";
+  } else {
+    //아이폰, 안드로이드 외
+    return "android";
+  }
+}
 $(function () {
   $(window).on("load resize", function () {
     contGap();
@@ -99,6 +117,16 @@ $(function () {
       if (!$(".zoom-card .item.card").has(e.target).length) {
         $(".zoom-card").removeClass("active");
         $("body").removeClass("modal-opened");
+        try {
+          let if_data = JSON.stringify({ data: "N" });
+          if (checkMobile() === "android") {
+            window.android.fn_bright(if_data);
+          } else if (checkMobile() === "ios") {
+            window.webkit.messageHandlers.fn_bright.postMessage(if_data);
+          }
+        } catch (error) {
+          console.log(error);
+        }
       }
     }
   });
@@ -204,7 +232,10 @@ function accordion(targetN) {
 
     function siblingsClose() {
       $(container).siblings().removeClass("active");
-      $(container).siblings().children(".js-accordion-content").removeClass("active");
+      $(container)
+        .siblings()
+        .children(".js-accordion-content")
+        .removeClass("active");
     }
   });
 }

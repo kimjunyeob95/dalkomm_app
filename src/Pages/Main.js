@@ -3,6 +3,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 // eslint-disable-next-line no-unused-vars
 import axios from "axios";
+import $ from "jquery";
 import React, { useEffect, useContext, useState } from "react";
 import { useLocation, Link } from "react-router-dom";
 import HeaderMain from "Components/Header/HeaderMain";
@@ -124,15 +125,19 @@ function Main() {
       if (checkMobile() === "android") {
         window.android.fn_login();
       } else if (checkMobile() === "ios") {
-        window.webkit.messageHandler.fn_login.postMessage("");
+        window.webkit.messageHandlers.fn_login.postMessage("");
       }
     } catch (error) {
       console.log(error);
     }
   };
-  if (axioData) {
-    //axios 반환 시
 
+  //axios 반환 시
+  if (axioData?.res1_data?.main_banner_list) {
+    $("body").removeClass("fade-out").addClass("fade-in");
+    setTimeout(() => {
+      $("body").removeClass("fade-in").addClass("fade-out");
+    }, 100);
     return (
       <React.Fragment>
         <GoContents />
@@ -166,12 +171,12 @@ function Main() {
                       <SwiperSlide className="swiper-slide" key={i}>
                         <div className="banner-wrap main-top-banner">
                           <div className="img-wrap">
-                            <img src={e.image_url} alt="여름 스테디셀러" />
+                            <img src={e?.image_url} alt="여름 스테디셀러" />
                           </div>
                           <div className="content-wrap">
                             <div className="w-inner flex-end">
                               <p className="sub-copy en fc-orange">STORY</p>
-                              <h2 className="main-copy">{e.title}</h2>
+                              <h2 className="main-copy">{e?.title}</h2>
                               <p className="text">
                                 꾸준히 인기있는 여름 음료 추천전
                               </p>
@@ -204,7 +209,7 @@ function Main() {
                     type="button"
                     className="btn barcode open-pop"
                     pop-target="#zoomCardMembership"
-                    onClick={(e) => popupOpen(e.target)}
+                    onClick={(e) => popupOpen(e.currentTarget)}
                   >
                     <i className="ico barcode" pop-target="#zoomCardMembership">
                       <span>바코드</span>
@@ -578,7 +583,7 @@ function Main() {
                     freeMode={false}
                   >
                     <ul className="swiper-wrapper data-list">
-                      {axioData.res4_data.store_list.map((e, i) => {
+                      {axioData?.res4_data?.store_list?.map((e, i) => {
                         return (
                           <SwiperSlide className="swiper-slide" key={i}>
                             <Link to="#" className="item store">
@@ -811,7 +816,7 @@ function Main() {
                   <div className="card-wrap">
                     <div>
                       <p className="grade en">
-                        {axioData.res2_data.user.membership_name}
+                        {axioData?.res2_data?.user?.membership_name}
                       </p>
                       <p className="sort en">
                         DAL.KOMM

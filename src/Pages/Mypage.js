@@ -4,6 +4,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 // eslint-disable-next-line no-unused-vars
 import axios from "axios";
+import $ from "jquery";
 import React, { useEffect, useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import HeaderSub from "Components/Header/HeaderSub";
@@ -29,7 +30,6 @@ export default function MyPage() {
         Authorization: state?.auth,
       },
     };
-
     axios
       .all([
         axios.post(`${SERVER_DALKOMM}/app/api/main/user`, body, header_config),
@@ -58,6 +58,10 @@ export default function MyPage() {
     contGap();
   }, [axioData]);
   if (axioData) {
+    $("body").removeClass("fade-out").addClass("fade-in");
+    setTimeout(() => {
+      $("body").removeClass("fade-in").addClass("fade-out");
+    }, 100);
     return (
       <React.Fragment>
         <GoContents />
@@ -170,7 +174,7 @@ export default function MyPage() {
                 <li>
                   <a
                     className="open-pop"
-                    href="#popupExitJoin"
+                    data-href="#popupExitJoin"
                     onClick={(e) => popupOpen(e.target)}
                   >
                     로그아웃

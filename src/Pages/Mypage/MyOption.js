@@ -107,7 +107,7 @@ export default function MyOption() {
               <li>
                 <a
                   className="open-pop"
-                  href="#popupExitJoin"
+                  data-href="#popupExitJoin"
                   onClick={(e) => popupOpen(e.target)}
                 >
                   로그아웃

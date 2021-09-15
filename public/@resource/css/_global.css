@@ -528,6 +528,10 @@ a.outLink::after {content: ''; display: block; position: absolute; top: 50%; rig
 	transition: opacity 500ms;
 	z-index:-1; padding: 0 5.333vw;
 }
+
+body.fade-in {opacity: 0; }
+body.fade-out {opacity: 1; transition: all 900ms ease-in-out;}
+
 body:not(.body-scroll) .overlay{
 	display: -ms-flexbox; display: -webkit-flex; display: flex;
 	-webkit-flex-direction: column; -ms-flex-direction: column; flex-direction: column;

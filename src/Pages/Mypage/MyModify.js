@@ -94,6 +94,10 @@ export default function MyModify() {
   };
 
   if (axioData) {
+    $("body").removeClass("fade-out").addClass("fade-in");
+    setTimeout(() => {
+      $("body").removeClass("fade-in").addClass("fade-out");
+    }, 100);
     return (
       <React.Fragment>
         <GoContents />

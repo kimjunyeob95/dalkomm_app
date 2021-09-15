@@ -3,6 +3,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 // eslint-disable-next-line no-unused-vars
 import React, { useEffect, useContext } from "react";
+import $ from "jquery";
 import { useLocation } from "react-router-dom";
 import { checkMobile } from "Config/GlobalJs";
 import { authContext } from "ContextApi/Context";
@@ -26,7 +27,11 @@ const ScrollToTop = () => {
       dispatch({ type: "changeLocation" });
     }
   }, [pathname]);
+  $("body").removeClass("fade-out").addClass("fade-in");
 
+  setTimeout(() => {
+    $("body").removeClass("fade-in").addClass("fade-out");
+  }, 100);
   return null;
 };
 
