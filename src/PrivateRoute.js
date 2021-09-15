@@ -21,8 +21,10 @@ export default function PrivateRoute({ children }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state.loginFlag]);
   if (loading && state?.loginFlag) {
+    //로그인시
     return <Route render={({ location }) => children} />;
   } else if (loading && !state?.loginFlag) {
+    //비로그인시
     try {
       if (checkMobile() === "android") {
         window.android.fn_login();
