@@ -10,7 +10,7 @@ import HeaderSub from "Components/Header/HeaderSub";
 import { Link, useHistory } from "react-router-dom";
 import GoContents from "Components/GoContents";
 import Popup_logout from "Pages/Popup_logout";
-import { contGap, popupOpen } from "Jquery/Jquery";
+import { contGap, popupOpen, fadeInOut } from "Jquery/Jquery";
 
 import { authContext } from "ContextApi/Context";
 import { SERVER_DALKOMM } from "Config/Server";
@@ -60,67 +60,70 @@ export default function MyOption() {
   useEffect(() => {
     contGap();
   }, [axioData]);
-  return (
-    <React.Fragment>
-      <GoContents />
+  if (axioData) {
+    fadeInOut();
+    return (
+      <React.Fragment>
+        <GoContents />
 
-      <div id="wrap" className="wrap">
-        <div id="container" className="container">
-          <HeaderSub title="앱 설정" />
+        <div id="wrap" className="wrap">
+          <div id="container" className="container">
+            <HeaderSub title="앱 설정" />
 
-          <div id="content" className="settings">
-            <ul className="setting-list">
-              <li>
-                <div className="flex-both">
-                  <span>마케팅 PUSH 수신 동의</span>
-                  <span className="onoff medium">
-                    <input
-                      type="checkbox"
-                      name="onoff"
-                      className="onoff-checkbox"
-                      id="onoffS"
-                      defaultChecked={
-                        axioData?.res3_data?.agree_receive_sms && true
-                      }
-                    />
-                    <label className="onoff-label" htmlFor="onoffS"></label>
-                  </span>
-                </div>
-                <p className="sub-info">
-                  마케팅 수신 동의를 하시면 달콤의 신상품 이벤트,
-                  <br />
-                  할인 혜택 등을 알림으로 만나보실 수 있습니다.
-                </p>
-              </li>
-              <li>
-                버전 정보<span>v{axioData?.res1_data?.app_version}</span>
-                <div className="btn-area">
-                  <button className="btn x-small normal full">
-                    최신 버전 업데이트
-                  </button>
-                  {/* <button className="btn x-small normal full" disabled>최신 버전입니다.</button> */}
-                </div>
-              </li>
-              <li>
-                <Link to="#">사업자 정보 확인</Link>
-              </li>
-              <li>
-                <a
-                  className="open-pop"
-                  data-href="#popupExitJoin"
-                  onClick={(e) => popupOpen(e.target)}
-                >
-                  로그아웃
-                </a>
-              </li>
-            </ul>
+            <div id="content" className="settings">
+              <ul className="setting-list">
+                <li>
+                  <div className="flex-both">
+                    <span>마케팅 PUSH 수신 동의</span>
+                    <span className="onoff medium">
+                      <input
+                        type="checkbox"
+                        name="onoff"
+                        className="onoff-checkbox"
+                        id="onoffS"
+                        defaultChecked={
+                          axioData?.res3_data?.agree_receive_sms && true
+                        }
+                      />
+                      <label className="onoff-label" htmlFor="onoffS"></label>
+                    </span>
+                  </div>
+                  <p className="sub-info">
+                    마케팅 수신 동의를 하시면 달콤의 신상품 이벤트,
+                    <br />
+                    할인 혜택 등을 알림으로 만나보실 수 있습니다.
+                  </p>
+                </li>
+                <li>
+                  버전 정보<span>v{axioData?.res1_data?.app_version}</span>
+                  <div className="btn-area">
+                    <button className="btn x-small normal full">
+                      최신 버전 업데이트
+                    </button>
+                    {/* <button className="btn x-small normal full" disabled>최신 버전입니다.</button> */}
+                  </div>
+                </li>
+                <li>
+                  <Link to="#">사업자 정보 확인</Link>
+                </li>
+                <li>
+                  <a
+                    className="open-pop"
+                    data-href="#popupExitJoin"
+                    onClick={(e) => popupOpen(e.target)}
+                  >
+                    로그아웃
+                  </a>
+                </li>
+              </ul>
+            </div>
+            {/* // #content */}
           </div>
-          {/* // #content */}
+          {/* // #container */}
         </div>
-        {/* // #container */}
-      </div>
-      <Popup_logout />
-      {/* // #wrap */}
-    </React.Fragment>
-  );
+        <Popup_logout />
+        {/* // #wrap */}
+      </React.Fragment>
+    );
+  } else return null;
 }

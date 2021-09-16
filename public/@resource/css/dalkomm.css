@@ -188,9 +188,9 @@
 #content.mypage.stamp .user-stamp-wrap .count-wrap {font-weight: 600; font-size: 5.6vw; color: #C6C6C6; letter-spacing: -0.112vw;}
 #content.mypage.stamp .user-stamp-wrap .count-wrap .count {color: #000;}
 #content.mypage.stamp .user-stamp-wrap .data-list {margin-top: 11.2vw;}
-#content.mypage.stamp .user-stamp-wrap .data-list li {margin-right: calc( ( 100% - 64vw ) / 4 );}
-#content.mypage.stamp .user-stamp-wrap .data-list li:nth-child(5n) {margin-right: 0;}
-#content.mypage.stamp .user-stamp-wrap .data-list li:nth-child(n+6) {margin-top: 6.4vw;}
+#content.mypage.stamp .user-stamp-wrap .data-list li {margin-right: calc( ( 100% - 57.6vw ) / 3 );}
+#content.mypage.stamp .user-stamp-wrap .data-list li:nth-child(4n) {margin-right: 0;}
+#content.mypage.stamp .user-stamp-wrap .data-list li:nth-child(n+5) {margin-top: 6.133vw;}
 #content.mypage.stamp .btn-area {margin-top: 8vw;}
 #content.mypage.stamp .item.attention {margin-top: 8vw; padding: 0; background-color: transparent; border-bottom: 0;}
 #content.mypage.stamp .item.attention .text {padding-left: 0;}

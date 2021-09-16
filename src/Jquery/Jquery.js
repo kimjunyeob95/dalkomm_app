@@ -1,6 +1,13 @@
 import $ from "jquery";
 import { checkMobile } from "Config/GlobalJs";
 
+export function fadeInOut() {
+  $("body").removeClass("fade-out").addClass("fade-in");
+  setTimeout(() => {
+    $("body").removeClass("fade-in").addClass("fade-out");
+  }, 100);
+}
+
 export function accordion(e, targetN) {
   var container;
 

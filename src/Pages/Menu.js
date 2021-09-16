@@ -9,7 +9,7 @@ import { Link } from "react-router-dom";
 
 import Nav from "Components/Nav/Nav";
 import GoContents from "Components/GoContents";
-import { contGap } from "Jquery/Jquery";
+import { contGap, fadeInOut, popupOpen } from "Jquery/Jquery";
 
 import { authContext } from "ContextApi/Context";
 import { SERVER_DALKOMM } from "Config/Server";
@@ -75,7 +75,7 @@ export default function Menu() {
           })
         );
     }
-  }, [state?.latitude]);
+  }, [state?.loginFlag]);
 
   const handleOutLink = () => {
     let linkData = { data: "http://www.dalkomm.com/" };
@@ -94,6 +94,7 @@ export default function Menu() {
     contGap();
   }, [axioData]);
   if (axioData) {
+    fadeInOut();
     return (
       <React.Fragment>
         <GoContents />
@@ -113,11 +114,19 @@ export default function Menu() {
                       고객님
                     </p>
 
-                    <Link to="#" className="btn barcode">
-                      <i className="ico barcode">
+                    <button
+                      type="button"
+                      className="btn barcode open-pop"
+                      pop-target="#zoomCardMembership"
+                      onClick={(e) => popupOpen(e.currentTarget)}
+                    >
+                      <i
+                        className="ico barcode"
+                        pop-target="#zoomCardMembership"
+                      >
                         <span>바코드</span>
                       </i>
-                    </Link>
+                    </button>
                   </div>
                   <div className="btn-area flex-center">
                     <Link to="#" className="btn">
@@ -242,6 +251,48 @@ export default function Menu() {
           {/* // #container */}
         </div>
         {/* // #wrap */}
+        {/* 멤버쉽 카드 확대 팝업 */}
+        {state?.loginFlag && (
+          <div id="zoomCardMembership" className="overlay zoom-card">
+            <div className="popup">
+              <div className="popup-header">
+                <h2 className="title">
+                  <span className="blind">카드 확대</span>
+                </h2>
+              </div>
+              <div className="popup-body">
+                <div className="item card membership">
+                  <div className="card-wrap">
+                    <div>
+                      <p className="grade en">
+                        {axioData?.res2_data?.user?.membership_name}
+                      </p>
+                      <p className="sort en">
+                        DAL.KOMM
+                        <br />
+                        MEMBERSHIP CARD
+                      </p>
+                    </div>
+                  </div>
+                  <div className="barcode-wrap">
+                    <div>
+                      <div className="barcode">
+                        <div className="img-wrap">
+                          <img
+                            src="/@resource/images/com/barcode.svg"
+                            alt="바코드"
+                          />
+                        </div>
+                        <p className="num">1309675152301202</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+        {/* // 멤버쉽 카드 확대 팝업 */}
       </React.Fragment>
     );
   } else return <React.Fragment></React.Fragment>;

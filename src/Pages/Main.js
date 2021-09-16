@@ -16,6 +16,7 @@ import {
   popupOpen,
   contGap,
   moveScrollTop,
+  fadeInOut,
 } from "Jquery/Jquery";
 import { checkMobile } from "Config/GlobalJs";
 import { SERVER_DALKOMM } from "Config/Server";
@@ -134,10 +135,7 @@ function Main() {
 
   //axios 반환 시
   if (axioData?.res1_data?.main_banner_list) {
-    $("body").removeClass("fade-out").addClass("fade-in");
-    setTimeout(() => {
-      $("body").removeClass("fade-in").addClass("fade-out");
-    }, 100);
+    fadeInOut();
     return (
       <React.Fragment>
         <GoContents />
@@ -262,7 +260,7 @@ function Main() {
                         <p className="state">
                           {state?.loginFlag ? (
                             <React.Fragment>
-                              8 <em>/ 10</em>
+                              8 <em>/ 12</em>
                             </React.Fragment>
                           ) : (
                             "-"

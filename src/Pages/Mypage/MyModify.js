@@ -15,7 +15,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import HeaderSub from "Components/Header/HeaderSub";
 import GoContents from "Components/GoContents";
 
-import { contGap } from "Jquery/Jquery";
+import { contGap, fadeInOut } from "Jquery/Jquery";
 import { SERVER_DALKOMM } from "Config/Server";
 
 import { authContext } from "ContextApi/Context";
@@ -94,10 +94,7 @@ export default function MyModify() {
   };
 
   if (axioData) {
-    $("body").removeClass("fade-out").addClass("fade-in");
-    setTimeout(() => {
-      $("body").removeClass("fade-in").addClass("fade-out");
-    }, 100);
+    fadeInOut();
     return (
       <React.Fragment>
         <GoContents />

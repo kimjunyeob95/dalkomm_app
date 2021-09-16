@@ -117,7 +117,6 @@ $(function () {
       if (!$(".zoom-card .item.card").has(e.target).length) {
         $(".zoom-card").removeClass("active");
         $("body").removeClass("modal-opened");
-        console.log("실행");
         try {
           let if_data = JSON.stringify({ data: "N" });
           if (checkMobile() === "android") {

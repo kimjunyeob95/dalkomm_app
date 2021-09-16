@@ -149,8 +149,6 @@ a, a:link, a:visited, a:active, a:hover{text-decoration:none;color:inherit; -web
 
 a[target=_blank]::after {content: ''; display: block; position: absolute; top: 50%; right: 0; width: 6.4vw; height: 6.4vw; background: url('../images/com/icon_external.svg') no-repeat 0 0; background-size: cover; -webkit-transform: translateY(-50%); -ms-transform: translateY(-50%); -o-transform: translateY(-50%); transform: translateY(-50%); vertical-align: middle;}
 
-a.outLink::after {content: ''; display: block; position: absolute; top: 50%; right: 0; width: 6.4vw; height: 6.4vw; background: url('../images/com/icon_external.svg') no-repeat 0 0; background-size: cover; -webkit-transform: translateY(-50%); -ms-transform: translateY(-50%); -o-transform: translateY(-50%); transform: translateY(-50%); vertical-align: middle;}
-
 /* flex */
 .flex-center,
 .flex-both,
@@ -472,8 +470,8 @@ a.outLink::after {content: ''; display: block; position: absolute; top: 50%; rig
 .item.stamp {display: -webkit-box;display: -ms-flexbox;display: flex;
 	-webkit-box-pack: center;-ms-flex-pack: center;justify-content: center;
 	-webkit-box-align: center;-ms-flex-align: center;align-items: center;
-	width: 12.8vw; height: 12.8vw; border: 1px solid #f6f6f6; border-radius: 50%; background-color: #fff; box-sizing: border-box;}
-.item.stamp .num {display: inline-block; font-weight: 500; font-size: 3.733vw; letter-spacing: 0.373vw; color: #7F7F7F;}
+	width: 14.4vw; height: 14.4vw; border: 1px solid #f6f6f6; border-radius: 50%; background-color: #fff; box-sizing: border-box; line-height: 1;}
+.item.stamp .num {display: inline-block; font-weight: 500; font-size: 4.267vw; letter-spacing: 0.427vw; color: #7F7F7F;}
 .item.stamp.save {background-color: #ff592e;}
 .item.stamp.save .num {color: #fff;}
 .item.stamp.finish .num {position: relative; letter-spacing: normal;}
@@ -528,10 +526,6 @@ a.outLink::after {content: ''; display: block; position: absolute; top: 50%; rig
 	transition: opacity 500ms;
 	z-index:-1; padding: 0 5.333vw;
 }
-
-body.fade-in {opacity: 0; }
-body.fade-out {opacity: 1; transition: all 900ms ease-in-out;}
-
 body:not(.body-scroll) .overlay{
 	display: -ms-flexbox; display: -webkit-flex; display: flex;
 	-webkit-flex-direction: column; -ms-flex-direction: column; flex-direction: column;

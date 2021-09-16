@@ -10,7 +10,7 @@ import { Link } from "react-router-dom";
 import HeaderSub from "Components/Header/HeaderSub";
 import Nav from "Components/Nav/Nav";
 import GoContents from "Components/GoContents";
-import { contGap, popupOpen } from "Jquery/Jquery";
+import { contGap, popupOpen, fadeInOut } from "Jquery/Jquery";
 import Popup_logout from "./Popup_logout";
 
 import { authContext } from "ContextApi/Context";
@@ -58,10 +58,7 @@ export default function MyPage() {
     contGap();
   }, [axioData]);
   if (axioData) {
-    $("body").removeClass("fade-out").addClass("fade-in");
-    setTimeout(() => {
-      $("body").removeClass("fade-in").addClass("fade-out");
-    }, 100);
+    fadeInOut();
     return (
       <React.Fragment>
         <GoContents />
@@ -123,7 +120,7 @@ export default function MyPage() {
                       <div className="data-wrap">
                         <p className="title">보유 스탬프 수</p>
                         <p className="state">
-                          8 <em>/ 10</em>
+                          8 <em>/ 12</em>
                         </p>
                       </div>
                     </Link>
