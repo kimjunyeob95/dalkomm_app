@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable jsx-a11y/iframe-has-title */
 import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
@@ -45,7 +46,7 @@ export default function Order() {
               >
                 <ul slot="container-start" className="swiper-wrapper has-scrollbar-swiper data-list">
                   <SwiperSlide className="swiper-slide">
-                    <Link to="#" data-href="#tableOrderAble" className="item store open-layer">
+                    <a data-href="#tableOrderAble" className="item store open-layer">
                       <div className="flex-both">
                         <span className="btn bookmark active">
                           {" "}
@@ -103,10 +104,10 @@ export default function Order() {
                         </ul>
                         <p className="distance">680m</p>
                       </div>
-                    </Link>
+                    </a>
                   </SwiperSlide>
                   <SwiperSlide className="swiper-slide">
-                    <Link to="#" data-href="#tableOrderUnAble" className="item store open-layer">
+                    <a data-href="#tableOrderUnAble" className="item store open-layer">
                       <div className="flex-both">
                         <span className="btn bookmark active">
                           <i className="ico heart">
@@ -139,11 +140,11 @@ export default function Order() {
                         </ul>
                         <p className="distance">1.2km</p>
                       </div>
-                    </Link>
+                    </a>
                   </SwiperSlide>
 
                   <SwiperSlide className="swiper-slide">
-                    <Link to="#" data-href="#tableOrderAble" className="item store open-layer">
+                    <a data-href="#tableOrderAble" className="item store open-layer">
                       <div className="flex-both">
                         <span className="btn bookmark active">
                           <i className="ico heart "></i>
@@ -174,11 +175,11 @@ export default function Order() {
                         </ul>
                         <p className="distance">3km</p>
                       </div>
-                    </Link>
+                    </a>
                   </SwiperSlide>
 
                   <SwiperSlide className="swiper-slide">
-                    <Link to="#" data-href="#tableOrderAble" className="item store open-layer">
+                    <a data-href="#tableOrderAble" className="item store open-layer">
                       <div className="flex-both">
                         <span className="btn bookmark active">
                           <i className="ico heart "></i>
@@ -209,7 +210,7 @@ export default function Order() {
                         </ul>
                         <p className="distance">3km</p>
                       </div>
-                    </Link>
+                    </a>
                   </SwiperSlide>
                 </ul>
 
@@ -230,7 +231,7 @@ export default function Order() {
 
                 <ul className="data-list col-2">
                   <li>
-                    <Link to="#" data-href="#tableOrderAble" className="item store open-layer">
+                    <a data-href="#tableOrderAble" className="item store open-layer">
                       <div className="flex-both">
                         <span className="btn bookmark">
                           <i className="ico heart">
@@ -282,10 +283,10 @@ export default function Order() {
                         </ul>
                         <p className="distance">680m</p>
                       </div>
-                    </Link>
+                    </a>
                   </li>
                   <li>
-                    <Link to="#" data-href="#tableOrderUnAble" className="item store open-layer">
+                    <a data-href="#tableOrderUnAble" className="item store open-layer">
                       <div className="flex-both">
                         <span className="btn bookmark">
                           <i className="ico heart">
@@ -328,10 +329,10 @@ export default function Order() {
                         </ul>
                         <p className="distance">680m</p>
                       </div>
-                    </Link>
+                    </a>
                   </li>
                   <li>
-                    <Link to="#" data-href="#tableOrderAble" className="item store open-layer">
+                    <a data-href="#tableOrderAble" className="item store open-layer">
                       <div className="flex-both">
                         <span className="btn bookmark">
                           <i className="ico heart">
@@ -374,10 +375,10 @@ export default function Order() {
                         </ul>
                         <p className="distance">680m</p>
                       </div>
-                    </Link>
+                    </a>
                   </li>
                   <li>
-                    <Link to="#" data-href="#tableOrderUnAble" className="item store open-layer">
+                    <a data-href="#tableOrderUnAble" className="item store open-layer">
                       <div className="flex-both">
                         <span className="btn bookmark">
                           <i className="ico heart">
@@ -420,7 +421,7 @@ export default function Order() {
                         </ul>
                         <p className="distance">680m</p>
                       </div>
-                    </Link>
+                    </a>
                   </li>
                 </ul>
               </div>
@@ -743,9 +744,9 @@ export default function Order() {
                   </div>
                   <div className="w-inner btn-area flex-both">
                     {/* [D] 테이블오더 불가 매장일 시 .btn disabled 활성화 */}
-                    <Link to="TO002.html" className="btn full medium dark" disabled>
+                    <button className="btn full medium dark" disabled>
                       테이블오더 불가 매장입니다.
-                    </Link>
+                    </button>
                     <button type="button" className="btn light-g medium bookmark" disabled>
                       <i className="ico heart">
                         <span>즐겨찾기</span>

@@ -33,11 +33,7 @@ export default function MyPage() {
     axios
       .all([
         axios.post(`${SERVER_DALKOMM}/app/api/main/user`, body, header_config),
-        axios.post(
-          `${SERVER_DALKOMM}/app/api/v2/my_account/profile`,
-          body,
-          header_config
-        ),
+        axios.post(`${SERVER_DALKOMM}/app/api/v2/my_account/profile`, body, header_config),
       ])
       .then(
         axios.spread((res1, res2) => {
@@ -64,46 +60,25 @@ export default function MyPage() {
         <GoContents />
         <div id="wrap" className="wrap">
           <div id="container" className="container">
-            <HeaderSub
-              type="flexCenter"
-              icon="modify"
-              title="마이 달콤"
-              location="/mypage/modify"
-              noBack={true}
-            />
+            <HeaderSub type="flexCenter" icon="modify" title="마이 달콤" location="/mypage/modify" noBack={true} />
             <Nav order={4} />
             <div id="content" className="mypage main">
               <div className="user-info-wrap">
                 <div className="item my-info">
                   <p className="user">
-                    <strong>{axioData?.res1_data?.user?.user_name}</strong>{" "}
-                    고객님
+                    <strong>{axioData?.res1_data?.user?.user_name}</strong> 고객님
                   </p>
                   <div className="flex-center">
-                    <span className="en grade">
-                      {axioData?.res1_data?.user?.membership_name}
-                    </span>
-                    <button
-                      type="button"
-                      className="btn barcode  open-pop"
-                      pop-target="#zoomCardMembership"
-                      onClick={(e) => popupOpen(e.target)}
-                    >
-                      <i
-                        className="ico barcode-w"
-                        pop-target="#zoomCardMembership"
-                      >
+                    <span className="en grade">{axioData?.res1_data?.user?.membership_name}</span>
+                    <button type="button" className="btn barcode  open-pop" pop-target="#zoomCardMembership" onClick={(e) => popupOpen(e.target)}>
+                      <i className="ico barcode-w" pop-target="#zoomCardMembership">
                         <span>바코드</span>
                       </i>
                     </button>
                   </div>
                 </div>
                 <ul className="data-list">
-                  <li className="en">
-                    {axioData?.res2_data?.birthday
-                      .replace(/(.{4})/, "$1-")
-                      .replace(/(.{7})/, "$1-")}
-                  </li>
+                  <li className="en">{axioData?.res2_data?.birthday.replace(/(.{4})/, "$1-").replace(/(.{7})/, "$1-")}</li>
                   <li className="en">{axioData?.res2_data?.email}</li>
                 </ul>
               </div>
@@ -120,7 +95,7 @@ export default function MyPage() {
                       <div className="data-wrap">
                         <p className="title">보유 스탬프 수</p>
                         <p className="state">
-                          8 <em>/ 12</em>
+                          {axioData?.res1_data?.user?.stamp_card?.complete_count} <em>/ 12</em>
                         </p>
                       </div>
                     </Link>
@@ -169,11 +144,7 @@ export default function MyPage() {
                   <Link to="#">즐겨 찾는 메뉴 관리</Link>
                 </li>
                 <li>
-                  <a
-                    className="open-pop"
-                    data-href="#popupExitJoin"
-                    onClick={(e) => popupOpen(e.target)}
-                  >
+                  <a className="open-pop" data-href="#popupExitJoin" onClick={(e) => popupOpen(e.target)}>
                     로그아웃
                   </a>
                 </li>
@@ -209,10 +180,7 @@ export default function MyPage() {
                   <div>
                     <div className="barcode">
                       <div className="img-wrap">
-                        <img
-                          src="../@resource/images/com/barcode.svg"
-                          alt="바코드"
-                        />
+                        <img src="../@resource/images/com/barcode.svg" alt="바코드" />
                       </div>
                       <p className="num">1309675152301202</p>
                     </div>

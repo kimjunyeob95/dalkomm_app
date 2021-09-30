@@ -25,26 +25,14 @@ const range = require("lodash");
 export default function MyModify() {
   const [startDate, setStartDate] = useState(new Date());
   const years = range.range(1940, getYear(new Date()) + 1, 1); // 수정
-  const months = [
-    "1월",
-    "2월",
-    "3월",
-    "4월",
-    "5월",
-    "6월",
-    "7월",
-    "8월",
-    "9월",
-    "10월",
-    "11월",
-    "12월",
-  ];
+  const months = ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"];
 
   const [state, dispatch] = useContext(authContext);
   const [axioData, setData] = useState();
   useEffect(() => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     contGap();
+
     const body = {};
     const header_config = {
       headers: {
@@ -55,23 +43,13 @@ export default function MyModify() {
     axios
       .all([
         axios.post(`${SERVER_DALKOMM}/app/api/main/user`, body, header_config),
-        axios.post(
-          `${SERVER_DALKOMM}/app/api/v2/my_account/profile`,
-          body,
-          header_config
-        ),
+        axios.post(`${SERVER_DALKOMM}/app/api/v2/my_account/profile`, body, header_config),
       ])
       .then(
         axios.spread((res1, res2) => {
           let res1_data = res1.data.data;
           let res2_data = res2.data.data;
-          setStartDate(
-            new Date(
-              res2_data?.birthday
-                .replace(/(.{4})/, "$1-")
-                .replace(/(.{7})/, "$1-")
-            )
-          );
+          setStartDate(new Date(res2_data?.birthday.replace(/(.{4})/, "$1-").replace(/(.{7})/, "$1-")));
           setData((origin) => {
             return {
               ...origin,
@@ -81,6 +59,7 @@ export default function MyModify() {
           });
         })
       );
+    fadeInOut();
   }, []);
 
   const handleNomalModify = () => {
@@ -94,7 +73,6 @@ export default function MyModify() {
   };
 
   if (axioData) {
-    fadeInOut();
     return (
       <React.Fragment>
         <GoContents />
@@ -156,34 +134,18 @@ export default function MyModify() {
                             nextMonthButtonDisabled,
                           }) => (
                             <div>
-                              <button
-                                onClick={decreaseMonth}
-                                disabled={prevMonthButtonDisabled}
-                                type="button"
-                              >
+                              <button onClick={decreaseMonth} disabled={prevMonthButtonDisabled} type="button">
                                 {"<"}
                               </button>
-                              <select
-                                value={getYear(date)}
-                                onChange={({ target: { value } }) =>
-                                  changeYear(value)
-                                }
-                              >
+                              <select value={getYear(date)} onChange={({ target: { value } }) => changeYear(value)}>
                                 {years.map((option) => (
                                   <option key={option} value={option}>
                                     {option}
                                   </option>
                                 ))}
                               </select>
-                              년
-                              <span className="date_month">
-                                {months[getMonth(date)]}
-                              </span>
-                              <button
-                                onClick={increaseMonth}
-                                disabled={nextMonthButtonDisabled}
-                                type="button"
-                              >
+                              년<span className="date_month">{months[getMonth(date)]}</span>
+                              <button onClick={increaseMonth} disabled={nextMonthButtonDisabled} type="button">
                                 {">"}
                               </button>
                             </div>
@@ -208,11 +170,7 @@ export default function MyModify() {
                     </div>
                   </fieldset>
                   <div className="btn-area">
-                    <button
-                      type="button"
-                      className="btn dark large full"
-                      onClick={() => handleNomalModify()}
-                    >
+                    <button type="button" className="btn dark large full" onClick={() => handleNomalModify()}>
                       정보 수정하기
                     </button>
                   </div>
@@ -231,12 +189,7 @@ export default function MyModify() {
                         기존 비밀번호
                       </label>
                       <div className="insert">
-                        <input
-                          type="password"
-                          className="input-text medium"
-                          id="userPw"
-                          placeholder="기존 비밀번호를 입력해 주세요."
-                        />
+                        <input type="password" className="input-text medium" id="userPw" placeholder="기존 비밀번호를 입력해 주세요." />
                         {/* <p className="guide-txt">8자리 이상 영문,숫자,특수문자 중 2가지 이상 사용해 주세요</p> */}
                       </div>
                     </div>
@@ -245,12 +198,7 @@ export default function MyModify() {
                         신규 비밀번호
                       </label>
                       <div className="insert">
-                        <input
-                          type="password"
-                          className="input-text medium"
-                          id="userNewPw"
-                          placeholder="신규 비밀번호를 입력해 주세요."
-                        />
+                        <input type="password" className="input-text medium" id="userNewPw" placeholder="신규 비밀번호를 입력해 주세요." />
                       </div>
                     </div>
                     <div className="field">
@@ -258,12 +206,7 @@ export default function MyModify() {
                         신규 비밀번호 확인
                       </label>
                       <div className="insert">
-                        <input
-                          type="password"
-                          className="input-text medium"
-                          id="userNewPwChk"
-                          placeholder="신규 비밀번호를 한번 더 입력해 주세요."
-                        />
+                        <input type="password" className="input-text medium" id="userNewPwChk" placeholder="신규 비밀번호를 한번 더 입력해 주세요." />
                       </div>
                     </div>
                   </fieldset>
@@ -278,11 +221,7 @@ export default function MyModify() {
               <div className="form-wrap">
                 <div className="form-title flex-both">
                   <h2 className="h2">휴대전화 번호 수정</h2>
-                  <span className="user-info">
-                    {axioData.res2_data?.mobile
-                      .replace(/(.{3})/, "$1-")
-                      .replace(/(.{8})/, "$1-")}
-                  </span>
+                  <span className="user-info">{axioData.res2_data?.mobile.replace(/(.{3})/, "$1-").replace(/(.{8})/, "$1-")}</span>
                 </div>
                 <form className="form">
                   <fieldset className="fieldset">
