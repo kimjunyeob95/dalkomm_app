@@ -34,16 +34,22 @@ export default function MyPage() {
       .all([
         axios.post(`${SERVER_DALKOMM}/app/api/main/user`, body, header_config),
         axios.post(`${SERVER_DALKOMM}/app/api/v2/my_account/profile`, body, header_config),
+        axios.post(`${SERVER_DALKOMM}/app/api/v2/coupon/list`, body, header_config),
+        axios.post(`${SERVER_DALKOMM}/app/api/v2/membership`, body, header_config),
       ])
       .then(
-        axios.spread((res1, res2) => {
+        axios.spread((res1, res2, res3, res4) => {
           let res1_data = res1.data.data;
           let res2_data = res2.data.data;
+          let res3_data = res3.data.data;
+          let res4_data = res4.data.data;
           setData((origin) => {
             return {
               ...origin,
               res1_data,
               res2_data,
+              res3_data,
+              res4_data,
             };
           });
         })
@@ -125,7 +131,7 @@ export default function MyPage() {
                       <div className="data-wrap">
                         <p className="title">쿠폰</p>
                         <p className="state">
-                          <span className="new">3</span>
+                          <span className="new">{axioData?.res3_data?.coupon_list?.length}</span>
                         </p>
                       </div>
                     </Link>
@@ -168,7 +174,7 @@ export default function MyPage() {
               <div className="item card membership">
                 <div className="card-wrap">
                   <div>
-                    <p className="grade en">PLATINUM</p>
+                    <p className="grade en">{axioData?.res4_data?.membership_name}</p>
                     <p className="sort en">
                       DAL.KOMM
                       <br />
@@ -182,7 +188,7 @@ export default function MyPage() {
                       <div className="img-wrap">
                         <img src="../@resource/images/com/barcode.svg" alt="바코드" />
                       </div>
-                      <p className="num">1309675152301202</p>
+                      <p className="num">{axioData?.res4_data?.stamp_card_number}</p>
                     </div>
                   </div>
                 </div>

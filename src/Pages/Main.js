@@ -46,13 +46,15 @@ function Main() {
           axios.post(`${SERVER_DALKOMM}/app/api/main/user`, body, header_config),
           axios.post(`${SERVER_DALKOMM}/app/api/v2/my_account/profile`, body, header_config),
           axios.post(`${SERVER_DALKOMM}/app/api/v2/store/around`, location_body, header_config),
+          axios.post(`${SERVER_DALKOMM}/app/api/v2/coupon/list`, body, header_config),
         ])
         .then(
-          axios.spread((res1, res2, res3, res4) => {
+          axios.spread((res1, res2, res3, res4, res5) => {
             let res1_data = res1.data.data;
             let res2_data = res2.data.data;
             let res3_data = res3.data.data;
             let res4_data = res4.data.data;
+            let res5_data = res5.data.data;
             setData((origin) => {
               return {
                 ...origin,
@@ -60,6 +62,7 @@ function Main() {
                 res2_data,
                 res3_data,
                 res4_data,
+                res5_data,
               };
             });
           })
@@ -353,89 +356,36 @@ function Main() {
                         <i className="ico arr-r"></i>
                       </Link>
                     </div>
-
                     <ul className="coupon-list data-list accordion">
-                      <li>
-                        <div className="item coupon js-accordion-switche" onClick={(e) => accordion(e.target, 0)}>
-                          <div className="data-wrap">
-                            <p className="day num fc-orange">D-3</p>
-                            <p className="title">FREE 음료 쿠폰</p>
-                          </div>
-                          <div className="ico-wrap flex-center">
-                            <i className="ico accordion-arr"></i>
-                          </div>
-                        </div>
-                        <div className="item attention js-accordion-content">
-                          <dl>
-                            <dt className="title">
-                              <i className="ico alert"></i>쿠폰 유의사항
-                            </dt>
-                            <dd className="text">
-                              <ul className="attention-list">
-                                <li>달콤커피 앱 내 테이블오더로만 이용가능</li>
-                                <li>제조음료만 가능 (베이커리 이용 불가)</li>
-                                <li>다른 혜택과 중복사용 불가</li>
-                                <li>세트, MD, 베이커리, 할인 & 프로모션 메뉴 할인 제외</li>
-                                <li>적립카드 스탬프 중복 적립 불가</li>
-                              </ul>
-                            </dd>
-                          </dl>
-                        </div>
-                      </li>
-                      <li>
-                        <div className="item coupon js-accordion-switche" onClick={(e) => accordion(e.target, 0)}>
-                          <div className="data-wrap">
-                            <p className="day num fc-orange">~ 21.07.28</p>
-                            <p className="title">FREE 음료 쿠폰</p>
-                          </div>
-                          <div className="ico-wrap flex-center">
-                            <i className="ico accordion-arr"></i>
-                          </div>
-                        </div>
-                        <div className="item attention js-accordion-content">
-                          <dl>
-                            <dt className="title">
-                              <i className="ico alert"></i>쿠폰 유의사항
-                            </dt>
-                            <dd className="text">
-                              <ul className="attention-list">
-                                <li>달콤커피 앱 내 테이블오더로만 이용가능</li>
-                                <li>제조음료만 가능 (베이커리 이용 불가)</li>
-                                <li>다른 혜택과 중복사용 불가</li>
-                                <li>세트, MD, 베이커리, 할인 & 프로모션 메뉴 할인 제외</li>
-                                <li>적립카드 스탬프 중복 적립 불가</li>
-                              </ul>
-                            </dd>
-                          </dl>
-                        </div>
-                      </li>
-                      <li>
-                        <div className="item coupon js-accordion-switche" onClick={(e) => accordion(e.target, 0)}>
-                          <div className="data-wrap">
-                            <p className="day num fc-orange">~ 21.08.16</p>
-                            <p className="title">FREE 음료 쿠폰</p>
-                          </div>
-                          <div className="ico-wrap flex-center">
-                            <i className="ico accordion-arr"></i>
-                          </div>
-                        </div>
-                        <div className="item attention js-accordion-content">
-                          <dl>
-                            <dt className="title">
-                              <i className="ico alert"></i>쿠폰 유의사항
-                            </dt>
-                            <dd className="text">
-                              <ul className="attention-list">
-                                <li>달콤커피 앱 내 테이블오더로만 이용가능</li>
-                                <li>제조음료만 가능 (베이커리 이용 불가)</li>
-                                <li>다른 혜택과 중복사용 불가</li>
-                                <li>세트, MD, 베이커리, 할인 & 프로모션 메뉴 할인 제외</li>
-                                <li>적립카드 스탬프 중복 적립 불가</li>
-                              </ul>
-                            </dd>
-                          </dl>
-                        </div>
-                      </li>
+                      {axioData?.res5_data?.coupon_list
+                        ?.filter((e, i) => e.status === 0)
+                        .map((e, i) => (
+                          <li>
+                            <div className="item coupon js-accordion-switche" onClick={(e) => accordion(e.target, 0)}>
+                              <div className="data-wrap">
+                                <p className="day num fc-orange">{e?.due_date}</p>
+                                <p className="title">{e?.coupon_name}</p>
+                              </div>
+                              <div className="ico-wrap flex-center">
+                                <i className="ico accordion-arr"></i>
+                              </div>
+                            </div>
+                            <div className="item attention js-accordion-content">
+                              <dl>
+                                <dt className="title">
+                                  <i className="ico alert"></i>쿠폰 유의사항
+                                </dt>
+                                <dd className="text">
+                                  <ul className="attention-list">
+                                    {e?.detail_cautions?.split("\r\n").map((e, i) => (
+                                      <li>{e}</li>
+                                    ))}
+                                  </ul>
+                                </dd>
+                              </dl>
+                            </div>
+                          </li>
+                        ))}
                     </ul>
                   </div>
                 </section>
