@@ -143,17 +143,19 @@ export default function Find_pw() {
         .then(
           axios.spread((res1) => {
             alert(res1.data.meta.msg);
-            try {
-              if (checkMobile() === "android") {
-                window.android.fn_login();
-              } else if (checkMobile() === "ios") {
-                window.webkit.messageHandlers.fn_login.postMessage("");
-              }
-            } catch (error) {
-              console.log(error);
-            }
           })
         );
+      setTimeout(() => {
+        try {
+          if (checkMobile() === "android") {
+            window.android.fn_login();
+          } else if (checkMobile() === "ios") {
+            window.webkit.messageHandlers.fn_login.postMessage("");
+          }
+        } catch (error) {
+          console.log(error);
+        }
+      }, 1800);
     }
   };
 

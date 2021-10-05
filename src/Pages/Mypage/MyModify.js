@@ -48,10 +48,11 @@ export default function MyModify() {
       Authorization: state?.auth,
     },
   };
+
   useEffect(() => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     contGap();
-    fadeInOut();
+
     const body = {};
     axios
       .all([
@@ -113,6 +114,10 @@ export default function MyModify() {
         })
       );
   }, []);
+
+  useEffect(() => {
+    fadeInOut();
+  }, [axioData]);
 
   const handleNomalModify = (type) => {
     let validation = true;
