@@ -81,7 +81,11 @@ const ContextStore = (props) => {
     setLoding(true);
   }, [loading]);
 
-  return <authContext.Provider value={useReducer(indexReducer, indexInitialState)}>{props.children}</authContext.Provider>;
+  return (
+    <authContext.Provider value={useReducer(indexReducer, indexInitialState)}>
+      {props.children}
+    </authContext.Provider>
+  );
 };
 
 export default ContextStore;
