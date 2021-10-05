@@ -74,7 +74,6 @@ export default function MyModify() {
           }
         })
       );
-    fadeInOut();
   }, []);
 
   const handleNomalModify = (type) => {
@@ -120,7 +119,7 @@ export default function MyModify() {
           country_code: "82",
           mobile: axioData.res2_data?.mobile,
           birthday: $("#datepicker").val().split("-").join(""),
-          password: $("#userName").val(),
+          password: $("#userNewPw").val(),
         };
         axios.all([axios.post(`${SERVER_DALKOMM}/app/api/account/simple/update/profile`, body, header_config)]).then(
           axios.spread((res1) => {
@@ -206,6 +205,7 @@ export default function MyModify() {
   };
 
   if (axioData) {
+    fadeInOut();
     return (
       <React.Fragment>
         <GoContents />

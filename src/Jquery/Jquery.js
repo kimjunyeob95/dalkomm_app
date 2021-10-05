@@ -8,6 +8,13 @@ export function fadeInOut() {
   }, 100);
 }
 
+export function fn_masking(input, index, character, type) {
+  if (type === "back") {
+    return input.substr(index.length, index) + character + input.substr(index + character.length);
+  } else if (type === "front") {
+    return input.substr(0, index) + character + input.substr(index + character.length);
+  }
+}
 export function name_check(name) {
   const regex = /^[ㄱ-ㅎ|가-힣|a-z|A-Z]+$/;
   if (!regex.test(name) || name.length < 2) {
