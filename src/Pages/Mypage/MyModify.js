@@ -15,7 +15,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import HeaderSub from "Components/Header/HeaderSub";
 import GoContents from "Components/GoContents";
 
-import { contGap, fadeInOut } from "Jquery/Jquery";
+import { contGap, fadeInOut, fn_pw_check, name_check } from "Jquery/Jquery";
 import { SERVER_DALKOMM } from "Config/Server";
 
 import { authContext } from "ContextApi/Context";
@@ -29,17 +29,16 @@ export default function MyModify() {
 
   const [state, dispatch] = useContext(authContext);
   const [axioData, setData] = useState();
+  const header_config = {
+    headers: {
+      "X-dalkomm-access-token": state?.accessToken,
+      Authorization: state?.auth,
+    },
+  };
   useEffect(() => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     contGap();
-
     const body = {};
-    const header_config = {
-      headers: {
-        "X-dalkomm-access-token": state?.accessToken,
-        Authorization: state?.auth,
-      },
-    };
     axios
       .all([
         axios.post(`${SERVER_DALKOMM}/app/api/main/user`, body, header_config),
@@ -49,7 +48,6 @@ export default function MyModify() {
         axios.spread((res1, res2) => {
           let res1_data = res1.data.data;
           let res2_data = res2.data.data;
-          setStartDate(new Date(res2_data?.birthday.replace(/(.{4})/, "$1-").replace(/(.{7})/, "$1-")));
           setData((origin) => {
             return {
               ...origin,
@@ -57,19 +55,154 @@ export default function MyModify() {
               res2_data,
             };
           });
+          if (res2.data.data.is_email_user) {
+            axios.all([axios.post(`${SERVER_DALKOMM}/app/api/account/simple/profile`, body, header_config)]).then(
+              axios.spread((ress1) => {
+                res2_data = ress1.data.data;
+                setData((origin) => {
+                  return {
+                    ...origin,
+                    res1_data,
+                    res2_data,
+                  };
+                });
+                setStartDate(new Date(res2_data?.birthday?.replace(/(.{4})/, "$1-").replace(/(.{7})/, "$1-")));
+              })
+            );
+          } else {
+            setStartDate(new Date(res2_data?.birthday?.replace(/(.{4})/, "$1-").replace(/(.{7})/, "$1-")));
+          }
         })
       );
     fadeInOut();
   }, []);
 
-  const handleNomalModify = () => {
-    var form = $("#form1")[0];
-    var formData = new FormData(form);
-    let orderData_json = {};
-    formData.forEach(function (value, key) {
-      orderData_json[key] = value;
-      console.log(key + ":" + value);
-    });
+  const handleNomalModify = (type) => {
+    let validation = true;
+    let body = {};
+    if (type === "정보") {
+      $(".chk-validation").each(function (i, e) {
+        if ($(e).val() === "") {
+          if ($(e).attr("type") !== "password") {
+            validation = false;
+            alert($(e).attr("title") + "(을)를 입력해주세요.");
+            $(e).focus();
+            return false;
+          }
+        }
+      });
+      if (validation && name_check($("#userName").val())) {
+        body = {
+          name: $("#userName").val(),
+          country_code: "82",
+          mobile: axioData.res2_data?.mobile,
+          birthday: $("#datepicker").val().split("-").join(""),
+        };
+        axios.all([axios.post(`${SERVER_DALKOMM}/app/api/account/simple/update/profile`, body, header_config)]).then(
+          axios.spread((res1) => {
+            alert(res1.data.meta.msg);
+            window.location.reload();
+          })
+        );
+      }
+    } else if (type === "비밀번호") {
+      $(".chk-validation").each(function (i, e) {
+        if ($(e).val() === "") {
+          validation = false;
+          alert($(e).attr("title") + "(을)를 입력해주세요.");
+          $(e).focus();
+          return false;
+        }
+      });
+      if (validation && name_check($("#userName").val()) && fn_pw_check($("#userNewPw").val(), $("#userNewPwChk").val())) {
+        body = {
+          name: $("#userName").val(),
+          country_code: "82",
+          mobile: axioData.res2_data?.mobile,
+          birthday: $("#datepicker").val().split("-").join(""),
+          password: $("#userName").val(),
+        };
+        axios.all([axios.post(`${SERVER_DALKOMM}/app/api/account/simple/update/profile`, body, header_config)]).then(
+          axios.spread((res1) => {
+            alert(res1.data.meta.msg);
+            window.location.reload();
+          })
+        );
+      }
+    } else if (type === "휴대전화") {
+      $(".chk-validation").each(function (i, e) {
+        if ($(e).val() === "") {
+          if ($(e).attr("type") !== "password") {
+            validation = false;
+            alert($(e).attr("title") + "(을)를 입력해주세요.");
+            $(e).focus();
+            return false;
+          }
+        }
+      });
+      if (validation && name_check($("#userName").val())) {
+        let phoneValue = $("#userPhone").val();
+
+        if (phoneValue === "") {
+          return alert("인증받을 번호를 입력해주세요.");
+        } else {
+          body = {
+            request_type: "update_profile",
+            country_code: "82",
+            mobile: phoneValue,
+            cert_code: $("#numChk").val(),
+          };
+        }
+        if ($("#numChk").val() !== "") {
+          axios.all([axios.post(`${SERVER_DALKOMM}/app/api/account/simple/cert/confirm`, body, header_config)]).then(
+            axios.spread((res1) => {
+              if (res1.data.meta.code === 20000) {
+                body = {
+                  name: $("#userName").val(),
+                  country_code: "82",
+                  mobile: axioData.res2_data?.mobile,
+                  birthday: $("#datepicker").val().split("-").join(""),
+                  update_profile_token: res1.data.data.update_profile_token,
+                };
+                axios.all([axios.post(`${SERVER_DALKOMM}/app/api/account/simple/update/profile`, body, header_config)]).then(
+                  axios.spread((res1) => {
+                    alert(res1.data.meta.msg);
+                    window.location.reload();
+                  })
+                );
+              } else {
+                return alert(res1.data.meta.msg);
+              }
+            })
+          );
+        } else {
+          return alert("인증번호를 제대로 입력해주세요.");
+        }
+      }
+    }
+  };
+
+  const handleCheck = (e) => {
+    let phoneValue = $("#userPhone").val();
+    if (phoneValue === "") {
+      return alert("인증받을 번호를 입력해주세요.");
+    } else {
+      let body = {
+        request_type: "update_profile",
+        country_code: "82",
+        mobile: phoneValue,
+      };
+
+      axios.all([axios.post(`${SERVER_DALKOMM}/app/api/account/simple/cert/create_number`, body, header_config)]).then(
+        axios.spread((res1) => {
+          if (res1.data.meta.code === 20000 && res1.data.meta.message === "SUCCESS") {
+            alert("인증번호를 전송했습니다.");
+          } else {
+            alert("잘못된 번호입니다.");
+          }
+        })
+      );
+    }
   };
 
   if (axioData) {
@@ -99,7 +232,7 @@ export default function MyModify() {
                           className="input-text medium"
                           id="userId"
                           name="email"
-                          defaultValue={axioData?.res2_data?.email}
+                          defaultValue={axioData?.res2_data?.is_email_user ? axioData?.res2_data?.login_email : axioData?.res2_data?.email}
                           disabled
                         />
                       </div>
@@ -111,10 +244,15 @@ export default function MyModify() {
                       <div className="insert">
                         <input
                           type="text"
-                          className="input-text medium"
+                          className="input-text medium chk-validation"
                           id="userName"
+                          title="이름 (닉네임)"
                           name="user_name"
-                          defaultValue={axioData?.res1_data?.user?.user_name}
+                          defaultValue={
+                            axioData?.res2_data?.is_email_user && axioData?.res2_data?.name
+                              ? decodeURI(axioData?.res2_data?.name)
+                              : axioData?.res2_data?.user?.user_name
+                          }
                         />
                       </div>
                     </div>
@@ -170,7 +308,7 @@ export default function MyModify() {
                     </div>
                   </fieldset>
                   <div className="btn-area">
-                    <button type="button" className="btn dark large full" onClick={() => handleNomalModify()}>
+                    <button type="button" className="btn dark large full" onClick={() => handleNomalModify("정보")}>
                       정보 수정하기
                     </button>
                   </div>
@@ -184,21 +322,34 @@ export default function MyModify() {
                 <form className="form">
                   <fieldset className="fieldset">
                     <legend className="blind">비밀번호 수정</legend>
-                    <div className="field">
+                    {/* <div className="field">
                       <label className="label" htmlFor="userPw">
                         기존 비밀번호
                       </label>
                       <div className="insert">
-                        <input type="password" className="input-text medium" id="userPw" placeholder="기존 비밀번호를 입력해 주세요." />
-                        {/* <p className="guide-txt">8자리 이상 영문,숫자,특수문자 중 2가지 이상 사용해 주세요</p> */}
+                        <input
+                          type="password"
+                          className="input-text medium chk-validation"
+                          titie="기존 비밀번호"
+                          id="userPw"
+                          placeholder="기존 비밀번호를 입력해 주세요."
+                        />
+                        <p className="guide-txt">8자리 이상 영문,숫자,특수문자 중 2가지 이상 사용해 주세요</p>
                       </div>
-                    </div>
+                    </div> */}
                     <div className="field">
                       <label className="label" htmlFor="userNewPw">
                         신규 비밀번호
                       </label>
                       <div className="insert">
-                        <input type="password" className="input-text medium" id="userNewPw" placeholder="신규 비밀번호를 입력해 주세요." />
+                        <input
+                          type="password"
+                          className="input-text medium chk-validation"
+                          titie="신규 비밀번호"
+                          id="userNewPw"
+                          placeholder="신규 비밀번호를 입력해 주세요."
+                        />
+                        <p className="guide-txt">8자리 이상 영문,숫자,특수문자 중 2가지 이상 사용해 주세요</p>
                       </div>
                     </div>
                     <div className="field">
@@ -206,12 +357,18 @@ export default function MyModify() {
                         신규 비밀번호 확인
                       </label>
                       <div className="insert">
-                        <input type="password" className="input-text medium" id="userNewPwChk" placeholder="신규 비밀번호를 한번 더 입력해 주세요." />
+                        <input
+                          type="password"
+                          className="input-text medium chk-validation"
+                          titie="신규 비밀번호 확인"
+                          id="userNewPwChk"
+                          placeholder="신규 비밀번호를 한번 더 입력해 주세요."
+                        />
                       </div>
                     </div>
                   </fieldset>
                   <div className="btn-area">
-                    <button type="button" className="btn dark large full">
+                    <button type="button" className="btn dark large full" onClick={() => handleNomalModify("비밀번호")}>
                       비밀번호 변경하기
                     </button>
                   </div>
@@ -221,7 +378,7 @@ export default function MyModify() {
               <div className="form-wrap">
                 <div className="form-title flex-both">
                   <h2 className="h2">휴대전화 번호 수정</h2>
-                  <span className="user-info">{axioData.res2_data?.mobile.replace(/(.{3})/, "$1-").replace(/(.{8})/, "$1-")}</span>
+                  <span className="user-info">{axioData.res2_data?.mobile?.replace(/(.{3})/, "$1-").replace(/(.{8})/, "$1-")}</span>
                 </div>
                 <form className="form">
                   <fieldset className="fieldset">
@@ -239,7 +396,7 @@ export default function MyModify() {
                             placeholder="변경할 번호를 입력해 주세요."
                             inputMode="numeric"
                           />
-                          <button type="button" className="btn dark-g small">
+                          <button type="button" className="btn dark-g small" onClick={(e) => handleCheck(e.currentTarget)}>
                             인증하기
                           </button>
                         </div>
@@ -261,7 +418,7 @@ export default function MyModify() {
                     </div>
                   </fieldset>
                   <div className="btn-area">
-                    <button type="button" className="btn dark large full">
+                    <button type="button" className="btn dark large full" onClick={() => handleNomalModify("휴대전화")}>
                       휴대전화 번호 수정하기
                     </button>
                   </div>

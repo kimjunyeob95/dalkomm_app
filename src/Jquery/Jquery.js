@@ -8,6 +8,60 @@ export function fadeInOut() {
   }, 100);
 }
 
+export function name_check(name) {
+  const regex = /^[ㄱ-ㅎ|가-힣|a-z|A-Z]+$/;
+  if (!regex.test(name) || name.length < 2) {
+    alert("2자 이상, 한글 또는 영문만 입력 가능합니다.");
+    return false;
+  } else {
+    return true;
+  }
+}
+
+export function email_check(email) {
+  var reg = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
+  if (!reg.test(email)) {
+    alert("올바른 형식의 이메일 주소를 입력해 주세요.");
+    return false;
+  } else {
+    return true;
+  }
+}
+
+export function fn_pw_check(pw, pw2) {
+  var pattern1 = /[0-9]/;
+  var pattern2 = /[a-zA-Z]/;
+  var pattern3 = /[~!@#$%<>^&*]/; // 원하는 특수문자 추가 제거
+
+  if (pw.length === 0) {
+    alert("비밀번호를 입력해주세요");
+    return false;
+  } else {
+    if (pw !== pw2) {
+      alert("비밀번호가 일치하지 않습니다.");
+      return false;
+    }
+  }
+
+  // if(/(\w)\1\1/.test(pw)){
+  //     alert('비밀번호는 3회이상의 연속된 문자를 사용할 수 없습니다.');
+  //     return false;
+  // }
+
+  if (
+    (!pattern1.test(pw) && !pattern2.test(pw)) ||
+    (!pattern1.test(pw) && !pattern3.test(pw)) ||
+    (!pattern2.test(pw) && !pattern3.test(pw)) ||
+    pw.length < 8 ||
+    pw.length > 50
+  ) {
+    $(".alert-text").show();
+    alert("8자리 이상 영문, 숫자, 특수문자 중 2가지 이상 사용해 주세요.");
+    return false;
+  }
+  return true;
+}
+
 export function accordion(e, targetN) {
   var container;
 
@@ -19,10 +73,7 @@ export function accordion(e, targetN) {
     container = $(e).parent().parent().parent();
   } else if ($(e).prop("tagName") === "DIV" && $(e).hasClass("flex-both")) {
     container = $(e).parent().parent();
-  } else if (
-    $(e).prop("tagName") === "DIV" &&
-    $(e).hasClass("js-accordion-switche")
-  ) {
+  } else if ($(e).prop("tagName") === "DIV" && $(e).hasClass("js-accordion-switche")) {
     container = $(e).parent();
   }
 
@@ -49,10 +100,7 @@ export function accordion(e, targetN) {
 
   function siblingsClose() {
     $(container).siblings().removeClass("active");
-    $(container)
-      .siblings()
-      .children(".js-accordion-content")
-      .removeClass("active");
+    $(container).siblings().children(".js-accordion-content").removeClass("active");
   }
 }
 
@@ -138,12 +186,9 @@ export function scrollDetail() {
 export function tabLink(e) {
   e.preventDefault();
   var tabTarget = $(e.target).data("href");
-  $(e.target).parent("li").addClass("current");
-  $(e.target).parent("li").siblings("li").removeClass("current");
-  $(tabTarget)
-    .addClass("active")
-    .siblings(".tab-content")
-    .removeClass("active");
+  $(e.target).parent("li").addClass("current active");
+  $(e.target).parent("li").siblings("li").removeClass("current active");
+  $(tabTarget).addClass("active").siblings(".tab-content").removeClass("active");
 }
 
 export function contGap() {

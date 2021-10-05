@@ -28,9 +28,9 @@ function Main() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     const body = {};
     let location_body = {};
-    // if (state?.latitude !== "" && state?.longitude !== "") {
-    //   location_body = { latitude: state.latitude, longitude: state?.longitude };
-    // }
+    if (state?.latitude !== "" && state?.longitude !== "") {
+      location_body = { latitude: state.latitude, longitude: state?.longitude };
+    }
     let header_config = {
       headers: {
         "X-dalkomm-access-token": state.accessToken,
@@ -44,17 +44,19 @@ function Main() {
         .all([
           axios.post(`${SERVER_DALKOMM}/app/api/main`, body, header_config),
           axios.post(`${SERVER_DALKOMM}/app/api/main/user`, body, header_config),
-          axios.post(`${SERVER_DALKOMM}/app/api/v2/my_account/profile`, body, header_config),
+          axios.post(`${SERVER_DALKOMM}/app/api/v2/my_account/user_info`, body, header_config),
           axios.post(`${SERVER_DALKOMM}/app/api/v2/store/around`, location_body, header_config),
           axios.post(`${SERVER_DALKOMM}/app/api/v2/coupon/list`, body, header_config),
+          axios.post(`${SERVER_DALKOMM}/app/api/v2/membership`, body, header_config),
         ])
         .then(
-          axios.spread((res1, res2, res3, res4, res5) => {
+          axios.spread((res1, res2, res3, res4, res5, res6) => {
             let res1_data = res1.data.data;
             let res2_data = res2.data.data;
             let res3_data = res3.data.data;
             let res4_data = res4.data.data;
             let res5_data = res5.data.data;
+            let res6_data = res6.data.data;
             setData((origin) => {
               return {
                 ...origin,
@@ -63,6 +65,7 @@ function Main() {
                 res3_data,
                 res4_data,
                 res5_data,
+                res6_data,
               };
             });
           })
@@ -112,7 +115,6 @@ function Main() {
       console.log(error);
     }
   };
-
   //axios 반환 시
   if (axioData?.res1_data?.main_banner_list) {
     fadeInOut();
@@ -176,7 +178,7 @@ function Main() {
               {state?.loginFlag ? (
                 <div className="item my-info">
                   <p className="user">
-                    <span className="fc-orange">{axioData?.res2_data?.user?.user_name}</span> 고객님
+                    <span className="fc-orange">{axioData?.res3_data?.sub_user_list[0]?.sub_user_name}</span> 고객님
                   </p>
                   <button type="button" className="btn barcode open-pop" pop-target="#zoomCardMembership" onClick={(e) => popupOpen(e.currentTarget)}>
                     <i className="ico barcode" pop-target="#zoomCardMembership">
@@ -360,7 +362,7 @@ function Main() {
                       {axioData?.res5_data?.coupon_list
                         ?.filter((e, i) => e.status === 0)
                         .map((e, i) => (
-                          <li>
+                          <li key={i}>
                             <div className="item coupon js-accordion-switche" onClick={(e) => accordion(e.target, 0)}>
                               <div className="data-wrap">
                                 <p className="day num fc-orange">{e?.due_date}</p>
@@ -378,7 +380,7 @@ function Main() {
                                 <dd className="text">
                                   <ul className="attention-list">
                                     {e?.detail_cautions?.split("\r\n").map((e, i) => (
-                                      <li>{e}</li>
+                                      <li key={i}>{e}</li>
                                     ))}
                                   </ul>
                                 </dd>
@@ -436,7 +438,7 @@ function Main() {
                       {axioData?.res4_data?.store_list?.map((e, i) => {
                         return (
                           <SwiperSlide className="swiper-slide" key={i}>
-                            <Link to="#" className="item store">
+                            <Link to="#" className="item store" data-store={e.store_id}>
                               <div className="flex-both">
                                 <span className={`btn bookmark ${e.store_is_favorite && "active"}`}>
                                   <i className="ico heart">
@@ -490,7 +492,7 @@ function Main() {
                                     </i>
                                   </li>
                                 </ul>
-                                <p className="distance">680m</p>
+                                <p className="distance">{e.store_distance !== "-1" && e.store_distance + "m"}</p>
                               </div>
                             </Link>
                           </SwiperSlide>
@@ -631,7 +633,7 @@ function Main() {
                 <div className="item card membership">
                   <div className="card-wrap">
                     <div>
-                      <p className="grade en">{axioData?.res2_data?.user?.membership_name}</p>
+                      <p className="grade en">{axioData?.res6_data?.membership_name}</p>
                       <p className="sort en">
                         DAL.KOMM
                         <br />
@@ -645,7 +647,7 @@ function Main() {
                         <div className="img-wrap">
                           <img src="/@resource/images/com/barcode.svg" alt="바코드" />
                         </div>
-                        <p className="num">1309675152301202</p>
+                        <p className="num">{axioData?.res6_data?.stamp_card_number}</p>
                       </div>
                     </div>
                   </div>

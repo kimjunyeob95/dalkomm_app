@@ -77,7 +77,7 @@ export default function MyCoupon() {
                     {axioData?.res1_data?.coupon_list
                       ?.filter((e, i) => e.status === 0)
                       .map((e, i) => (
-                        <li>
+                        <li key={i}>
                           <div className="item coupon js-accordion-switche" onClick={(e) => accordion(e.target, 0)}>
                             <div className="data-wrap">
                               <p className="day num">{e?.due_date}</p>
@@ -95,7 +95,7 @@ export default function MyCoupon() {
                               <dd className="text">
                                 <ul className="attention-list">
                                   {e?.detail_cautions?.split("\r\n").map((e, i) => (
-                                    <li>{e}</li>
+                                    <li key={i}>{e}</li>
                                   ))}
                                 </ul>
                               </dd>
@@ -110,7 +110,7 @@ export default function MyCoupon() {
                     {axioData?.res1_data?.coupon_list
                       ?.filter((e, i) => e?.status === 2)
                       .map((e, i) => (
-                        <li>
+                        <li key={i}>
                           <div className="item coupon js-accordion-switche" onClick={(e) => accordion(e.target, 0)}>
                             <div className="data-wrap">
                               <p className="day expire">기간만료</p> {/* [D] .day.expire : 기간 만료 */}
@@ -128,7 +128,7 @@ export default function MyCoupon() {
                               <dd className="text">
                                 <ul className="attention-list">
                                   {e?.detail_cautions?.split("\r\n").map((e, i) => (
-                                    <li>{e}</li>
+                                    <li key={i}>{e}</li>
                                   ))}
                                 </ul>
                               </dd>

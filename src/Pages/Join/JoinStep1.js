@@ -1,10 +1,86 @@
 /* eslint-disable react/jsx-pascal-case */
-import React from "react";
-import { Link } from "react-router-dom";
-import { popupOpen } from "Jquery/Jquery";
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable no-unused-vars */
+/* eslint-disable jsx-a11y/anchor-is-valid */
+// eslint-disable-next-line no-unused-vars
+import axios from "axios";
+import $ from "jquery";
+import React, { useEffect, useContext, useState } from "react";
+import { Link, useHistory } from "react-router-dom";
+import { popupOpen, fadeInOut } from "Jquery/Jquery";
 import Popup_bak from "./Popup_bak";
 
+import { SERVER_DALKOMM } from "Config/Server";
+import { authContext } from "ContextApi/Context";
+
 export default function JoinStep1() {
+  const [state, dispatch] = useContext(authContext);
+  const history = useHistory();
+  let header_config = {
+    headers: {
+      "X-dalkomm-access-token": state.accessToken,
+      Authorization: state.auth,
+    },
+  };
+
+  useEffect(() => {
+    // 말풍선 스크롤시 hide/show
+    fadeInOut();
+  }, [state?.auth]);
+
+  const handleCheck = (e) => {
+    let phoneValue = $("#userPhone").val();
+    if (phoneValue === "") {
+      return alert("인증받을 번호를 입력해주세요.");
+    } else {
+      let body = {
+        request_type: "join",
+        country_code: "82",
+        mobile: phoneValue,
+      };
+
+      axios.all([axios.post(`${SERVER_DALKOMM}/app/api/account/simple/cert/create_number`, body, header_config)]).then(
+        axios.spread((res1) => {
+          if (res1.data.meta.code === 20000 && res1.data.meta.message === "SUCCESS") {
+            alert("인증번호를 전송했습니다.");
+          } else {
+            alert("잘못된 번호입니다.");
+          }
+        })
+      );
+    }
+  };
+
+  const handleSubmit = (e) => {
+    let phoneValue = $("#userPhone").val();
+    let body = {};
+    if (phoneValue === "") {
+      return alert("인증받을 번호를 입력해주세요.");
+    } else {
+      body = {
+        request_type: "join",
+        country_code: "82",
+        mobile: phoneValue,
+        cert_code: $("#numChk").val(),
+      };
+    }
+    if ($("#numChk").val() !== "") {
+      axios.all([axios.post(`${SERVER_DALKOMM}/app/api/account/simple/cert/confirm`, body, header_config)]).then(
+        axios.spread((res1) => {
+          if (res1.data.meta.code === 20000) {
+            history.push({
+              pathname: "/join/step2",
+              join_token: res1.data.data.join_token,
+            });
+          } else {
+            return alert(res1.data.meta.msg);
+          }
+        })
+      );
+    } else {
+      return alert("인증번호를 제대로 입력해주세요.");
+    }
+  };
   return (
     <React.Fragment>
       <div className="skip-nav">
@@ -58,7 +134,7 @@ export default function JoinStep1() {
                             placeholder="휴대전화 번호를 입력해 주세요."
                             inputMode="numeric"
                           />
-                          <button type="button" className="btn dark-g small">
+                          <button type="button" className="btn dark-g small" onClick={(e) => handleCheck(e.currentTarget)}>
                             인증하기
                           </button>
                         </div>
@@ -80,7 +156,7 @@ export default function JoinStep1() {
                     </div>
                   </fieldset>
                   <div className="btn-area">
-                    <button type="button" className="btn dark full large">
+                    <button type="button" className="btn dark full large" onClick={(e) => handleSubmit(e.currentTarget)}>
                       인증번호 입력
                     </button>
                   </div>

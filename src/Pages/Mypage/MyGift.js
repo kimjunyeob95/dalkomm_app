@@ -67,7 +67,9 @@ export default function MyGift() {
                             {axioData?.res1_data?.coupon_list
                               ?.filter((e, i) => e.status === 0)
                               .map((e, i) => (
-                                <option value={e?.user_coupon_id}>{e?.coupon_name}</option>
+                                <option key={i} value={e?.user_coupon_id}>
+                                  {e?.coupon_name}
+                                </option>
                               ))}
                           </select>
                         </div>

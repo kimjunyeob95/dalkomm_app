@@ -35,17 +35,20 @@ export default function Menu() {
           axios.get(`${SERVER_DALKOMM}/app/api/notice/is-new`, {
             headers: { Authorization: state?.auth },
           }),
-          axios.post(`${SERVER_DALKOMM}/app/api/main/user`, body, header_config),
+          axios.post(`${SERVER_DALKOMM}/app/api/v2/my_account/user_info`, body, header_config),
+          axios.post(`${SERVER_DALKOMM}/app/api/v2/membership`, body, header_config),
         ])
         .then(
-          axios.spread((res1, res2) => {
+          axios.spread((res1, res2, res3) => {
             let res1_data = res1.data.data;
             let res2_data = res2.data.data;
+            let res3_data = res3.data.data;
             setData((origin) => {
               return {
                 ...origin,
                 res1_data,
                 res2_data,
+                res3_data,
               };
             });
           })
@@ -104,7 +107,7 @@ export default function Menu() {
                 <div className="item my-info">
                   <div className="user-wrap flex-center">
                     <p className="user">
-                      <span className="fc-orange">{axioData?.res2_data?.user?.user_name}</span> 고객님
+                      <span className="fc-orange">{axioData?.res2_data?.sub_user_list[0]?.sub_user_name}</span> 고객님
                     </p>
 
                     <button
@@ -242,7 +245,7 @@ export default function Menu() {
                 <div className="item card membership">
                   <div className="card-wrap">
                     <div>
-                      <p className="grade en">{axioData?.res2_data?.user?.membership_name}</p>
+                      <p className="grade en">{axioData?.res3_data?.membership_name}</p>
                       <p className="sort en">
                         DAL.KOMM
                         <br />
@@ -256,7 +259,7 @@ export default function Menu() {
                         <div className="img-wrap">
                           <img src="/@resource/images/com/barcode.svg" alt="바코드" />
                         </div>
-                        <p className="num">1309675152301202</p>
+                        <p className="num">{axioData?.res3_data?.stamp_card_number}</p>
                       </div>
                     </div>
                   </div>

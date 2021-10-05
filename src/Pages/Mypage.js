@@ -33,12 +33,13 @@ export default function MyPage() {
     axios
       .all([
         axios.post(`${SERVER_DALKOMM}/app/api/main/user`, body, header_config),
-        axios.post(`${SERVER_DALKOMM}/app/api/v2/my_account/profile`, body, header_config),
+        axios.post(`${SERVER_DALKOMM}/app/api/account/simple/profile`, body, header_config),
         axios.post(`${SERVER_DALKOMM}/app/api/v2/coupon/list`, body, header_config),
         axios.post(`${SERVER_DALKOMM}/app/api/v2/membership`, body, header_config),
       ])
       .then(
         axios.spread((res1, res2, res3, res4) => {
+          console.log(res2);
           let res1_data = res1.data.data;
           let res2_data = res2.data.data;
           let res3_data = res3.data.data;
@@ -72,7 +73,7 @@ export default function MyPage() {
               <div className="user-info-wrap">
                 <div className="item my-info">
                   <p className="user">
-                    <strong>{axioData?.res1_data?.user?.user_name}</strong> 고객님
+                    <strong>{decodeURI(axioData?.res2_data?.name)}</strong> 고객님
                   </p>
                   <div className="flex-center">
                     <span className="en grade">{axioData?.res1_data?.user?.membership_name}</span>
@@ -84,8 +85,8 @@ export default function MyPage() {
                   </div>
                 </div>
                 <ul className="data-list">
-                  <li className="en">{axioData?.res2_data?.birthday.replace(/(.{4})/, "$1-").replace(/(.{7})/, "$1-")}</li>
-                  <li className="en">{axioData?.res2_data?.email}</li>
+                  <li className="en">{axioData?.res2_data?.birthday?.replace(/(.{4})/, "$1-").replace(/(.{7})/, "$1-")}</li>
+                  <li className="en">{axioData?.res2_data?.login_email}</li>
                 </ul>
               </div>
 
