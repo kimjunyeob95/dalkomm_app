@@ -67,13 +67,9 @@ ReactDOM.render(
         </PrivateRoute>
 
         <Route exact path="/order" component={() => <Order />} />
-        <Route exact path="/order/menu" component={() => <OrderMenu />} />
-        <Route
-          exact
-          path="/order/menu/search"
-          component={() => <OrderSearch />}
-        />
-        <PrivateRoute path="/order/detail/:id">
+        <Route exact path="/order/menu/:storeCode" component={() => <OrderMenu />} />
+        <Route exact path="/order/menuSearch/:storeCode" component={() => <OrderSearch />} />
+        <PrivateRoute path="/order/detail/:orderCode">
           <OrderDetail />
         </PrivateRoute>
         <PrivateRoute path="/order/final">
@@ -123,16 +119,8 @@ ReactDOM.render(
           <StoryDetail />
         </PrivateRoute>
 
-        <Route
-          exact
-          path="/support/notice/list"
-          component={() => <NoticeList />}
-        />
-        <Route
-          exact
-          path="/support/notice/detail/:id"
-          component={() => <NoticeDetail />}
-        />
+        <Route exact path="/support/notice/list" component={() => <NoticeList />} />
+        <Route exact path="/support/notice/detail/:id" component={() => <NoticeDetail />} />
         <Route exact path="/support/faq" component={() => <Faq />} />
 
         <Route exact path="/login" component={() => <Login />} />

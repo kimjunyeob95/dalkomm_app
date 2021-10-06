@@ -5,7 +5,7 @@
 import axios from "axios";
 import $ from "jquery";
 import React, { useEffect, useContext, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 import HeaderSub2 from "Components/Header/HeaderSub2";
 import Nav from "Components/Nav/Nav";
@@ -21,7 +21,7 @@ import { authContext } from "ContextApi/Context";
 export default function OrderMenu() {
   const [state, dispatch] = useContext(authContext);
   const [axioData, setData] = useState(false);
-
+  const { storeCode } = useParams();
   const body = {};
   let header_config = {
     headers: {
@@ -37,24 +37,26 @@ export default function OrderMenu() {
       axios
         .all([
           axios.post(`${SERVER_DALKOMM}/app/api/v2/menu/category_info`, body, header_config),
-          axios.post(`${SERVER_DALKOMM}/app/api/v2/menu/search`, { category_id: 0 }, header_config),
+          axios.post(`${SERVER_DALKOMM}/app/api/v2/menu/search`, { category_id: 0, store_code: storeCode }, header_config),
+          axios.post(`${SERVER_DALKOMM}/app/api/v2/store/${storeCode}`, {}, header_config),
         ])
         .then(
-          axios.spread((res1, res2) => {
+          axios.spread((res1, res2, res3) => {
             let res1_data = res1.data.data;
             let all_menu = res2.data.data;
+            let res2_data = res3.data.data;
             setData((origin) => {
               return {
                 ...origin,
                 res1_data,
                 all_menu,
+                res2_data,
               };
             });
+            fadeInOut();
           })
         );
     }
-    fadeInOut();
-    // console.log(nativeCallbackLocation(1, 2));
   }, [state?.auth]);
 
   useEffect(() => {
@@ -83,7 +85,7 @@ export default function OrderMenu() {
 
         <div id="wrap" className="wrap">
           <div id="container" className="container">
-            <HeaderSub2 title="메뉴선택" icon="search-s" icon2="cart" location="/order/menu/search" location2="/mypage/cart" />
+            <HeaderSub2 title="메뉴선택" icon="search-s" icon2="cart" location={`/order/menuSearch/${storeCode}`} location2="/mypage/cart" />
 
             <Nav order={3} />
 
@@ -93,7 +95,7 @@ export default function OrderMenu() {
                   <div className="flex-both">
                     <dl className="detail-wrap flex-start">
                       <dt className="title">선택매장</dt>
-                      <dd className="place">광명역 자이스트릿점</dd>
+                      <dd className="place">{axioData?.res2_data?.store_name}</dd>
                     </dl>
                     <Link to="/order" className="btn">
                       변경
@@ -137,7 +139,7 @@ export default function OrderMenu() {
                   {axioData?.all_menu?.searched_menu_list?.map((e, i) => {
                     return (
                       <li key={i}>
-                        <Link to="/order/detail/1" className="item menu">
+                        <Link to={`/order/detail/${e?.code}`} className="item menu">
                           {/* 메뉴 .bagde.round 타입 
                                     .bagde.round.new : NEW
                                     .bagde.round.pick : PICK

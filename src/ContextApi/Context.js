@@ -69,11 +69,11 @@ const ContextStore = (props) => {
       // indexInitialState.longitude = 127.05642398540016;
       // indexInitialState.loginFlag = true;
       // indexInitialState.accessToken =
-      //   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiQmpkV3NKdVVVNHJIVy9CN2FrZS9keFdNbE94akl6Smp6MzZlUHBhUmhtcEZ1ZmhXcHZEdHdkQ3dlcjJLRlhrMiIsImF1ZCI6IkRBTEtPTU1fQVBQIiwidW5pb25fdXNlcl9pZCI6InNSY0xWTUJreVpwczJPdmpETDhTeUJiOHR0MzBmN0REZ0Zua2RiMDl0UGx6eTlPSkFwWFBJdkhQZG5Rck5najAiLCJpc3MiOiJEQUxLT01NIiwidXNlcl9sb2dpbl90eXBlIjoiRCIsImlhdCI6MTYzMzQxMTgxNn0.XIgtHw1_81DbpgHXSiNzIG3i-drPgGnIMBKv03hmh2c";
+      //   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiVTFTb0I4TXhTUWxMREc0YmtWUjBmRFB0UkxnaTRtd05pK0wwQjJMb1Q2Z3lUallKQlRHcnhkeElmYVZEZHRwQSIsImF1ZCI6IkRBTEtPTU1fQVBQIiwidW5pb25fdXNlcl9pZCI6InE3bEU3SHFKdUdWbEhjNDhld21FOThyRUhaQ1lXU09tcVpXZFFtUEZlUTdJTkNZbXBmaFJxckZjcXNjdDRPRngiLCJpc3MiOiJEQUxLT01NIiwidXNlcl9sb2dpbl90eXBlIjoiRCIsImlhdCI6MTYzMzQ4NDQxMn0.ZdVygbo7m5kIL4HQXeyUM0UplkyveQtV6ZjUGg4r61Q";
       // indexInitialState.app_version = "3.0.0";
       // indexInitialState.os = "ios";
       // indexInitialState.isApp = "Y";
-      // indexInitialState.auth = "Basic ZGFsa29tbTpkYWxrb21tX2FwcDtiMzlmMjk5YzUxNDkwY2FiZTg0ZTFjNmFiODUyZGZmYTQwZTA3OGEzOzIwMjExMDA1MTUyOTUx";
+      // indexInitialState.auth = "Basic ZGFsa29tbTpkYWxrb21tX2FwcDs3NWEzMjRkMTNkY2FjYjM1ZjhkODc0MjZjZDRjYjAyODExZTBkYTM1OzIwMjExMDA2MTEzOTU0";
       // indexInitialState.latitude = 37.507232666015625;
       // indexInitialState.longitude = 127.05642398540016;
     }
@@ -81,11 +81,7 @@ const ContextStore = (props) => {
     setLoding(true);
   }, [loading]);
 
-  return (
-    <authContext.Provider value={useReducer(indexReducer, indexInitialState)}>
-      {props.children}
-    </authContext.Provider>
-  );
+  return <authContext.Provider value={useReducer(indexReducer, indexInitialState)}>{props.children}</authContext.Provider>;
 };
 
 export default ContextStore;

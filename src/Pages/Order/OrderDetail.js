@@ -3,7 +3,7 @@
 import $ from "jquery";
 import React, { useEffect, useState } from "react";
 import HeaderSub from "Components/Header/HeaderSub";
-import { Link, useHistory } from "react-router-dom";
+import { Link, useHistory, useParams } from "react-router-dom";
 import GoContents from "Components/GoContents";
 import { contGap } from "Jquery/Jquery";
 
@@ -11,6 +11,7 @@ import { Swiper } from "swiper/react";
 
 export default function OrderDetail() {
   const history = useHistory();
+  const { orderCode } = useParams();
   const [optionType, setOption] = useState({ show: false, text: "" });
   const [cupType, setCup] = useState("포장컵");
   const [priceValue, setPrice] = useState({ curruntPrice: 0, defaultPrice: 0, originPrice: 0 });

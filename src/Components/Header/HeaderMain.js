@@ -10,7 +10,7 @@ export default function HeaderMain() {
             <span className="blind">Dal.komm</span>
           </Link>
         </h1>
-        <Link to="/order/menu/search" type="button" className="open-search">
+        <Link to={`/order/menuSearch/0`} type="button" className="open-search">
           <i className="ico search">
             <span>검색하기</span>
           </i>

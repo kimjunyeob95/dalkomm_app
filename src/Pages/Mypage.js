@@ -39,7 +39,6 @@ export default function MyPage() {
       ])
       .then(
         axios.spread((res1, res2, res3, res4) => {
-          console.log(res2);
           let res1_data = res1.data.data;
           let res2_data = res2.data.data;
           let res3_data = res3.data.data;

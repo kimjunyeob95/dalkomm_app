@@ -8,9 +8,12 @@
     "@testing-library/user-event": "^12.1.10",
     "axios": "^0.21.1",
     "date-fns": "^2.23.0",
+    "google-map-react": "^2.1.10",
+    "google-maps-react": "^2.0.6",
     "hmacsha1": "^1.0.0",
     "jquery": "^3.6.0",
     "react": "^17.0.2",
+    "react-clipboard.js": "^2.0.16",
     "react-datepicker": "^4.2.1",
     "react-dom": "^17.0.2",
     "react-lodash": "^0.1.2",
@@ -19,7 +22,6 @@
     "swiper": "^6.8.1",
     "web-vitals": "^1.0.1"
   },
-
   "scripts": {
     "start": "set HTTPS=true&&react-scripts start",
     "build": "react-scripts build",
@@ -44,5 +46,5 @@
       "last 1 safari version"
     ]
   },
-  "proxy":"https://dev-app.dalkomm.com"
+  "proxy": "https://dev-app.dalkomm.com"
 }
