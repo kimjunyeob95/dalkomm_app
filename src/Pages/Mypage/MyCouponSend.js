@@ -13,7 +13,7 @@ import { SERVER_DALKOMM } from "Config/Server";
 
 import { tabLink, fadeInOut, contGap } from "Jquery/Jquery";
 
-export default function MyGift() {
+export default function MyCouponSend() {
   const [state, dispatch] = useContext(authContext);
   const [axioData, setData] = useState();
   const fn_submit = () => {
@@ -53,7 +53,7 @@ export default function MyGift() {
 
         <div id="wrap" className="wrap">
           <div id="container" className="container">
-            <HeaderSub title="쿠폰 선물하기" location="/mypage/giftRecipt" type="flexCenter" icon="recipt" />
+            <HeaderSub title="쿠폰 선물하기" location="/mypage/couponRecipt" type="flexCenter" icon="recipt" />
 
             <div id="content" className="mypage gift">
               <div className="form-wrap">

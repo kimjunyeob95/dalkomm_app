@@ -56,7 +56,7 @@ export default function MyCoupon() {
 
         <div id="wrap" className="wrap">
           <div id="container" className="container">
-            <HeaderSub title="나의 쿠폰 리스트" location="/mypage/gift" type="flexCenter" icon="gift" />
+            <HeaderSub title="나의 쿠폰 리스트" location="/mypage/couponSend" type="flexCenter" icon="gift" />
 
             <div id="content" className="mypage coupon">
               <section className="section">

@@ -26,7 +26,10 @@ import FindPw from "Pages/Join/Find_pw";
 
 //mypage page
 import MyCoupon from "Pages/Mypage/MyCoupon";
-import MyGift from "Pages/Mypage/MyGift";
+import MyCouponSend from "Pages/Mypage/MyCouponSend";
+import MyCouponRecipt from "Pages/Mypage/MyCouponRecipt";
+import MyGiftSend from "Pages/Mypage/MyGiftSend";
+import MyGiftSendRecipt from "Pages/Mypage/MyGiftSendRecipt";
 import MyGiftRecipt from "Pages/Mypage/MyGiftRecipt";
 import MyGiftCharge from "Pages/Mypage/GiftCharge";
 import MyCart from "Pages/Mypage/MyCart";
@@ -88,14 +91,23 @@ ReactDOM.render(
         <PrivateRoute exact path="/mypage/coupon">
           <MyCoupon />
         </PrivateRoute>
+        <PrivateRoute exact path="/mypage/couponSend">
+          <MyCouponSend />
+        </PrivateRoute>
+        <PrivateRoute exact path="/mypage/couponRecipt">
+          <MyCouponRecipt />
+        </PrivateRoute>
         <PrivateRoute exact path="/mypage/stamp">
           <MyStamp />
         </PrivateRoute>
-        <PrivateRoute exact path="/mypage/gift">
-          <MyGift />
+        <PrivateRoute exact path="/mypage/giftSend">
+          <MyGiftSend />
         </PrivateRoute>
         <PrivateRoute exact path="/mypage/giftRecipt">
           <MyGiftRecipt />
+        </PrivateRoute>
+        <PrivateRoute exact path="/mypage/giftSendRecipt">
+          <MyGiftSendRecipt />
         </PrivateRoute>
         <PrivateRoute exact path="/mypage/orderRecipt">
           <MyOrderRecipt />

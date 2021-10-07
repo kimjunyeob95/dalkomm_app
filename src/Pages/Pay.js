@@ -13,6 +13,7 @@ import HeaderSub from "Components/Header/HeaderSub";
 import Nav from "Components/Nav/Nav";
 import GoContents from "Components/GoContents";
 import { contGap, popupOpen, tabLink, fadeInOut } from "Jquery/Jquery";
+import Popup_removeCard from "./Popup_removeCard";
 
 import { authContext } from "ContextApi/Context";
 import { SERVER_DALKOMM } from "Config/Server";
@@ -25,16 +26,16 @@ export default function Pay() {
   const [state, dispatch] = useContext(authContext);
   const [axioData, setData] = useState();
   const [cardPopup, setCard] = useState(false);
+  const body = {};
+  const header_config = {
+    headers: {
+      "X-dalkomm-access-token": state?.accessToken,
+      Authorization: state?.auth,
+    },
+  };
   useEffect(() => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
 
-    const body = {};
-    const header_config = {
-      headers: {
-        "X-dalkomm-access-token": state?.accessToken,
-        Authorization: state?.auth,
-      },
-    };
     axios
       .all([
         axios.post(`${SERVER_DALKOMM}/app/api/v2/membership`, body, header_config),
@@ -43,7 +44,6 @@ export default function Pay() {
       .then(
         axios.spread((res1, res2) => {
           let res1_data = res1.data.data;
-          // res1_data.each((i, e) => {});
           let res2_data = res2.data.data;
           setData((origin) => {
             return {
@@ -70,13 +70,14 @@ export default function Pay() {
     $("#barcode2_gift").html(targetBarcode);
     setCard(axioData?.res2_data?.charge_card_list?.filter((e, i) => e.card_number === cardNum)[0]);
   };
+
   if (axioData) {
     return (
       <React.Fragment>
         <GoContents />
         <div id="wrap" className="wrap">
           <div id="container" className="container">
-            <HeaderSub type="flexCenter" title="페이" icon="gift" location="/mypage/gift" />
+            <HeaderSub type="flexCenter" title="페이" icon="gift" location="/mypage/giftSend" />
 
             <Nav order={2} />
 
@@ -153,7 +154,7 @@ export default function Pay() {
                   >
                     <ul className="swiper-wrapper">
                       {axioData?.res2_data?.charge_card_list?.map((e, i) => (
-                        <SwiperSlide className="swiper-slide" key={i}>
+                        <SwiperSlide className="swiper-slide" key={i} data-cardnum={e?.card_number} data-pin={e?.pin_number}>
                           <h2>{axioData?.res1_data?.user_name}님의 기프트카드</h2>
                           <div className="item card gift">
                             <div className="card-wrap" style={{ backgroundImage: `url(${e?.card_image_url})` }}>
@@ -212,7 +213,9 @@ export default function Pay() {
                       </Link>
                     </li>
                     <li>
-                      <Link to="#">카드삭제</Link>
+                      <a className="open-pop" data-href="#popupExitJoin" onClick={(e) => popupOpen(e.target)}>
+                        카드삭제
+                      </a>
                     </li>
                   </ul>
                 </div>
@@ -222,6 +225,7 @@ export default function Pay() {
           </div>
           {/* // #container */}
         </div>
+        <Popup_removeCard />
         {/* // #wrap */}
 
         {/* 멤버쉽 카드 확대 팝업 */}

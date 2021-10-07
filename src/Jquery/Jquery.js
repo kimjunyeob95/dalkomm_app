@@ -133,7 +133,7 @@ export function popupOpen(e) {
     var target = $(e).attr("pop-target");
   }
   $(e).attr("temp-id", "" + target);
-  if (target === "#zoomCardMembership") {
+  if (target === "#zoomCardMembership" || target === "#zoomCardGift") {
     try {
       let if_data = JSON.stringify({ data: "Y" });
       if (checkMobile() === "android") {
