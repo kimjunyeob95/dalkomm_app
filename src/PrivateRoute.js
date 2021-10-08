@@ -9,7 +9,7 @@ import { authContext } from "./ContextApi/Context";
 // eslint-disable-next-line no-unused-vars
 import { checkMobile } from "Config/GlobalJs";
 
-export default function PrivateRoute({ children }) {
+export default function PrivateRoute({ children, ...rest }) {
   const [state] = useContext(authContext);
   const [loading, setLoading] = useState(false);
   useEffect(() => {
@@ -22,7 +22,7 @@ export default function PrivateRoute({ children }) {
   }, [state.loginFlag]);
   if (loading && state?.loginFlag) {
     //로그인시
-    return <Route render={({ location }) => children} />;
+    return <Route {...rest} render={({ location }) => children} />;
   } else if (loading && !state?.loginFlag) {
     //비로그인시
     try {

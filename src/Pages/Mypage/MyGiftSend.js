@@ -79,34 +79,25 @@ export default function MyGiftSend() {
     if (validation) {
       let body = {
         amount: Number($('input[name="giftMoney"]:checked').attr("value")),
-        card_image_id: Number($(".swiper-slide-active").attr("imageid")),
+        // card_image_id: Number($(".swiper-slide-active").attr("imageid")),
+        card_image_id: 1,
         card_name: $("#giftCard").val(),
         recv_user_name: $("#giftName").val(),
         recv_user_mobile: $("#giftPhone").val(),
         pay_method: $('input[name="payMethod"]:checked').attr("value"),
-        msg: $(".swiper-slide-active textarea").val(),
+        msg: $("#textmsg").val(),
       };
       axios.all([axios.post(`${SERVER_DALKOMM}/app/api/v2/present/auth`, body, header_config)]).then(
         axios.spread((res1) => {
           let present_token = res1.data.data.present_token;
-          let linkData = { data: `${SERVER_DALKOMM}/app/web/present?present_token=${present_token}` };
-          linkData = JSON.stringify(linkData);
-          try {
-            if (checkMobile() === "android") {
-              window.android.fn_callUrl(linkData);
-            } else if (checkMobile() === "ios") {
-              window.webkit.messageHandlers.fn_callUrl.postMessage(linkData);
-            }
-          } catch (error) {
-            console.log(error);
-          }
+          window.open(`${SERVER_DALKOMM}/app/web/present?present_token=${present_token}`);
         })
       );
     }
   };
 
   if (axioData) {
-    fadeInOut();
+    // fadeInOut();
     return (
       <React.Fragment>
         <GoContents />
@@ -120,36 +111,25 @@ export default function MyGiftSend() {
                 <form className="form">
                   <fieldset className="fieldset">
                     <div className="w-inner">
-                      <Swiper
-                        id="cardSlider"
-                        className="swiper-container"
-                        slidesPerView={1}
-                        pagination={{ clickable: true }}
-                        observer={true}
-                        observeParents={true}
-                      >
-                        <ul className="swiper-wrapper">
-                          {axioData?.res2_data?.card_image_list?.map((e, i) => (
-                            <SwiperSlide className="swiper-slide" key={i} data-imgurl={e?.image_url} imageid={e.image_id}>
-                              <p className="card-title">{axioData?.res1_data?.user_name}님의 선물카드</p>
-                              <div className="item card gift">
-                                <div className="card-wrap" style={{ backgroundImage: `url(${e?.image_url})` }}>
-                                  <p className="grade en">
-                                    RECHARGEABLE
-                                    <br />
-                                    GIFT CARD
-                                  </p>
-                                  <p className="sort en">DAL.KOMM GIFT CARD</p>
-                                </div>
-                                <div className="textarea-wrap">
-                                  <textarea className="textarea" placeholder="선물 메세지를 입력해 주세요. (최대 20자)" maxLength="20"></textarea>
-                                </div>
-                              </div>
-                            </SwiperSlide>
-                          ))}
-                        </ul>
-                        <div className="swiper-pagination"></div>
-                      </Swiper>
+                      <p className="card-title">{axioData?.res1_data?.user_name}님의 선물카드</p>
+                      <div className="item card gift">
+                        <div className="card-wrap">
+                          <p className="grade en">
+                            RECHARGEABLE
+                            <br />
+                            GIFT CARD
+                          </p>
+                          <p className="sort en">DAL.KOMM GIFT CARD</p>
+                        </div>
+                        <div className="textarea-wrap">
+                          <textarea
+                            id="textmsg"
+                            className="textarea"
+                            placeholder="선물 메세지를 입력해 주세요. (최대 20자)"
+                            maxLength="20"
+                          ></textarea>
+                        </div>
+                      </div>
                       <div className="field" style={{ marginTop: "35px" }}>
                         <div className="flex-both">
                           <span className="label">받으실 분</span>
@@ -227,15 +207,15 @@ export default function MyGiftSend() {
                       <div className="field">
                         <span className="label">결제 수단</span>
                         <div className="select-group col-3">
-                          <input type="radio" id="payMethod01" name="payMethod" defaultChecked={true} value="신용카드" />
+                          <input type="radio" id="payMethod01" name="payMethod" defaultChecked={true} value="P" />
                           <label htmlFor="payMethod01" className="btn bdr medium">
                             <strong>신용카드</strong>
                           </label>
-                          <input type="radio" id="payMethod02" name="payMethod" value="휴대폰" />
+                          <input type="radio" id="payMethod02" name="payMethod" value="T" />
                           <label htmlFor="payMethod02" className="btn bdr medium">
                             <strong>휴대폰</strong>
                           </label>
-                          <input type="radio" id="payMethod03" name="payMethod" value="페이코인" />
+                          <input type="radio" id="payMethod03" name="payMethod" value="O" />
                           <label htmlFor="payMethod03" className="btn bdr medium">
                             <strong>페이코인</strong>
                           </label>

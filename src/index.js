@@ -103,7 +103,7 @@ ReactDOM.render(
         <PrivateRoute exact path="/mypage/giftSend">
           <MyGiftSend />
         </PrivateRoute>
-        <PrivateRoute exact path="/mypage/giftRecipt">
+        <PrivateRoute exact path="/mypage/giftRecipt/:giftnum">
           <MyGiftRecipt />
         </PrivateRoute>
         <PrivateRoute exact path="/mypage/giftSendRecipt">
@@ -112,7 +112,7 @@ ReactDOM.render(
         <PrivateRoute exact path="/mypage/orderRecipt">
           <MyOrderRecipt />
         </PrivateRoute>
-        <PrivateRoute exact path="/mypage/giftCharge">
+        <PrivateRoute exact path="/mypage/giftCharge/:giftnum">
           <MyGiftCharge />
         </PrivateRoute>
         <PrivateRoute exact path="/mypage/option">

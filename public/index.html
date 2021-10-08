@@ -28,8 +28,13 @@
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
     <script>
-      function globalTest(){
-        console.log('테스트호출')
+      let result_phone;
+      function nativeCallbackPhone(param){
+        if(param !== undefined){
+          result_phone=param;
+          return result_phone;
+        }
+        return result_phone;
       }
     </script>
   </body>

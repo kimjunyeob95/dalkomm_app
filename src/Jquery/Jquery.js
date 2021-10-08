@@ -2,10 +2,10 @@ import $ from "jquery";
 import { checkMobile } from "Config/GlobalJs";
 
 export function fadeInOut() {
-  $("body").removeClass("fade-out").addClass("fade-in");
-  setTimeout(() => {
-    $("body").removeClass("fade-in").addClass("fade-out");
-  }, 100);
+  // $("body").removeClass("fade-out").addClass("fade-in");
+  // setTimeout(() => {
+  //   $("body").removeClass("fade-in").addClass("fade-out");
+  // }, 100);
 }
 
 export function fn_masking(input, index, character, type) {
@@ -121,7 +121,7 @@ function modalClose(popId) {
   $("body").removeClass("modal-opened");
 }
 
-export function popupOpen(e) {
+export function popupOpen(e, cardNumber) {
   var pTag = $(e).prop("tagName"),
     // eslint-disable-next-line no-unused-vars
     scroll = $(e).attr("modal-scroll");
@@ -134,6 +134,7 @@ export function popupOpen(e) {
   }
   $(e).attr("temp-id", "" + target);
   if (target === "#zoomCardMembership" || target === "#zoomCardGift") {
+    window.$("#barcode").barcode(cardNumber, "code128", { barWidth: 2, barHeight: 50, fontSize: 20 });
     try {
       let if_data = JSON.stringify({ data: "Y" });
       if (checkMobile() === "android") {

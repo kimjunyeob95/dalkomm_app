@@ -5,7 +5,7 @@
 import axios from "axios";
 import $ from "jquery";
 import React, { useEffect, useContext, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useHistory } from "react-router-dom";
 
 import HeaderSub2 from "Components/Header/HeaderSub2";
 import Nav from "Components/Nav/Nav";
@@ -21,6 +21,7 @@ import { authContext } from "ContextApi/Context";
 export default function OrderMenu() {
   const [state, dispatch] = useContext(authContext);
   const [axioData, setData] = useState(false);
+  const history = useHistory();
   const { storeCode } = useParams();
   const body = {};
   let header_config = {
@@ -53,7 +54,7 @@ export default function OrderMenu() {
                 res2_data,
               };
             });
-            fadeInOut();
+            // fadeInOut();
           })
         );
     }
@@ -77,6 +78,13 @@ export default function OrderMenu() {
         });
       })
     );
+  };
+  const handleDetail = (e, menucode) => {
+    if (axioData?.res2_data?.store_is_smartorder) {
+      history.push(`/order/detail/${menucode}`);
+    } else {
+      alert("테이블오더가 불가능한 매장입니다.");
+    }
   };
   if (axioData?.res1_data) {
     return (
@@ -139,7 +147,7 @@ export default function OrderMenu() {
                   {axioData?.all_menu?.searched_menu_list?.map((e, i) => {
                     return (
                       <li key={i}>
-                        <Link to={`/order/detail/${e?.code}`} className="item menu">
+                        <a onClick={(event) => handleDetail(event, e?.code)} className="item menu">
                           {/* 메뉴 .bagde.round 타입 
                                     .bagde.round.new : NEW
                                     .bagde.round.pick : PICK
@@ -155,7 +163,7 @@ export default function OrderMenu() {
                             </p>
                             <p className="price">{e.price}원</p>
                           </div>
-                        </Link>
+                        </a>
                       </li>
                     );
                   })}

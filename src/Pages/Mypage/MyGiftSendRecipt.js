@@ -1,3 +1,4 @@
+/* eslint-disable array-callback-return */
 /* eslint-disable react/jsx-pascal-case */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
@@ -27,14 +28,29 @@ export default function MyGiftSendRecipt() {
         Authorization: state?.auth,
       },
     };
-    axios.all([axios.post(`${SERVER_DALKOMM}/app/api/v2/coupon/list`, body, header_config)]).then(
+    axios.all([axios.post(`${SERVER_DALKOMM}/app/api/v2/present/history`, body, header_config)]).then(
       axios.spread((res1) => {
-        let res1_data = res1.data.data;
+        let resultList = res1.data.data.present_history;
+        resultList = resultList
+          .sort((a, b) => {
+            if (a.date > b.date) return -1;
+            else if (a.date < b.date) return 1;
+            return 0;
+          })
+          .reduce((prev, curr, indexs) => {
+            const idx = prev.findIndex((item) => item[0].date === curr.date);
+            if (idx === -1) {
+              prev.push([curr]);
+            } else {
+              prev[idx].push(curr);
+            }
+            return prev;
+          }, []);
 
         setData((origin) => {
           return {
             ...origin,
-            res1_data,
+            resultList,
           };
         });
       })
@@ -55,71 +71,33 @@ export default function MyGiftSendRecipt() {
             <div id="content" className="pay gift history">
               <section className="section">
                 <ol className="data-list">
-                  <li>
-                    <div className="history-header">2021.06.19</div>
-                    <div className="item history">
-                      <div className="detail-wrap flex-both">
-                        <p className="title">다슬커피</p>
-                        <p className="price">
-                          <strong>+20,000원</strong>
-                        </p>
-                      </div>
-                      <div className="data-wrap">
-                        <p className="tel">01088130918</p>
-                      </div>
-                    </div>
-                    <div className="item history">
-                      <div className="detail-wrap flex-both">
-                        <p className="title">다슬커피</p>
-                        <p className="price">
-                          <strong>+20,000원</strong>
-                        </p>
-                      </div>
-                      <div className="data-wrap">
-                        <p className="tel">01088130918</p>
-                      </div>
-                    </div>
-                  </li>
-                  <li>
-                    <div className="history-header">2021.05.16</div>
-                    <div className="item history">
-                      <div className="detail-wrap flex-both">
-                        <p className="title">다슬커피</p>
-                        <p className="price">
-                          <strong>+30,000원</strong>
-                        </p>
-                      </div>
-                      <div className="data-wrap">
-                        <p className="tel">01088130918</p>
-                      </div>
-                    </div>
-                  </li>
-                  <li>
-                    <div className="history-header">2021.01.15</div>
-                    <div className="item history">
-                      <div className="detail-wrap flex-both">
-                        <p className="title">다슬커피</p>
-                        <p className="price">
-                          <strong>+50,000원</strong>
-                        </p>
-                      </div>
-                      <div className="data-wrap">
-                        <p className="tel">01088130918</p>
-                      </div>
-                    </div>
-                    <div className="item history">
-                      <div className="detail-wrap flex-both">
-                        <p className="title">다슬커피</p>
-                        <p className="price">
-                          <strong>+10,000원</strong>
-                        </p>
-                      </div>
-                      <div className="data-wrap">
-                        <p className="tel">01088130918</p>
-                      </div>
-                    </div>
-                  </li>
+                  {axioData?.resultList?.map((element, index) => (
+                    <li key={index}>
+                      <div className="history-header">{element[0]?.date}</div>
+                      {element.map((ele, indexs) => (
+                        <div className="item history" key={indexs}>
+                          <div className="detail-wrap flex-both">
+                            <p className="title">{ele?.recv_user_name}</p>
+                            <p className="price">
+                              <strong>{ele?.amount.toLocaleString("ko-KR")}원</strong>
+                            </p>
+                          </div>
+                          <div className="data-wrap">
+                            <p className="tel">{ele?.recv_user_mobile}</p>
+                          </div>
+                        </div>
+                      ))}
+                    </li>
+                  ))}
                 </ol>
+                {axioData?.resultList?.length < 1 && (
+                  <p className="alert ta-c">
+                    <i className="ico alert">
+                      <span>알림</span>
+                    </i>
+                    기프트카드 선물내역이 없습니다.
+                  </p>
+                )}
               </section>
             </div>{" "}
             {/* // #content */}

@@ -49,7 +49,7 @@ export default function MyCoupon() {
     contGap();
   }, [axioData]);
   if (axioData) {
-    fadeInOut();
+    // fadeInOut();
     return (
       <React.Fragment>
         <GoContents />

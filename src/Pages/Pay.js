@@ -7,7 +7,7 @@
 import axios from "axios";
 import $ from "jquery";
 import React, { useEffect, useContext, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 
 import HeaderSub from "Components/Header/HeaderSub";
 import Nav from "Components/Nav/Nav";
@@ -26,6 +26,8 @@ export default function Pay() {
   const [state, dispatch] = useContext(authContext);
   const [axioData, setData] = useState();
   const [cardPopup, setCard] = useState(false);
+  const history = useHistory();
+
   const body = {};
   const header_config = {
     headers: {
@@ -52,7 +54,7 @@ export default function Pay() {
               res2_data,
             };
           });
-          fadeInOut();
+          // fadeInOut();
           window.$("#barcode").barcode(res1_data?.stamp_card_number, "code128", { barWidth: 2, barHeight: 50, fontSize: 20 });
           window.$("#barcode1_2").barcode(res1_data?.stamp_card_number, "code128", { barWidth: 2, barHeight: 50, fontSize: 20 });
           res2?.data?.data?.charge_card_list?.map((e, i) => {
@@ -69,6 +71,16 @@ export default function Pay() {
     let targetBarcode = $(event).prev().children(".react-barcode").html();
     $("#barcode2_gift").html(targetBarcode);
     setCard(axioData?.res2_data?.charge_card_list?.filter((e, i) => e.card_number === cardNum)[0]);
+  };
+
+  const handleGiftDetail = (event) => {
+    let giftCode = $("#payGift .swiper-slide-active").data("cardnum");
+    history.push(`/mypage/giftRecipt/${giftCode}`);
+  };
+
+  const handleGiftCharge = (event) => {
+    let giftCode = $("#payGift .swiper-slide-active").data("cardnum");
+    history.push(`/mypage/giftCharge/${giftCode}`);
   };
 
   if (axioData) {
@@ -157,7 +169,8 @@ export default function Pay() {
                         <SwiperSlide className="swiper-slide" key={i} data-cardnum={e?.card_number} data-pin={e?.pin_number}>
                           <h2>{axioData?.res1_data?.user_name}님의 기프트카드</h2>
                           <div className="item card gift">
-                            <div className="card-wrap" style={{ backgroundImage: `url(${e?.card_image_url})` }}>
+                            <div className="card-wrap">
+                              {/* <div className="card-wrap" style={{ backgroundImage: `url(${e?.card_image_url})` }}> */}
                               <p className="grade en">
                                 RECHARGEABLE
                                 <br />
@@ -171,7 +184,7 @@ export default function Pay() {
                                 {/* <div className="img-wrap">
                                   <img src="../@resource/images/com/barcode.svg" alt="바코드" />
                                 </div> */}
-                                <p className="num">{e?.card_number}</p>
+                                <p className="num">{e?.card_number.toLocaleString("ko-KR")}</p>
                               </div>
                               <button
                                 type="button"
@@ -190,14 +203,14 @@ export default function Pay() {
                             <div className="state-wrap flex-both">
                               <dl className="possess flex-list">
                                 <dt className="title">보유 금액</dt>
-                                <dd className="price fc-orange">{e?.amount}원</dd>
+                                <dd className="price fc-orange">{e?.amount.toLocaleString("ko-KR")}원</dd>
                               </dl>
-                              <Link to="/mypage/giftCharge" className="btn">
+                              <a onClick={(event) => handleGiftCharge(event.currentTarget)} className="btn">
                                 <i className="ico money">
                                   <span>충전하기</span>
                                 </i>
                                 &nbsp;충전하기
-                              </Link>
+                              </a>
                             </div>
                           </div>
                         </SwiperSlide>
@@ -208,9 +221,9 @@ export default function Pay() {
 
                   <ul className="row-list flex-center">
                     <li>
-                      <Link to="/mypage/giftRecipt">
+                      <a onClick={(event) => handleGiftDetail(event.currentTarget)}>
                         <i className="ico recipt"></i>사용내역
-                      </Link>
+                      </a>
                     </li>
                     <li>
                       <a className="open-pop" data-href="#popupExitJoin" onClick={(e) => popupOpen(e.target)}>
@@ -275,7 +288,8 @@ export default function Pay() {
             </div>
             <div className="popup-body">
               <div className="item card gift">
-                <div className="card-wrap" style={{ backgroundImage: `url(${cardPopup?.card_image_url})` }}>
+                <div className="card-wrap">
+                  {/* <div className="card-wrap" style={{ backgroundImage: `url(${cardPopup?.card_image_url})` }}> */}
                   <div>
                     <p className="grade en">
                       RECHARGEABLE

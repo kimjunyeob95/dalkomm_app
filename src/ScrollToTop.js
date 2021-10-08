@@ -27,11 +27,11 @@ const ScrollToTop = () => {
       dispatch({ type: "changeLocation" });
     }
   }, [pathname]);
-  $("body").removeClass("fade-out").addClass("fade-in");
+  // $("body").removeClass("fade-out").addClass("fade-in");
 
-  setTimeout(() => {
-    $("body").removeClass("fade-in").addClass("fade-out");
-  }, 100);
+  // setTimeout(() => {
+  //   $("body").removeClass("fade-in").addClass("fade-out");
+  // }, 100);
   return null;
 };
 

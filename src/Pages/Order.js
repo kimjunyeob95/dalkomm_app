@@ -70,7 +70,7 @@ export function Order(props) {
     contGap();
     SwiperCore.use([Scrollbar]);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    fadeInOut();
+    // fadeInOut();
   }, [axioData]);
 
   const handleFavorite = (e, storeCode) => {

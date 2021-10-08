@@ -60,7 +60,7 @@ export default function MyPage() {
     contGap();
   }, [axioData]);
   if (axioData) {
-    fadeInOut();
+    // fadeInOut();
     return (
       <React.Fragment>
         <GoContents />
@@ -76,7 +76,12 @@ export default function MyPage() {
                   </p>
                   <div className="flex-center">
                     <span className="en grade">{axioData?.res1_data?.user?.membership_name}</span>
-                    <button type="button" className="btn barcode  open-pop" pop-target="#zoomCardMembership" onClick={(e) => popupOpen(e.target)}>
+                    <button
+                      type="button"
+                      className="btn barcode  open-pop"
+                      pop-target="#zoomCardMembership"
+                      onClick={(e) => popupOpen(e.target, axioData?.res4_data?.stamp_card_number)}
+                    >
                       <i className="ico barcode-w" pop-target="#zoomCardMembership">
                         <span>바코드</span>
                       </i>
@@ -185,9 +190,10 @@ export default function MyPage() {
                 <div className="barcode-wrap">
                   <div>
                     <div className="barcode">
-                      <div className="img-wrap">
+                      <div id="barcode" className="react-barcode"></div>
+                      {/* <div className="img-wrap">
                         <img src="../@resource/images/com/barcode.svg" alt="바코드" />
-                      </div>
+                      </div> */}
                       <p className="num">{axioData?.res4_data?.stamp_card_number}</p>
                     </div>
                   </div>

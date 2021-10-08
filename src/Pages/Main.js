@@ -23,20 +23,20 @@ function Main() {
   const { search } = useLocation();
   // eslint-disable-next-line no-unused-vars
   const searchParams = new URLSearchParams(search);
+  const body = {};
+  let location_body = {};
+  if (state?.latitude !== "" && state?.longitude !== "") {
+    location_body = { latitude: state.latitude, longitude: state?.longitude };
+  }
+  let header_config = {
+    headers: {
+      "X-dalkomm-access-token": state.accessToken,
+      Authorization: state.auth,
+    },
+  };
   useEffect(() => {
     // 말풍선 스크롤시 hide/show
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    const body = {};
-    let location_body = {};
-    if (state?.latitude !== "" && state?.longitude !== "") {
-      location_body = { latitude: state.latitude, longitude: state?.longitude };
-    }
-    let header_config = {
-      headers: {
-        "X-dalkomm-access-token": state.accessToken,
-        Authorization: state.auth,
-      },
-    };
 
     if (state.accessToken !== "") {
       //로그인 시
@@ -115,7 +115,6 @@ function Main() {
       console.log(error);
     }
   };
-
   // return (
   //   <div style={{ wordBreak: "break-all" }}>
   //     <p> accessToken : {state?.accessToken}</p>
@@ -126,7 +125,7 @@ function Main() {
   // );
   //axios 반환 시
   if (axioData?.res1_data?.main_banner_list) {
-    fadeInOut();
+    // fadeInOut();
     return (
       <React.Fragment>
         <GoContents />
@@ -189,7 +188,12 @@ function Main() {
                   <p className="user">
                     <span className="fc-orange">{decodeURI(axioData?.res3_data?.name)}</span> 고객님
                   </p>
-                  <button type="button" className="btn barcode open-pop" pop-target="#zoomCardMembership" onClick={(e) => popupOpen(e.currentTarget)}>
+                  <button
+                    type="button"
+                    className="btn barcode open-pop"
+                    pop-target="#zoomCardMembership"
+                    onClick={(e) => popupOpen(e.currentTarget, axioData?.res6_data?.stamp_card_number)}
+                  >
                     <i className="ico barcode" pop-target="#zoomCardMembership">
                       <span>바코드</span>
                     </i>
@@ -219,7 +223,9 @@ function Main() {
                       </div>
                       <div className="data-wrap">
                         <p className="title">기프트 카드 잔액</p>
-                        <p className="state">{state?.loginFlag ? axioData?.res2_data?.user?.charge_card_amount + "원" : "-"}</p>
+                        <p className="state">
+                          {state?.loginFlag ? axioData?.res2_data?.user?.charge_card_amount?.toLocaleString("ko-KR") + "원" : "-"}
+                        </p>
                       </div>
                     </Link>
                   </li>
@@ -245,7 +251,7 @@ function Main() {
                     </Link>
                   </li>
                   <li>
-                    <Link to="#" className="item my-state">
+                    <Link to="/order" className="item my-state">
                       <div className="img-wrap">
                         <i className="ico store-type small house">
                           {/* 매장 타입별 
@@ -266,7 +272,13 @@ function Main() {
                       </div>
                       <div className="data-wrap">
                         <p className="title">가까운 매장</p>
-                        <p className="state">{state?.loginFlag ? <React.Fragment>광주쌍령DT점</React.Fragment> : "-"}</p>
+                        <p className="state">
+                          {state?.loginFlag && state?.latitude ? (
+                            <React.Fragment>{axioData?.res4_data?.store_list[0]?.store_name}</React.Fragment>
+                          ) : (
+                            "-"
+                          )}
+                        </p>
                       </div>
                     </Link>
                   </li>
@@ -357,7 +369,7 @@ function Main() {
               {/* // 나의 최근 주문 */}
 
               {/* 나의 보유 쿠폰 */}
-              {state?.loginFlag && (
+              {state?.loginFlag && axioData?.res5_data?.coupon_list?.length > 0 && (
                 <section className="section">
                   <div className="w-inner">
                     <div className="title-wrap flex-both">
@@ -431,7 +443,7 @@ function Main() {
               </section>
               {/* // 달콤 스토리 */}
 
-              {state?.loginFlag ? (
+              {state?.latitude !== "" && state?.latitude !== undefined && state?.latitude !== "undefined" && state?.latitude ? (
                 <section className="section">
                   {/* 주변 매장 찾기 */}
                   <div className="title-wrap w-inner flex-both">
@@ -447,7 +459,7 @@ function Main() {
                       {axioData?.res4_data?.store_list?.map((e, i) => {
                         return (
                           <SwiperSlide className="swiper-slide" key={i}>
-                            <Link to="#" className="item store" data-store={e.store_id}>
+                            <Link to={`/order/menu/${e?.store_code}`} className="item store" data-store={e.store_id}>
                               <div className="flex-both">
                                 <span className={`btn bookmark ${e.store_is_favorite && "active"}`}>
                                   <i className="ico heart">
@@ -501,7 +513,7 @@ function Main() {
                                     </i>
                                   </li>
                                 </ul>
-                                <p className="distance">{e.store_distance !== "-1" && e.store_distance + "m"}</p>
+                                <p className="distance">{e.store_distance !== "-1" && e.store_distance + "km"}</p>
                               </div>
                             </Link>
                           </SwiperSlide>
@@ -509,17 +521,6 @@ function Main() {
                       })}
                     </ul>
                   </Swiper>
-
-                  {/* [D] 위치 권한 미허용일 시 
-                  <div className="alert-info">
-                      <i className="ico store-alert"></i>
-                      <p className="text ta-c">
-                          앱 설정 &gt; 권한에서 <span className="fc-orange">위치 권한</span>을 허용해 주세요.<br/>
-                      고객님과 가까운 매장을 추천해 드립니다.
-                      </p>
-                  </div>
-                   // [D] 위치 권한 미허용일 시  */}
-                  {/* //주변 매장 찾기 */}
                 </section>
               ) : (
                 <section className="section">
@@ -653,9 +654,10 @@ function Main() {
                   <div className="barcode-wrap">
                     <div>
                       <div className="barcode">
-                        <div className="img-wrap">
+                        <div id="barcode" className="react-barcode"></div>
+                        {/* <div className="img-wrap">
                           <img src="/@resource/images/com/barcode.svg" alt="바코드" />
-                        </div>
+                        </div> */}
                         <p className="num">{axioData?.res6_data?.stamp_card_number}</p>
                       </div>
                     </div>

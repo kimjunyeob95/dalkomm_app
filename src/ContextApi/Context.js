@@ -41,10 +41,10 @@ export const indexReducer = (state, action) => {
     case "changeLocation": {
       return {
         ...state,
-        latitude: 37.507232666015625,
-        longitude: 127.05642398540016,
-        // latitude: getCookieValue("latitude"),
-        // longitude: getCookieValue("longitude"),
+        // latitude: 37.507232666015625,
+        // longitude: 127.05642398540016,
+        latitude: getCookieValue("latitude"),
+        longitude: getCookieValue("longitude"),
       };
     }
   }
