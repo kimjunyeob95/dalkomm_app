@@ -73,7 +73,8 @@ const ContextStore = (props) => {
       // indexInitialState.app_version = "3.0.0";
       // indexInitialState.os = "ios";
       // indexInitialState.isApp = "Y";
-      // indexInitialState.auth = "Basic ZGFsa29tbTpkYWxrb21tX2FwcDs3NWEzMjRkMTNkY2FjYjM1ZjhkODc0MjZjZDRjYjAyODExZTBkYTM1OzIwMjExMDA2MTEzOTU0";
+      // indexInitialState.auth =
+      //   "Basic ZGFsa29tbTpkYWxrb21tX2FwcDs3NWEzMjRkMTNkY2FjYjM1ZjhkODc0MjZjZDRjYjAyODExZTBkYTM1OzIwMjExMDA2MTEzOTU0";
       // indexInitialState.latitude = 37.507232666015625;
       // indexInitialState.longitude = 127.05642398540016;
     }
@@ -81,7 +82,11 @@ const ContextStore = (props) => {
     setLoding(true);
   }, [loading]);
 
-  return <authContext.Provider value={useReducer(indexReducer, indexInitialState)}>{props.children}</authContext.Provider>;
+  return (
+    <authContext.Provider value={useReducer(indexReducer, indexInitialState)}>
+      {props.children}
+    </authContext.Provider>
+  );
 };
 
 export default ContextStore;

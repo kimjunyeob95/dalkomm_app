@@ -28,33 +28,41 @@ export default function MyGiftSendRecipt() {
         Authorization: state?.auth,
       },
     };
-    axios.all([axios.post(`${SERVER_DALKOMM}/app/api/v2/present/history`, body, header_config)]).then(
-      axios.spread((res1) => {
-        let resultList = res1.data.data.present_history;
-        resultList = resultList
-          .sort((a, b) => {
-            if (a.date > b.date) return -1;
-            else if (a.date < b.date) return 1;
-            return 0;
-          })
-          .reduce((prev, curr, indexs) => {
-            const idx = prev.findIndex((item) => item[0].date === curr.date);
-            if (idx === -1) {
-              prev.push([curr]);
-            } else {
-              prev[idx].push(curr);
-            }
-            return prev;
-          }, []);
+    axios
+      .all([
+        axios.post(
+          `${SERVER_DALKOMM}/app/api/v2/present/history`,
+          body,
+          header_config
+        ),
+      ])
+      .then(
+        axios.spread((res1) => {
+          let resultList = res1.data.data.present_history;
+          resultList = resultList
+            .sort((a, b) => {
+              if (a.date > b.date) return -1;
+              else if (a.date < b.date) return 1;
+              return 0;
+            })
+            .reduce((prev, curr, indexs) => {
+              const idx = prev.findIndex((item) => item[0].date === curr.date);
+              if (idx === -1) {
+                prev.push([curr]);
+              } else {
+                prev[idx].push(curr);
+              }
+              return prev;
+            }, []);
 
-        setData((origin) => {
-          return {
-            ...origin,
-            resultList,
-          };
-        });
-      })
-    );
+          setData((origin) => {
+            return {
+              ...origin,
+              resultList,
+            };
+          });
+        })
+      );
   }, []);
   useEffect(() => {
     contGap();
@@ -68,7 +76,12 @@ export default function MyGiftSendRecipt() {
         <div id="wrap" className="wrap">
           <div id="container" className="container">
             <HeaderSub title="기프트카드 선물내역" />
-            <div id="content" className="pay gift history">
+            <div
+              id="content"
+              className={`pay gift history ${
+                axioData?.resultList?.length < 1 && "charge"
+              }`}
+            >
               <section className="section">
                 <ol className="data-list">
                   {axioData?.resultList?.map((element, index) => (
@@ -79,7 +92,9 @@ export default function MyGiftSendRecipt() {
                           <div className="detail-wrap flex-both">
                             <p className="title">{ele?.recv_user_name}</p>
                             <p className="price">
-                              <strong>{ele?.amount.toLocaleString("ko-KR")}원</strong>
+                              <strong>
+                                {ele?.amount.toLocaleString("ko-KR")}원
+                              </strong>
                             </p>
                           </div>
                           <div className="data-wrap">

@@ -97,7 +97,6 @@ $(function () {
     var target = $(this).data("href");
     e.preventDefault();
     $(target).addClass("active");
-
     if ($(target).hasClass("store-pop") == true) {
       if ($(target).siblings(".store-pop").hasClass("active")) {
         $(target).siblings(".store-pop").removeClass("active");
