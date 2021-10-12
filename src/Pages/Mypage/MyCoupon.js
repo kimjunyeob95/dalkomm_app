@@ -1,9 +1,10 @@
-/* eslint-disable react/jsx-pascal-case */
+/* eslint-disable jsx-a11y/iframe-has-title */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 // eslint-disable-next-line no-unused-vars
 import axios from "axios";
+import $ from "jquery";
 import React, { useEffect, useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import HeaderSub from "Components/Header/HeaderSub";
@@ -18,16 +19,17 @@ export default function MyCoupon() {
   const [state, dispatch] = useContext(authContext);
   const [axioData, setData] = useState();
 
+  const body = {};
+  const header_config = {
+    headers: {
+      "X-dalkomm-access-token": state?.accessToken,
+      Authorization: state?.auth,
+    },
+  };
+
   useEffect(() => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
 
-    const body = {};
-    const header_config = {
-      headers: {
-        "X-dalkomm-access-token": state?.accessToken,
-        Authorization: state?.auth,
-      },
-    };
     axios.all([axios.post(`${SERVER_DALKOMM}/app/api/v2/coupon/list`, body, header_config)]).then(
       axios.spread((res1) => {
         let res1_data = res1.data.data;
@@ -42,12 +44,31 @@ export default function MyCoupon() {
     );
   }, []);
   const fn_submit = () => {
-    alert("쿠폰이 등록되었습니다.");
+    let coupon_number = $("#couponNum").val();
+    if (coupon_number === "") {
+      alert("쿠폰 번호를 입력해 주세요.");
+      return false;
+    } else {
+      axios.all([axios.post(`${SERVER_DALKOMM}/app/api/v2/coupon/ext/use`, { coupon_number: coupon_number }, header_config)]).then(
+        axios.spread((res1) => {
+          let res1_data = res1.data.data;
+          alert(res1.data.meta.msg);
+          if (res1.data.meta === 20000) {
+            setData((origin) => {
+              return {
+                ...origin,
+              };
+            });
+          }
+        })
+      );
+    }
   };
 
   useEffect(() => {
     contGap();
   }, [axioData]);
+
   if (axioData) {
     // fadeInOut();
     return (

@@ -1,3 +1,4 @@
+/* eslint-disable array-callback-return */
 /* eslint-disable react/jsx-pascal-case */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
@@ -27,14 +28,80 @@ export default function MyCouponRecipt() {
         Authorization: state?.auth,
       },
     };
-    axios.all([axios.post(`${SERVER_DALKOMM}/app/api/v2/coupon/list`, body, header_config)]).then(
+    axios.all([axios.post(`${SERVER_DALKOMM}/app/api/v2/coupon/present/history`, body, header_config)]).then(
       axios.spread((res1) => {
-        let res1_data = res1.data.data;
+        let resultList = res1.data.data.present_history;
+        // let resultList = [];
+        // resultList = [
+        //   {
+        //     amount: 20000,
+        //     date: "2021.10.12",
+        //     present_id: 252,
+        //     coupon_name: "01025466499",
+        //     user_name: "김준엽성함",
+        //     type: 1,
+        //   },
+        //   {
+        //     amount: 20000,
+        //     date: "2021.10.12",
+        //     present_id: 252,
+        //     coupon_name: "01025466499",
+        //     user_name: "김준엽성함2",
+        //     type: 1,
+        //   },
+        //   {
+        //     amount: 10000,
+        //     date: "2021.10.12",
+        //     present_id: 251,
+        //     coupon_name: "01025466499",
+        //     user_name: "김준여",
+        //     type: 2,
+        //   },
+        //   {
+        //     amount: 10000,
+        //     date: "2021.10.12",
+        //     present_id: 251,
+        //     coupon_name: "01025466499",
+        //     user_name: "김준여2",
+        //     type: 2,
+        //   },
+        //   {
+        //     amount: 10000,
+        //     date: "2021.10.08",
+        //     present_id: 248,
+        //     coupon_name: "01025466499",
+        //     user_name: "김준엽",
+        //     type: 1,
+        //   },
+        //   {
+        //     amount: 10000,
+        //     date: "2021.10.08",
+        //     present_id: 248,
+        //     coupon_name: "01025466499",
+        //     user_name: "김준엽2",
+        //     type: 1,
+        //   },
+        // ];
+        resultList = resultList
+          .sort((a, b) => {
+            if (a.date > b.date) return -1;
+            else if (a.date < b.date) return 1;
+            return 0;
+          })
+          .reduce((prev, curr, indexs) => {
+            const idx = prev.findIndex((item) => item[0].date === curr.date);
+            if (idx === -1) {
+              prev.push([curr]);
+            } else {
+              prev[idx].push(curr);
+            }
+            return prev;
+          }, []);
 
         setData((origin) => {
           return {
             ...origin,
-            res1_data,
+            resultList,
           };
         });
       })
@@ -43,6 +110,7 @@ export default function MyCouponRecipt() {
   useEffect(() => {
     contGap();
   }, [axioData]);
+
   if (axioData) {
     fadeInOut();
     return (
@@ -69,119 +137,57 @@ export default function MyCouponRecipt() {
 
                 <div id="receiveCoupon" className="tab-content active">
                   <ol className="data-list">
-                    <li>
-                      <h3 className="history-header">2021.06.19</h3>
-                      <ul className="data-list coupon-list">
-                        <li>
-                          <div className="item coupon">
-                            <div className="data-wrap">
-                              <div className="flex-both">
-                                <p className="day num fc-orange">~21.07.28</p>
-                                <p className="name">다슬커피</p>
-                              </div>
-                              <p className="title">FREE 음료 쿠폰</p>
-                            </div>
-                          </div>
-                        </li>
-                        <li>
-                          <div className="item coupon">
-                            <div className="data-wrap">
-                              <div className="flex-both">
-                                <p className="day num fc-orange">~21.07.28</p>
-                                <p className="name">다슬커피</p>
-                              </div>
-                              <p className="title">FREE 음료 쿠폰</p>
-                            </div>
-                          </div>
-                        </li>
-                        <li>
-                          <div className="item coupon">
-                            <div className="data-wrap">
-                              <div className="flex-both">
-                                <p className="day num fc-orange">~21.07.28</p>
-                                <p className="name">다슬커피</p>
-                              </div>
-                              <p className="title">FREE 음료 쿠폰</p>
-                            </div>
-                          </div>
-                        </li>
-                      </ul>
-                    </li>
-                    <li>
-                      <h3 className="history-header">2021.06.19</h3>
-                      <ul className="data-list coupon-list">
-                        <li>
-                          <div className="item coupon">
-                            <div className="data-wrap">
-                              <div className="flex-both">
-                                <p className="day num fc-orange">~21.07.28</p>
-                                <p className="name">다슬커피</p>
-                              </div>
-                              <p className="title">FREE 음료 쿠폰</p>
-                            </div>
-                          </div>
-                        </li>
-                        <li>
-                          <div className="item coupon">
-                            <div className="data-wrap">
-                              <div className="flex-both">
-                                <p className="day num fc-orange">~21.07.28</p>
-                                <p className="name">다슬커피</p>
-                              </div>
-                              <p className="title">FREE 음료 쿠폰</p>
-                            </div>
-                          </div>
-                        </li>
-                      </ul>
-                    </li>
+                    {axioData?.resultList?.map((e, i) => (
+                      <li key={i}>
+                        <h3 className="history-header">{e[0]?.date}</h3>
+                        <ul className="data-list coupon-list">
+                          {e?.map(
+                            (element, index) =>
+                              element?.type === 1 && (
+                                <li key={index}>
+                                  <div className="item coupon">
+                                    <div className="data-wrap">
+                                      <div className="flex-both">
+                                        <p className="day num fc-orange">~21.07.28(기한 데이터필요)</p>
+                                        <p className="name">{element?.user_name}</p>
+                                      </div>
+                                      <p className="title">{element?.coupon_name}</p>
+                                    </div>
+                                  </div>
+                                </li>
+                              )
+                          )}
+                        </ul>
+                      </li>
+                    ))}
                   </ol>
                 </div>
 
                 <div id="sendCoupon" className="tab-content">
                   <ol className="data-list">
-                    <li>
-                      <h3 className="history-header">2021.06.19</h3>
-                      <ul className="data-list coupon-list">
-                        <li>
-                          <div className="item coupon">
-                            <div className="data-wrap">
-                              <div className="flex-both">
-                                <p className="day num fc-orange">~21.07.28</p>
-                                <p className="name">다슬커피</p>
-                              </div>
-                              <p className="title">FREE 음료 쿠폰</p>
-                            </div>
-                          </div>
-                        </li>
-                      </ul>
-                    </li>
-                    <li>
-                      <h3 className="history-header">2021.06.19</h3>
-                      <ul className="data-list coupon-list">
-                        <li>
-                          <div className="item coupon">
-                            <div className="data-wrap">
-                              <div className="flex-both">
-                                <p className="day num fc-orange">~21.07.28</p>
-                                <p className="name">다슬커피</p>
-                              </div>
-                              <p className="title">FREE 음료 쿠폰</p>
-                            </div>
-                          </div>
-                        </li>
-                        <li>
-                          <div className="item coupon">
-                            <div className="data-wrap">
-                              <div className="flex-both">
-                                <p className="day num fc-orange">~21.07.28</p>
-                                <p className="name">다슬커피</p>
-                              </div>
-                              <p className="title">FREE 음료 쿠폰</p>
-                            </div>
-                          </div>
-                        </li>
-                      </ul>
-                    </li>
+                    {axioData?.resultList?.map((e, i) => (
+                      <li key={i}>
+                        <h3 className="history-header">{e[0]?.date}</h3>
+                        <ul className="data-list coupon-list">
+                          {e?.map(
+                            (element, index) =>
+                              element?.type === 2 && (
+                                <li key={index}>
+                                  <div className="item coupon">
+                                    <div className="data-wrap">
+                                      <div className="flex-both">
+                                        <p className="day num fc-orange">~21.07.28(기한 데이터필요)</p>
+                                        <p className="name">{element?.user_name}</p>
+                                      </div>
+                                      <p className="title">{element?.coupon_name}</p>
+                                    </div>
+                                  </div>
+                                </li>
+                              )
+                          )}
+                        </ul>
+                      </li>
+                    ))}
                   </ol>
                 </div>
 

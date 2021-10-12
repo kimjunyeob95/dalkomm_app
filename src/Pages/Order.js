@@ -46,16 +46,8 @@ export function Order(props) {
       //로그인 시
       axios
         .all([
-          axios.post(
-            `${SERVER_DALKOMM}/app/api/v2/store/around`,
-            location_body,
-            header_config
-          ),
-          axios.post(
-            `${SERVER_DALKOMM}/app/api/v2/favorite/store/list`,
-            location_body,
-            header_config
-          ),
+          axios.post(`${SERVER_DALKOMM}/app/api/v2/store/around`, location_body, header_config),
+          axios.post(`${SERVER_DALKOMM}/app/api/v2/favorite/store/list`, location_body, header_config),
         ])
         .then(
           axios.spread((res1, res2) => {
@@ -92,55 +84,33 @@ export function Order(props) {
         });
       }
       axios
-        .all([
-          axios.post(
-            `${SERVER_DALKOMM}/app/api/v2/favorite/store/delete`,
-            { store_code: storeCode },
-            header_config
-          ),
-        ])
+        .all([axios.post(`${SERVER_DALKOMM}/app/api/v2/favorite/store/delete`, { store_code: storeCode }, header_config)])
         .then(axios.spread((res1) => {}));
     } else {
       //즐겨찾기 추가
-      axios
-        .all([
-          axios.post(
-            `${SERVER_DALKOMM}/app/api/v2/favorite/store/add`,
-            { store_code: storeCode },
-            header_config
-          ),
-        ])
-        .then(
-          axios.spread((res1) => {
-            if (res1.data.meta.code !== 20000) {
-              alert(res1.data.meta.msg);
-              $(e).removeClass("active");
-            }
-          })
-        );
+      axios.all([axios.post(`${SERVER_DALKOMM}/app/api/v2/favorite/store/add`, { store_code: storeCode }, header_config)]).then(
+        axios.spread((res1) => {
+          if (res1.data.meta.code !== 20000) {
+            alert(res1.data.meta.msg);
+            $(e).removeClass("active");
+          }
+        })
+      );
     }
   };
 
   const handleDetail = (e, storeCode) => {
-    axios
-      .all([
-        axios.post(
-          `${SERVER_DALKOMM}/app/api/v2/store/${storeCode}`,
-          {},
-          header_config
-        ),
-      ])
-      .then(
-        axios.spread((res1) => {
-          let detailStore = res1.data.data;
-          setStore((origin) => {
-            return {
-              ...origin,
-              detailStore,
-            };
-          });
-        })
-      );
+    axios.all([axios.post(`${SERVER_DALKOMM}/app/api/v2/store/${storeCode}`, {}, header_config)]).then(
+      axios.spread((res1) => {
+        let detailStore = res1.data.data;
+        setStore((origin) => {
+          return {
+            ...origin,
+            detailStore,
+          };
+        });
+      })
+    );
   };
 
   if (axioData) {
@@ -150,12 +120,7 @@ export function Order(props) {
 
         <div id="wrap" className="wrap">
           <div id="container" className="container">
-            <HeaderSub
-              title="매장선택"
-              type="store"
-              location="/mypage/cart"
-              icon="cart"
-            />
+            <HeaderSub title="매장선택" type="store" location="/mypage/cart" icon="cart" />
 
             <Nav order={3} />
 
@@ -179,31 +144,19 @@ export function Order(props) {
                     }}
                     freeMode={false}
                   >
-                    <ul
-                      slot="container-start"
-                      className="swiper-wrapper has-scrollbar-swiper data-list"
-                    >
+                    <ul slot="container-start" className="swiper-wrapper has-scrollbar-swiper data-list">
                       {axioData?.res2_data?.favorite_store_list?.map((e, i) => (
                         <SwiperSlide className="swiper-slide" key={i}>
                           <a
                             data-href="#tableOrderAble"
                             className="item store open-layer"
-                            onClick={(event) =>
-                              handleDetail(event.currentTarget, e.store_code)
-                            }
+                            onClick={(event) => handleDetail(event.currentTarget, e.store_code)}
                           >
                             <div className="flex-both">
                               <span
                                 data-storecode={e.store_code}
-                                className={`btn bookmark ${
-                                  e.store_is_favorite && "active"
-                                }`}
-                                onClick={(event) =>
-                                  handleFavorite(
-                                    event.currentTarget,
-                                    e.store_code
-                                  )
-                                }
+                                className={`btn bookmark ${e.store_is_favorite && "active"}`}
+                                onClick={(event) => handleFavorite(event.currentTarget, e.store_code)}
                               >
                                 {" "}
                                 {/* [D] 즐겨찾는 매장일 시 .active 활성화 */}
@@ -211,17 +164,35 @@ export function Order(props) {
                                   <span>즐겨찾기</span>
                                 </i>
                               </span>
-                              <span
-                                className={`table-order ${
-                                  e?.store_is_smartorder
-                                    ? "possible"
-                                    : "impossible"
-                                }`}
-                              ></span>{" "}
+                              <span className={`table-order ${e?.store_is_smartorder ? "possible" : "impossible"}`}></span>{" "}
                               {/* .table-order.possible : 테이블 오더 가능 매장 / .table-order.impossible : 테이블 오더 불가능 매장 */}
                             </div>
                             <div className="img-wrap">
-                              <i className="ico store-type house"></i>
+                              <i
+                                className={`ico store-type ${
+                                  e?.store_sub_type === 0
+                                    ? "house"
+                                    : e?.store_sub_type === 1
+                                    ? "building"
+                                    : e?.store_sub_type === 2
+                                    ? "rest-area"
+                                    : e?.store_sub_type === 3
+                                    ? "terminal"
+                                    : e?.store_sub_type === 4
+                                    ? "head-office"
+                                    : e?.store_sub_type === 5
+                                    ? "drive-thru"
+                                    : e?.store_sub_type === 6
+                                    ? "drive-thru"
+                                    : e?.store_sub_type === 7
+                                    ? "vivaldi-park"
+                                    : e?.store_sub_type === 8
+                                    ? "hospital"
+                                    : e?.store_sub_type === 9
+                                    ? "cinema"
+                                    : ""
+                                }`}
+                              ></i>
                               {/* 매장 타입별 .ico.store-type
                                           .ico.store-type.house : 기본형 (단독건물매장)
                                           .ico.store-type.building : 기본형 (건물내매장)
@@ -294,22 +265,13 @@ export function Order(props) {
                           <a
                             data-href="#tableOrderAble"
                             className="item store open-layer"
-                            onClick={(event) =>
-                              handleDetail(event.currentTarget, e.store_code)
-                            }
+                            onClick={(event) => handleDetail(event.currentTarget, e.store_code)}
                           >
                             <div className="flex-both">
                               <span
                                 data-storecode={e.store_code}
-                                className={`btn bookmark ${
-                                  e.store_is_favorite && "active"
-                                }`}
-                                onClick={(event) =>
-                                  handleFavorite(
-                                    event.currentTarget,
-                                    e.store_code
-                                  )
-                                }
+                                className={`btn bookmark ${e.store_is_favorite && "active"}`}
+                                onClick={(event) => handleFavorite(event.currentTarget, e.store_code)}
                               >
                                 <i className="ico heart">
                                   <span>즐겨찾기</span>
@@ -326,17 +288,35 @@ export function Order(props) {
                                   </div>
                                 )}
 
-                                <span
-                                  className={`table-order ${
-                                    e.store_is_smartorder === true
-                                      ? "possible"
-                                      : "impossible"
-                                  }`}
-                                ></span>
+                                <span className={`table-order ${e.store_is_smartorder === true ? "possible" : "impossible"}`}></span>
                               </div>
                             </div>
                             <div className="img-wrap">
-                              <i className="ico store-type head-office"></i>
+                              <i
+                                className={`ico store-type ${
+                                  e?.store_sub_type === 0
+                                    ? "house"
+                                    : e?.store_sub_type === 1
+                                    ? "building"
+                                    : e?.store_sub_type === 2
+                                    ? "rest-area"
+                                    : e?.store_sub_type === 3
+                                    ? "terminal"
+                                    : e?.store_sub_type === 4
+                                    ? "head-office"
+                                    : e?.store_sub_type === 5
+                                    ? "drive-thru"
+                                    : e?.store_sub_type === 6
+                                    ? "drive-thru"
+                                    : e?.store_sub_type === 7
+                                    ? "vivaldi-park"
+                                    : e?.store_sub_type === 8
+                                    ? "hospital"
+                                    : e?.store_sub_type === 9
+                                    ? "cinema"
+                                    : ""
+                                }`}
+                              ></i>
                             </div>
                             <div className="data-wrap">
                               <p className="place">{e.store_name}</p>
@@ -367,10 +347,7 @@ export function Order(props) {
                                   </i>
                                 </li>
                               </ul>
-                              <p className="distance">
-                                {e.store_distance !== "-1" &&
-                                  e.store_distance + "km"}
-                              </p>
+                              <p className="distance">{e.store_distance !== "-1" && e.store_distance + "km"}</p>
                             </div>
                           </a>
                         </li>
@@ -382,10 +359,7 @@ export function Order(props) {
               {/* //가까운 매장 */}
 
               {/* 테이블 오더 가능 매장 */}
-              <div
-                id="tableOrderAble"
-                className="fixed-con layer-pop store-pop"
-              >
+              <div id="tableOrderAble" className="fixed-con layer-pop store-pop">
                 <div className="popup">
                   <div className="popup-wrap">
                     <button type="button" className="btn btn-close">
@@ -398,7 +372,31 @@ export function Order(props) {
                         <div className="item store-info">
                           <div className="info-wrap flex-both">
                             <div className="title-wrap flex-start">
-                              <i className="ico store-type small house"></i>{" "}
+                              <i
+                                className={`ico store-type small ${
+                                  storeData?.detailStore?.store_sub_type === 0
+                                    ? "house"
+                                    : storeData?.detailStore?.store_sub_type === 1
+                                    ? "building"
+                                    : storeData?.detailStore?.store_sub_type === 2
+                                    ? "rest-area"
+                                    : storeData?.detailStore?.store_sub_type === 3
+                                    ? "terminal"
+                                    : storeData?.detailStore?.store_sub_type === 4
+                                    ? "head-office"
+                                    : storeData?.detailStore?.store_sub_type === 5
+                                    ? "drive-thru"
+                                    : storeData?.detailStore?.store_sub_type === 6
+                                    ? "drive-thru"
+                                    : storeData?.detailStore?.store_sub_type === 7
+                                    ? "vivaldi-park"
+                                    : storeData?.detailStore?.store_sub_type === 8
+                                    ? "hospital"
+                                    : storeData?.detailStore?.store_sub_type === 9
+                                    ? "cinema"
+                                    : ""
+                                }`}
+                              ></i>{" "}
                               {/* 매장 타입별 
                                                     .ico.store-type.small
                                                     .ico.store-type.small.house : 기본형 (단독건물매장)
@@ -412,9 +410,7 @@ export function Order(props) {
                                                     .ico.store-type.small.cinema : 영화관내 지점
                                                     .ico.store-type.small.theme-park : 놀이공원, 유원지, 테마파크 지점 (EX, 키자니아, 에버랜드, 유원지)
                                                 */}
-                              <p className="title">
-                                {storeData?.detailStore?.store_name}
-                              </p>
+                              <p className="title">{storeData?.detailStore?.store_name}</p>
                             </div>
                             <div className="data-wrap">
                               <ul className="provide-list">
@@ -441,9 +437,7 @@ export function Order(props) {
                               <i className="ico alert-c">
                                 <span>알림</span>
                               </i>
-                              <span>
-                                {storeData?.detailStore?.store_caution}
-                              </span>
+                              <span>{storeData?.detailStore?.store_caution}</span>
                             </p>
                           )}
                         </div>
@@ -468,34 +462,30 @@ export function Order(props) {
                                     <span>전화번호</span>
                                   </i>
                                   &nbsp;
-                                  <span>
-                                    {storeData?.detailStore?.store_mobile}
-                                  </span>
+                                  <span>{storeData?.detailStore?.store_mobile}</span>
                                 </li>
                                 <li>
                                   <i className="ico time">
                                     <span>영업시간</span>
                                   </i>
-                                  {storeData?.detailStore?.store_opening_hours?.map(
-                                    (element, index) => {
-                                      if (index % 2 === 0 && index !== 0) {
-                                        return (
-                                          <React.Fragment key={index}>
-                                            <br />
-                                            &nbsp;
-                                            <span>{element}</span>
-                                          </React.Fragment>
-                                        );
-                                      } else {
-                                        return (
-                                          <React.Fragment key={index}>
-                                            &nbsp;
-                                            <span>{element}</span>
-                                          </React.Fragment>
-                                        );
-                                      }
+                                  {storeData?.detailStore?.store_opening_hours?.map((element, index) => {
+                                    if (index % 2 === 0 && index !== 0) {
+                                      return (
+                                        <React.Fragment key={index}>
+                                          <br />
+                                          &nbsp;
+                                          <span>{element}</span>
+                                        </React.Fragment>
+                                      );
+                                    } else {
+                                      return (
+                                        <React.Fragment key={index}>
+                                          &nbsp;
+                                          <span>{element}</span>
+                                        </React.Fragment>
+                                      );
                                     }
-                                  )}
+                                  })}
                                 </li>
                               </ul>
                               <Swiper
@@ -507,21 +497,13 @@ export function Order(props) {
                                 observeParents={true}
                               >
                                 <ul className="swiper-wrapper data-list">
-                                  {storeData?.detailStore?.store_image_list?.map(
-                                    (element, index) => {
-                                      return (
-                                        <SwiperSlide
-                                          className="swiper-slide"
-                                          key={index}
-                                        >
-                                          <img
-                                            src={element?.store_image_url}
-                                            alt="매장 이미지"
-                                          />
-                                        </SwiperSlide>
-                                      );
-                                    }
-                                  )}
+                                  {storeData?.detailStore?.store_image_list?.map((element, index) => {
+                                    return (
+                                      <SwiperSlide className="swiper-slide" key={index}>
+                                        <img src={element?.store_image_url} alt="매장 이미지" />
+                                      </SwiperSlide>
+                                    );
+                                  })}
                                 </ul>
                               </Swiper>
                             </div>
@@ -539,19 +521,13 @@ export function Order(props) {
                             </div>
                             <div className="detail-wrap toggle-cont">
                               <div className="address-wrap flex-both">
-                                <p className="address">
-                                  {storeData?.detailStore?.store_addr}
-                                </p>
+                                <p className="address">{storeData?.detailStore?.store_addr}</p>
 
                                 <Clipboard
                                   component="i"
                                   className="ico copy"
-                                  data-clipboard-text={
-                                    storeData?.detailStore?.store_addr
-                                  }
-                                  onSuccess={(e) =>
-                                    alert("주소가 복사되었습니다.")
-                                  }
+                                  data-clipboard-text={storeData?.detailStore?.store_addr}
+                                  onSuccess={(e) => alert("주소가 복사되었습니다.")}
                                 >
                                   <span>복사하기</span>
                                 </Clipboard>
@@ -564,29 +540,16 @@ export function Order(props) {
                                 </i> */}
                               </div>
                               <div className="map-wrap">
-                                {storeData?.detailStore?.store_map_latitude !==
-                                  undefined && (
+                                {storeData?.detailStore?.store_map_latitude !== undefined && (
                                   <Map
                                     google={props.google}
                                     center={{
-                                      lat: Number(
-                                        storeData?.detailStore
-                                          ?.store_map_latitude
-                                      ),
-                                      lng: Number(
-                                        storeData?.detailStore
-                                          ?.store_map_longitude
-                                      ),
+                                      lat: Number(storeData?.detailStore?.store_map_latitude),
+                                      lng: Number(storeData?.detailStore?.store_map_longitude),
                                     }}
                                     initialCenter={{
-                                      lat: Number(
-                                        storeData?.detailStore
-                                          ?.store_map_latitude
-                                      ),
-                                      lng: Number(
-                                        storeData?.detailStore
-                                          ?.store_map_longitude
-                                      ),
+                                      lat: Number(storeData?.detailStore?.store_map_latitude),
+                                      lng: Number(storeData?.detailStore?.store_map_longitude),
                                     }}
                                     containerStyle={{
                                       width: "100%",
@@ -597,14 +560,8 @@ export function Order(props) {
                                   >
                                     <Marker
                                       position={{
-                                        lat: Number(
-                                          storeData?.detailStore
-                                            ?.store_map_latitude
-                                        ),
-                                        lng: Number(
-                                          storeData?.detailStore
-                                            ?.store_map_longitude
-                                        ),
+                                        lat: Number(storeData?.detailStore?.store_map_latitude),
+                                        lng: Number(storeData?.detailStore?.store_map_longitude),
                                       }}
                                     />
                                     {/* <AnyReactComponent
@@ -622,24 +579,13 @@ export function Order(props) {
                     </div>
                     {storeData?.detailStore?.store_is_smartorder ? (
                       <div className="w-inner btn-area flex-both">
-                        <Link
-                          to={`/order/menu/${storeData?.detailStore?.store_code}`}
-                          className="btn full medium dark"
-                        >
+                        <Link to={`/order/menu/${storeData?.detailStore?.store_code}`} className="btn full medium dark">
                           주문하기
                         </Link>
                         <button
                           type="button"
-                          className={`btn light-g medium bookmark ${
-                            storeData?.detailStore?.store_is_favorite &&
-                            "active"
-                          }`}
-                          onClick={(event) =>
-                            handleFavorite(
-                              event.currentTarget,
-                              storeData?.detailStore?.store_code
-                            )
-                          }
+                          className={`btn light-g medium bookmark ${storeData?.detailStore?.store_is_favorite && "active"}`}
+                          onClick={(event) => handleFavorite(event.currentTarget, storeData?.detailStore?.store_code)}
                         >
                           <i className="ico heart">
                             <span>즐겨찾기</span>
@@ -654,16 +600,8 @@ export function Order(props) {
                         </button>
                         <button
                           type="button"
-                          className={`btn light-g medium bookmark ${
-                            storeData?.detailStore?.store_is_favorite &&
-                            "active"
-                          }`}
-                          onClick={(event) =>
-                            handleFavorite(
-                              event.currentTarget,
-                              storeData?.detailStore?.store_code
-                            )
-                          }
+                          className={`btn light-g medium bookmark ${storeData?.detailStore?.store_is_favorite && "active"}`}
+                          onClick={(event) => handleFavorite(event.currentTarget, storeData?.detailStore?.store_code)}
                         >
                           <i className="ico heart">
                             <span>즐겨찾기</span>
@@ -677,12 +615,7 @@ export function Order(props) {
               </div>
               {/* // 테이블 오더 가능 매장 */}
 
-              <button
-                type="button"
-                id="moveScrollTop"
-                className="btn scroll-top"
-                onClick={() => moveScrollTop()}
-              >
+              <button type="button" id="moveScrollTop" className="btn scroll-top" onClick={() => moveScrollTop()}>
                 <i className="ico arr-top"></i>
               </button>
             </div>

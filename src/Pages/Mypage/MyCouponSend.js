@@ -1,9 +1,10 @@
-/* eslint-disable react/jsx-pascal-case */
+/* eslint-disable jsx-a11y/iframe-has-title */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 // eslint-disable-next-line no-unused-vars
 import axios from "axios";
+import $ from "jquery";
 import React, { useEffect, useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import HeaderSub from "Components/Header/HeaderSub";
@@ -16,19 +17,44 @@ import { tabLink, fadeInOut, contGap } from "Jquery/Jquery";
 export default function MyCouponSend() {
   const [state, dispatch] = useContext(authContext);
   const [axioData, setData] = useState();
+
+  const body = {};
+  const header_config = {
+    headers: {
+      "X-dalkomm-access-token": state?.accessToken,
+      Authorization: state?.auth,
+    },
+  };
+
   const fn_submit = () => {
-    alert("선물하였습니다.");
+    let postBody = { user_coupon_id: Number($("#selectCoupon").val()) };
+    if ($(".giftid").hasClass("current")) {
+      //아이디로 보내기
+      if ($("#giftName").val() === "") {
+        alert("아이디를 입력해 주세요");
+        return false;
+      }
+      postBody = { ...postBody, user_id: $("#giftName").val() };
+    } else {
+      //휴대폰으로 보내기
+      if ($("#giftPhone").val() === "") {
+        alert("휴대폰 번호를 입력해 주세요");
+        return false;
+      }
+      postBody = { ...postBody, mobile: $("#giftPhone").val() };
+    }
+    axios.all([axios.post(`${SERVER_DALKOMM}/app/api/v2/coupon/present`, postBody, header_config)]).then(
+      axios.spread((res1) => {
+        alert(res1.data.meta.msg);
+        if (res1.data.meta.code === 20000) {
+          window.location.reload();
+        }
+      })
+    );
   };
   useEffect(() => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
 
-    const body = {};
-    const header_config = {
-      headers: {
-        "X-dalkomm-access-token": state?.accessToken,
-        Authorization: state?.auth,
-      },
-    };
     axios.all([axios.post(`${SERVER_DALKOMM}/app/api/v2/coupon/list`, body, header_config)]).then(
       axios.spread((res1) => {
         let res1_data = res1.data.data;
@@ -63,7 +89,7 @@ export default function MyCouponSend() {
                       <div className="field">
                         <span className="label">선물 쿠폰 선택</span>
                         <div className="insert">
-                          <select name="" id="" className="select medium">
+                          <select name="" id="selectCoupon" className="select medium">
                             {axioData?.res1_data?.coupon_list
                               ?.filter((e, i) => e.status === 0)
                               .map((e, i) => (
@@ -84,12 +110,12 @@ export default function MyCouponSend() {
                         </div>
 
                         <ul className="tabs">
-                          <li className="current">
+                          <li className="current giftid">
                             <Link to="#" data-href="#tabGiftId" onClick={(e) => tabLink(e)}>
                               아이디로 보내기
                             </Link>
                           </li>
-                          <li>
+                          <li className="giftphone">
                             <Link to="#" data-href="#tabGiftPhone" onClick={(e) => tabLink(e)}>
                               휴대폰 번호로 보내기
                             </Link>
