@@ -1,5 +1,7 @@
 body.fade-in {opacity: 0; }
 body.fade-out {opacity: 1; transition: all 900ms ease-in-out;}
 .item.depth-menu.outLink::after{content: ''; display: block; position: absolute; top: 50%; right: 0; width: 6.4vw; height: 6.4vw; background: url('../images/com/icon_external.svg') no-repeat 0 0; background-size: cover; -webkit-transform: translateY(-50%); -ms-transform: translateY(-50%); -o-transform: translateY(-50%); transform: translateY(-50%); vertical-align: middle;}
-.react-barcode {margin: 0 auto;}
+.react-barcode {margin: 0 auto; max-width: 286px; overflow: hidden;}
 .react-barcode div:last-child {display: none;}
+#content.drink.detail .fixed-con .item.info-order .text > span::after{content: none;}
+.drink.detail input:disabled{background-color: rgb(255, 255, 255); color:rgb(0, 0, 0)}

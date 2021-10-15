@@ -1,3 +1,4 @@
+/* eslint-disable no-useless-escape */
 import $ from "jquery";
 export function checkMobile() {
   var varUA = navigator.userAgent.toLowerCase(); //userAgent 값 얻기
@@ -44,3 +45,10 @@ export const globalAppendScript = (scriptHtml) => {
 export const globalRemoveScript = (scriptClass) => {
   $(scriptClass).remove();
 };
+
+export function getParameter(name) {
+  name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+  var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+    results = regex.exec(window.location.search);
+  return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+}

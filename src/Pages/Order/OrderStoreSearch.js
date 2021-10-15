@@ -1,4 +1,5 @@
 /* eslint-disable jsx-a11y/iframe-has-title */
+/* eslint-disable react/jsx-no-duplicate-props */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
 /* eslint-disable jsx-a11y/anchor-is-valid */
@@ -7,11 +8,12 @@ import axios from "axios";
 import $ from "jquery";
 import Clipboard from "react-clipboard.js";
 import React, { useEffect, useContext, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams, useHistory } from "react-router-dom";
+
 import HeaderSub from "Components/Header/HeaderSub";
 import Nav from "Components/Nav/Nav";
 import GoContents from "Components/GoContents";
-import { contGap, moveScrollTop, fadeInOut } from "Jquery/Jquery";
+import { contGap, fadeInOut, moveScrollTop } from "Jquery/Jquery";
 
 import { Map, GoogleApiWrapper, Marker } from "google-maps-react";
 
@@ -21,70 +23,68 @@ import SwiperCore, { Scrollbar } from "swiper/core";
 import { SERVER_DALKOMM } from "Config/Server";
 import { authContext } from "ContextApi/Context";
 
-export function Order(props) {
+export function OrderStoreSearch(props) {
   const [state, dispatch] = useContext(authContext);
   const [axioData, setData] = useState(false);
   const [storeData, setStore] = useState(false);
-
+  const history = useHistory();
+  const body = {};
   let header_config = {
     headers: {
       "X-dalkomm-access-token": state.accessToken,
       Authorization: state.auth,
     },
   };
-  let body = {};
   useEffect(() => {
     // 말풍선 스크롤시 hide/show
     // eslint-disable-next-line react-hooks/exhaustive-deps
 
-    let location_body = {};
-    if (state?.latitude !== "" && state?.longitude !== "") {
-      location_body = { latitude: state.latitude, longitude: state?.longitude };
-    }
-
-    if (state.accessToken !== "") {
-      //로그인 시
-      axios
-        .all([
-          axios.post(`${SERVER_DALKOMM}/app/api/v2/store/around`, location_body, header_config),
-          axios.post(`${SERVER_DALKOMM}/app/api/v2/favorite/store/list`, location_body, header_config),
-        ])
-        .then(
-          axios.spread((res1, res2) => {
-            let res1_data = res1.data.data;
-            let res2_data = res2.data.data;
-            setData((origin) => {
-              return {
-                ...origin,
-                res1_data,
-                res2_data,
-              };
-            });
-          })
-        );
-    } else {
-      //비로그인 시
-      axios.all([axios.post(`${SERVER_DALKOMM}/app/api/v2/store/around`, location_body, header_config)]).then(
-        axios.spread((res1, res2) => {
-          let res1_data = res1.data.data;
-          setData((origin) => {
-            return {
-              ...origin,
-              res1_data,
-            };
-          });
+    if (state.auth !== "") {
+      axios.all([axios.post(`${SERVER_DALKOMM}/app/api/v2/store/city_info `, body, header_config)]).then(
+        axios.spread((res1) => {
+          let city_info = res1.data.data.city_info;
+          axios
+            .all([
+              axios.post(
+                `${SERVER_DALKOMM}/app/api/v2/store/search `,
+                { city: city_info[0]?.city, sub_city: city_info[0]?.sub_city[0], q: "" },
+                header_config
+              ),
+            ])
+            .then(
+              axios.spread((res1) => {
+                let store_list = res1.data.data.store_list;
+                setData((origin) => {
+                  return {
+                    ...origin,
+                    city_info,
+                    store_list,
+                  };
+                });
+              })
+            );
         })
       );
     }
   }, [state?.auth]);
 
   useEffect(() => {
-    // 말풍선 스크롤시 hide/show
     contGap();
-    SwiperCore.use([Scrollbar]);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    // fadeInOut();
   }, [axioData]);
+
+  const handleDetail = (e, storeCode) => {
+    axios.all([axios.post(`${SERVER_DALKOMM}/app/api/v2/store/${storeCode}`, {}, header_config)]).then(
+      axios.spread((res1) => {
+        let detailStore = res1.data.data;
+        setStore((origin) => {
+          return {
+            ...origin,
+            detailStore,
+          };
+        });
+      })
+    );
+  };
 
   const handleFavorite = (e, storeCode) => {
     if ($(e).hasClass("active")) {
@@ -112,20 +112,24 @@ export function Order(props) {
     }
   };
 
-  const handleDetail = (e, storeCode) => {
-    axios.all([axios.post(`${SERVER_DALKOMM}/app/api/v2/store/${storeCode}`, {}, header_config)]).then(
+  const handleSearch = (event) => {
+    let bodyData = {
+      city: $('select[name="city"]').val(),
+      sub_city: $('select[name="subCity"]').val(),
+      q: $('input[name="searchValue"]').val(),
+    };
+    axios.all([axios.post(`${SERVER_DALKOMM}/app/api/v2/store/search `, bodyData, header_config)]).then(
       axios.spread((res1) => {
-        let detailStore = res1.data.data;
-        setStore((origin) => {
+        let store_list = res1.data.data.store_list;
+        setData((origin) => {
           return {
             ...origin,
-            detailStore,
+            store_list,
           };
         });
       })
     );
   };
-
   if (axioData) {
     return (
       <React.Fragment>
@@ -133,243 +137,133 @@ export function Order(props) {
 
         <div id="wrap" className="wrap">
           <div id="container" className="container">
-            <HeaderSub title="매장선택" type="store" location="/mypage/cart" icon="cart" />
+            <HeaderSub title="매장검색" />
 
             <Nav order={3} />
 
-            <div id="content" className="store list">
-              {/* 즐겨찾는 매장 */}
-              {state?.accessToken !== "" && (
-                <section className="section">
-                  <div className="title-wrap w-inner">
-                    <h3 className="section-title" id="testtest">
-                      즐겨찾는 매장
-                    </h3>
-                  </div>
-
-                  <Swiper
-                    id="bookmarkStore"
-                    className="swiper-container section-slider store-slider"
-                    slidesPerView={"auto"}
-                    scrollbar={{
-                      el: "#bookmarkStore .swiper-scrollbar",
-                      hide: false,
-                    }}
-                    freeMode={false}
-                  >
-                    <ul slot="container-start" className="swiper-wrapper has-scrollbar-swiper data-list">
-                      {axioData?.res2_data?.favorite_store_list?.map((e, i) => (
-                        <SwiperSlide className="swiper-slide" key={i}>
-                          <a
-                            data-href="#tableOrderAble"
-                            className="item store open-layer"
-                            onClick={(event) => handleDetail(event.currentTarget, e.store_code)}
-                          >
-                            <div className="flex-both">
-                              <span
-                                data-storecode={e.store_code}
-                                className={`btn bookmark ${e.store_is_favorite && "active"}`}
-                                onClick={(event) => handleFavorite(event.currentTarget, e.store_code)}
-                              >
-                                {" "}
-                                {/* [D] 즐겨찾는 매장일 시 .active 활성화 */}
-                                <i className="ico heart">
-                                  <span>즐겨찾기</span>
-                                </i>
-                              </span>
-                              <span className={`table-order ${e?.store_is_smartorder ? "possible" : "impossible"}`}></span>{" "}
-                              {/* .table-order.possible : 테이블 오더 가능 매장 / .table-order.impossible : 테이블 오더 불가능 매장 */}
-                            </div>
-                            <div className="img-wrap">
-                              <i
-                                className={`ico store-type ${
-                                  e?.store_type === 0
-                                    ? "house"
-                                    : e?.store_type === 1
-                                    ? "building"
-                                    : e?.store_type === 2
-                                    ? "rest-area"
-                                    : e?.store_type === 3
-                                    ? "terminal"
-                                    : e?.store_type === 4
-                                    ? "head-office"
-                                    : e?.store_type === 5
-                                    ? "drive-thru"
-                                    : e?.store_type === 6
-                                    ? "drive-thru"
-                                    : e?.store_type === 7
-                                    ? "vivaldi-park"
-                                    : e?.store_type === 8
-                                    ? "hospital"
-                                    : e?.store_type === 9
-                                    ? "cinema"
-                                    : ""
-                                }`}
-                              ></i>
-                              {/* 매장 타입별 .ico.store-type
-                                          .ico.store-type.house : 기본형 (단독건물매장)
-                                          .ico.store-type.building : 기본형 (건물내매장)
-                                          .ico.store-type.rest-area : 고속도로 휴게소점
-                                          .ico.store-type.terminal : 버스터미널점
-                                          .ico.store-type.head-office : 분당서현점(본점)
-                                          .ico.store-type.drive-thru : 광주쌍령DT점 (드라이브스루)
-                                          .ico.store-type.vivaldi-park : 비발디파크점
-                                          .ico.store-type.hospital :  병원내 지점
-                                          .ico.store-type.cinema : 영화관내 지점
-                                          .ico.store-type.theme-park : 놀이공원, 유원지, 테마파크 지점 (EX, 키자니아, 에버랜드, 유원지)
-                                      */}
-                            </div>
-                            <div className="data-wrap">
-                              <p className="place">{e?.store_name}</p>
-                              <ul className="provide-list">
-                                <li>
-                                  <i className="ico wifi">
-                                    <span>인터넷가능 매장</span>
-                                  </i>
-                                </li>
-                                <li>
-                                  <i className="ico parking">
-                                    <span>주차가능 매장</span>
-                                  </i>
-                                </li>
-                                <li>
-                                  <i className="ico smoking">
-                                    <span>흡연가능 매장</span>
-                                  </i>
-                                </li>
-                                <li>
-                                  <i className="ico kiosk">
-                                    <span>키오스크 매장</span>
-                                  </i>
-                                </li>
-                                <li>
-                                  <i className="ico drive">
-                                    <span>드라이브스루 매장</span>
-                                  </i>
-                                </li>
-                              </ul>
-                              {/* <p className="distance">{e.store_distance !== "-1" && e.store_distance + "km"}</p> */}
-                            </div>
-                          </a>
-                        </SwiperSlide>
-                      ))}
-                    </ul>
-
-                    <div className="swiper-scrollbar"></div>
-                  </Swiper>
-                </section>
-              )}
-              {/* //즐겨찾는 매장 */}
-
-              {/* 가까운 매장 */}
+            <div id="content" className="store search">
               <section className="section">
                 <div className="w-inner">
-                  <div className="title-wrap flex-both">
-                    <h3 className="section-title">가까운 매장</h3>
-                    <Link to="/order/storeSearch" className="btn">
-                      <i className="ico search-s"></i>
-                    </Link>
-                  </div>
+                  <form className="form" onSubmit={(e) => e.preventDefault()}>
+                    <fieldset className="fieldset">
+                      <legend className="blind">매장 검색</legend>
+                      <div className="field">
+                        <div className="search-box">
+                          <input type="text" className="input-text medium" name="searchValue" placeholder="매장명을 입력해 주세요." />
+                          <button type="button" className="btn search" onClick={(event) => handleSearch(event.currentTarget)}>
+                            <i className="ico search-t">
+                              <span>검색하기</span>
+                            </i>
+                          </button>
+                        </div>
+                      </div>
+                      <div className="field">
+                        <div className="insert">
+                          <div className="bundle">
+                            <select className="select medium" name="city">
+                              {axioData?.city_info?.map((element, index) => (
+                                <option key={index} value={element?.city}>
+                                  {element?.city}
+                                </option>
+                              ))}
+                            </select>
+                            <select className="select medium" name="subCity">
+                              {axioData?.city_info[0]?.sub_city?.map((element, index) => (
+                                <option key={index} value={element}>
+                                  {element}
+                                </option>
+                              ))}
+                            </select>
+                          </div>
+                        </div>
+                      </div>
+                    </fieldset>
+                  </form>
 
                   <ul className="data-list col-2">
-                    {axioData?.res1_data?.store_list?.map((e, i) => {
-                      return (
-                        <li key={i}>
-                          <a
-                            data-href="#tableOrderAble"
-                            className="item store open-layer"
-                            onClick={(event) => handleDetail(event.currentTarget, e.store_code)}
-                          >
-                            <div className="flex-both">
-                              <span
-                                data-storecode={e.store_code}
-                                className={`btn bookmark ${e.store_is_favorite && "active"}`}
-                                onClick={(event) => handleFavorite(event.currentTarget, e.store_code)}
-                              >
-                                <i className="ico heart">
-                                  <span>즐겨찾기</span>
+                    {axioData?.store_list?.map((e, index) => (
+                      <li key={index}>
+                        <a
+                          data-href="#tableOrderAble"
+                          className="item store open-layer"
+                          onClick={(event) => handleDetail(event.currentTarget, e.store_code)}
+                        >
+                          <div className="flex-both">
+                            <span
+                              data-storecode={e.store_code}
+                              className={`btn bookmark ${e.store_is_favorite && "active"}`}
+                              onClick={(event) => handleFavorite(event.currentTarget, e.store_code)}
+                            >
+                              <i className="ico heart">
+                                <span>즐겨찾기</span>
+                              </i>
+                            </span>
+                            <span className={`table-order ${e.store_is_smartorder === true ? "possible" : "impossible"}`}></span>
+                          </div>
+                          <div className="img-wrap">
+                            <i
+                              className={`ico store-type ${
+                                e?.store_type === 0
+                                  ? "house"
+                                  : e?.store_type === 1
+                                  ? "building"
+                                  : e?.store_type === 2
+                                  ? "rest-area"
+                                  : e?.store_type === 3
+                                  ? "terminal"
+                                  : e?.store_type === 4
+                                  ? "head-office"
+                                  : e?.store_type === 5
+                                  ? "drive-thru"
+                                  : e?.store_type === 6
+                                  ? "drive-thru"
+                                  : e?.store_type === 7
+                                  ? "vivaldi-park"
+                                  : e?.store_type === 8
+                                  ? "hospital"
+                                  : e?.store_type === 9
+                                  ? "cinema"
+                                  : ""
+                              }`}
+                            ></i>
+                          </div>
+                          <div className="data-wrap">
+                            <p className="place">{e.store_name}</p>
+                            <ul className="provide-list">
+                              <li>
+                                <i className="ico wifi">
+                                  <span>인터넷가능 매장</span>
                                 </i>
-                              </span>
-                              <div className="table-order-wrap">
-                                {i === 0 && (
-                                  <div className="speech-wrap">
-                                    <p className="speech-bubble">
-                                      현재 테이블 오더가
-                                      <br />
-                                      가능한 매장인지 확인해보세요.
-                                    </p>
-                                  </div>
-                                )}
-
-                                <span className={`table-order ${e.store_is_smartorder === true ? "possible" : "impossible"}`}></span>
-                              </div>
-                            </div>
-                            <div className="img-wrap">
-                              <i
-                                className={`ico store-type ${
-                                  e?.store_type === 0
-                                    ? "house"
-                                    : e?.store_type === 1
-                                    ? "building"
-                                    : e?.store_type === 2
-                                    ? "rest-area"
-                                    : e?.store_type === 3
-                                    ? "terminal"
-                                    : e?.store_type === 4
-                                    ? "head-office"
-                                    : e?.store_type === 5
-                                    ? "drive-thru"
-                                    : e?.store_type === 6
-                                    ? "drive-thru"
-                                    : e?.store_type === 7
-                                    ? "vivaldi-park"
-                                    : e?.store_type === 8
-                                    ? "hospital"
-                                    : e?.store_type === 9
-                                    ? "cinema"
-                                    : ""
-                                }`}
-                              ></i>
-                            </div>
-                            <div className="data-wrap">
-                              <p className="place">{e.store_name}</p>
-                              <ul className="provide-list">
-                                <li>
-                                  <i className="ico wifi">
-                                    <span>인터넷가능 매장</span>
-                                  </i>
-                                </li>
-                                <li>
-                                  <i className="ico parking">
-                                    <span>주차가능 매장</span>
-                                  </i>
-                                </li>
-                                <li>
-                                  <i className="ico smoking">
-                                    <span>흡연가능 매장</span>
-                                  </i>
-                                </li>
-                                <li>
-                                  <i className="ico kiosk">
-                                    <span>키오스크 매장</span>
-                                  </i>
-                                </li>
-                                <li>
-                                  <i className="ico drive">
-                                    <span>드라이브스루 매장</span>
-                                  </i>
-                                </li>
-                              </ul>
-                              <p className="distance">{e.store_distance !== "-1" && e.store_distance + "km"}</p>
-                            </div>
-                          </a>
-                        </li>
-                      );
-                    })}
+                              </li>
+                              <li>
+                                <i className="ico parking">
+                                  <span>주차가능 매장</span>
+                                </i>
+                              </li>
+                              <li>
+                                <i className="ico smoking">
+                                  <span>흡연가능 매장</span>
+                                </i>
+                              </li>
+                              <li>
+                                <i className="ico kiosk">
+                                  <span>키오스크 매장</span>
+                                </i>
+                              </li>
+                              <li>
+                                <i className="ico drive">
+                                  <span>드라이브스루 매장</span>
+                                </i>
+                              </li>
+                            </ul>
+                            <p className="distance">{e.store_distance !== "-1" && e.store_distance + "km"}</p>
+                          </div>
+                        </a>
+                      </li>
+                    ))}
                   </ul>
                 </div>
               </section>
-              {/* //가까운 매장 */}
 
               {/* 테이블 오더 가능 매장 */}
               <div id="tableOrderAble" className="fixed-con layer-pop store-pop">
@@ -641,4 +535,4 @@ export function Order(props) {
 export default GoogleApiWrapper({
   apiKey: "AIzaSyC4e6NPJH1CEAjD2Aa5EmUkWbWbhi3Ydzo",
   language: "ko",
-})(Order);
+})(OrderStoreSearch);

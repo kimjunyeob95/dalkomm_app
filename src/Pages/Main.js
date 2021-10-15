@@ -25,8 +25,7 @@ export function Main(props) {
   const [axioData, setData] = useState(false);
   const [storeData, setStore] = useState(false);
   const { search } = useLocation();
-  // eslint-disable-next-line no-unused-vars
-  const searchParams = new URLSearchParams(search);
+
   const body = {};
   let location_body = {};
   if (state?.latitude !== "" && state?.longitude !== "") {
@@ -168,6 +167,7 @@ export function Main(props) {
   //   </div>
   // );
   //axios 반환 시
+
   if (axioData?.res1_data?.main_banner_list) {
     // fadeInOut();
     return (
@@ -299,25 +299,25 @@ export function Main(props) {
                       <div className="img-wrap">
                         <i
                           className={`ico store-type small ${
-                            axioData?.res4_data?.store_list[0]?.store_sub_type === 0
+                            axioData?.res4_data?.store_list[0]?.store_type === 0
                               ? "house"
-                              : axioData?.res4_data?.store_list[0]?.store_sub_type === 1
+                              : axioData?.res4_data?.store_list[0]?.store_type === 1
                               ? "building"
-                              : axioData?.res4_data?.store_list[0]?.store_sub_type === 2
+                              : axioData?.res4_data?.store_list[0]?.store_type === 2
                               ? "rest-area"
-                              : axioData?.res4_data?.store_list[0]?.store_sub_type === 3
+                              : axioData?.res4_data?.store_list[0]?.store_type === 3
                               ? "terminal"
-                              : axioData?.res4_data?.store_list[0]?.store_sub_type === 4
+                              : axioData?.res4_data?.store_list[0]?.store_type === 4
                               ? "head-office"
-                              : axioData?.res4_data?.store_list[0]?.store_sub_type === 5
+                              : axioData?.res4_data?.store_list[0]?.store_type === 5
                               ? "drive-thru"
-                              : axioData?.res4_data?.store_list[0]?.store_sub_type === 6
+                              : axioData?.res4_data?.store_list[0]?.store_type === 6
                               ? "drive-thru"
-                              : axioData?.res4_data?.store_list[0]?.store_sub_type === 7
+                              : axioData?.res4_data?.store_list[0]?.store_type === 7
                               ? "vivaldi-park"
-                              : axioData?.res4_data?.store_list[0]?.store_sub_type === 8
+                              : axioData?.res4_data?.store_list[0]?.store_type === 8
                               ? "hospital"
-                              : axioData?.res4_data?.store_list[0]?.store_sub_type === 9
+                              : axioData?.res4_data?.store_list[0]?.store_type === 9
                               ? "cinema"
                               : ""
                           }`}
@@ -358,7 +358,7 @@ export function Main(props) {
               <section className="section">
                 <div className="title-wrap w-inner flex-both">
                   <h3 className="section-title">{state?.loginFlag ? "나의 최근 주문" : "달콤 추천 메뉴"}</h3>
-                  <Link to="/order/menu" className="btn text">
+                  <Link to={`/order/menuSearch/0`} className="btn text">
                     <span>전체 메뉴</span>
                     <i className="ico arr-r"></i>
                   </Link>
@@ -546,25 +546,25 @@ export function Main(props) {
                             <div className="img-wrap">
                               <i
                                 className={`ico store-type ${
-                                  e?.store_sub_type === 0
+                                  e?.store_type === 0
                                     ? "house"
-                                    : e?.store_sub_type === 1
+                                    : e?.store_type === 1
                                     ? "building"
-                                    : e?.store_sub_type === 2
+                                    : e?.store_type === 2
                                     ? "rest-area"
-                                    : e?.store_sub_type === 3
+                                    : e?.store_type === 3
                                     ? "terminal"
-                                    : e?.store_sub_type === 4
+                                    : e?.store_type === 4
                                     ? "head-office"
-                                    : e?.store_sub_type === 5
+                                    : e?.store_type === 5
                                     ? "drive-thru"
-                                    : e?.store_sub_type === 6
+                                    : e?.store_type === 6
                                     ? "drive-thru"
-                                    : e?.store_sub_type === 7
+                                    : e?.store_type === 7
                                     ? "vivaldi-park"
-                                    : e?.store_sub_type === 8
+                                    : e?.store_type === 8
                                     ? "hospital"
-                                    : e?.store_sub_type === 9
+                                    : e?.store_type === 9
                                     ? "cinema"
                                     : ""
                                 }`}

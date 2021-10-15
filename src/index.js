@@ -13,6 +13,7 @@ import Menu from "Pages/Menu";
 
 //order page
 import OrderMenu from "Pages/Order/OrderMenu";
+import OrderStoreSearch from "Pages/Order/OrderStoreSearch";
 import OrderDetail from "Pages/Order/OrderDetail";
 import OrderSearch from "Pages/Order/OrderSearch";
 import OrderFinal from "Pages/Order/OrderFinal";
@@ -70,6 +71,7 @@ ReactDOM.render(
         </PrivateRoute>
 
         <Route exact path="/order" component={() => <Order />} />
+        <Route exact path="/order/storeSearch" component={() => <OrderStoreSearch />} />
         <Route exact path="/order/menu/:storeCode" component={() => <OrderMenu />} />
         <Route exact path="/order/menuSearch/:storeCode" component={() => <OrderSearch />} />
         <PrivateRoute path="/order/detail/:orderCode">

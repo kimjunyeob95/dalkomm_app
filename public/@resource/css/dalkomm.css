@@ -158,7 +158,7 @@
 #content .fixed-con .item.info-detail .section-slider {}
 #content .fixed-con .item.info-detail .swiper-slide {font-size: 0;}
 #content .fixed-con .btn-area.col-2 .btn.normal {border:0; border-top: 0.267vw solid #ebebeb; color: #000;}
-#content .fixed-con .btn-area.col-2 .btn.light-g {background-color: #ebebeb;}
+#content .fixed-con .btn-area.col-2 .btn.light-g {background-color: #ebebeb; color: #000;}
 #content .fixed-con .btn-area .btn.full.bdr {border: 0; border-top: 0.267vw solid #ebebeb;}
 
 /* 마이페이지 */
@@ -294,19 +294,23 @@
 .section .title-wrap + .data-list.col-2 {margin-top: -2.133vw;}
 #content.store > .section {margin: 6.667vw auto;}
 .fixed-con .item.info-detail .section-slider .swiper-slide + .swiper-slide {margin-left: 1.067vw;}
-#storeGallery .swiper-slide {width: 57.333vw;}
-#storeGallery .swiper-slide img {width: 100%;}
+#storeGallery .swiper-slide {/*width: 57.333vw;*/ width: auto; height: 38.400vw;}
+#storeGallery .swiper-slide img {width: auto; height: 100%;}
 /* TO001 */
-#content.store .fixed-con.store-pop .popup-wrap {padding-bottom: 8vw;}
-#content.store .fixed-con.store-pop .popup-body + .btn-area {margin-top:5.333vw;}
-#content.store .fixed-con.store-pop .item.info-detail .title-wrap .title {font-weight: 600;}
-#content.store .fixed-con.store-pop .btn-area .btn.full {width: calc(100% - 13.333vw);}
-#content.store .fixed-con.store-pop .btn-area .btn.bookmark {width: 13.333vw;}
 #content.store.list .table-order-wrap {z-index: 1;}
 #content.store.list .speech-wrap {opacity: 1; visibility: visible; animation: speechBubbleHide 0.5s ease-in-out 3s 1 forwards;}
 #content.store.list .speech-bubble {position: absolute; top: -16vw; right:auto; left: 5.067vw; width: max-content; text-align: left; padding: 3.200vw 2.667vw; z-index: 9;}
 #content.store.list .speech-bubble::before {left: 33.867vw;}
 
+/* 매장정보 fixed-con */
+#content .fixed-con.store-pop .popup-wrap {padding-bottom: 8vw;}
+#content .fixed-con.store-pop .btn-area .btn.bookmark {width: 13.333vw;}
+#content .fixed-con.store-pop .popup-body + .btn-area {margin-top:5.333vw;}
+#content .fixed-con.store-pop .item.info-detail .title-wrap .title {font-weight: 600;}
+#content .fixed-con.store-pop .btn-area .btn.full {width: calc(100% - 13.333vw);}
+#content .fixed-con.store-pop .item.info-detail .detail-wrap > ul li {position: relative; padding-left: 6.400vw;}
+#content .fixed-con.store-pop .item.info-detail .detail-wrap > ul li .ico {position: absolute; top: 0; left: 0;}
+#content .fixed-con.store-pop .item.info-detail .detail-wrap > ul li > span {display: inline-block; word-break: keep-all;}
 @keyframes speechBubbleHide {
 	0% {opacity: 1; visibility: visible;}
 	100% {opacity: 0; visibility: hidden;}
@@ -327,6 +331,14 @@
 #content.drink .item.menu .img-wrap {height: 49.333vw;}
 #content.drink .item.menu .img-wrap img {width: auto; height: 100%;}
 #content.drink .item.menu .detail-wrap .title {font-weight: 700;}
+#content.drink.list .section ,
+#content.drink.search .section {padding-left: 2.667vw; padding-right: 2.667vw; box-sizing: border-box;}
+#content.drink.list .section > .data-list.col-2 > li,
+#content.drink.search .section > .data-list.col-2 > li {width: calc( (100% - 0.8vw) / 2 );}
+#content.drink.list .section > .data-list.col-2 > li:nth-child(2n),
+#content.drink.search .section > .data-list.col-2 > li:nth-child(2n)  {margin-left: 0.8vw;}
+#content.drink.list .item.menu .img-wrap img,
+#content.drink.search .item.menu .img-wrap img {width: 100%; object-fit: cover; object-position: center;}
 /* TO003 */
 #content.drink.search .form .w-inner {padding-top: 5.2vw; padding-bottom: 6.4vw;}
 #content.drink.search .form .field + .text {margin-top: 6.400vw;}
@@ -338,8 +350,13 @@
 #content.drink.detail .item.drink-info .btn.bookmark {position: absolute; top: 5.333vw; right: 5.333vw;}
 #content.drink.detail .item.drink-info .ico.heart {width: 6.933vw; height: 6.933vw;}
 #content.drink.detail .fieldset > .field + .w-inner {padding-top: 10.667vw; padding-bottom: 10.667vw;}
-#content.drink.detail .label + .select-group {margin-top: 2.667vw;}
+#content.drink.detail .label + .select-group,
+#content.drink.detail .label + .data-list {margin-top: 2.667vw;}
 #content.drink.detail .field + .field {margin-top: 8vw;}
+#content.drink.detail .select-group input:not(:checked) + label {border-color: #eaeaea;}
+#content.drink.detail .select-group.col-3 input:not(:checked) + label strong {color: #c5c5c5;}
+#content.drink.detail .select-group.col-3 input:not(:checked) + label .speech-bubble {background-color: #cecece;}
+#content.drink.detail .select-group.col-3 input:not(:checked) + label .speech-bubble::before {border-top-color: #cecece;}
 #content.drink.detail .toggle-wrap ,
 #content.drink.detail .toggle-wrap > li {border-color: #f3f3f3;}
 #content.drink.detail .item.info-detail .title-wrap {padding-top: 5.787vw; padding-bottom: 5.947vw;}
@@ -347,9 +364,33 @@
 #content.drink.detail .item.info-detail .detail-wrap .text > span + span::before {content: ''; display: inline-block; position: relative; width: 0.533vw; height: 0.533vw; background-color: #000; margin: 0 1.867vw; vertical-align: middle;}
 #content.drink.detail .item.info-detail .detail-wrap .text > span > em {display: inline-block; margin-left: 1.600vw;}
 #content.drink.detail .item.info-detail .detail-wrap .text + .table-wrap {margin-top: 1.867vw;}
-#content.drink.detail .fixed-con:not(.layer-pop) .data-list > li + li {border-top: 0.267vw solid #f8f8f8; margin-top: 5.333vw;}
-#content.drink.detail .fixed-con .data-list .item.info-order {padding-top: 5.333vw; padding-bottom: 0;}
-#content.drink.detail .fixed-con .data-list .item.info-order .title {font-family: 'Montserrat','NanumSquare', sans-serif;; font-size: 4.267vw;}
+/* #content.drink.detail .fixed-con:not(.layer-pop) .data-list > li + li {border-top: 0.267vw solid #f8f8f8; margin-top: 5.333vw;} */
+#content.drink.detail .fixed-con .item.info-order { border-top: 0.267vw solid rgba(112,112,112,0.1); padding: 0;}
+#content.drink.detail .fixed-con .item.info-order .flex-both {-webkit-align-items: center; -ms-flex-align: center; align-items: center;}
+#content.drink.detail .fixed-con .item.info-order .title {width: 24.533vw;}
+#content.drink.detail .fixed-con .item.info-order .title + .price,
+#content.drink.detail .fixed-con .item.info-order .title + .text {width: calc(100% - 24.533vw); text-align: right;}
+#content.drink.detail .fixed-con .item.info-order .title.en,
+#content.drink.detail .fixed-con .item.info-order .text > span.en {font-family: 'Montserrat','NanumSquare', sans-serif; font-weight: 500; font-size: 3.733vw; margin-right: 1.067vw;}
+#content.drink.detail .fixed-con .item.info-order .text > span {display: inline-block; position: relative; font-size: 3.733vw; color: rgba(0,0,0,0.6);}
+#content.drink.detail .fixed-con .item.info-order .text > span::after {content: ','; display: inline-block; position: relative; font-size: inherit; color: inherit;}
+#content.drink.detail .fixed-con .item.info-order .text > span:last-child {margin-right: 0;}
+#content.drink.detail .fixed-con .item.info-order .text > span:last-child::after {display: none;}
+#content.drink.detail .fixed-con .data-list .item.info-order {height: 17.067vw; line-height: 17.067vw;}
+#content.drink.detail .fixed-con .data-list + .item.info-order {padding-top: 6.933vw; padding-bottom: 6.933vw; }
+#content.drink.detail .fixed-con .data-list li.option .item.info-order {height: auto; line-height: normal; padding-top: 5.867vw; padding-bottom: 5.867vw;}
+#content.drink.detail .item.info-order .title {font-weight: 700;}
+#content.drink.detail .select-group input:not(:checked) + label .text span.en {color: rgba(0,0,0,0.4);}
+#content.drink.detail .option-list > li {height: 16.533vw; line-height: 16.533vw; border: 0.267vw solid #eaeaea; padding-left: 4.133vw; padding-right: 4.133vw;}
+#content.drink.detail .option-list > li + li {margin-top: -0.267vw;}
+#content.drink.detail .option-list .amount-wrap {position: relative; display: -ms-flexbox; display: -webkit-flex; display: flex; -webkit-justify-content: space-between; -ms-flex-pack: justify; justify-content: space-between; -webkit-box-align: center;-ms-flex-align: center;align-items: center;}
+#content.drink.detail .option-list .uio-amount,
+#content.drink.detail .option-list .checkbox {order: 2;}
+#content.drink.detail .option-list .uio-amount + .speech-bubble,
+#content.drink.detail .option-list .checkbox + .speech-bubble {margin-right: 3.200vw;}
+#content.drink.detail .option-list .speech-bubble.small {display: none; order: 1; height: 6.667vw; line-height: 7.2vw; text-align: center; }
+#content.drink.detail .option-list .speech-bubble.small::before {transform: translate(0, -50%) rotate(-90deg); top:  50%; bottom:  auto; left: auto; right: -1.333vw; margin-top: 0.267vw;}
+#content.drink.detail .option-list li.adding .speech-bubble.small {display: block;}
 #content.drink.basket .order-list > li{padding: 7.2vw 5.333vw;}
 #content.drink.basket .item.order .btn.delete {margin-top: -0.8vw;}
 /* 장바구니 메뉴 삭제 팝업 */
@@ -369,7 +410,8 @@
 #content #addCart .item.menu .img-wrap {width: 26.667vw;}
 #content #addCart .item.menu .img-wrap {height: 26.667vw;;}
 /* TO006 */
-#content.drink.order .store-search-wrap + .section {padding-top: 5.867vw; padding-bottom: 11.067vw;}
+#content.drink.order .store-search-wrap + .section {padding-top: 5.867vw; padding-bottom: 7.067vw;}
+#content.drink.order .field .label.en {font-weight: 600;}
 #content.drink.order .label .alert {vertical-align: 0.533vw; color: #bfbfbf;}
 #content.drink.order .label .alert > .ico.alert {top: -0.267vw; opacity: 0.7;}
 #content.drink.order .label + .select-group,
@@ -377,16 +419,30 @@
 #content.drink.order .order-list > li + li {border-color: #f7f7f7; margin-top: 8vw; padding-top: 8vw;}
 #content.drink.order .item.order + .select {margin-top: 5.333vw;}
 #content.drink.order .field + .field {margin-top: 10.667vw;}
-#content.drink.order .fixed-con {box-shadow: 0 -0.417vw 12.500vw 0 rgba(0, 0, 0, 0.05);}
-#content.drink.order .item.info-order {padding-top: 5.333vw; padding-left: 5.333vw; padding-right: 5.333vw; padding-bottom: 7.600vw;}
+#content.drink.order .field .label + .item.info-order {border-top: 1px solid #dbdbdb; margin-top: 5.333vw; padding-bottom: 0;}
+#content.drink.order .field .item.info-order .flex-both.total + .flex-both{border-top: 1px solid rgba(112,112,112,0.1); padding-top: 6.667vw;}
+/* #content.drink.order .fixed-con {box-shadow: 0 -0.417vw 12.500vw 0 rgba(0, 0, 0, 0.05);} */
+#content.drink.order .fixed-con .popup {box-shadow: none; border-top: 1px solid rgba(112,112,112,0.1);}
+#content.drink.order .fixed-con .item.info-order {padding-top: 5.333vw; padding-left: 5.333vw; padding-right: 5.333vw; padding-bottom: 7.600vw;}
 #content.drink.order .item.info-order + .item.info-order {height: 16vw; line-height: 16vw; border-top: 0.267vw solid #e3e3e3; padding-top: 0; padding-bottom: 0;}
 #content.drink.order .item.info-order dl + dl {margin-top: 5.867vw;}
 #content.drink.order .item.info-order dl:not(.total) .title,
-#content.drink.order .item.info-order dl:not(.total) .price {font-weight: 400; color: #5f5f5f;}
-#content.drink.order .item.info-order .title .coupon {color: #afafaf;}
+#content.drink.order .item.info-order dl:not(.total) .price {font-weight: 400; color: #5f5f5f; color: rgba(0,0,0,0.8);}
+#content.drink.order .item.info-order .title .coupon,
+#content.drink.order .item.info-order .title .grade {color: #afafaf;}
 #content.drink.order .item.info-order .price:not(.fc-orange) {font-size: 4.267vw;}
-#content.drink.order .item.info-order .total .title {font-weight: 600;}
 #content.drink.order .fixed-con .popup {transition-delay: 0.3s;}
+#content.drink.order .fixed-con .item.info-order .total .title {font-weight: 600;}
+#content.drink.order .fixed-con .item.info-order .price {font-weight: 800;}
+
+/* TO006_1 */
+#content.membership .form-wrap {padding-top: 6.8vw;}
+#content.membership .field .label + .insert {margin-top: 5.333vw;}
+#content.membership .field .insert + .insert {margin-top: 2.133vw;}
+#content.membership .item.attention {background-color: #fff; border-bottom: 0; padding: 0;}
+#content.membership .item.attention .text {margin-top: 5.333vw;}
+#content.membership .form-wrap .btn-area {margin-top: 8vw;}
+#content.membership .fieldset + .fieldset {margin-top: 10.667vw;}
 
 /*페이*/
 /* #content.pay {padding-bottom: 13.867vw;} */
@@ -458,9 +514,9 @@
     -webkit-flex-direction: column; -ms-flex-direction: column; flex-direction: column;
     -webkit-justify-content: center; -ms-flex-pack: center; justify-content: center; padding: 0; border-radius: 0;}
 .zoom-card .item.card .barcode-wrap > div {width: 58.293vw;}
-.zoom-card .item.card .barcode {width: 66.907vw; margin-left: -3.733vw;}
+.zoom-card .item.card .barcode {position: relative; right: 50%; width: 98.133vw; /*margin-left: -3.733vw;*/}
 .zoom-card .item.card .barcode .img-wrap {width: 100%; height: 14.080vw; margin: 0;}
-.zoom-card .item.card .barcode,
+.zoom-card .item.card .barcode {-webkit-transform: rotate(90deg) translateY(-50%); -ms-transform: rotate(90deg) translateY(-50%); -o-transform: rotate(90deg) translateY(-50%); transform: rotate(90deg) translateY(-50%);}
 .zoom-card .item.card .card-wrap > div {-webkit-transform: rotate(90deg); -ms-transform: rotate(90deg); -o-transform: rotate(90deg); transform: rotate(90deg);}
 .zoom-card .item.card.membership .card-wrap {height: 100%; background-image: url('../images/com/card_membership_zoom.svg'); width: 36.053vw;}
 .zoom-card .item.card.gift .card-wrap {height: 100%; background-image: url('../images/com/card_gift_zoom.svg'); width: 36.053vw;}
@@ -504,3 +560,14 @@ body.scroll-has #content.story.detail .banner-wrap .img-wrap img {transform: sca
 /* fixed-con 고정x */
 #content.story.detail .fixed-con {position: relative;}
 #content.notice.detail .fixed-con  {position: absolute;}
+
+#popupMembership.overlay {padding: 0; z-index: 101;}
+#popupMembership .popup {height: 100%; padding-top: 0;}
+#popupMembership .popup .popup-wrap > button.btn-close {top: 1.333vw;}
+#popupMembership .popup-header {height: 14.667vw;}
+#popupMembership .title  {width: 100%; height: 100%; border-bottom: 0.267vw solid #f1f1f1; font-weight: 700; font-size: 4.800vw; text-align: center; padding-top: 2.933vw; box-sizing: border-box;}
+#popupMembership .item.board {padding-top: 0; padding-bottom: 0;}
+#popupMembership .item.board p {word-break: keep-all;}
+#popupMembership .item.board p span {display: block;}
+
+.react-barcode > div {background-color: transparent !important;}

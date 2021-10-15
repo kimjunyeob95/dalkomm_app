@@ -86,6 +86,7 @@ export default function OrderMenu() {
       alert("테이블오더가 불가능한 매장입니다.");
     }
   };
+
   if (axioData?.res1_data) {
     return (
       <React.Fragment>

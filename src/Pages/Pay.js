@@ -7,13 +7,14 @@
 import axios from "axios";
 import $ from "jquery";
 import React, { useEffect, useContext, useState } from "react";
-import { Link, useHistory } from "react-router-dom";
+import { Link, useHistory, useParams } from "react-router-dom";
 
 import HeaderSub from "Components/Header/HeaderSub";
 import Nav from "Components/Nav/Nav";
 import GoContents from "Components/GoContents";
 import { contGap, popupOpen, tabLink, fadeInOut } from "Jquery/Jquery";
-import Popup_removeCard from "./Popup_removeCard";
+import Popup_removeCard from "Components/Popup/Popup_removeCard";
+import { getParameter } from "Config/GlobalJs";
 
 import { authContext } from "ContextApi/Context";
 import { SERVER_DALKOMM } from "Config/Server";
@@ -26,6 +27,7 @@ export default function Pay() {
   const [state, dispatch] = useContext(authContext);
   const [axioData, setData] = useState();
   const [cardPopup, setCard] = useState(false);
+  const [activeHtml, setActive] = useState(getParameter("activeHtml") !== "" ? true : false);
   const history = useHistory();
 
   const body = {};
@@ -60,6 +62,13 @@ export default function Pay() {
           res2?.data?.data?.charge_card_list?.map((e, i) => {
             window.$(`#barcode${i + 1}`).barcode(e?.card_number, "code128", { barWidth: 2, barHeight: 50, fontSize: 20 });
           });
+
+          if (activeHtml) {
+            $("#liMembership").removeClass("current");
+            $("#payMembership").removeClass("active");
+            $("#liGift").addClass("current");
+            $("#payGift").addClass("active");
+          }
         })
       );
   }, [state?.auth]);
@@ -89,18 +98,18 @@ export default function Pay() {
         <GoContents />
         <div id="wrap" className="wrap">
           <div id="container" className="container">
-            <HeaderSub type="flexCenter" title="페이" icon="gift" location="/mypage/giftSend" />
+            <HeaderSub type="flexCenter" title="페이" icon="gift" payHeader={true} location="/mypage/giftSend" />
 
             <Nav order={2} />
 
             <div id="content" className="pay main">
               <ul className="tabs">
-                <li className="current">
+                <li className="current" id="liMembership">
                   <Link to="#" data-href="#payMembership" onClick={(e) => tabLink(e)}>
                     멤버십 카드
                   </Link>
                 </li>
-                <li>
+                <li id="liGift">
                   <Link to="#" data-href="#payGift" onClick={(e) => tabLink(e)}>
                     기프트 카드
                   </Link>

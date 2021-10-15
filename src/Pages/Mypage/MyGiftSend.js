@@ -22,9 +22,6 @@ import { checkMobile } from "Config/GlobalJs";
 export default function MyGiftSend() {
   const [state, dispatch] = useContext(authContext);
   const [axioData, setData] = useState();
-  const fn_submit = () => {
-    alert("선물하였습니다.");
-  };
 
   const body = {};
   const header_config = {
@@ -90,12 +87,29 @@ export default function MyGiftSend() {
       axios.all([axios.post(`${SERVER_DALKOMM}/app/api/v2/present/auth`, body, header_config)]).then(
         axios.spread((res1) => {
           let present_token = res1.data.data.present_token;
-          window.open(`${SERVER_DALKOMM}/app/web/present?present_token=${present_token}`);
+          // window.open(`${SERVER_DALKOMM}/app/web/present?present_token=${present_token}`);
+          window.open(
+            `app://openPopupWebView?title=기프트카드 선물하기&link=${SERVER_DALKOMM}/app/web/present?present_token=${present_token}&type=present&redirectUrl=/pay`
+          );
         })
       );
     }
   };
-
+  const handleGetPhone = () => {
+    let data = {
+      callbackFunc: "window.nativeCallbackPhone",
+    };
+    data = JSON.stringify(data);
+    try {
+      if (checkMobile() === "android") {
+        window.android.fn_callBack(data);
+      } else if (checkMobile() === "ios") {
+        window.webkit.messageHandlers.fn_callBack.postMessage(data);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
   if (axioData) {
     // fadeInOut();
     return (
@@ -133,7 +147,9 @@ export default function MyGiftSend() {
                       <div className="field" style={{ marginTop: "35px" }}>
                         <div className="flex-both">
                           <span className="label">받으실 분</span>
-                          <a className="btn light-g address-book">연락처에서 가져오기</a>
+                          <a className="btn light-g address-book" onClick={() => handleGetPhone()}>
+                            연락처에서 가져오기
+                          </a>
                         </div>
                         <label className="label" htmlFor="giftCard">
                           카드명

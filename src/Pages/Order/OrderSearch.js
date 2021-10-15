@@ -6,7 +6,7 @@
 import axios from "axios";
 import $ from "jquery";
 import React, { useEffect, useContext, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useHistory } from "react-router-dom";
 
 import HeaderSub from "Components/Header/HeaderSub";
 import Nav from "Components/Nav/Nav";
@@ -20,6 +20,7 @@ export default function OrderSearch() {
   const [state, dispatch] = useContext(authContext);
   const [axioData, setData] = useState(false);
   const { storeCode, searchValue } = useParams();
+  const history = useHistory();
   const body = {};
   let header_config = {
     headers: {
@@ -70,6 +71,16 @@ export default function OrderSearch() {
     event.preventDefault();
     // 추가 코드를 작성하여 DB를 제어하거나 state를 변경할 수 있습니다!
   };
+
+  const handleDetail = (event, menuCode) => {
+    if (storeCode !== "0") {
+      history.push(`/order/detail/${menuCode}`);
+    } else {
+      alert("매장을 선택 후 주문해 주세요");
+      history.push(`/order`);
+    }
+  };
+
   if (axioData?.all_menu) {
     return (
       <React.Fragment>
@@ -110,7 +121,7 @@ export default function OrderSearch() {
                   {axioData?.all_menu?.searched_menu_list?.map((e, i) => {
                     return (
                       <li key={i}>
-                        <Link to={`/order/detail/${e?.code}`} className="item menu">
+                        <a onClick={(event) => handleDetail(event, e?.code)} className="item menu">
                           {/* 메뉴 .bagde.round 타입 
                                     .bagde.round.new : NEW
                                     .bagde.round.pick : PICK
@@ -126,7 +137,7 @@ export default function OrderSearch() {
                             </p>
                             <p className="price">{e.price}원</p>
                           </div>
-                        </Link>
+                        </a>
                       </li>
                     );
                   })}

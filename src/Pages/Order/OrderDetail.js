@@ -1,7 +1,11 @@
+/* eslint-disable no-script-url */
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
-
+/* eslint-disable jsx-a11y/anchor-is-valid */
+// eslint-disable-next-line no-unused-vars
+import axios from "axios";
 import $ from "jquery";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useContext, useState } from "react";
 import HeaderSub from "Components/Header/HeaderSub";
 import { Link, useHistory, useParams } from "react-router-dom";
 import GoContents from "Components/GoContents";
@@ -9,23 +13,30 @@ import { contGap } from "Jquery/Jquery";
 
 import { Swiper } from "swiper/react";
 
+import { SERVER_DALKOMM } from "Config/Server";
+import { authContext } from "ContextApi/Context";
+
 export default function OrderDetail() {
+  const [state, dispatch] = useContext(authContext);
+  const [axioData, setData] = useState(false);
   const history = useHistory();
   const { orderCode } = useParams();
-  const [optionType, setOption] = useState({ show: false, text: "" });
+  const [optionType, setOption] = useState({});
   const [cupType, setCup] = useState("포장컵");
-  const [priceValue, setPrice] = useState({ curruntPrice: 0, defaultPrice: 0, originPrice: 0 });
+  const [priceValue, setPrice] = useState({ defaultPrice: 4300 });
+
+  const body = {};
+  let header_config = {
+    headers: {
+      "X-dalkomm-access-token": state.accessToken,
+      Authorization: state.auth,
+    },
+  };
 
   useEffect(() => {
-    // 말풍선 스크롤시 hide/show
     contGap();
-    setPrice({
-      curruntPrice: Number($("#totalPrice").data("orginprice")),
-      defaultPrice: Number($("#totalPrice").data("orginprice")),
-      originPrice: Number($("#totalPrice").data("orginprice")),
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [state?.auth]);
+
   useEffect(() => {
     // 말풍선 스크롤시 hide/show
     contGap();
@@ -48,144 +59,148 @@ export default function OrderDetail() {
       orderData: formData,
     });
   };
+
+  const handleSubmitCart = (event) => {
+    axios
+      .all([
+        axios.post(
+          `${SERVER_DALKOMM}/app/api/v2/smartorder/cart/add`,
+          { menu_code: orderCode, quantity: Number($("#orderCount").val()), price: Number(priceValue.curruntPrice) },
+          header_config
+        ),
+      ])
+      .then(
+        axios.spread((res1) => {
+          let all_menu = res1.data.data;
+          setData((origin) => {
+            return {
+              ...origin,
+              all_menu,
+            };
+          });
+        })
+      );
+  };
+
   const otherMenu = () => {
     $("body").removeClass("modal-opened");
     history.push("/order/menu");
   };
-  const handleOption = (e) => {
-    let attr_id = $(e).attr("id");
-    $("#optionCount").val(1);
-    let $optionCount = 1;
-    let $orderCount = Number($("#orderCount").val());
-    if (isNaN($optionCount)) $optionCount = 1;
-    if (attr_id === "orderOption02") {
-      //샷
-      setOption({ show: true, text: "샷" });
-      if (optionType?.text !== "샷") {
-        setPrice((state) => ({
-          ...state,
-          curruntPrice: priceValue.defaultPrice * $orderCount + $optionCount * 500,
-        }));
-      }
-    } else if (attr_id === "orderOption04") {
-      //시럽
-      setOption({ show: true, text: "시럽" });
-    } else {
-      setOption({ show: false, text: "" });
-    }
-    if (optionType.show && optionType.text === "샷" && attr_id !== "orderOption02") {
-      setPrice((state) => ({
-        ...state,
-        curruntPrice: priceValue.defaultPrice * $orderCount,
-      }));
-    }
+
+  const handleResultText = () => {
+    handleOptionText();
+    handleResultPrice();
   };
 
-  const handleCup = (e, type) => {
-    let $orderCount = Number($("#orderCount").val());
-    let $optionCount = Number($("#optionCount").val());
-    if (isNaN($optionCount)) $optionCount = 1;
-
-    if (type === "개인컵") {
-      setCup("개인컵");
-      if (cupType !== "개인컵") {
-        //포장컵 -> 개인컵
-        if (optionType.text === "샷") {
-          setPrice((state) => ({
-            ...state,
-            defaultPrice: priceValue.originPrice - 300,
-            curruntPrice: (priceValue.originPrice - 300) * $orderCount + $optionCount * 500,
-          }));
-        } else {
-          setPrice((state) => ({
-            ...state,
-            defaultPrice: priceValue.originPrice - 300,
-            curruntPrice: (priceValue.originPrice - 300) * $orderCount,
-          }));
-        }
-      }
-    } else {
-      setCup("포장컵");
-      if (cupType === "개인컵") {
-        //개인컵 -> 포장컵
-        if (optionType.text === "샷") {
-          setPrice((state) => ({
-            ...state,
-            defaultPrice: priceValue.originPrice + 300,
-            curruntPrice: priceValue.originPrice * $orderCount + $optionCount * 500,
-          }));
-        } else {
-          setPrice((state) => ({
-            ...state,
-            defaultPrice: priceValue.originPrice,
-            curruntPrice: priceValue.originPrice * $orderCount,
-          }));
-        }
-      }
+  const handleResultPrice = () => {
+    let total_price = Number(priceValue?.defaultPrice);
+    let price_menu = {
+      menu_type: $('input[name="orderType"]:checked').val(),
+      menu_size: $('input[name="orderSize"]:checked').val(),
+      menu_cup: $('input[name="orderCup"]:checked').val(),
+      shot: Number($('input[name="shot"]').val()),
+      hazelnut: Number($('input[name="hazelnut"]').val()),
+      vanilla: Number($('input[name="vanilla"]').val()),
+      whippingCream: $('input[name="whippingCream"]').is(":checked"),
+      orderCount: Number($("#orderCount").val()),
+    };
+    // if (price_menu.menu_type === "H") {
+    //   total_price -= 300;
+    // }
+    // if (price_menu.menu_size === "L") {
+    //   total_price += 300;
+    // }
+    if (price_menu.menu_cup === "P") {
+      total_price -= 300;
     }
+    if (price_menu.shot > 0) {
+      total_price = total_price + price_menu.shot * 500;
+    }
+    if (price_menu.hazelnut > 0) {
+      total_price += 500;
+    }
+    if (price_menu.vanilla > 0) {
+      total_price += 500;
+    }
+    if (price_menu.whippingCream !== false) {
+      total_price += 500;
+    }
+    total_price = total_price * price_menu.orderCount;
+    $("#totalPrice").text(total_price.toLocaleString("ko-KR") + "원");
   };
 
-  const handleCount = (e, option, type) => {
-    let targetValue = Number($(e).siblings("input").val());
-    let $orderCount = Number($("#orderCount").val());
-    let $optionCount = Number($("#optionCount").val());
-    if (option === "샷") {
-      if (type === "증가") {
-        $optionCount += 1;
-        targetValue += 1;
-        $(e).siblings("input").val(targetValue);
-      } else if (type === "감소") {
-        if (targetValue < 2) {
-          return false;
+  const handleOptionText = () => {
+    let menu_type = $('input[name="orderType"]:checked').attr("text");
+    let menu_size = $('input[name="orderSize"]:checked').attr("text");
+    let menu_cup = $('input[name="orderCup"]:checked').attr("text");
+
+    let option_array = [
+      { text: $('input[name="shot"]').attr("text"), value: $('input[name="shot"]').val() },
+      { text: $('input[name="hazelnut"]').attr("text"), value: $('input[name="hazelnut"]').val() },
+      { text: $('input[name="vanilla"]').attr("text"), value: $('input[name="vanilla"]').val() },
+      { text: $('input[name="whippingCream"]').attr("text"), value: $('input[name="whippingCream"]').is(":checked") },
+    ];
+
+    let returnText = "";
+
+    $(".en.option.menutype").text(menu_type + ",");
+    $(".en.option.size").text(menu_size + ",");
+    $(".option.cup").text(menu_cup);
+    $(".addopion").remove();
+    option_array.forEach((element, index) => {
+      if (element.value !== "0" && element.value !== false) {
+        if (element.text === "휘핑 크림") {
+          returnText += `<span class="addopion">, ${element.text}</span>`;
         } else {
-          targetValue -= 1;
-          $optionCount -= 1;
-          $(e).siblings("input").val(targetValue);
+          returnText += `<span class="addopion">, ${element.text} ${element.value}</span>`;
         }
       }
-      setPrice((state) => ({
-        ...state,
-        curruntPrice: priceValue.defaultPrice * $orderCount + $optionCount * 500,
-      }));
-    } else if (option === "주문") {
-      if (type === "증가") {
-        targetValue += 1;
-        $orderCount += 1;
-        $(e).siblings("input").val(targetValue);
-      } else if (type === "감소") {
-        if (targetValue < 2) {
-          return false;
-        } else {
-          targetValue -= 1;
-          $orderCount -= 1;
-          $(e).siblings("input").val(targetValue);
+    });
+
+    $(".text.option").append(returnText);
+  };
+
+  const handleOption = (e, flag, type) => {
+    let count;
+    if (flag === "plus") {
+      count = Number($(e).prev("input").val());
+      $(e)
+        .prev("input")
+        .val(count + 1);
+      if (type === "샷") {
+        $(e).parents("li").addClass("adding");
+        $(e)
+          .parent()
+          .siblings(".speech-bubble")
+          .text(`+ ${(count + 1) * 500} ₩`);
+      } else if (type === "헤이즐럿" || type === "바닐라") {
+        if (count < 1) {
+          $(e).parents("li").addClass("adding");
         }
       }
-      //옵션 샷
-      if (optionType.text === "샷") {
-        setPrice((state) => ({
-          ...state,
-          curruntPrice: priceValue.defaultPrice * $orderCount + $optionCount * 500,
-        }));
-      } else {
-        setPrice((state) => ({
-          ...state,
-          curruntPrice: priceValue.defaultPrice * $orderCount,
-        }));
-      }
-    } else if (option === "시럽") {
-      if (type === "증가") {
-        targetValue += 1;
-        $(e).siblings("input").val(targetValue);
-      } else if (type === "감소") {
-        if (targetValue < 2) {
+    } else if (flag === "minus") {
+      count = Number($(e).next("input").val());
+      if (count > 0) {
+        if (type === "주문수량" && count === 1) {
           return false;
-        } else {
-          targetValue -= 1;
-          $(e).siblings("input").val(targetValue);
         }
+        count === 1 && $(e).parents("li").removeClass("adding");
+        $(e)
+          .next("input")
+          .val(count - 1);
+        if (type === "샷") {
+          $(e)
+            .parent()
+            .siblings(".speech-bubble")
+            .text(`+ ${(count - 1) * 500} ₩`);
+        }
+      }
+    } else if (flag === "휘핑크림") {
+      if (type === "휘핑크림") {
+        $(e).is(":checked") ? $(e).parents("li").addClass("adding") : $(e).parents("li").removeClass("adding");
       }
     }
+    handleResultText();
   };
 
   return (
@@ -227,11 +242,19 @@ export default function OrderDetail() {
                 <fieldset className="fieldset">
                   <div className="field">
                     <div className="select-group col-2">
-                      <input type="radio" id="orderType01" name="orderType" value="ICE" defaultChecked={true} />
+                      <input
+                        type="radio"
+                        id="orderType01"
+                        name="orderType"
+                        value="I"
+                        text="ICE"
+                        defaultChecked={true}
+                        onChange={() => handleResultText()}
+                      />
                       <label htmlFor="orderType01" className="btn normal small">
                         <strong className="en">ICE</strong>
                       </label>
-                      <input type="radio" id="orderType02" name="orderType" value="HOT" />
+                      <input type="radio" id="orderType02" name="orderType" value="H" text="HOT" onChange={() => handleResultText()} />
                       <label htmlFor="orderType02" className="btn normal small">
                         <strong className="en">HOT</strong>
                       </label>
@@ -242,14 +265,22 @@ export default function OrderDetail() {
                     <div className="field">
                       <span className="label en">Size</span>
                       <div className="select-group col-2">
-                        <input type="radio" id="orderSize01" name="orderSize" value="Regular" defaultChecked={true} />
+                        <input
+                          type="radio"
+                          id="orderSize01"
+                          name="orderSize"
+                          value="R"
+                          text="Regular"
+                          defaultChecked={true}
+                          onChange={() => handleResultText()}
+                        />
                         <label htmlFor="orderSize01" className="btn bdr medium">
                           <p className="text">
                             <strong className="en">Regular</strong>
                             <span className="en">375ml</span>
                           </p>
                         </label>
-                        <input type="radio" id="orderSize02" name="orderSize" value="Large" />
+                        <input type="radio" id="orderSize02" name="orderSize" value="L" text="Large" onChange={() => handleResultText()} />
                         <label htmlFor="orderSize02" className="btn bdr medium">
                           <p className="text">
                             <strong className="en">Large</strong>
@@ -266,18 +297,19 @@ export default function OrderDetail() {
                           type="radio"
                           id="orderCup01"
                           name="orderCup"
-                          value="매장용"
+                          value="M"
+                          text="매장용 컵"
                           defaultChecked={true}
-                          onClick={(e) => handleCup(e.target)}
+                          onClick={() => handleResultText()}
                         />
                         <label htmlFor="orderCup01" className="btn bdr medium">
                           <strong>매장용</strong>
                         </label>
-                        <input type="radio" id="orderCup02" name="orderCup" value="일회용" onClick={(e) => handleCup(e.target)} />
+                        <input type="radio" id="orderCup02" name="orderCup" value="I" text="일회용 컵" onClick={() => handleResultText()} />
                         <label htmlFor="orderCup02" className="btn bdr medium">
                           <strong>일회용</strong>
                         </label>
-                        <input type="radio" id="orderCup03" name="orderCup" value="개인" onClick={(e) => handleCup(e.target, "개인컵")} />
+                        <input type="radio" id="orderCup03" name="orderCup" value="P" text="개인 컵" onClick={() => handleResultText()} />
                         <label htmlFor="orderCup03" className="btn bdr medium">
                           <strong>개인</strong>
                           <span className="speech-bubble small en">- 300 &#8361;</span>
@@ -287,32 +319,100 @@ export default function OrderDetail() {
 
                     <div className="field">
                       <span className="label en">Option</span>
-                      <div className="select-group col-2">
-                        <input
-                          type="radio"
-                          id="orderOption01"
-                          name="orderOption"
-                          value="선택 안함"
-                          defaultChecked={true}
-                          onClick={(e) => handleOption(e.target)}
-                        />
-                        <label htmlFor="orderOption01" className="btn bdr medium">
-                          <strong>선택 안함</strong>
-                        </label>
-                        <input type="radio" id="orderOption02" name="orderOption" value="샷 추가" onClick={(e) => handleOption(e.target)} />
-                        <label htmlFor="orderOption02" className="btn bdr medium">
-                          <strong>샷 추가</strong>
-                          <span className="speech-bubble small en">+ 500 &#8361;</span>
-                        </label>
-                        <input type="radio" id="orderOption03" name="orderOption" value="휘핑크림" onClick={(e) => handleOption(e.target)} />
-                        <label htmlFor="orderOption03" className="btn bdr medium">
-                          <strong>휘핑크림</strong>
-                        </label>
-                        <input type="radio" id="orderOption04" name="orderOption" value="시럽추가" onClick={(e) => handleOption(e.target)} />
-                        <label htmlFor="orderOption04" className="btn bdr medium">
-                          <strong>시럽추가</strong>
-                        </label>
-                      </div>
+                      <ul className="data-list option-list">
+                        <li>
+                          {" "}
+                          {/* [D] 옵션 추가시 adding 클래스 활성화 */}
+                          <div className="item options">
+                            <label>샷 추가</label>
+                            <div className="amount-wrap">
+                              <p className="uio-amount">
+                                <button type="button" className="btn amount" onClick={(event) => handleOption(event.currentTarget, "minus", "샷")}>
+                                  <i className="ico decrease"></i>
+                                  <span className="blind">감소</span>
+                                </button>
+                                <input type="number" name="shot" text="샷" defaultValue={0} className="ea" disabled /> {/* [D] 디폴트 값 0 */}
+                                <button type="button" className="btn amount" onClick={(event) => handleOption(event.currentTarget, "plus", "샷")}>
+                                  <i className="ico increase"></i>
+                                  <span className="blind">증가</span>
+                                </button>
+                              </p>
+                              <span className="speech-bubble small en"> {/* [D] 수량 증가 시 금액 증가 */}+ 500 &#8361;</span>
+                            </div>
+                          </div>
+                        </li>
+                        <li>
+                          <div className="item options">
+                            <label>헤이즐럿 시럽 추가</label>
+                            <div className="amount-wrap">
+                              <p className="uio-amount">
+                                <button
+                                  type="button"
+                                  className="btn amount"
+                                  onClick={(event) => handleOption(event.currentTarget, "minus", "헤이즐럿")}
+                                >
+                                  <i className="ico decrease"></i>
+                                  <span className="blind">감소</span>
+                                </button>
+                                <input type="number" name="hazelnut" text="헤이즐럿 시럽" defaultValue={0} className="ea" disabled />{" "}
+                                {/* [D] 디폴트 값 0 */}
+                                <button
+                                  type="button"
+                                  className="btn amount"
+                                  onClick={(event) => handleOption(event.currentTarget, "plus", "헤이즐럿")}
+                                >
+                                  <i className="ico increase"></i>
+                                  <span className="blind">증가</span>
+                                </button>
+                              </p>
+                              <span className="speech-bubble small en"> {/* [D] 수량 증가 시 금액 증가 */}+ 500 &#8361;</span>
+                            </div>
+                          </div>
+                        </li>
+                        <li>
+                          <div className="item options">
+                            <label>바닐라 시럽 추가</label>
+                            <div className="amount-wrap">
+                              <p className="uio-amount">
+                                <button
+                                  type="button"
+                                  className="btn amount"
+                                  onClick={(event) => handleOption(event.currentTarget, "minus", "바닐라")}
+                                >
+                                  <i className="ico decrease"></i>
+                                  <span className="blind">감소</span>
+                                </button>
+                                <input type="number" name="vanilla" text="바닐라 시럽" defaultValue={0} className="ea" disabled />{" "}
+                                {/* [D] 디폴트 값 0 */}
+                                <button type="button" className="btn amount" onClick={(event) => handleOption(event.currentTarget, "plus", "바닐라")}>
+                                  <i className="ico increase"></i>
+                                  <span className="blind">증가</span>
+                                </button>
+                              </p>
+                              <span className="speech-bubble small en"> {/* [D] 수량 증가 시 금액 증가 */}+ 500 &#8361;</span>
+                            </div>
+                          </div>
+                        </li>
+                        <li>
+                          <div className="item options">
+                            <label htmlFor="whippingCream">휘핑 크림</label>
+                            {/* [D] 211014 .amount-wrap 추가 */}
+                            <div className="amount-wrap">
+                              <input
+                                type="checkbox"
+                                className="checkbox"
+                                defaultChecked={false}
+                                name="whippingCream"
+                                id="whippingCream"
+                                text="휘핑 크림"
+                                onClick={(event) => handleOption(event.currentTarget, "휘핑크림", "휘핑크림")}
+                              />
+                              <span className="speech-bubble small en"> {/* [D] 수량 증가 시 금액 증가 */}+ 500 &#8361;</span>
+                            </div>
+                            {/* // [D] 211014 .amount-wrap 추가 */}
+                          </div>
+                        </li>
+                      </ul>
                     </div>
                   </div>
                 </fieldset>
@@ -380,56 +480,26 @@ export default function OrderDetail() {
                 <div className="popup-wrap">
                   <div className="popup-body">
                     <ul className="data-list">
-                      {optionType?.show && (
-                        <li>
-                          <div className="item info-order">
-                            <dl className="flex-both w-inner">
-                              <dt className="title" id="option_title">
-                                Option {optionType?.text} 추가
-                              </dt>
-                              <dd className="price flex-center">
-                                <button className="btn btn-cancle">
-                                  <i className="ico close">
-                                    <span>옵션삭제</span>
-                                  </i>
-                                </button>
-                                <p className="uio-amount">
-                                  <button
-                                    type="button"
-                                    className="btn amount"
-                                    onClick={(e) => handleCount(e.currentTarget, optionType?.text, "감소")}
-                                  >
-                                    <i className="ico decrease"></i>
-                                    <span className="blind">감소</span>
-                                  </button>
-                                  <input type="text" defaultValue="1" className="ea" id="optionCount" />
-                                  <button
-                                    type="button"
-                                    className="btn amount"
-                                    onClick={(e) => handleCount(e.currentTarget, optionType?.text, "증가")}
-                                  >
-                                    <i className="ico increase"></i>
-                                    <span className="blind">증가</span>
-                                  </button>
-                                </p>
-                              </dd>
-                            </dl>
-                          </div>
-                        </li>
-                      )}
-
                       <li>
                         <div className="item info-order">
                           <dl className="flex-both w-inner">
                             <dt className="title">주문 수량</dt>
                             <dd className="price">
                               <p className="uio-amount">
-                                <button type="button" className="btn amount" onClick={(e) => handleCount(e.currentTarget, "주문", "감소")}>
+                                <button
+                                  type="button"
+                                  className="btn amount"
+                                  onClick={(event) => handleOption(event.currentTarget, "minus", "주문수량")}
+                                >
                                   <i className="ico decrease"></i>
                                   <span className="blind">감소</span>
                                 </button>
-                                <input type="text" defaultValue="1" className="ea" id="orderCount" />
-                                <button type="button" className="btn amount" onClick={(e) => handleCount(e.currentTarget, "주문", "증가")}>
+                                <input type="number" defaultValue={1} className="ea" disabled id="orderCount" />
+                                <button
+                                  type="button"
+                                  className="btn amount"
+                                  onClick={(event) => handleOption(event.currentTarget, "plus", "주문수량")}
+                                >
                                   <i className="ico increase"></i>
                                   <span className="blind">증가</span>
                                 </button>
@@ -438,12 +508,31 @@ export default function OrderDetail() {
                           </dl>
                         </div>
                       </li>
+
+                      {/* [D] 211013 li.option 수정 */}
+                      <li className="option">
+                        <div className="item info-order">
+                          <dl className="flex-both w-inner">
+                            <dt className="title en">Option</dt>
+                            <dd className="text option">
+                              <span className="en option menutype">Ice,</span>
+                              <span className="en option size">Regular,</span>
+                              <span className="option cup">매장용 컵</span>
+                              {/* <span className="option shot hide"></span>
+                              <span className="option hazelnut hide"></span>
+                              <span className="option vanilla hide"></span>
+                              <span className="option whippingCream hide"></span> */}
+                            </dd>
+                          </dl>
+                        </div>
+                      </li>
+                      {/* // [D] 211013 li.option 수정 */}
                     </ul>
                     <div className="item info-order">
                       <dl className="flex-both w-inner">
-                        <dt className="title en">Total</dt>
-                        <dd className="price fc-orange" id="totalPrice" data-orginprice="4300" data-price={priceValue.curruntPrice}>
-                          {priceValue?.curruntPrice.toLocaleString()}원
+                        <dt className="title">주문 금액</dt> {/* [D] 211013 .en 삭제 , 텍스트 수정 */}
+                        <dd className="price fc-orange" id="totalPrice">
+                          {priceValue.defaultPrice.toLocaleString("ko-KR")}원
                         </dd>
                       </dl>
                     </div>
@@ -452,9 +541,7 @@ export default function OrderDetail() {
                     <button type="button" className="btn x-large light-g open-pop" pop-target="#addCart">
                       장바구니 담기
                     </button>
-                    <button className="btn x-large dark" onClick={() => submitOrder()}>
-                      주문하기
-                    </button>
+                    <a className="btn x-large dark">주문하기</a>
                   </div>
                 </div>
               </div>

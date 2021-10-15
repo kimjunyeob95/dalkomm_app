@@ -73,7 +73,10 @@ export default function GiftCharge() {
     axios.all([axios.post(`${SERVER_DALKOMM}/app/api/v2/chargecard/charge/auth`, body, header_config)]).then(
       axios.spread((res1) => {
         let charge_token = res1.data.data.charge_token;
-        window.open(`${SERVER_DALKOMM}/app/web/chargecard/charge?charge_token=${charge_token}`, header_config);
+        // window.open(`${SERVER_DALKOMM}/app/web/chargecard/charge?charge_token=${charge_token}`, header_config);
+        window.open(
+          `app://openPopupWebView?title=기프트카드 충전하기&link=${SERVER_DALKOMM}/app/web/chargecard/charge?charge_token=${charge_token}&type=charge&redirectUrl=/pay?activeHtml=true`
+        );
       })
     );
   };

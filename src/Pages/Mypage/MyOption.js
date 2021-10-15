@@ -9,7 +9,7 @@ import React, { useEffect, useState, useContext } from "react";
 import HeaderSub from "Components/Header/HeaderSub";
 import { Link, useHistory } from "react-router-dom";
 import GoContents from "Components/GoContents";
-import Popup_logout from "Pages/Popup_logout";
+import Popup_logout from "Components/Popup/Popup_logout";
 import { contGap, popupOpen, fadeInOut } from "Jquery/Jquery";
 
 import { authContext } from "ContextApi/Context";
@@ -18,28 +18,21 @@ import { SERVER_DALKOMM } from "Config/Server";
 export default function MyOption() {
   const [state, dispatch] = useContext(authContext);
   const [axioData, setData] = useState();
-  const handleLogout = () => {
-    alert("로그아웃 함수 호출");
+
+  const body = {};
+  const header_config = {
+    headers: {
+      "X-dalkomm-access-token": state?.accessToken,
+      Authorization: state?.auth,
+    },
   };
+
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    contGap();
-    const body = {};
-    const header_config = {
-      headers: {
-        "X-dalkomm-access-token": state?.accessToken,
-        Authorization: state?.auth,
-      },
-    };
     axios
       .all([
         axios.post(`${SERVER_DALKOMM}/app/api/main`, body, header_config),
         axios.post(`${SERVER_DALKOMM}/app/api/main/user`, body, header_config),
-        axios.post(
-          `${SERVER_DALKOMM}/app/api/v2/my_account/profile`,
-          body,
-          header_config
-        ),
+        axios.post(`${SERVER_DALKOMM}/app/api/v2/my_account/profile`, body, header_config),
       ])
       .then(
         axios.spread((res1, res2, res3) => {
@@ -60,6 +53,14 @@ export default function MyOption() {
   useEffect(() => {
     contGap();
   }, [axioData]);
+
+  const handleOption = (e) => {
+    axios.all([axios.post(`${SERVER_DALKOMM}/app/api/v2/push/agree`, { agree_receive_push: $(e).is(":checked") }, header_config)]).then(
+      axios.spread((res1) => {
+        res1.data.meta.code !== 20000 && alert(res1.data.meta.msg);
+      })
+    );
+  };
   if (axioData) {
     fadeInOut();
     return (
@@ -81,9 +82,8 @@ export default function MyOption() {
                         name="onoff"
                         className="onoff-checkbox"
                         id="onoffS"
-                        defaultChecked={
-                          axioData?.res3_data?.agree_receive_sms && true
-                        }
+                        defaultChecked={axioData?.res2_data?.user?.agree_receive_push && true}
+                        onChange={(e) => handleOption(e.currentTarget)}
                       />
                       <label className="onoff-label" htmlFor="onoffS"></label>
                     </span>
@@ -97,9 +97,7 @@ export default function MyOption() {
                 <li>
                   버전 정보<span>v{axioData?.res1_data?.app_version}</span>
                   <div className="btn-area">
-                    <button className="btn x-small normal full">
-                      최신 버전 업데이트
-                    </button>
+                    <button className="btn x-small normal full">최신 버전 업데이트</button>
                     {/* <button className="btn x-small normal full" disabled>최신 버전입니다.</button> */}
                   </div>
                 </li>
@@ -107,11 +105,7 @@ export default function MyOption() {
                   <Link to="#">사업자 정보 확인</Link>
                 </li>
                 <li>
-                  <a
-                    className="open-pop"
-                    data-href="#popupExitJoin"
-                    onClick={(e) => popupOpen(e.target)}
-                  >
+                  <a className="open-pop" data-href="#popupExitJoin" onClick={(e) => popupOpen(e.target)}>
                     로그아웃
                   </a>
                 </li>

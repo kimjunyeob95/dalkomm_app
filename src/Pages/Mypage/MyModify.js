@@ -11,7 +11,7 @@ import { Link } from "react-router-dom";
 import DatePicker, { registerLocale } from "react-datepicker"; // 한국어적용
 import ko from "date-fns/locale/ko"; // 한국어적용
 import "react-datepicker/dist/react-datepicker.css";
-import Popup_removeUser from "Pages/Popup_removeUser";
+import Popup_removeUser from "Components/Popup/Popup_removeUser";
 
 import HeaderSub from "Components/Header/HeaderSub";
 import GoContents from "Components/GoContents";

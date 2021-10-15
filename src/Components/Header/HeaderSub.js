@@ -1,4 +1,6 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import React from "react";
+import $ from "jquery";
 import { Link, useHistory } from "react-router-dom";
 
 export default function HeaderSub({
@@ -14,11 +16,13 @@ export default function HeaderSub({
   blindClass,
   headerPopup,
   popTarget,
+  payHeader,
 }) {
   const history = useHistory();
   const handleShare = (e) => {
     alert("공유하기 버튼");
   };
+
   return (
     <header id="header" className={`header ${className && className}`}>
       {title && !blindClass && PathName !== "detail" ? (
@@ -65,6 +69,7 @@ export default function HeaderSub({
           </Link>
         </div>
       )}
+
       {headerPopup && popTarget && (
         <div className="btn-area">
           <button type="button" className="btn open-pop" pop-target="#drinkDelete">

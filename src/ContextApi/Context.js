@@ -41,10 +41,10 @@ export const indexReducer = (state, action) => {
     case "changeLocation": {
       return {
         ...state,
-        // latitude: 37.507232666015625,
-        // longitude: 127.05642398540016,
-        latitude: getCookieValue("latitude"),
-        longitude: getCookieValue("longitude"),
+        latitude: 37.507232666015625,
+        longitude: 127.05642398540016,
+        // latitude: getCookieValue("latitude"),
+        // longitude: getCookieValue("longitude"),
       };
     }
   }
@@ -52,6 +52,9 @@ export const indexReducer = (state, action) => {
 
 const ContextStore = (props) => {
   const [loading, setLoding] = useState(false);
+  useEffect(() => {
+    console.log("첫로딩");
+  }, []);
   useEffect(() => {
     //로그인 유지처리
 
@@ -67,17 +70,17 @@ const ContextStore = (props) => {
       // indexInitialState.auth = "Basic ZGFsa29tbTpkYWxrb21tX2FwcDs1NmZmM2FkODI5YmIyMmE3YjZiYThhN2I2NjZkNDE4NmVjYzVlODM2OzIwMjEwOTA3MTM0MjA3";
       // indexInitialState.latitude = 37.507232666015625;
       // indexInitialState.longitude = 127.05642398540016;
-      // indexInitialState.loginFlag = true;
-      // indexInitialState.accessToken =
-      //   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiVTFTb0I4TXhTUWxMREc0YmtWUjBmRFB0UkxnaTRtd05pK0wwQjJMb1Q2Z3lUallKQlRHcnhkeElmYVZEZHRwQSIsImF1ZCI6IkRBTEtPTU1fQVBQIiwidW5pb25fdXNlcl9pZCI6InE3bEU3SHFKdUdWbEhjNDhld21FOThyRUhaQ1lXU09tcVpXZFFtUEZlUTdJTkNZbXBmaFJxckZjcXNjdDRPRngiLCJpc3MiOiJEQUxLT01NIiwidXNlcl9sb2dpbl90eXBlIjoiRCIsImlhdCI6MTYzMzQ4NDQxMn0.ZdVygbo7m5kIL4HQXeyUM0UplkyveQtV6ZjUGg4r61Q";
-      // indexInitialState.app_version = "3.0.0";
-      // indexInitialState.os = "ios";
-      // indexInitialState.isApp = "Y";
-      // indexInitialState.auth = "Basic ZGFsa29tbTpkYWxrb21tX2FwcDs3NWEzMjRkMTNkY2FjYjM1ZjhkODc0MjZjZDRjYjAyODExZTBkYTM1OzIwMjExMDA2MTEzOTU0";
-      // indexInitialState.latitude = 37.507232666015625;
-      // indexInitialState.longitude = 127.05642398540016;
+      indexInitialState.loginFlag = true;
+      indexInitialState.accessToken =
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiVTFTb0I4TXhTUWxMREc0YmtWUjBmRFB0UkxnaTRtd05pK0wwQjJMb1Q2Z3lUallKQlRHcnhkeElmYVZEZHRwQSIsImF1ZCI6IkRBTEtPTU1fQVBQIiwidW5pb25fdXNlcl9pZCI6InE3bEU3SHFKdUdWbEhjNDhld21FOThyRUhaQ1lXU09tcVpXZFFtUEZlUTdJTkNZbXBmaFJxckZjcXNjdDRPRngiLCJpc3MiOiJEQUxLT01NIiwidXNlcl9sb2dpbl90eXBlIjoiRCIsImlhdCI6MTYzMzQ4NDQxMn0.ZdVygbo7m5kIL4HQXeyUM0UplkyveQtV6ZjUGg4r61Q";
+      indexInitialState.app_version = "3.0.0";
+      indexInitialState.os = "ios";
+      indexInitialState.isApp = "Y";
+      indexInitialState.auth = "Basic ZGFsa29tbTpkYWxrb21tX2FwcDs3NWEzMjRkMTNkY2FjYjM1ZjhkODc0MjZjZDRjYjAyODExZTBkYTM1OzIwMjExMDA2MTEzOTU0";
+      indexInitialState.latitude = 37.507232666015625;
+      indexInitialState.longitude = 127.05642398540016;
     }
-    indexInitialState.auth = getCookieValue("auth");
+    // indexInitialState.auth = getCookieValue("auth");
     setLoding(true);
   }, [loading]);
 

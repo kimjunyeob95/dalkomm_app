@@ -30,11 +30,20 @@
     <script>
       let result_phone;
       function nativeCallbackPhone(param){
-        if(param !== undefined){
-          result_phone=param;
+        if(param?.data !== undefined){
+          result_phone=param?.data;
           return result_phone;
         }
         return result_phone;
+      }
+
+      let result_fcmToken;
+      function nativeCallbackFcmToken(param){
+        if(param?.data !== undefined){
+          result_fcmToken=param?.data;
+          return result_fcmToken;
+        }
+        return result_fcmToken;
       }
     </script>
   </body>

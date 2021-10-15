@@ -11,7 +11,7 @@ import HeaderSub from "Components/Header/HeaderSub";
 import Nav from "Components/Nav/Nav";
 import GoContents from "Components/GoContents";
 import { contGap, popupOpen, fadeInOut } from "Jquery/Jquery";
-import Popup_logout from "./Popup_logout";
+import Popup_logout from "Components/Popup/Popup_logout";
 
 import { authContext } from "ContextApi/Context";
 import { SERVER_DALKOMM } from "Config/Server";
