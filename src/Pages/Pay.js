@@ -39,7 +39,6 @@ export default function Pay() {
   };
   useEffect(() => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
-
     axios
       .all([
         axios.post(`${SERVER_DALKOMM}/app/api/v2/membership`, body, header_config),

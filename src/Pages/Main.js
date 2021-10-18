@@ -51,15 +51,17 @@ export function Main(props) {
           axios.post(`${SERVER_DALKOMM}/app/api/v2/store/around`, location_body, header_config),
           axios.post(`${SERVER_DALKOMM}/app/api/v2/coupon/list`, body, header_config),
           axios.post(`${SERVER_DALKOMM}/app/api/v2/membership`, body, header_config),
+          axios.post(`${SERVER_DALKOMM}/app/api/v2/smartorder/orderinfo/list`, { page: 1, duration: "w" }, header_config),
         ])
         .then(
-          axios.spread((res1, res2, res3, res4, res5, res6) => {
+          axios.spread((res1, res2, res3, res4, res5, res6, res7) => {
             let res1_data = res1.data.data;
             let res2_data = res2.data.data;
             let res3_data = res3.data.data;
             let res4_data = res4.data.data;
             let res5_data = res5.data.data;
             let res6_data = res6.data.data;
+            let res7_data = res7.data.data;
             setData((origin) => {
               return {
                 ...origin,
@@ -69,6 +71,7 @@ export function Main(props) {
                 res4_data,
                 res5_data,
                 res6_data,
+                res7_data,
               };
             });
           })
@@ -167,7 +170,7 @@ export function Main(props) {
   //   </div>
   // );
   //axios 반환 시
-
+  console.log(axioData);
   if (axioData?.res1_data?.main_banner_list) {
     // fadeInOut();
     return (

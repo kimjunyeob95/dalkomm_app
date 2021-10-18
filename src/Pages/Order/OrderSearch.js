@@ -74,7 +74,7 @@ export default function OrderSearch() {
 
   const handleDetail = (event, menuCode) => {
     if (storeCode !== "0") {
-      history.push(`/order/detail/${menuCode}`);
+      history.push(`/order/detail/${storeCode}/${menuCode}`);
     } else {
       alert("매장을 선택 후 주문해 주세요");
       history.push(`/order`);

@@ -17,6 +17,7 @@ import OrderStoreSearch from "Pages/Order/OrderStoreSearch";
 import OrderDetail from "Pages/Order/OrderDetail";
 import OrderSearch from "Pages/Order/OrderSearch";
 import OrderFinal from "Pages/Order/OrderFinal";
+import OrderMembership from "Pages/Order/OrderMembership";
 
 //join page
 import JoinStep1 from "Pages/Join/JoinStep1";
@@ -74,11 +75,14 @@ ReactDOM.render(
         <Route exact path="/order/storeSearch" component={() => <OrderStoreSearch />} />
         <Route exact path="/order/menu/:storeCode" component={() => <OrderMenu />} />
         <Route exact path="/order/menuSearch/:storeCode" component={() => <OrderSearch />} />
-        <PrivateRoute path="/order/detail/:orderCode">
+        <PrivateRoute path="/order/detail/:storeCode/:orderCode">
           <OrderDetail />
         </PrivateRoute>
-        <PrivateRoute path="/order/final">
+        <PrivateRoute path="/order/final/:smartOrderSeq">
           <OrderFinal />
+        </PrivateRoute>
+        <PrivateRoute path="/order/membership">
+          <OrderMembership />
         </PrivateRoute>
 
         <PrivateRoute exact path="/mypage">
@@ -87,7 +91,7 @@ ReactDOM.render(
         <PrivateRoute exact path="/mypage/modify">
           <MyModify />
         </PrivateRoute>
-        <PrivateRoute exact path="/mypage/cart">
+        <PrivateRoute exact path="/mypage/cart/:storeCode">
           <MyCart />
         </PrivateRoute>
         <PrivateRoute exact path="/mypage/coupon">

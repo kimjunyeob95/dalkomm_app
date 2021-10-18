@@ -177,8 +177,7 @@ export function Order(props) {
                                   <span>즐겨찾기</span>
                                 </i>
                               </span>
-                              <span className={`table-order ${e?.store_is_smartorder ? "possible" : "impossible"}`}></span>{" "}
-                              {/* .table-order.possible : 테이블 오더 가능 매장 / .table-order.impossible : 테이블 오더 불가능 매장 */}
+                              {/* <span className={`table-order ${e?.store_is_smartorder ? "possible" : "impossible"}`}></span>{" "} */}
                             </div>
                             <div className="img-wrap">
                               <i

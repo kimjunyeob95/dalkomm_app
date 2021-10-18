@@ -81,7 +81,7 @@ export default function OrderMenu() {
   };
   const handleDetail = (e, menucode) => {
     if (axioData?.res2_data?.store_is_smartorder) {
-      history.push(`/order/detail/${menucode}`);
+      history.push(`/order/detail/${storeCode}/${menucode}`);
     } else {
       alert("테이블오더가 불가능한 매장입니다.");
     }
@@ -94,7 +94,13 @@ export default function OrderMenu() {
 
         <div id="wrap" className="wrap">
           <div id="container" className="container">
-            <HeaderSub2 title="메뉴선택" icon="search-s" icon2="cart" location={`/order/menuSearch/${storeCode}`} location2="/mypage/cart" />
+            <HeaderSub2
+              title="메뉴선택"
+              icon="search-s"
+              icon2="cart"
+              location={`/order/menuSearch/${storeCode}`}
+              location2={`/mypage/cart/${storeCode}`}
+            />
 
             <Nav order={3} />
 
