@@ -90,7 +90,7 @@ export default function Pay() {
     let giftCode = $("#payGift .swiper-slide-active").data("cardnum");
     history.push(`/mypage/giftCharge/${giftCode}`);
   };
-
+  console.log(axioData);
   if (axioData) {
     return (
       <React.Fragment>

@@ -97,7 +97,7 @@ export default function MyGiftSend() {
   };
   const handleGetPhone = () => {
     let data = {
-      callbackFunc: "window.nativeCallbackPhone",
+      callbackFunc: "nativeCallbackPhone",
     };
     data = JSON.stringify(data);
     try {
