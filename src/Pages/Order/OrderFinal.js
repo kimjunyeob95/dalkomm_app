@@ -9,7 +9,7 @@ import axios from "axios";
 import $ from "jquery";
 import React, { useEffect, useContext, useState } from "react";
 import HeaderSub from "Components/Header/HeaderSub";
-import { Link, useHistory, useParams } from "react-router-dom";
+import { Link, useHistory, useParams, useLocation } from "react-router-dom";
 import GoContents from "Components/GoContents";
 import { contGap } from "Jquery/Jquery";
 import { checkMobile } from "Config/GlobalJs";
@@ -23,6 +23,7 @@ export default function OrderFinal() {
   const [state, dispatch] = useContext(authContext);
   const [axioData, setData] = useState(false);
   const [frontData, setFront] = useState({});
+  const location = useLocation();
 
   const body = {};
   let header_config = {
@@ -37,16 +38,23 @@ export default function OrderFinal() {
     axios.all([axios.get(`${SERVER_DALKOMM}/app/api/v2/smartorder/order?orderinfo_id=${smartOrderSeq}`, header_config)]).then(
       axios.spread((res1) => {
         let res1_data = res1.data.data;
-        console.log(res1_data);
-        setFront((origin) => {
-          return {
-            ...origin,
-            finalPrice: res1_data.total_order_amount,
-            orderPayment: res1_data.default_pay_method,
-            orderRequest: 0,
-            smartOrderSeq: smartOrderSeq,
-          };
-        });
+
+        if (location?.frontValue) {
+          setFront((origin) => {
+            return location?.frontValue;
+          });
+        } else {
+          setFront((origin) => {
+            return {
+              ...origin,
+              finalPrice: res1_data.total_order_amount,
+              orderPayment: res1_data.default_pay_method,
+              orderRequest: 0,
+              smartOrderSeq: smartOrderSeq,
+            };
+          });
+        }
+
         setData((origin) => {
           return {
             ...origin,
@@ -56,11 +64,12 @@ export default function OrderFinal() {
       })
     );
   }, [state?.auth]);
-
+  console.log(axioData);
   useEffect(() => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     contGap();
     // eslint-disable-next-line react-hooks/exhaustive-deps
+    // location?.frontValue && $(document).scrollTop($(document).height());
   }, [axioData]);
 
   const handlePayMethod = (value) => {
@@ -125,6 +134,7 @@ export default function OrderFinal() {
       console.log(error);
     }
   };
+
   if (axioData) {
     return (
       <React.Fragment>
@@ -268,7 +278,7 @@ export default function OrderFinal() {
                                 <React.Fragment>
                                   <input
                                     type="radio"
-                                    defaultChecked={e?.pay_method === axioData?.res1_data?.default_pay_method}
+                                    defaultChecked={e?.pay_method === frontData?.orderPayment}
                                     defaultValue={e?.pay_method}
                                     id={`orderPayment0${i}`}
                                     name="orderPayment"
@@ -290,7 +300,7 @@ export default function OrderFinal() {
                                 <React.Fragment>
                                   <input
                                     type="radio"
-                                    defaultChecked={e?.pay_method === axioData?.res1_data?.default_pay_method}
+                                    defaultChecked={e?.pay_method === frontData?.orderPayment}
                                     defaultValue={e?.pay_method}
                                     id={`orderPayment0${i}`}
                                     name="orderPayment"

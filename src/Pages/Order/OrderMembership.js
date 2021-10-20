@@ -22,7 +22,7 @@ export default function OrderMembership() {
   const [state, dispatch] = useContext(authContext);
   const [axioData, setData] = useState(true);
   const history = useHistory();
-  console.log(history);
+  const { frontValue } = useLocation();
 
   const body = {};
   const header_config = {
@@ -44,7 +44,7 @@ export default function OrderMembership() {
         <GoContents />
         <div id="wrap" className="wrap">
           <div id="container" className="container">
-            <HeaderSub title="KT 멤버십 제휴 할인" />
+            <HeaderSub redirectFromMembership={true} noBack={true} frontValue={frontValue} title="KT 멤버십 제휴 할인" />
 
             <div id="content" className="membership discount">
               <div className="form-wrap">

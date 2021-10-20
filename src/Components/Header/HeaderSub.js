@@ -16,10 +16,19 @@ export default function HeaderSub({
   headerPopup,
   popTarget,
   payHeader,
+  redirectFromMembership,
+  frontValue,
 }) {
   const history = useHistory();
   const handleShare = (e) => {
     alert("공유하기 버튼");
+  };
+
+  const handleBack = () => {
+    history.push({
+      pathname: `/order/final/${frontValue?.smartOrderSeq}`,
+      frontValue: frontValue,
+    });
   };
 
   return (
@@ -35,7 +44,13 @@ export default function HeaderSub({
           <span className="blind">{title}</span>
         </h1>
       )}
-
+      {redirectFromMembership && (
+        <a onClick={() => handleBack()} className="btn back">
+          <i className="ico back">
+            <span className="blind">뒤로</span>
+          </i>
+        </a>
+      )}
       {redirectBack && (
         <Link to={location} className="btn back">
           <i className="ico back">
