@@ -133,7 +133,8 @@ export function Order(props) {
 
         <div id="wrap" className="wrap">
           <div id="container" className="container">
-            <HeaderSub title="매장선택" type="store" location="/mypage/cart" icon="cart" />
+            {/* <HeaderSub title="매장선택" type="store" location="/mypage/cart" icon="cart" /> */}
+            <HeaderSub title="매장선택" />
 
             <Nav order={3} />
 

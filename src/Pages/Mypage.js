@@ -151,9 +151,9 @@ export default function MyPage() {
                 <li>
                   <Link to="#">즐겨 찾는 매장 관리</Link>
                 </li>
-                <li>
+                {/* <li>
                   <Link to="/mypage/favoriteMenu">즐겨 찾는 메뉴 관리</Link>
-                </li>
+                </li> */}
                 <li>
                   <a className="open-pop" data-href="#popupExitJoin" onClick={(e) => popupOpen(e.target)}>
                     로그아웃

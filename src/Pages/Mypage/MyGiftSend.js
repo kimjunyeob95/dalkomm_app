@@ -86,11 +86,15 @@ export default function MyGiftSend() {
       };
       axios.all([axios.post(`${SERVER_DALKOMM}/app/api/v2/present/auth`, body, header_config)]).then(
         axios.spread((res1) => {
-          let present_token = res1.data.data.present_token;
-          // window.open(`${SERVER_DALKOMM}/app/web/present?present_token=${present_token}`);
-          window.open(
-            `app://openPopupWebView?title=기프트카드 선물하기&link=${SERVER_DALKOMM}/app/web/present?present_token=${present_token}&type=present&redirectUrl=/pay`
-          );
+          if (res1.data.meta.code === 20000) {
+            let present_token = res1.data.data.present_token;
+            window.open(
+              `app://openPopupWebView?title=기프트카드 선물하기&link=${SERVER_DALKOMM}/app/web/present?present_token=${present_token}&type=present&redirectUrl=/pay`
+            );
+          } else {
+            alert(res1.data.meta.msg);
+            return false;
+          }
         })
       );
     }
@@ -100,6 +104,8 @@ export default function MyGiftSend() {
       callbackFunc: "nativeCallbackPhone",
     };
     data = JSON.stringify(data);
+    // window.nativeCallbackPhone({ data: { name: "강남규", phone: "010-2895-8714" } });
+
     try {
       if (checkMobile() === "android") {
         window.android.fn_callBack(data);

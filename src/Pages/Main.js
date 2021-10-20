@@ -163,14 +163,14 @@ export function Main(props) {
   };
   // return (
   //   <div style={{ wordBreak: "break-all" }}>
-  //     <p> accessToken : {state?.accessToken}</p>
+  //     <p> accessToken : {document.cookie}</p>
   //     <br />
   //     <p> auth : {state?.auth}</p>
   //     <br />
   //   </div>
   // );
   //axios 반환 시
-  console.log(axioData);
+
   if (axioData?.res1_data?.main_banner_list) {
     // fadeInOut();
     return (

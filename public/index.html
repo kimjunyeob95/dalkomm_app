@@ -7,44 +7,39 @@
         content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no" />
     <meta name="format-detection" content="telephone=no">
     <title>달콤커피</title>
-    <script src="/@resource/js/lib/jquery-3.2.1.min.js"></script>
-    <script src="/@resource/js/lib/jquery-ui.js"></script>
-    <script src="/@resource/js/dalkomm.js"></script>
-    <script src="/@resource/js/jquery-barcode.js"></script>
-    <link type="text/css" href="/@resource/css/dalkomm.css" rel="stylesheet" />
-    <link type="text/css" href="/@resource/css/dalkomm_react.css" rel="stylesheet" />
-  </head>
-  <body oncontextmenu="return false" ondragstart="return false" onselectstart="return false">
-    <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div id="root"></div>
-    <!--
-      This HTML file is a template.
-      If you open it directly in the browser, you will see an empty page.
-
-      You can add webfonts, meta tags, or analytics to this file.
-      The build step will place the bundled scripts into the <body> tag.
-
-      To begin the development, run `npm start` or `yarn start`.
-      To create a production bundle, use `npm run build` or `yarn build`.
-    -->
     <script>
-      let result_phone;
+      let result_userData;
       function nativeCallbackPhone(param){
-        if(param?.data !== undefined){
-          result_phone=param?.data;
-          return result_phone;
-        }
-        return result_phone;
+        result_userData=JSON.parse(param);
+        let {name,phone} = result_userData.data
+        var regex = /[^0-9]/g;				// 숫자가 아닌 문자열을 선택하는 정규식
+        phone = phone.replace(regex, "");
+          $('#giftName').val(name);
+          $('#giftPhone').val(phone);
       }
 
       let result_fcmToken;
       function nativeCallbackFcmToken(param){
-        if(param?.data !== undefined){
-          result_fcmToken=param?.data;
+        result_fcmToken=JSON.parse(param);
+        result_fcmToken = result_fcmToken.data
+        if(result_fcmToken !== undefined){
           return result_fcmToken;
         }
         return result_fcmToken;
       }
     </script>
+    <script src="/@resource/js/lib/jquery-3.2.1.min.js"></script>
+    <script src="/@resource/js/lib/jquery-ui.js"></script>
+    <script src="/@resource/js/dalkomm.js"></script>
+    <script src="/@resource/js/jquery-barcode.js"></script>
+    <link type="text/css" href="/@resource/css/dalkomm.css" rel="stylesheet" />
+    <link type="text/css" href="/@resource/css/order.css" rel="stylesheet" />
+    <link type="text/css" href="/@resource/css/dalkomm_react.css" rel="stylesheet" />
+    
+  </head>
+  <body oncontextmenu="return false" ondragstart="return false" onselectstart="return false">
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div id="root"></div>
+    
   </body>
 </html>

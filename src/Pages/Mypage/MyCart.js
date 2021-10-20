@@ -32,18 +32,18 @@ export default function MyCart() {
   };
 
   useEffect(() => {
-    // axios.all([axios.get(`${SERVER_DALKOMM}/app/api/v2/smartorder/cart/list?store_code=${storeCode}`, header_config)]).then(
-    //   axios.spread((res1) => {
-    //     console.log(res1);
-    //     let res1_data = res1.data.data;
-    //     setData((origin) => {
-    //       return {
-    //         ...origin,
-    //         res1_data,
-    //       };
-    //     });
-    //   })
-    // );
+    axios.all([axios.get(`${SERVER_DALKOMM}/app/api/v2/smartorder/cart/list?store_code=${storeCode}`, header_config)]).then(
+      axios.spread((res1) => {
+        console.log(res1);
+        let res1_data = res1.data.data;
+        setData((origin) => {
+          return {
+            ...origin,
+            res1_data,
+          };
+        });
+      })
+    );
     setData(true);
   }, [state?.auth]);
 
@@ -53,25 +53,66 @@ export default function MyCart() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [axioData]);
   const handleOrder = (e) => {
-    history.push({
-      pathname: "/order/final",
-      from: "myCart",
+    let smartordermenu_list = [];
+    $(".data-list li").each(function (i, e) {
+      smartordermenu_list.push({ smartorder_menu_id: $(e).data("menuid"), quantity: Number($(e).find(".menuCount").val()) });
     });
+
+    let body_order = {
+      smartorder_orderinfo_id: axioData?.res1_data?.cart_list[0]?.smartorder_menu_id,
+      store_code: storeCode,
+      smartordermenu_list: smartordermenu_list,
+    };
+
+    axios.all([axios.post(`${SERVER_DALKOMM}/app/api/v2/smartorder/cart/to/order`, body_order, header_config)]).then(
+      axios.spread((res1) => {
+        if (res1.data.meta.code === 20000) {
+          history.push({
+            pathname: `/order/final/${axioData?.res1_data?.cart_list[0]?.smartorder_orderinfo_id}`,
+          });
+        } else {
+          alert(res1.data.meta.msg);
+          return false;
+        }
+      })
+    );
   };
+
+  function totalPrice() {
+    let sumPrice = 0;
+    $(".showPrice").each(function (i, e) {
+      sumPrice += Number($(e).attr("data-price"));
+    });
+    $(".finalPrice").text(sumPrice.toLocaleString("ko-KR") + "원");
+  }
   const handleClick = (e, type) => {
     let $thisTarget = $(e).siblings("input");
     let $thisCount = Number($(e).siblings("input").val());
+    let $thisPrice = 0;
     if (type === "증가") {
+      $thisPrice = ($thisCount + 1) * Number($(e).siblings("input").data("price"));
       $thisTarget.val($thisCount + 1);
+      $(e)
+        .parent()
+        .prev()
+        .attr("data-price", $thisPrice)
+        .text($thisPrice.toLocaleString("ko-KR") + "원");
     } else if (type === "감소") {
       if ($thisCount < 2) {
         return false;
       } else {
         $thisTarget.val($thisCount - 1);
+        $thisPrice = ($thisCount - 1) * Number($(e).siblings("input").data("price"));
+        $(e)
+          .parent()
+          .prev()
+          .attr("data-price", $thisPrice)
+          .text($thisPrice.toLocaleString("ko-KR") + "원");
       }
     }
+    totalPrice();
   };
-  const handleDelete = (e, type) => {
+  const handleDelete = (e, type, menuId) => {
     if (type === "allDelete") {
       $(".order-list.data-list").html("");
       $(".price.fc-orange").text("0원");
@@ -79,15 +120,15 @@ export default function MyCart() {
       $(".btn.open-pop").remove();
       $("body").removeClass("modal-opened");
       $("#drinkDelete").removeClass("active");
-      axios.all([axios.post(`${SERVER_DALKOMM}/app/api/v2/smartorder/cart/delete`, { smartorder_menu_id: 0 }, header_config)]).then(
-        axios.spread((res1) => {
-          res1.data.meta.code !== 20000 && alert(res1.data.meta.msg);
-        })
-      );
     } else {
       let $thisTarget = $(e).parent().parent();
       $thisTarget.remove();
     }
+    axios.all([axios.post(`${SERVER_DALKOMM}/app/api/v2/smartorder/cart/delete`, { smartorder_menu_id: menuId }, header_config)]).then(
+      axios.spread((res1) => {
+        res1.data.meta.code !== 20000 ? alert(res1.data.meta.msg) : totalPrice();
+      })
+    );
   };
   if (axioData) {
     return (
@@ -104,174 +145,66 @@ export default function MyCart() {
               {/* 장바구니 */}
               <section className="section">
                 <ul className="order-list data-list">
-                  <li>
-                    <div className="item order">
-                      <button type="button" className="btn delete" onClick={(e) => handleDelete(e.currentTarget)}>
-                        <i className="ico close">
-                          <span>삭제하기</span>
-                        </i>
-                      </button>
-                      <div className="img-wrap">
-                        <img src="/@resource/images/@temp/product_05.jpg" alt="카라멜마끼아또" />
-                      </div>
-                      <div className="detail-wrap">
-                        <div className="order-info">
-                          <p className="title">카라멜마끼아또</p>
-                          <p className="info">
-                            <span className="en">ICE</span>
-                            <span className="en">Regular</span>
-                            <span>매장용 컵</span>
-                          </p>
-                          <p className="option flex-both">
-                            <span>
-                              <em className="en">Option :</em> 샷 추가
-                            </span>
-                            <span>횟수 : 1</span>
-                          </p>
+                  {axioData?.res1_data?.cart_list?.map((element, index) => (
+                    <li key={index} data-menuid={element?.smartorder_menu_id}>
+                      <div className="item order">
+                        <button type="button" className="btn delete" onClick={(e) => handleDelete(e.currentTarget, "", element?.smartorder_menu_id)}>
+                          <i className="ico close">
+                            <span>삭제하기</span>
+                          </i>
+                        </button>
+                        <div className="img-wrap">
+                          <img
+                            src={element?.type === "I" ? element?.imgs["detail_image_ice"] : element?.imgs["detail_image_hot_simple"]}
+                            alt={element?.name_kor}
+                          />
                         </div>
-                        <div className="price-wrap flex-both">
-                          <p className="price fc-orange">4,300원</p>
-                          <p className="uio-amount">
-                            <button type="button" className="btn amount" onClick={(e) => handleClick(e.currentTarget, "감소")}>
-                              <i className="ico decrease"></i>
-                              <span className="blind">감소</span>
-                            </button>
-                            <input type="text" defaultValue={1} className="ea" />
-                            <button type="button" className="btn amount" onClick={(e) => handleClick(e.currentTarget, "증가")}>
-                              <i className="ico increase"></i>
-                              <span className="blind">증가</span>
-                            </button>
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  </li>
-                  <li>
-                    <div className="item order">
-                      <button type="button" className="btn delete" onClick={(e) => handleDelete(e.currentTarget)}>
-                        <i className="ico close">
-                          <span>삭제하기</span>
-                        </i>
-                      </button>
-                      <div className="img-wrap">
-                        <img src="/@resource/images/@temp/product_07.jpg" alt="아메리카노" />
-                      </div>
-                      <div className="detail-wrap">
-                        <div className="order-info">
-                          <p className="title">아메리카노</p>
-                          <p className="info">
-                            <span className="en">ICE</span>
-                            <span className="en">Regular</span>
-                            <span>매장용 컵</span>
-                          </p>
-                          <p className="option flex-both">
-                            <span>
-                              <em className="en">Option :</em> 샷 추가
-                            </span>
-                            <span>횟수 : 1</span>
-                          </p>
-                        </div>
-                        <div className="price-wrap flex-both">
-                          <p className="price fc-orange">4,300원</p>
-                          <p className="uio-amount">
-                            <button type="button" className="btn amount" onClick={(e) => handleClick(e.currentTarget, "감소")}>
-                              <i className="ico decrease"></i>
-                              <span className="blind">감소</span>
-                            </button>
-                            <input type="text" defaultValue={1} className="ea" />
-                            <button type="button" className="btn amount" onClick={(e) => handleClick(e.currentTarget, "증가")}>
-                              <i className="ico increase"></i>
-                              <span className="blind">증가</span>
-                            </button>
-                          </p>
+                        <div className="detail-wrap">
+                          <div className="order-info">
+                            <p className="title">{element?.name_kor}</p>
+                            <p className="info">
+                              <span className="en">{element?.type === "I" ? "Ice" : element?.type === "H" ? "Hot" : ""}</span>
+                              <span className="en">
+                                {element?.size === "L" ? "Large" : element?.size === "R" ? "Regular" : element?.size === "B" ? "Big" : ""}
+                              </span>
+                              <span>
+                                {" "}
+                                {element?.cup === "I" ? "일회용 컵" : element?.cup === "M" ? "매장용 컵" : element?.cup === "P" ? "개인컵" : ""}
+                              </span>
+                            </p>
+                            <p className="option flex-both">
+                              <span>
+                                <em className="en">Option :</em> 샷 추가
+                              </span>
+                              <span>횟수 : 1</span>
+                            </p>
+                          </div>
+                          <div className="price-wrap flex-both">
+                            <p className="price fc-orange showPrice" data-price={(element?.price + element?.option_price) * element?.quantity}>
+                              {(element?.price + element?.option_price)?.toLocaleString("ko-KR")}원
+                            </p>
+                            <p className="uio-amount">
+                              <button type="button" className="btn amount" onClick={(e) => handleClick(e.currentTarget, "감소")}>
+                                <i className="ico decrease"></i>
+                                <span className="blind">감소</span>
+                              </button>
+                              <input
+                                type="text"
+                                defaultValue={element?.quantity}
+                                className="ea menuCount"
+                                disabled
+                                data-price={element?.price + element?.option_price}
+                              />
+                              <button type="button" className="btn amount" onClick={(e) => handleClick(e.currentTarget, "증가")}>
+                                <i className="ico increase"></i>
+                                <span className="blind">증가</span>
+                              </button>
+                            </p>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  </li>
-                  <li>
-                    <div className="item order">
-                      <button type="button" className="btn delete" onClick={(e) => handleDelete(e.currentTarget)}>
-                        <i className="ico close">
-                          <span>삭제하기</span>
-                        </i>
-                      </button>
-                      <div className="img-wrap">
-                        <img src="/@resource/images/@temp/product_07.jpg" alt="아메리카노" />
-                      </div>
-                      <div className="detail-wrap">
-                        <div className="order-info">
-                          <p className="title">아메리카노</p>
-                          <p className="info">
-                            <span className="en">ICE</span>
-                            <span className="en">Regular</span>
-                            <span>매장용 컵</span>
-                          </p>
-                          <p className="option flex-both">
-                            <span>
-                              <em className="en">Option :</em> 샷 추가
-                            </span>
-                            <span>횟수 : 1</span>
-                          </p>
-                        </div>
-                        <div className="price-wrap flex-both">
-                          <p className="price fc-orange">4,300원</p>
-                          <p className="uio-amount">
-                            <button type="button" className="btn amount" onClick={(e) => handleClick(e.currentTarget, "감소")}>
-                              <i className="ico decrease"></i>
-                              <span className="blind">감소</span>
-                            </button>
-                            <input type="text" defaultValue={1} className="ea" />
-                            <button type="button" className="btn amount" onClick={(e) => handleClick(e.currentTarget, "증가")}>
-                              <i className="ico increase"></i>
-                              <span className="blind">증가</span>
-                            </button>
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  </li>
-                  <li>
-                    <div className="item order">
-                      <button type="button" className="btn delete" onClick={(e) => handleDelete(e.currentTarget)}>
-                        <i className="ico close">
-                          <span>삭제하기</span>
-                        </i>
-                      </button>
-                      <div className="img-wrap">
-                        <img src="/@resource/images/@temp/product_07.jpg" alt="아메리카노" />
-                      </div>
-                      <div className="detail-wrap">
-                        <div className="order-info">
-                          <p className="title">아메리카노</p>
-                          <p className="info">
-                            <span className="en">ICE</span>
-                            <span className="en">Regular</span>
-                            <span>매장용 컵</span>
-                          </p>
-                          <p className="option flex-both">
-                            <span>
-                              <em className="en">Option :</em> 샷 추가
-                            </span>
-                            <span>횟수 : 1</span>
-                          </p>
-                        </div>
-                        <div className="price-wrap flex-both">
-                          <p className="price fc-orange">4,300원</p>
-                          <p className="uio-amount">
-                            <button type="button" className="btn amount" onClick={(e) => handleClick(e.currentTarget, "감소")}>
-                              <i className="ico decrease"></i>
-                              <span className="blind">감소</span>
-                            </button>
-                            <input type="text" defaultValue={1} className="ea" />
-                            <button type="button" className="btn amount" onClick={(e) => handleClick(e.currentTarget, "증가")}>
-                              <i className="ico increase"></i>
-                              <span className="blind">증가</span>
-                            </button>
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  </li>
+                    </li>
+                  ))}
                 </ul>
               </section>
               {/* // 장바구니 */}
@@ -285,7 +218,7 @@ export default function MyCart() {
                         <div className="item info-order">
                           <dl className="flex-both">
                             <dt className="title en">Total</dt>
-                            <dd className="price fc-orange">42,000원</dd>
+                            <dd className="price fc-orange finalPrice">{axioData?.res1_data?.total_amount?.toLocaleString("ko-KR")}원</dd>
                           </dl>
                         </div>
                       </div>
@@ -319,7 +252,7 @@ export default function MyCart() {
                         </p>
                       </div>
                       <div className="btn-area col-2">
-                        <button type="reset" className="btn large normal" onClick={(e) => handleDelete(e.currentTarget, "allDelete")}>
+                        <button type="reset" className="btn large normal" onClick={(e) => handleDelete(e.currentTarget, "allDelete", 0)}>
                           삭제하기
                         </button>
                         <button type="button" className="btn large light-g btn-close">

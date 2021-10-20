@@ -7,7 +7,7 @@
 import axios from "axios";
 import $ from "jquery";
 import React, { useEffect, useContext, useState } from "react";
-import { Link, useHistory, useParams } from "react-router-dom";
+import { Link, useHistory, useParams, useLocation } from "react-router-dom";
 
 import HeaderSub from "Components/Header/HeaderSub";
 import GoContents from "Components/GoContents";
@@ -22,6 +22,7 @@ export default function OrderMembership() {
   const [state, dispatch] = useContext(authContext);
   const [axioData, setData] = useState(true);
   const history = useHistory();
+  console.log(history);
 
   const body = {};
   const header_config = {

@@ -88,7 +88,7 @@ export default function OrderSearch() {
 
         <div id="wrap" className="wrap">
           <div id="container" className="container">
-            <HeaderSub title="메뉴검색" location="/mypage/cart" icon="cart" />
+            <HeaderSub title="메뉴검색" location={`/mypage/cart/${storeCode}`} icon="cart" />
 
             <Nav order={3} />
             <div id="content" className="drink search">

@@ -1,0 +1,89 @@
+/* 기존 데이터 페이지 css 적용 */
+#finalOrder {padding-bottom: calc(18.667vw + 19.807vw + 7.067vw);}
+#finalOrder > section {padding-left: 5.333vw; padding-right: 5.333vw;}
+.pay_store {font-size: 3.733vw; padding-top:5.2vw; border-top: 0.267vw solid #f1f1f1;}
+.pay_store .title {font-weight: 700; font-size: inherit; padding-right: 2.667vw;}
+.pay_store .title strong {font-weight: 400; padding-left: 2.667vw;}
+.pay_store_content {padding-bottom: 4.8vw; border-bottom: 0.267vw solid #f1f1f1;}
+.item.store-search .detail-wrap .place::before {content: ''; position: absolute; display: inline-block; top: 0.4vw; left: 0; width: 0.267vw; height: 3.467vw; background-color: #c6c6c6;}
+
+.pay_customer {padding-top: 8vw;}
+.pay_customer + .pay_inform {margin-top: 8vw; padding-top: 5.867vw; border-top: 0.267vw solid #f1f1f1;}
+.pay_customer .title  {display: -ms-flexbox; display: -webkit-flex; display: flex; -webkit-justify-content: space-between; -ms-flex-pack: justify; justify-content: space-between;}
+.pay-title.en {font-weight: 600;}
+.pay-title,
+.pay_carrier .list_title,
+.pay_customer .title ,
+.pay_inform .title {font-weight: 700; font-size: 4.800vw;}
+.pay_customer .title + form ,
+.pay-title + ul,
+.pay_carrier .list_title + div,
+.pay_way .title + ul {margin-top: 5.333vw;}
+.smartorder-menu .list_cell h4 > strong {font-weight: 700; font-size: 3.733vw;}
+.smartorder-menu .list_cell .text-grey {font-weight: 400; font-size: 3.467vw; color: #9c9c9c; margin: 1.867vw 0 1.067vw;}
+.smartorder-menu .list_cell {width: calc(100% - 26.667vw); font-size: 0; padding-left: 3.733vw;}
+.smartorder-menu .list_cell > li {font-size: 3.733vw;}
+.smartorder-menu .list_cell > li.text-center,
+.smartorder-menu .list_cell > li.text-right {display: inline-block; width: 50%; margin-top: 5.333vw;}
+.smartorder-menu .list_cell > li.text-right {text-align: right; color: #ff592e;}
+.smartorder-menu .item.order {justify-content: space-between;}
+.smartorder-menu .order-list > li + li {border-color: #f7f7f7; margin-top: 8vw; padding-top: 8vw;}
+
+.pay_way,
+.pay_carrier {position: relative; margin-top: 10.667vw;}
+.pay_carrier .list_content {display: none;}
+.pay_carrier .list-chk {padding-bottom: 0 !important;}
+.pay_carrier .list-chk.text-grey {position: absolute; top: 0; left: 20vw; font-size: 2.933vw; color: #bfbfbf; padding-left: 4.267vw !important; margin-left: 1.067vw;}
+.pay_carrier .list-chk.text-grey::before {content: ''; display: inline-block; position: absolute; top: 50%; left: 0; width: 3.733vw; height: 3.733vw; background-image: url('../images/com/icon_alert.svg');  background-size: cover; opacity: 0.7; transform: translateY(-50%); margin-top: 0.267vw;} 
+
+.pay_inform > .title {display: none;}
+.pay_inform .select{position:relative; width: 100%; height:13.333vw; font-size:3.467vw; letter-spacing: -0.4px; padding:0 4vw;vertical-align:middle; background: white url("../images/@uio/select-arr.svg") no-repeat calc(100% - 5.520vw) 50%;background-size: 2.320vw auto; border: 1px solid #dbdbdb; color: #989898; margin-top: 5.556vw;}
+
+.pay_inform .list.pay .list_cell.text-red ,
+.pay_inform .list.pay_sum .list_cell,
+.pay_inform .list.pay_sum_b .list_cell {font-size: 0;}
+.pay_inform .list.pay_sum .list_cell > li,
+.pay_inform .list.pay_sum_b .list_cell > li {display: inline-block; width: 30%;}
+.pay_inform .list.pay_sum .list_cell > li.text-center,
+.pay_inform .list.pay_sum_b .list_cell > li.text-center {width: 30%;  text-align: right;}
+.pay_inform .list.pay_sum .list_cell > li.text-right,
+.pay_inform .list.pay_sum_b .list_cell > li.text-right {width: 40%; text-align: right;}
+.pay_inform .list.pay .list_cell h4,
+.pay_inform .list.pay_sum .list_cell h4,
+.pay_inform .list.pay_sum_b .list_cell h4 {font-size: 3.733vw;}
+.pay_inform .list.pay .list_cell .text-right h4,
+.pay_inform .list.pay_sum .list_cell .text-right h4 {font-size: 4.267vw;}
+.pay_inform .list.pay_sum .list_cell .text-right h4 {font-weight: 800; }
+
+.pay_inform .list.pay + .list.pay {margin-top: 5.867vw;}
+.pay_inform .list.pay .list_cell.text-red > li {display: inline-block; width: 50%;}
+.pay_inform .list.pay .list_cell.text-red > li.text-right{width: 50%; text-align: right;}
+.pay_inform .list.pay .list_cell.text-red h4 strong > span {color: #afafaf; margin-left: 2.133vw;}
+
+.pay_inform .list.pay_sum {margin-top: 10.667vw; padding-top: 5.333vw;}
+.pay_inform .list.pay_sum > .pay-title + .list_cell {border-top: 1px solid #dbdbdb; padding-top: 5.867vw;}
+.pay_inform .list.pay_sum + .list.pay {border-top: 1px solid rgba(112,112,112,0.1); padding-top: 6.667vw; margin-top: 5.867vw;}
+
+.pay_inform .list.pay_sum_b {position: fixed; bottom: 18.667vw; left: 0;  width: 100%; background-color: #fff; border-top: 1px solid rgba(112,112,112,0.1); padding-top: 5.333vw; padding-left: 5.333vw; padding-right: 5.333vw; padding-bottom: 7.600vw; box-sizing: border-box; z-index: 1;}
+.pay_inform .list.pay_sum_b .list_cell > li.text-center {font-weight: 700;}
+.pay_inform .list.pay_sum_b .list_cell > li.text-right h4 {font-weight: 800; font-size: 5.333vw; color: #ff592e;}
+
+.pay_inform .list.pay .btn.verify {margin-top: -1.867vw;}
+
+.fixed-btn {position: fixed; bottom: 0; left: 0; width: 100%;}
+.fixed-btn .btn_full {display: -ms-flexbox; display: -webkit-flex; display: flex;}
+.fixed-btn .btn_full .btn {display: -webkit-box; display: -ms-flexbox; display: flex; 
+    -webkit-align-items: center; -ms-flex-align: center; align-items: center;
+    -webkit-box-pack: center; -ms-flex-pack: center; justify-content: center; width: 50%; height: 18.667vw; line-height: 18.667vw; font-weight: 700; font-size: 4.267vw;}
+.fixed-btn .btn_full .btn.btn-cancel {background-color: #fff; color: #000; border-top: 0.267vw solid #ebebeb;}
+.fixed-btn .btn_full .btn.btn-confirm {background-color: #000; color: #fff;;}
+
+.pay_way_content1 {font-size: 0; display: -ms-flexbox; display: -webkit-flex; display: flex; -webkit-flex-wrap: wrap; -ms-flex-wrap: wrap; flex-wrap: wrap;}
+.pay_way_content1 li.pay-method {display: inline-block; width: 33.3% !important; height: 24.533vw; }
+.pay_way_content1 li.pay-method label {width: 100% !important;  box-shadow: none;}
+.pay_way_content1 li.pay-method .radio.active + label{color: #ff592e; border: 1px solid #ff592e;}
+.pay_way_content1 li.pay-method .radio_text {display: -ms-flexbox; display: -webkit-flex; display: flex; -webkit-justify-content: center; -ms-flex-pack: center; justify-content: center; -webkit-align-items: center; -ms-flex-align: center; align-items: center;}
+.pay_way_content1.select-group.col-3 li.pay-method {margin-top: -0.267vw;}
+.pay_way_content1.select-group.col-3 li.pay-method:nth-child(-n+3) {margin-top : 0;}
+.pay_way_content1 li.pay-method label::before {content: ''; display: inline-block; position: absolute; top: 0; right: -0.267vw; width: 0.267vw; height: 100%; background-color: #ebebeb; transition: background-color 0.4 ease;}
+.pay_way_content1 li.pay-method .radio.active + label::before {background-color: #ff592e;}

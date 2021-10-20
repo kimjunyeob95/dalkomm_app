@@ -1,7 +1,8 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react-hooks/rules-of-hooks */
 /* eslint-disable no-fallthrough */
 import React, { useEffect, useReducer, useState } from "react";
-import { getCookieValue } from "Config/GlobalJs";
+import { getCookieValue, checkMobile } from "Config/GlobalJs";
 
 export const authContext = React.createContext();
 
@@ -14,6 +15,7 @@ export const indexInitialState = {
   auth: "",
   latitude: getCookieValue("latitude"),
   longitude: getCookieValue("longitude"),
+  udid: getCookieValue("udid"),
 };
 
 export const indexReducer = (state, action) => {
@@ -53,7 +55,22 @@ export const indexReducer = (state, action) => {
 const ContextStore = (props) => {
   const [loading, setLoding] = useState(false);
   useEffect(() => {
-    console.log("첫로딩");
+    let data = {
+      callbackFunc: "nativeCallbackFcmToken",
+    };
+    data = JSON.stringify(data);
+
+    setTimeout(() => {
+      try {
+        if (checkMobile() === "android") {
+          window.android.fn_fcmToken(data);
+        } else if (checkMobile() === "ios") {
+          window.webkit.messageHandlers.fn_fcmToken.postMessage(data);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }, 1000);
   }, []);
   useEffect(() => {
     //로그인 유지처리
@@ -79,6 +96,7 @@ const ContextStore = (props) => {
       indexInitialState.auth = "Basic ZGFsa29tbTpkYWxrb21tX2FwcDs3NWEzMjRkMTNkY2FjYjM1ZjhkODc0MjZjZDRjYjAyODExZTBkYTM1OzIwMjExMDA2MTEzOTU0";
       indexInitialState.latitude = 37.507232666015625;
       indexInitialState.longitude = 127.05642398540016;
+      indexInitialState.udid = "8280af29616a4ec1bb85a9ed17b9594e828e8140";
     }
     // indexInitialState.auth = getCookieValue("auth");
     setLoding(true);

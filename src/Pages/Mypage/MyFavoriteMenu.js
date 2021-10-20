@@ -31,7 +31,7 @@ export default function MyFavoriteMenu() {
       axios.spread((res1) => {
         let res1_data = res1.data;
         // eslint-disable-next-line no-useless-escape
-        res1_data = res1.data.replace(/^(\    <script\>)(.*)(\    <\/script\>)/gims, "");
+        res1_data = res1.data.replace(/^(\ <script\>)(.*)(\    <\/script\>)/gims, "");
         res1_data = res1_data.replace(/^(\<script)(.*)(\<\/script\>)/gims, "");
         $("#favoriteWrap").html(res1_data);
         $("#favoriteWrap link").remove();
