@@ -35,34 +35,41 @@ export default function OrderFinal() {
   };
 
   useEffect(() => {
-    axios.all([axios.get(`${SERVER_DALKOMM}/app/api/v2/smartorder/order?orderinfo_id=${smartOrderSeq}`, header_config)]).then(
-      axios.spread((res1) => {
-        let res1_data = res1.data.data;
+    axios
+      .all([
+        axios.get(
+          `${SERVER_DALKOMM}/app/api/v2/smartorder/order?orderinfo_id=${smartOrderSeq}`,
+          header_config
+        ),
+      ])
+      .then(
+        axios.spread((res1) => {
+          let res1_data = res1.data.data;
 
-        if (location?.frontValue) {
-          setFront((origin) => {
-            return location?.frontValue;
-          });
-        } else {
-          setFront((origin) => {
+          if (location?.frontValue) {
+            setFront((origin) => {
+              return location?.frontValue;
+            });
+          } else {
+            setFront((origin) => {
+              return {
+                ...origin,
+                finalPrice: res1_data.total_order_amount,
+                orderPayment: res1_data.default_pay_method,
+                orderRequest: 0,
+                smartOrderSeq: smartOrderSeq,
+              };
+            });
+          }
+
+          setData((origin) => {
             return {
               ...origin,
-              finalPrice: res1_data.total_order_amount,
-              orderPayment: res1_data.default_pay_method,
-              orderRequest: 0,
-              smartOrderSeq: smartOrderSeq,
+              res1_data,
             };
           });
-        }
-
-        setData((origin) => {
-          return {
-            ...origin,
-            res1_data,
-          };
-        });
-      })
-    );
+        })
+      );
   }, [state?.auth]);
   console.log(axioData);
   useEffect(() => {
@@ -141,7 +148,11 @@ export default function OrderFinal() {
         <GoContents />
         <div id="wrap" className="wrap">
           <div id="container" className="container">
-            <HeaderSub title="주문하기" />
+            <HeaderSub
+              title="주문하기"
+              redirectBack={true}
+              location={`/order/menu/${axioData?.res1_data?.store?.store_code}`}
+            />
 
             <div id="content" className="drink order">
               <div className="store-search-wrap w-inner">
@@ -149,7 +160,9 @@ export default function OrderFinal() {
                   <div className="flex-both">
                     <dl className="detail-wrap flex-start">
                       <dt className="title">선택매장</dt>
-                      <dd className="place">{axioData?.res1_data?.store?.store_name}</dd>
+                      <dd className="place">
+                        {axioData?.res1_data?.store?.store_name}
+                      </dd>
                     </dl>
                   </div>
                 </div>
@@ -164,77 +177,138 @@ export default function OrderFinal() {
                       <div className="field">
                         <span className="label">주문 메뉴</span>
                         <ul className="order-list data-list">
-                          {axioData?.res1_data?.smartorder_detail_list?.map((element, index) => (
-                            <li key={index}>
-                              <div className="item order">
-                                <div className="img-wrap">
-                                  <img src="/@resource/images/@temp/product_07.jpg" alt={element?.menu_name_kor} />
-                                </div>
-                                <div className="detail-wrap">
-                                  <div className="order-info">
-                                    <p className="title">{element?.menu_name_kor}</p>
+                          {axioData?.res1_data?.smartorder_detail_list?.map(
+                            (element, index) => (
+                              <li key={index}>
+                                <div className="item order">
+                                  <div className="img-wrap">
+                                    <img
+                                      src={element?.smartorder_menu_img}
+                                      alt={element?.menu_name_kor}
+                                    />
+                                  </div>
+                                  <div className="detail-wrap">
+                                    <div className="order-info">
+                                      <p className="title">
+                                        {element?.menu_name_kor}
+                                      </p>
 
-                                    <p className="info">
-                                      <span className="en">
-                                        {element?.get_summary_option.filter((e, i) => {
-                                          let array = ["HOT", "ICE"];
-                                          if (array.indexOf(e) > -1) {
-                                            return e;
-                                          }
-                                        })}
-                                      </span>
-                                      <span className="en">
-                                        {element?.get_summary_option.filter((e, i) => {
-                                          let array = ["레귤러", "라지", "코끼리"];
-                                          if (array.indexOf(e) > -1) {
-                                            return e;
-                                          }
-                                        })}
-                                      </span>
-                                      <span>
-                                        {element?.get_summary_option.filter((e, i) => {
-                                          let array = ["다회용 컵", "일회용 컵", "개인컵(-300원)"];
-                                          if (array.indexOf(e) > -1) {
-                                            return e;
-                                          }
-                                        })}
-                                      </span>
-                                    </p>
-                                    <p className="option flex-both">
-                                      {element?.get_summary_option.filter((e, i) => {
-                                        let array = ["HOT", "ICE", "레귤러", "라지", "코끼리", "다회용 컵", "일회용 컵", "개인컵(-300원)"];
-                                        if (array.indexOf(e) < 0) {
-                                          return <span>e;</span>;
-                                        }
-                                      })}
-                                      {/* <span>
+                                      <p className="info">
+                                        <span className="en">
+                                          {element?.get_summary_option.filter(
+                                            (e, i) => {
+                                              let array = ["HOT", "ICE"];
+                                              if (array.indexOf(e) > -1) {
+                                                return e;
+                                              }
+                                            }
+                                          )}
+                                        </span>
+                                        <span className="en">
+                                          {element?.get_summary_option.filter(
+                                            (e, i) => {
+                                              let array = [
+                                                "레귤러",
+                                                "라지",
+                                                "코끼리",
+                                              ];
+                                              if (array.indexOf(e) > -1) {
+                                                return e;
+                                              }
+                                            }
+                                          )}
+                                        </span>
+                                        <span>
+                                          {element?.get_summary_option.filter(
+                                            (e, i) => {
+                                              let array = [
+                                                "다회용 컵",
+                                                "일회용 컵",
+                                                "개인컵(-300원)",
+                                              ];
+                                              if (array.indexOf(e) > -1) {
+                                                return e;
+                                              }
+                                            }
+                                          )}
+                                        </span>
+                                      </p>
+                                      <p className="option flex-both">
+                                        <span>
+                                          {element?.get_summary_option
+                                            .filter((e, i) => {
+                                              let array = [
+                                                "HOT",
+                                                "ICE",
+                                                "레귤러",
+                                                "라지",
+                                                "코끼리",
+                                                "다회용 컵",
+                                                "일회용 컵",
+                                                "개인컵(-300원)",
+                                              ];
+                                              return array.indexOf(e) < 0;
+                                            })
+                                            .map((e, i) => {
+                                              if (i === 0) {
+                                                return (
+                                                  <React.Fragment key={i}>
+                                                    {e}
+                                                  </React.Fragment>
+                                                );
+                                              } else {
+                                                return (
+                                                  <React.Fragment key={i}>
+                                                    , {e}
+                                                  </React.Fragment>
+                                                );
+                                              }
+                                            })}
+                                          {/* <span>
                                         <em className="en">Option :</em>샷 추가
                                       </span>
                                       <span>
                                         <em>횟수 :</em>1
                                       </span> */}
-                                    </p>
-                                  </div>
-                                  <div className="price-wrap flex-both">
-                                    <p className="price">
-                                      수량&nbsp; :<span>{element?.quantity}</span>{" "}
-                                    </p>
-                                    <p className="price fc-orange">
-                                      {((element?.price + element?.option_price) * element?.quantity).toLocaleString("ko-KR")}원
-                                    </p>
+                                        </span>
+                                      </p>
+                                    </div>
+                                    <div className="price-wrap flex-both">
+                                      <p className="price">
+                                        수량&nbsp; :
+                                        <span>{element?.quantity}</span>{" "}
+                                      </p>
+                                      <p className="price fc-orange">
+                                        {(
+                                          (element?.price +
+                                            element?.option_price) *
+                                          element?.quantity
+                                        ).toLocaleString("ko-KR")}
+                                        원
+                                      </p>
+                                    </div>
                                   </div>
                                 </div>
-                              </div>
-                              <select className="select medium">
-                                <option value="">쿠폰을 선택해 주세요.</option>
-                                {element?.user_coupon_detail_list?.map((e, i) => (
-                                  <option key={i} value={e?.user_coupon_id} data-price={e?.discount_price}>
-                                    {e?.coupon_name}
+                                <select className="select medium">
+                                  <option value="">
+                                    쿠폰을 선택해 주세요.
                                   </option>
-                                ))}
-                              </select>
-                            </li>
-                          ))}
+                                  {element?.user_coupon_detail_list?.map(
+                                    (e, i) => (
+                                      <option
+                                        key={i}
+                                        value={e?.user_coupon_id}
+                                        data-price={e?.discount_price}
+                                        data-oneplus={e?.is_one_plus_one}
+                                      >
+                                        {e?.coupon_name}
+                                      </option>
+                                    )
+                                  )}
+                                </select>
+                              </li>
+                            )
+                          )}
                         </ul>
                       </div>
 
@@ -242,7 +316,8 @@ export default function OrderFinal() {
                         <span className="label">
                           요청사항
                           <span className="alert">
-                            <i className="ico alert"></i>빙수제품은 별도 포장을 제공하지 않습니다.
+                            <i className="ico alert"></i>빙수제품은 별도 포장을
+                            제공하지 않습니다.
                           </span>
                         </span>
                         <div className="select-group col-2">
@@ -253,7 +328,10 @@ export default function OrderFinal() {
                             defaultChecked={frontData?.orderRequest === 1}
                             name="orderRequest"
                           />
-                          <label htmlFor="orderRequest01" className="btn bdr medium">
+                          <label
+                            htmlFor="orderRequest01"
+                            className="btn bdr medium"
+                          >
                             <strong>캐리어 포장</strong>
                           </label>
                           <input
@@ -263,7 +341,10 @@ export default function OrderFinal() {
                             id="orderRequest02"
                             name="orderRequest"
                           />
-                          <label htmlFor="orderRequest02" className="btn bdr medium">
+                          <label
+                            htmlFor="orderRequest02"
+                            className="btn bdr medium"
+                          >
                             <strong>없음</strong>
                           </label>
                         </div>
@@ -278,18 +359,26 @@ export default function OrderFinal() {
                                 <React.Fragment>
                                   <input
                                     type="radio"
-                                    defaultChecked={e?.pay_method === frontData?.orderPayment}
+                                    defaultChecked={
+                                      e?.pay_method === frontData?.orderPayment
+                                    }
                                     defaultValue={e?.pay_method}
                                     id={`orderPayment0${i}`}
                                     name="orderPayment"
-                                    onClick={() => handlePayMethod(e?.pay_method)}
+                                    onClick={() =>
+                                      handlePayMethod(e?.pay_method)
+                                    }
                                   />
-                                  <label htmlFor={`orderPayment0${i}`} className="btn bdr medium">
+                                  <label
+                                    htmlFor={`orderPayment0${i}`}
+                                    className="btn bdr medium"
+                                  >
                                     {e?.name === "충전카드" ? (
                                       <strong>
                                         {e?.name}
                                         <br />
-                                        {e?.balance?.toLocaleString("ko-KR") + "원"}
+                                        {e?.balance?.toLocaleString("ko-KR") +
+                                          "원"}
                                       </strong>
                                     ) : (
                                       <strong>{e?.name}</strong>
@@ -300,18 +389,26 @@ export default function OrderFinal() {
                                 <React.Fragment>
                                   <input
                                     type="radio"
-                                    defaultChecked={e?.pay_method === frontData?.orderPayment}
+                                    defaultChecked={
+                                      e?.pay_method === frontData?.orderPayment
+                                    }
                                     defaultValue={e?.pay_method}
                                     id={`orderPayment0${i}`}
                                     name="orderPayment"
-                                    onClick={() => handlePayMethod(e?.pay_method)}
+                                    onClick={() =>
+                                      handlePayMethod(e?.pay_method)
+                                    }
                                   />
-                                  <label htmlFor={`orderPayment0${i}`} className="btn bdr medium">
+                                  <label
+                                    htmlFor={`orderPayment0${i}`}
+                                    className="btn bdr medium"
+                                  >
                                     {e?.name === "충전카드" ? (
                                       <strong>
                                         {e?.name}
                                         <br />
-                                        {e?.balance?.toLocaleString("ko-KR") + "원"}
+                                        {e?.balance?.toLocaleString("ko-KR") +
+                                          "원"}
                                       </strong>
                                     ) : (
                                       <strong>{e?.name}</strong>
@@ -333,7 +430,12 @@ export default function OrderFinal() {
                               <span>총 상품 금액</span>
                             </dt>
                             <dd className="price">
-                              <strong>{axioData?.res1_data?.total_order_amount?.toLocaleString("ko-KR")}원</strong>
+                              <strong>
+                                {axioData?.res1_data?.total_order_amount?.toLocaleString(
+                                  "ko-KR"
+                                )}
+                                원
+                              </strong>
                             </dd>
                           </dl>
 
@@ -344,12 +446,17 @@ export default function OrderFinal() {
                             <dd className="price">0원</dd>
                           </dl>
                           <dl className="flex-both">
-                            {axioData?.res1_data?.basic_discount_rate_percent > 0 ? (
+                            {axioData?.res1_data?.basic_discount_rate_percent >
+                            0 ? (
                               <React.Fragment>
                                 <dt className="title">
-                                  멤버십 할인 <span className="grade">[PLETINUM]</span>
+                                  멤버십 할인{" "}
+                                  <span className="grade">[PLETINUM]</span>
                                 </dt>
-                                <dd className="price">{axioData?.res1_data?.basic_discount_rate_percent + "%할인"}</dd>
+                                <dd className="price">
+                                  {axioData?.res1_data
+                                    ?.basic_discount_rate_percent + "%할인"}
+                                </dd>
                               </React.Fragment>
                             ) : (
                               <React.Fragment>
@@ -363,12 +470,19 @@ export default function OrderFinal() {
                           <dl className="flex-both flex-center">
                             <dt className="title">KT 멤버십 할인</dt>
                             <dd>
-                              {axioData?.res1_data?.available_affiliate_discount ? (
-                                <a className="btn verify" onClick={() => handleMembership()}>
+                              {axioData?.res1_data
+                                ?.available_affiliate_discount ? (
+                                <a
+                                  className="btn verify"
+                                  onClick={() => handleMembership()}
+                                >
                                   인증하기
                                 </a>
                               ) : (
-                                <a className="btn verify" onClick={() => handleMembership("불가능")}>
+                                <a
+                                  className="btn verify"
+                                  onClick={() => handleMembership("불가능")}
+                                >
                                   인증하기
                                 </a>
                               )}
@@ -416,13 +530,18 @@ export default function OrderFinal() {
                       <div className="item info-order">
                         <dl className="flex-both total">
                           <dt className="title">최종 결제 금액</dt>
-                          <dd className="price fc-orange">{frontData?.finalPrice?.toLocaleString("ko-KR")}원</dd>
+                          <dd className="price fc-orange">
+                            {frontData?.finalPrice?.toLocaleString("ko-KR")}원
+                          </dd>
                         </dl>
                       </div>
                     </div>
 
                     <div className="btn-area">
-                      <a className="btn full x-large dark" onClick={() => handleSubmit()}>
+                      <a
+                        className="btn full x-large dark"
+                        onClick={() => handleSubmit()}
+                      >
                         주문하기
                       </a>
                     </div>
