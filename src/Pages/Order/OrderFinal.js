@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 /* eslint-disable array-callback-return */
 /* eslint-disable no-unused-expressions */
 /* eslint-disable no-script-url */
@@ -17,6 +18,8 @@ import { checkMobile } from "Config/GlobalJs";
 import { SERVER_DALKOMM } from "Config/Server";
 import { authContext } from "ContextApi/Context";
 
+import orderjson from "Pages/Order/Order";
+
 export default function OrderFinal() {
   const history = useHistory();
   const { smartOrderSeq } = useParams();
@@ -35,43 +38,52 @@ export default function OrderFinal() {
   };
 
   useEffect(() => {
-    axios
-      .all([
-        axios.get(
-          `${SERVER_DALKOMM}/app/api/v2/smartorder/order?orderinfo_id=${smartOrderSeq}`,
-          header_config
-        ),
-      ])
-      .then(
-        axios.spread((res1) => {
-          let res1_data = res1.data.data;
-
-          if (location?.frontValue) {
-            setFront((origin) => {
-              return location?.frontValue;
-            });
-          } else {
-            setFront((origin) => {
-              return {
-                ...origin,
-                finalPrice: res1_data.total_order_amount,
-                orderPayment: res1_data.default_pay_method,
-                orderRequest: 0,
-                smartOrderSeq: smartOrderSeq,
-              };
-            });
+    axios.all([axios.get(`${SERVER_DALKOMM}/app/api/v2/smartorder/order?orderinfo_id=${smartOrderSeq}`, header_config)]).then(
+      axios.spread((res1) => {
+        let res1_data = res1.data.data;
+        let menu_array = [];
+        // res1_data = orderjson.data;
+        [...new Array(res1_data?.total_order_count)]?.map((element, index) => {
+          menu_array.push({ quantity: 1 });
+        });
+        if (location?.frontValue) {
+          //kt 제휴할인페이지에서 접근시
+          setFront((origin) => {
+            return location?.frontValue;
+          });
+        } else {
+          let finalPrice = res1_data.total_order_amount;
+          if (res1_data?.basic_discount_rate_percent > 0) {
+            //맴버십 할인이 포함될경우
+            finalPrice = res1_data.total_order_amount - res1_data.total_order_amount * (res1_data?.basic_discount_rate_percent / 100);
           }
-
-          setData((origin) => {
+          if (res1_data?.affiliate_discount) {
+            //제휴 할인이 적용되있을경우
+            finalPrice -= 500;
+          }
+          setFront((origin) => {
             return {
               ...origin,
-              res1_data,
+              defaultFinalPrice: finalPrice,
+              finalPrice: finalPrice,
+              orderPayment: res1_data.default_pay_method,
+              orderRequest: 0,
+              menuQuantity: menu_array,
+              smartOrderSeq: smartOrderSeq,
             };
           });
-        })
-      );
+        }
+
+        setData((origin) => {
+          return {
+            ...origin,
+            res1_data,
+          };
+        });
+      })
+    );
   }, [state?.auth]);
-  console.log(axioData);
+
   useEffect(() => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     contGap();
@@ -97,23 +109,39 @@ export default function OrderFinal() {
     });
   };
   const handleMembership = (flag) => {
-    // if (flag === "불가능") {
-    //   alert("멤버십 할인이 불가능한 매장입니다.");
-    // } else {
-    //   history.push({
-    //     pathname: "/order/membership",
-    //     frontValue: frontData,
-    //   });
-    // }
-    history.push({
-      pathname: "/order/membership",
-      frontValue: frontData,
-    });
+    if (flag === "불가능") {
+      alert("멤버십 할인이 불가능한 매장입니다.");
+    } else {
+      history.push({
+        pathname: "/order/membership",
+        frontValue: frontData,
+      });
+    }
+    // history.push({
+    //   pathname: "/order/membership",
+    //   frontValue: frontData,
+    // });
   };
 
   const handleSubmit = () => {
     let validation = true;
     let menu_coupon_array = [];
+    let menu_coupon_id = [];
+    axioData?.res1_data?.smartorder_detail_list?.map((e, i) => {
+      menu_coupon_array.push({ smartorder_menu_id: e?.smartorder_menu_id, menu_coupon_id });
+    });
+    menu_coupon_array.map((e, i) => {
+      menu_coupon_id = [];
+      $(`.couponSelect-${e?.smartorder_menu_id}`).each(function (index, element) {
+        if ($(element).attr("data-value")) {
+          menu_coupon_id.push(Number($(element).attr("data-value")));
+        }
+
+        if ($(`.couponSelect-${e.smartorder_menu_id}`).length - 1 === index) {
+          menu_coupon_array[i] = { smartorder_menu_id: e?.smartorder_menu_id, menu_coupon_id };
+        }
+      });
+    });
 
     let target_value = {
       store_code: axioData?.res1_data?.store?.store_code,
@@ -122,9 +150,19 @@ export default function OrderFinal() {
       order_user_mobile: axioData?.res1_data?.order_user_mobile,
       carrier_package: Number(frontData?.orderRequest),
       pay_method: frontData?.orderPayment,
-      // order_menu_coupon: [{ smartorder_menu_id: 3209, user_coupon_ids: [] }],
-      order_menu_coupon: [],
+      order_menu_coupon: menu_coupon_array,
     };
+    // let target_value = {
+    //   store_code: "dalkomm005",
+    //   orderinfo_id: 26864,
+    //   order_user_name: "준엽김",
+    //   order_user_mobile: "01025466499",
+    //   carrier_package: 0,
+    //   pay_method: "P",
+    //   order_menu_coupon: [],
+    // };
+    // return console.log(menu_coupon_array);
+
     let result = {
       type: "post",
       link: `${SERVER_DALKOMM}/app/web/smartorder/order/to/pay/v2`,
@@ -142,17 +180,66 @@ export default function OrderFinal() {
     }
   };
 
+  const handleCoupon = (defaultPrice, target, index, index2) => {
+    let couponId = $(target).val();
+    let couponPrice = Number($(target).children("option:selected").data("price"));
+    let couponValue = $(target).children("option:selected").val();
+
+    $(target).attr("data-value", $(target).val());
+
+    let discountPrice = 0;
+    let oneplusArray = [];
+
+    //쿠폰 선택시 다른 곳에서 선택 못하게 제어
+    let select_coponid = [];
+    $(".couponSelect option:selected").each(function (i, e) {
+      if ($(e).val() !== "") {
+        select_coponid.push($(e).val());
+      }
+    });
+    $(".couponSelect option").each(function (index, e) {
+      if (select_coponid.indexOf($(e).val()) > -1) {
+        $(e).attr("disabled", true);
+      } else {
+        $(e).attr("disabled", false);
+      }
+    });
+
+    $(".couponSelect").each(function (i, e) {
+      let couponOneplus = $(e).children("option:selected").data("oneplus");
+      if ($(e).attr("data-value") && couponOneplus === false) {
+        //할인 쿠폰 선택시
+        discountPrice += Number($(e).children("option:selected").data("price"));
+      }
+
+      //1+1 쿠폰 선택 처리
+      if ($(e).attr("data-value") && couponOneplus === true) {
+        oneplusArray.push({ idx: i, quantity: 2, type: "추가" });
+      } else if (!$(e).attr("data-value") || couponOneplus === false) {
+        oneplusArray.push({ idx: i, quantity: 1 });
+      }
+      if (i === $(".couponSelect").length - 1) {
+        setFront((origin) => {
+          return {
+            ...origin,
+            menuQuantity: oneplusArray,
+            finalPrice: origin.defaultFinalPrice - discountPrice,
+          };
+        });
+      }
+    });
+  };
+  let menu_count = -1;
   if (axioData) {
     return (
       <React.Fragment>
         <GoContents />
         <div id="wrap" className="wrap">
+          <form id="form" method="post">
+            {/* <input type="hidden" name="value" defaultValue=""></input> */}
+          </form>
           <div id="container" className="container">
-            <HeaderSub
-              title="주문하기"
-              redirectBack={true}
-              location={`/order/menu/${axioData?.res1_data?.store?.store_code}`}
-            />
+            <HeaderSub title="주문하기" redirectBack={true} location={`/order/menu/${axioData?.res1_data?.store?.store_code}`} />
 
             <div id="content" className="drink order">
               <div className="store-search-wrap w-inner">
@@ -160,9 +247,7 @@ export default function OrderFinal() {
                   <div className="flex-both">
                     <dl className="detail-wrap flex-start">
                       <dt className="title">선택매장</dt>
-                      <dd className="place">
-                        {axioData?.res1_data?.store?.store_name}
-                      </dd>
+                      <dd className="place">{axioData?.res1_data?.store?.store_name}</dd>
                     </dl>
                   </div>
                 </div>
@@ -177,137 +262,105 @@ export default function OrderFinal() {
                       <div className="field">
                         <span className="label">주문 메뉴</span>
                         <ul className="order-list data-list">
-                          {axioData?.res1_data?.smartorder_detail_list?.map(
-                            (element, index) => (
-                              <li key={index}>
-                                <div className="item order">
-                                  <div className="img-wrap">
-                                    <img
-                                      src={element?.smartorder_menu_img}
-                                      alt={element?.menu_name_kor}
-                                    />
-                                  </div>
-                                  <div className="detail-wrap">
-                                    <div className="order-info">
-                                      <p className="title">
-                                        {element?.menu_name_kor}
-                                      </p>
+                          {axioData?.res1_data?.smartorder_detail_list?.map((element, index) =>
+                            [...new Array(element.quantity)].map((element2, index2) => {
+                              menu_count++;
+                              return (
+                                <li key={index2}>
+                                  <div className="item order">
+                                    <div className="img-wrap">
+                                      <img
+                                        src={axioData?.res1_data?.smartorder_detail_list[index]?.smartorder_menu_img}
+                                        alt={axioData?.res1_data?.smartorder_detail_list[index]?.menu_name_kor}
+                                      />
+                                    </div>
+                                    <div className="detail-wrap">
+                                      <div className="order-info">
+                                        <p className="title">{axioData?.res1_data?.smartorder_detail_list[index]?.menu_name_kor}</p>
 
-                                      <p className="info">
-                                        <span className="en">
-                                          {element?.get_summary_option.filter(
-                                            (e, i) => {
+                                        <p className="info">
+                                          <span className="en">
+                                            {axioData?.res1_data?.smartorder_detail_list[index]?.get_summary_option.filter((e, i) => {
                                               let array = ["HOT", "ICE"];
                                               if (array.indexOf(e) > -1) {
                                                 return e;
                                               }
-                                            }
-                                          )}
-                                        </span>
-                                        <span className="en">
-                                          {element?.get_summary_option.filter(
-                                            (e, i) => {
-                                              let array = [
-                                                "레귤러",
-                                                "라지",
-                                                "코끼리",
-                                              ];
+                                            })}
+                                          </span>
+                                          <span className="en">
+                                            {axioData?.res1_data?.smartorder_detail_list[index]?.get_summary_option.filter((e, i) => {
+                                              let array = ["레귤러", "라지", "코끼리"];
                                               if (array.indexOf(e) > -1) {
                                                 return e;
-                                              }
-                                            }
-                                          )}
-                                        </span>
-                                        <span>
-                                          {element?.get_summary_option.filter(
-                                            (e, i) => {
-                                              let array = [
-                                                "다회용 컵",
-                                                "일회용 컵",
-                                                "개인컵(-300원)",
-                                              ];
-                                              if (array.indexOf(e) > -1) {
-                                                return e;
-                                              }
-                                            }
-                                          )}
-                                        </span>
-                                      </p>
-                                      <p className="option flex-both">
-                                        <span>
-                                          {element?.get_summary_option
-                                            .filter((e, i) => {
-                                              let array = [
-                                                "HOT",
-                                                "ICE",
-                                                "레귤러",
-                                                "라지",
-                                                "코끼리",
-                                                "다회용 컵",
-                                                "일회용 컵",
-                                                "개인컵(-300원)",
-                                              ];
-                                              return array.indexOf(e) < 0;
-                                            })
-                                            .map((e, i) => {
-                                              if (i === 0) {
-                                                return (
-                                                  <React.Fragment key={i}>
-                                                    {e}
-                                                  </React.Fragment>
-                                                );
-                                              } else {
-                                                return (
-                                                  <React.Fragment key={i}>
-                                                    , {e}
-                                                  </React.Fragment>
-                                                );
                                               }
                                             })}
-                                          {/* <span>
-                                        <em className="en">Option :</em>샷 추가
-                                      </span>
-                                      <span>
-                                        <em>횟수 :</em>1
-                                      </span> */}
-                                        </span>
-                                      </p>
-                                    </div>
-                                    <div className="price-wrap flex-both">
-                                      <p className="price">
-                                        수량&nbsp; :
-                                        <span>{element?.quantity}</span>{" "}
-                                      </p>
-                                      <p className="price fc-orange">
-                                        {(
-                                          (element?.price +
-                                            element?.option_price) *
-                                          element?.quantity
-                                        ).toLocaleString("ko-KR")}
-                                        원
-                                      </p>
+                                          </span>
+                                          <span>
+                                            {axioData?.res1_data?.smartorder_detail_list[index]?.get_summary_option.filter((e, i) => {
+                                              let array = ["다회용 컵", "일회용 컵", "개인컵(-300원)"];
+                                              if (array.indexOf(e) > -1) {
+                                                return e;
+                                              }
+                                            })}
+                                          </span>
+                                        </p>
+                                        <p className="option flex-both">
+                                          <span>
+                                            {axioData?.res1_data?.smartorder_detail_list[index]?.get_summary_option
+                                              .filter((e, i) => {
+                                                let array = ["HOT", "ICE", "레귤러", "라지", "코끼리", "다회용 컵", "일회용 컵", "개인컵(-300원)"];
+                                                return array.indexOf(e) < 0;
+                                              })
+                                              .map((e, i) => {
+                                                if (i === 0) {
+                                                  return <React.Fragment key={i}>{e}</React.Fragment>;
+                                                } else {
+                                                  return <React.Fragment key={i}>, {e}</React.Fragment>;
+                                                }
+                                              })}
+                                          </span>
+                                        </p>
+                                      </div>
+                                      <div className="price-wrap flex-both">
+                                        <p className="price">
+                                          수량&nbsp; :<span>{frontData?.menuQuantity[menu_count]?.quantity}</span>{" "}
+                                        </p>
+                                        <p className="price fc-orange">
+                                          {(
+                                            axioData?.res1_data?.smartorder_detail_list[index]?.price +
+                                            axioData?.res1_data?.smartorder_detail_list[index]?.option_price
+                                          ).toLocaleString("ko-KR")}
+                                          원
+                                        </p>
+                                      </div>
                                     </div>
                                   </div>
-                                </div>
-                                <select className="select medium">
-                                  <option value="">
-                                    쿠폰을 선택해 주세요.
-                                  </option>
-                                  {element?.user_coupon_detail_list?.map(
-                                    (e, i) => (
-                                      <option
-                                        key={i}
-                                        value={e?.user_coupon_id}
-                                        data-price={e?.discount_price}
-                                        data-oneplus={e?.is_one_plus_one}
-                                      >
+                                  <select
+                                    className={`select medium couponSelect couponSelect-${axioData?.res1_data?.smartorder_detail_list[index]?.smartorder_menu_id}`}
+                                    data-menuid={axioData?.res1_data?.smartorder_detail_list[index]?.smartorder_menu_id}
+                                    data-quantity={axioData?.res1_data?.smartorder_detail_list[index]?.quantity}
+                                    data-index={index}
+                                    onChange={(e) =>
+                                      handleCoupon(
+                                        (axioData?.res1_data?.smartorder_detail_list[index]?.price +
+                                          axioData?.res1_data?.smartorder_detail_list[index]?.option_price) *
+                                          axioData?.res1_data?.smartorder_detail_list[index]?.quantity,
+                                        e.currentTarget,
+                                        index,
+                                        menu_count
+                                      )
+                                    }
+                                  >
+                                    <option value="">쿠폰을 선택해 주세요.</option>
+                                    {axioData?.res1_data?.smartorder_detail_list[index]?.user_coupon_detail_list?.map((e, i) => (
+                                      <option key={i} value={e?.user_coupon_id} data-price={e?.discount_price} data-oneplus={e?.is_one_plus_one}>
                                         {e?.coupon_name}
                                       </option>
-                                    )
-                                  )}
-                                </select>
-                              </li>
-                            )
+                                    ))}
+                                  </select>
+                                </li>
+                              );
+                            })
                           )}
                         </ul>
                       </div>
@@ -316,8 +369,7 @@ export default function OrderFinal() {
                         <span className="label">
                           요청사항
                           <span className="alert">
-                            <i className="ico alert"></i>빙수제품은 별도 포장을
-                            제공하지 않습니다.
+                            <i className="ico alert"></i>빙수제품은 별도 포장을 제공하지 않습니다.
                           </span>
                         </span>
                         <div className="select-group col-2">
@@ -328,10 +380,7 @@ export default function OrderFinal() {
                             defaultChecked={frontData?.orderRequest === 1}
                             name="orderRequest"
                           />
-                          <label
-                            htmlFor="orderRequest01"
-                            className="btn bdr medium"
-                          >
+                          <label htmlFor="orderRequest01" className="btn bdr medium">
                             <strong>캐리어 포장</strong>
                           </label>
                           <input
@@ -341,10 +390,7 @@ export default function OrderFinal() {
                             id="orderRequest02"
                             name="orderRequest"
                           />
-                          <label
-                            htmlFor="orderRequest02"
-                            className="btn bdr medium"
-                          >
+                          <label htmlFor="orderRequest02" className="btn bdr medium">
                             <strong>없음</strong>
                           </label>
                         </div>
@@ -359,26 +405,18 @@ export default function OrderFinal() {
                                 <React.Fragment>
                                   <input
                                     type="radio"
-                                    defaultChecked={
-                                      e?.pay_method === frontData?.orderPayment
-                                    }
+                                    defaultChecked={e?.pay_method === frontData?.orderPayment}
                                     defaultValue={e?.pay_method}
                                     id={`orderPayment0${i}`}
                                     name="orderPayment"
-                                    onClick={() =>
-                                      handlePayMethod(e?.pay_method)
-                                    }
+                                    onClick={() => handlePayMethod(e?.pay_method)}
                                   />
-                                  <label
-                                    htmlFor={`orderPayment0${i}`}
-                                    className="btn bdr medium"
-                                  >
+                                  <label htmlFor={`orderPayment0${i}`} className="btn bdr medium">
                                     {e?.name === "충전카드" ? (
                                       <strong>
                                         {e?.name}
                                         <br />
-                                        {e?.balance?.toLocaleString("ko-KR") +
-                                          "원"}
+                                        {e?.balance?.toLocaleString("ko-KR") + "원"}
                                       </strong>
                                     ) : (
                                       <strong>{e?.name}</strong>
@@ -389,26 +427,18 @@ export default function OrderFinal() {
                                 <React.Fragment>
                                   <input
                                     type="radio"
-                                    defaultChecked={
-                                      e?.pay_method === frontData?.orderPayment
-                                    }
+                                    defaultChecked={e?.pay_method === frontData?.orderPayment}
                                     defaultValue={e?.pay_method}
                                     id={`orderPayment0${i}`}
                                     name="orderPayment"
-                                    onClick={() =>
-                                      handlePayMethod(e?.pay_method)
-                                    }
+                                    onClick={() => handlePayMethod(e?.pay_method)}
                                   />
-                                  <label
-                                    htmlFor={`orderPayment0${i}`}
-                                    className="btn bdr medium"
-                                  >
+                                  <label htmlFor={`orderPayment0${i}`} className="btn bdr medium">
                                     {e?.name === "충전카드" ? (
                                       <strong>
                                         {e?.name}
                                         <br />
-                                        {e?.balance?.toLocaleString("ko-KR") +
-                                          "원"}
+                                        {e?.balance?.toLocaleString("ko-KR") + "원"}
                                       </strong>
                                     ) : (
                                       <strong>{e?.name}</strong>
@@ -430,12 +460,7 @@ export default function OrderFinal() {
                               <span>총 상품 금액</span>
                             </dt>
                             <dd className="price">
-                              <strong>
-                                {axioData?.res1_data?.total_order_amount?.toLocaleString(
-                                  "ko-KR"
-                                )}
-                                원
-                              </strong>
+                              <strong>{axioData?.res1_data?.total_order_amount?.toLocaleString("ko-KR")}원</strong>
                             </dd>
                           </dl>
 
@@ -446,17 +471,12 @@ export default function OrderFinal() {
                             <dd className="price">0원</dd>
                           </dl>
                           <dl className="flex-both">
-                            {axioData?.res1_data?.basic_discount_rate_percent >
-                            0 ? (
+                            {axioData?.res1_data?.basic_discount_rate_percent > 0 ? (
                               <React.Fragment>
                                 <dt className="title">
-                                  멤버십 할인{" "}
-                                  <span className="grade">[PLETINUM]</span>
+                                  멤버십 할인 <span className="grade">[PLETINUM]</span>
                                 </dt>
-                                <dd className="price">
-                                  {axioData?.res1_data
-                                    ?.basic_discount_rate_percent + "%할인"}
-                                </dd>
+                                <dd className="price">{axioData?.res1_data?.basic_discount_rate_percent + "%할인"}</dd>
                               </React.Fragment>
                             ) : (
                               <React.Fragment>
@@ -467,22 +487,23 @@ export default function OrderFinal() {
                               </React.Fragment>
                             )}
                           </dl>
+                          {axioData?.res1_data?.affiliate_discount && (
+                            <dl className="flex-both">
+                              <dt className="title">
+                                KT 제휴 할인 <span className="coupon"></span>
+                              </dt>
+                              <dd className="price">{axioData?.res1_data?.affiliate_discount?.discount_amount?.toLocaleString("ko-KR")}원</dd>
+                            </dl>
+                          )}
                           <dl className="flex-both flex-center">
-                            <dt className="title">KT 멤버십 할인</dt>
+                            <dt className="title">KT 제휴 할인</dt>
                             <dd>
-                              {axioData?.res1_data
-                                ?.available_affiliate_discount ? (
-                                <a
-                                  className="btn verify"
-                                  onClick={() => handleMembership()}
-                                >
+                              {axioData?.res1_data?.is_available_affiliate ? (
+                                <a className="btn verify" onClick={() => handleMembership()}>
                                   인증하기
                                 </a>
                               ) : (
-                                <a
-                                  className="btn verify"
-                                  onClick={() => handleMembership("불가능")}
-                                >
+                                <a className="btn verify" onClick={() => handleMembership("불가능")}>
                                   인증하기
                                 </a>
                               )}
@@ -530,18 +551,13 @@ export default function OrderFinal() {
                       <div className="item info-order">
                         <dl className="flex-both total">
                           <dt className="title">최종 결제 금액</dt>
-                          <dd className="price fc-orange">
-                            {frontData?.finalPrice?.toLocaleString("ko-KR")}원
-                          </dd>
+                          <dd className="price fc-orange">{frontData?.finalPrice?.toLocaleString("ko-KR")}원</dd>
                         </dl>
                       </div>
                     </div>
 
                     <div className="btn-area">
-                      <a
-                        className="btn full x-large dark"
-                        onClick={() => handleSubmit()}
-                      >
+                      <a className="btn full x-large dark" onClick={() => handleSubmit()}>
                         주문하기
                       </a>
                     </div>

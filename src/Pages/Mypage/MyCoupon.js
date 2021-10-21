@@ -33,7 +33,6 @@ export default function MyCoupon() {
     axios.all([axios.post(`${SERVER_DALKOMM}/app/api/v2/coupon/list`, body, header_config)]).then(
       axios.spread((res1) => {
         let res1_data = res1.data.data;
-
         setData((origin) => {
           return {
             ...origin,
