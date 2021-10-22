@@ -30,16 +30,27 @@ export default function OrderMenu() {
       Authorization: state.auth,
     },
   };
-
   useEffect(() => {
     // 말풍선 스크롤시 hide/show
     // eslint-disable-next-line react-hooks/exhaustive-deps
     if (state.auth !== "") {
       axios
         .all([
-          axios.post(`${SERVER_DALKOMM}/app/api/v2/menu/category_info`, body, header_config),
-          axios.post(`${SERVER_DALKOMM}/app/api/v2/menu/search`, { category_id: 0, store_code: storeCode }, header_config),
-          axios.post(`${SERVER_DALKOMM}/app/api/v2/store/${storeCode}`, {}, header_config),
+          axios.post(
+            `${SERVER_DALKOMM}/app/api/v2/menu/category_info`,
+            body,
+            header_config
+          ),
+          axios.post(
+            `${SERVER_DALKOMM}/app/api/v2/menu/search`,
+            { category_id: 0, store_code: storeCode },
+            header_config
+          ),
+          axios.post(
+            `${SERVER_DALKOMM}/app/api/v2/store/${storeCode}`,
+            {},
+            header_config
+          ),
         ])
         .then(
           axios.spread((res1, res2, res3) => {
@@ -66,26 +77,36 @@ export default function OrderMenu() {
 
   const jqueryTablink = (e) => {
     tabLink(e);
-    let data_category = $(e.target).data("category") === "" ? 0 : $(e.target).data("category");
-    axios.all([axios.post(`${SERVER_DALKOMM}/app/api/v2/menu/search`, { category_id: data_category }, header_config)]).then(
-      axios.spread((res1) => {
-        let all_menu = res1.data.data;
-        setData((origin) => {
-          return {
-            ...origin,
-            all_menu,
-          };
-        });
-      })
-    );
+    let data_category =
+      $(e.target).data("category") === "" ? 0 : $(e.target).data("category");
+    axios
+      .all([
+        axios.post(
+          `${SERVER_DALKOMM}/app/api/v2/menu/search`,
+          { category_id: data_category },
+          header_config
+        ),
+      ])
+      .then(
+        axios.spread((res1) => {
+          let all_menu = res1.data.data;
+          setData((origin) => {
+            return {
+              ...origin,
+              all_menu,
+            };
+          });
+        })
+      );
   };
-  const handleDetail = (e, menucode) => {
-    if (axioData?.res2_data?.store_is_smartorder) {
+  const handleDetail = (e, menucode, type) => {
+    if (type) {
       history.push(`/order/detail/${storeCode}/${menucode}`);
     } else {
-      alert("테이블오더가 불가능한 매장입니다.");
+      alert("테이블오더가 불가능한 메뉴입니다.");
     }
   };
+
   if (axioData?.res1_data) {
     return (
       <React.Fragment>
@@ -109,7 +130,9 @@ export default function OrderMenu() {
                   <div className="flex-both">
                     <dl className="detail-wrap flex-start">
                       <dt className="title">선택매장</dt>
-                      <dd className="place">{axioData?.res2_data?.store_name}</dd>
+                      <dd className="place">
+                        {axioData?.res2_data?.store_name}
+                      </dd>
                     </dl>
                     <Link to="/order" className="btn">
                       변경
@@ -130,7 +153,11 @@ export default function OrderMenu() {
               >
                 <ul className="swiper-wrapper tabs" slot="container-start">
                   <li className="swiper-slide active">
-                    <Link to="#" onClick={(e) => jqueryTablink(e)} data-category="">
+                    <Link
+                      to="#"
+                      onClick={(e) => jqueryTablink(e)}
+                      data-category=""
+                    >
                       메뉴 전체
                     </Link>
                   </li>{" "}
@@ -138,7 +165,11 @@ export default function OrderMenu() {
                   {axioData?.res1_data?.category_info_list?.map((e, i) => {
                     return (
                       <li className="swiper-slide" key={i}>
-                        <Link to="#" onClick={(e) => jqueryTablink(e)} data-category={e?.category_id}>
+                        <Link
+                          to="#"
+                          onClick={(e) => jqueryTablink(e)}
+                          data-category={e?.category_id}
+                        >
                           {e?.category_name}
                         </Link>
                       </li>
@@ -153,12 +184,19 @@ export default function OrderMenu() {
                   {axioData?.all_menu?.searched_menu_list?.map((e, i) => {
                     return (
                       <li key={i}>
-                        <a onClick={(event) => handleDetail(event, e?.code)} className="item menu">
+                        <a
+                          onClick={(event) =>
+                            handleDetail(event, e?.code, e?.is_smartorder)
+                          }
+                          className="item menu"
+                        >
                           {/* 메뉴 .bagde.round 타입 
                                     .bagde.round.new : NEW
                                     .bagde.round.pick : PICK
                                 */}
-                          {e.icon.split(",").indexOf("N") > -1 && <span className="badge round new">NEW</span>}
+                          {e.icon.split(",").indexOf("N") > -1 && (
+                            <span className="badge round new">NEW</span>
+                          )}
                           <div className="img-wrap">
                             <img src={e.thumbnail_image_url} alt={e.name_kor} />
                           </div>
@@ -174,7 +212,10 @@ export default function OrderMenu() {
                     );
                   })}
                 </ul>
-                <Link className="btn my-bookmark" to={`/order/favorite/${storeCode}`}>
+                <Link
+                  className="btn my-bookmark"
+                  to={`/order/favorite/${storeCode}`}
+                >
                   <i className="ico heart">
                     <span className="blind">즐겨찾기 메뉴</span>
                   </i>
@@ -182,7 +223,12 @@ export default function OrderMenu() {
               </section>
               {/* //즐겨찾는 매장 */}
 
-              <button type="button" id="moveScrollTop" className="btn scroll-top" onClick={() => moveScrollTop()}>
+              <button
+                type="button"
+                id="moveScrollTop"
+                className="btn scroll-top"
+                onClick={() => moveScrollTop()}
+              >
                 <i className="ico arr-top"></i>
               </button>
             </div>
