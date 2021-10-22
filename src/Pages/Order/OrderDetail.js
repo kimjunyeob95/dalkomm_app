@@ -1,3 +1,4 @@
+/* eslint-disable no-unreachable */
 /* eslint-disable no-script-url */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
@@ -21,7 +22,15 @@ export default function OrderDetail() {
   const [axioData, setData] = useState(false);
   const history = useHistory();
   const { orderCode, storeCode } = useParams();
-  const [priceValue, setPrice] = useState({ defaultPrice: 0 });
+  const [frontData, setFront] = useState({ defaultPrice: 0 });
+
+  const flagFn = (element) => {
+    if (element === 0 || element === null || element === "" || element === undefined || element === "0" || element === "None") {
+      return false;
+    } else {
+      return true;
+    }
+  };
 
   const body = {};
   let header_config = {
@@ -37,7 +46,7 @@ export default function OrderDetail() {
       .then(
         axios.spread((res1) => {
           let res1_data = res1.data.data;
-          setPrice({ defaultPrice: res1.data.data.menu.detail_info_hot_simple_regular_price });
+
           setData((origin) => {
             return {
               ...origin,
@@ -50,8 +59,10 @@ export default function OrderDetail() {
 
   useEffect(() => {
     // 말풍선 스크롤시 hide/show
-    contGap();
-    handleResultText();
+    if (axioData) {
+      contGap();
+      handleResultText("처음");
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [axioData]);
 
@@ -67,13 +78,18 @@ export default function OrderDetail() {
       coffee_bean: "",
       add_espresso_shot: $('input[name="shot"]').val() ? Number($('input[name="shot"]').val()) : "",
       add_vanilla_syrup: $('input[name="vanilla"]').val() ? Number($('input[name="vanilla"]').val()) : "",
-      control_honey: 3,
+      control_honey: $('input[name="honey"]:checked').val() ? $('input[name="honey"]:checked').val() : null,
       is_remove_whipping_cream: String($('input[name="whippingCreamRemove"]').is(":checked")),
       is_add_whipping_cream: String($('input[name="whippingCream"]').is(":checked")),
     };
     return add_obj;
   }
   const submitOrder = () => {
+    if ($('input[name="orderSize"]:checked').val() === undefined) {
+      alert("size를 선택해주세요.");
+      return false;
+    }
+
     let add_obj = getMenuObj();
     axios.all([axios.post(`${SERVER_DALKOMM}/app/api/v2/menu/to/order`, add_obj, header_config)]).then(
       axios.spread((res1) => {
@@ -96,33 +112,240 @@ export default function OrderDetail() {
     history.push(`/order/menu/${storeCode}`);
   };
 
-  const handleResultText = () => {
-    handleDefaultPrice();
-    handleOptionText();
+  const handleResultText = (type, trigger) => {
+    handleFrontSize(axioData?.res1_data?.menu, type, trigger);
+    handleDefaultPrice(trigger);
+    handleOptionText(trigger);
+    // if (trigger === "타입선택") {
+    //   $('input[name="orderSize"]').attr("checked", false);
+    //   $('input[name="orderSize"]').eq(0).attr("checked", true);
+    // }
   };
-  const handleDefaultPrice = () => {
+
+  const handleFrontSize = (res1_data, start, trigger) => {
+    let option_type = $('input[name="orderType"]:checked').attr("text");
+    let option_price = 0;
+    let cupsize = "";
+    let option_size = trigger === "타입선택" ? "R" : $('input[name="orderSize"]:checked').val();
+
+    if (start === "처음" && ["HOT", "BOTH"].indexOf(res1_data?.type) > -1) {
+      if (
+        flagFn(res1_data?.detail_info_hot_big_price) &&
+        flagFn(res1_data?.detail_info_hot_large_price) &&
+        flagFn(res1_data?.detail_info_hot_simple_regular_price)
+      ) {
+        setFront({
+          defaultPrice: res1_data.detail_info_hot_simple_regular_price,
+          cupsize: "ALL",
+        });
+      } else if (
+        !flagFn(res1_data?.detail_info_hot_big_price) &&
+        flagFn(res1_data?.detail_info_hot_large_price) &&
+        flagFn(res1_data?.detail_info_hot_simple_regular_price)
+      ) {
+        setFront({
+          defaultPrice: res1_data.detail_info_hot_simple_regular_price,
+          cupsize: "BOTH",
+        });
+      } else if (
+        !flagFn(res1_data?.detail_info_hot_big_price) &&
+        !flagFn(res1_data?.detail_info_hot_large_price) &&
+        flagFn(res1_data?.detail_info_hot_simple_regular_price)
+      ) {
+        setFront({
+          defaultPrice: res1_data.detail_info_hot_simple_regular_price,
+          cupsize: "REGULAR",
+        });
+      } else if (
+        !flagFn(res1_data?.detail_info_hot_big_price) &&
+        flagFn(res1_data?.detail_info_hot_large_price) &&
+        !flagFn(res1_data?.detail_info_hot_simple_regular_price)
+      ) {
+        setFront({
+          defaultPrice: res1_data.detail_info_hot_large_price,
+          cupsize: "LARGE",
+        });
+      } else if (
+        flagFn(res1_data?.detail_info_hot_big_price) &&
+        !flagFn(res1_data?.detail_info_hot_large_price) &&
+        !flagFn(res1_data?.detail_info_hot_simple_regular_price)
+      ) {
+        setFront({
+          defaultPrice: res1_data.detail_info_hot_big_price,
+          cupsize: "BIG",
+        });
+      }
+    } else if (start === "처음" && res1_data?.type === "ICE") {
+      if (
+        flagFn(res1_data?.detail_info_ice_big_price) &&
+        flagFn(res1_data?.detail_info_ice_large_price) &&
+        flagFn(res1_data?.detail_info_ice_regular_price)
+      ) {
+        setFront({
+          defaultPrice: res1_data.detail_info_ice_regular_price,
+          cupsize: "ALL",
+        });
+      } else if (
+        !flagFn(res1_data?.detail_info_ice_big_price) &&
+        flagFn(res1_data?.detail_info_ice_large_price) &&
+        flagFn(res1_data?.detail_info_ice_regular_price)
+      ) {
+        setFront({
+          defaultPrice: res1_data.detail_info_ice_regular_price,
+          cupsize: "BOTH",
+        });
+      } else if (
+        !flagFn(res1_data?.detail_info_ice_big_price) &&
+        !flagFn(res1_data?.detail_info_ice_large_price) &&
+        flagFn(res1_data?.detail_info_ice_regular_price)
+      ) {
+        setFront({
+          defaultPrice: res1_data.detail_info_ice_regular_price,
+          cupsize: "REGULAR",
+        });
+      } else if (
+        !flagFn(res1_data?.detail_info_ice_big_price) &&
+        flagFn(res1_data?.detail_info_ice_large_price) &&
+        !flagFn(res1_data?.detail_info_ice_regular_price)
+      ) {
+        setFront({
+          defaultPrice: res1_data.detail_info_ice_large_price,
+          cupsize: "LARGE",
+        });
+      } else if (
+        flagFn(res1_data?.detail_info_ice_big_price) &&
+        !flagFn(res1_data?.detail_info_ice_large_price) &&
+        !flagFn(res1_data?.detail_info_ice_regular_price)
+      ) {
+        setFront({
+          defaultPrice: res1_data.detail_info_ice_big_price,
+          cupsize: "BIG",
+        });
+      }
+    } else if (start === "중간" && option_type === "HOT") {
+      if (
+        flagFn(res1_data?.detail_info_hot_big_price) &&
+        flagFn(res1_data?.detail_info_hot_large_price) &&
+        flagFn(res1_data?.detail_info_hot_simple_regular_price)
+      ) {
+        cupsize = "ALL";
+      } else if (
+        !flagFn(res1_data?.detail_info_hot_big_price) &&
+        flagFn(res1_data?.detail_info_hot_large_price) &&
+        flagFn(res1_data?.detail_info_hot_simple_regular_price)
+      ) {
+        cupsize = "BOTH";
+      } else if (
+        !flagFn(res1_data?.detail_info_hot_big_price) &&
+        !flagFn(res1_data?.detail_info_hot_large_price) &&
+        flagFn(res1_data?.detail_info_hot_simple_regular_price)
+      ) {
+        cupsize = "REGULAR";
+      } else if (
+        !flagFn(res1_data?.detail_info_hot_big_price) &&
+        flagFn(res1_data?.detail_info_hot_large_price) &&
+        !flagFn(res1_data?.detail_info_hot_simple_regular_price)
+      ) {
+        cupsize = "LARGE";
+      } else if (
+        flagFn(res1_data?.detail_info_hot_big_price) &&
+        !flagFn(res1_data?.detail_info_hot_large_price) &&
+        !flagFn(res1_data?.detail_info_hot_simple_regular_price)
+      ) {
+        cupsize = "BIG";
+      }
+      if (option_size === "L") {
+        option_price = res1_data.detail_info_hot_large_price;
+      } else if (option_size === "R") {
+        option_price = res1_data.detail_info_hot_simple_regular_price;
+      } else if (option_size === "B") {
+        option_price = res1_data.detail_info_hot_big_price;
+      }
+      setFront({
+        defaultPrice: option_price,
+        cupsize: cupsize,
+      });
+    } else if (start === "중간" && option_type === "ICE") {
+      if (
+        flagFn(res1_data?.detail_info_ice_big_price) &&
+        flagFn(res1_data?.detail_info_ice_large_price) &&
+        flagFn(res1_data?.detail_info_ice_regular_price)
+      ) {
+        cupsize = "ALL";
+      } else if (
+        !flagFn(res1_data?.detail_info_ice_big_price) &&
+        flagFn(res1_data?.detail_info_ice_large_price) &&
+        flagFn(res1_data?.detail_info_ice_regular_price)
+      ) {
+        cupsize = "BOTH";
+      } else if (
+        !flagFn(res1_data?.detail_info_ice_big_price) &&
+        !flagFn(res1_data?.detail_info_ice_large_price) &&
+        flagFn(res1_data?.detail_info_ice_regular_price)
+      ) {
+        cupsize = "REGULAR";
+      } else if (
+        !flagFn(res1_data?.detail_info_ice_big_price) &&
+        flagFn(res1_data?.detail_info_ice_large_price) &&
+        !flagFn(res1_data?.detail_info_ice_regular_price)
+      ) {
+        cupsize = "LARGE";
+      } else if (
+        flagFn(res1_data?.detail_info_ice_big_price) &&
+        !flagFn(res1_data?.detail_info_ice_large_price) &&
+        !flagFn(res1_data?.detail_info_ice_regular_price)
+      ) {
+        cupsize = "BIG";
+      }
+
+      if (option_size === "L") {
+        option_price = res1_data.detail_info_ice_large_price;
+      } else if (option_size === "R") {
+        option_price = res1_data.detail_info_ice_regular_price;
+      } else if (option_size === "B") {
+        option_price = res1_data.detail_info_ice_big_price;
+      }
+      setFront({
+        defaultPrice: option_price,
+        cupsize: cupsize,
+      });
+    }
+  };
+  const handleDefaultPrice = (trigger) => {
+    let menu_size = $('input[name="orderSize"]:checked').val() === undefined ? "R" : $('input[name="orderSize"]:checked').val();
+    let type = $('input[name="orderType"]:checked').val();
+    if (trigger === "타입선택") {
+      menu_size = "R";
+    }
     let select_price = 0;
-    if ($('input[name="orderType"]:checked').val() === "I") {
-      if ($('input[name="orderSize"]:checked').val() === "R") {
+    if (type === "I") {
+      $("#orderImg").attr("src", axioData?.res1_data?.menu?.detail_image_ice);
+      if (menu_size === "R") {
         select_price = axioData?.res1_data?.menu?.detail_info_ice_regular_price;
-      } else if ($('input[name="orderSize"]:checked').val() === "L") {
+      } else if (menu_size === "L") {
         select_price = axioData?.res1_data?.menu?.detail_info_ice_large_price;
+      } else if (menu_size === "B") {
+        select_price = axioData?.res1_data?.menu?.detail_info_ice_big_price;
       }
     } else {
-      if ($('input[name="orderSize"]:checked').val() === "R") {
+      $("#orderImg").attr("src", axioData?.res1_data?.menu?.detail_image_hot_simple);
+      if (menu_size === "R") {
         select_price = axioData?.res1_data?.menu?.detail_info_hot_simple_regular_price;
-      } else if ($('input[name="orderSize"]:checked').val() === "L") {
+      } else if (menu_size === "L") {
         select_price = axioData?.res1_data?.menu?.detail_info_hot_large_price;
+      } else if (menu_size === "B") {
+        select_price = axioData?.res1_data?.menu?.detail_info_hot_big_price;
       }
     }
-    handleResultPrice(select_price);
+    handleResultPrice(select_price, trigger);
   };
-  const handleResultPrice = (defaultPrice) => {
-    let total_price = Number(defaultPrice);
 
+  const handleResultPrice = (defaultPrice, trigger) => {
+    let total_price = Number(defaultPrice);
     let price_menu = {
       menu_type: $('input[name="orderType"]:checked').val(),
-      menu_size: $('input[name="orderSize"]:checked').val(),
+      menu_size:
+        trigger === "타입선택" || $('input[name="orderSize"]:checked').val() === undefined ? "R" : $('input[name="orderSize"]:checked').val(),
       menu_cup: $('input[name="orderCup"]:checked').val(),
       shot: $('input[name="shot"]').val() ? Number($('input[name="shot"]').val()) : "",
       hazelnut: $('input[name="hazelnut"]').val() ? Number($('input[name="hazelnut"]').val()) : "",
@@ -147,14 +370,18 @@ export default function OrderDetail() {
       total_price += 500;
     }
     total_price = total_price * price_menu.orderCount;
+
     $("#totalPrice")
       .text(total_price?.toLocaleString("ko-KR") + "원")
       .attr("data-allprice", total_price);
   };
 
-  const handleOptionText = () => {
+  const handleOptionText = (trigger) => {
     let menu_type = $('input[name="orderType"]:checked').attr("text");
-    let menu_size = $('input[name="orderSize"]:checked').attr("text");
+    let menu_size =
+      trigger === "타입선택" || $('input[name="orderSize"]:checked').attr("text") === undefined
+        ? "Regular"
+        : $('input[name="orderSize"]:checked').attr("text");
     let menu_cup = $('input[name="orderCup"]:checked').attr("text");
 
     let option_array = [
@@ -163,6 +390,7 @@ export default function OrderDetail() {
       { text: $('input[name="vanilla"]').attr("text"), value: $('input[name="vanilla"]').val() },
       { text: $('input[name="whippingCream"]').attr("text"), value: $('input[name="whippingCream"]').is(":checked") },
       { text: $('input[name="whippingCreamRemove"]').attr("text"), value: $('input[name="whippingCreamRemove"]').is(":checked") },
+      { text: $('input[name="honey"]:checked').attr("text"), value: $('input[name="honey"]:checked').attr("data-text") },
     ];
 
     let returnText = "";
@@ -175,18 +403,19 @@ export default function OrderDetail() {
     option_array.forEach((element, index) => {
       if (element.value !== "0" && element.value !== false && element.value !== undefined) {
         if (element.text === "휘핑 크림") {
-          returnText += `<span class="addopion">, ${element.text}</span>`;
+          returnText += `<span class="addopion" text="${element.text}">, ${element.text}</span>`;
         } else if (element.text === "휘핑 크림 제거") {
-          returnText += `<span class="addopion">, ${element.text}</span>`;
+          returnText += `<span class="addopion" text="${element.text}" >, ${element.text}</span>`;
+        } else if (element.text === "꿀양") {
+          returnText += `<span class="addopion" text="${element.value}">, ${element.value}</span>`;
         } else {
-          returnText += `<span class="addopion">, ${element.text} ${element.value}</span>`;
+          returnText += `<span class="addopion" text="${element.text} ${element.value}">, ${element.text} ${element.value}</span>`;
         }
       }
     });
 
     $(".text.option").append(returnText);
   };
-
   const handleOption = (e, flag, type) => {
     let count;
     if (flag === "plus") {
@@ -227,9 +456,32 @@ export default function OrderDetail() {
         $(e).is(":checked") ? $(e).parents("li").addClass("adding") : $(e).parents("li").removeClass("adding");
       }
     }
-    handleResultText();
+    handleResultText("중간");
   };
 
+  const handleFavoriteShow = () => {
+    let menu_type = $('input[name="orderType"]:checked').val();
+    let menu_size = $('input[name="orderSize"]:checked').attr("text");
+    let menu_cup = $('input[name="orderCup"]:checked').attr("text");
+    let option_text = "";
+    $(".addopion").each(function (i, e) {
+      if (i === 0) {
+        option_text += $(e).attr("text");
+      } else {
+        option_text += ", " + $(e).attr("text");
+      }
+    });
+    $("#faSize").text(menu_size);
+    $("#faOption").text(option_text);
+    $("#faCup").text(menu_cup);
+    if (menu_type === "I") {
+      $("#favoriteImg").attr("src", axioData?.res1_data?.menu?.thumbnail_image_ice);
+      $("#faType").text("ICE");
+    } else {
+      $("#faType").text("HOT");
+      $("#favoriteImg").attr("src", axioData?.res1_data?.menu?.thumbnail_image_hot_simple);
+    }
+  };
   const handleFavorite = () => {
     let add_obj = getMenuObj();
     axios.all([axios.post(`${SERVER_DALKOMM}/app/api/v2/favorite/menu/add`, add_obj, header_config)]).then(
@@ -238,7 +490,6 @@ export default function OrderDetail() {
       })
     );
   };
-
   if (axioData) {
     return (
       <React.Fragment>
@@ -263,19 +514,14 @@ export default function OrderDetail() {
                       </p>
                       <p className="text">{axioData?.res1_data?.menu?.desc}</p>
                     </div>
-                    <p className="price">{axioData?.res1_data?.menu?.detail_info_hot_simple_regular_price?.toLocaleString("ko-KR")}원</p>
-                    <span className="btn bookmark">
-                      <i className="ico heart" onClick={() => handleFavorite()}>
-                        <span>즐겨찾기</span>
-                      </i>
-                    </span>
+                    <p className="price">{frontData?.defaultPrice?.toLocaleString("ko-KR")}원</p>
                   </div>
                 </div>
                 <form className="form">
                   <fieldset className="fieldset">
                     <div className="field">
                       {axioData?.res1_data?.menu?.type === "ICE" ? (
-                        <div className="select-group col-2">
+                        <div className="select-group col-1">
                           <input
                             type="radio"
                             id="orderType01"
@@ -283,14 +529,14 @@ export default function OrderDetail() {
                             value="I"
                             text="ICE"
                             defaultChecked={true}
-                            onChange={() => handleResultText()}
+                            onChange={() => handleResultText("중간", "타입선택")}
                           />
                           <label htmlFor="orderType01" className="btn normal small">
                             <strong className="en">ICE</strong>
                           </label>
                         </div>
-                      ) : ["HOT", "BOTH"].indexOf(axioData?.res1_data?.menu?.type) > -1 ? (
-                        <div className="select-group col-2">
+                      ) : axioData?.res1_data?.menu?.type === "HOT" ? (
+                        <div className="select-group col-1">
                           <input
                             type="radio"
                             id="orderType02"
@@ -298,25 +544,47 @@ export default function OrderDetail() {
                             name="orderType"
                             value="H"
                             text="HOT"
-                            onChange={() => handleResultText()}
+                            onChange={() => handleResultText("중간", "타입선택")}
                           />
                           <label htmlFor="orderType02" className="btn normal small">
                             <strong className="en">HOT</strong>
                           </label>
-                          <input type="radio" id="orderType01" name="orderType" value="I" text="ICE" onChange={() => handleResultText()} />
-                          <label htmlFor="orderType01" className="btn normal small">
-                            <strong className="en">ICE</strong>
-                          </label>
                         </div>
                       ) : (
-                        ""
+                        axioData?.res1_data?.menu?.type === "BOTH" && (
+                          <div className="select-group col-2">
+                            <input
+                              type="radio"
+                              id="orderType02"
+                              defaultChecked={true}
+                              name="orderType"
+                              value="H"
+                              text="HOT"
+                              onChange={() => handleResultText("중간", "타입선택")}
+                            />
+                            <label htmlFor="orderType02" className="btn normal small">
+                              <strong className="en">HOT</strong>
+                            </label>
+                            <input
+                              type="radio"
+                              id="orderType01"
+                              name="orderType"
+                              value="I"
+                              text="ICE"
+                              onChange={() => handleResultText("중간", "타입선택")}
+                            />
+                            <label htmlFor="orderType01" className="btn normal small">
+                              <strong className="en">ICE</strong>
+                            </label>
+                          </div>
+                        )
                       )}
                     </div>
 
                     <div className="w-inner">
                       <div className="field">
                         <span className="label en">Size</span>
-                        {["BOTH", "ALL"].indexOf(axioData?.res1_data?.menu?.size) > -1 ? (
+                        {frontData?.cupsize === "BOTH" ? (
                           <div className="select-group col-2">
                             <input
                               type="radio"
@@ -325,7 +593,7 @@ export default function OrderDetail() {
                               value="R"
                               text="Regular"
                               defaultChecked={true}
-                              onChange={() => handleResultText()}
+                              onChange={() => handleResultText("중간")}
                             />
                             <label htmlFor="orderSize01" className="btn bdr medium">
                               <p className="text">
@@ -333,7 +601,7 @@ export default function OrderDetail() {
                                 {/* <span className="en">375ml</span> */}
                               </p>
                             </label>
-                            <input type="radio" id="orderSize02" name="orderSize" value="L" text="Large" onChange={() => handleResultText()} />
+                            <input type="radio" id="orderSize02" name="orderSize" value="L" text="Large" onChange={() => handleResultText("중간")} />
                             <label htmlFor="orderSize02" className="btn bdr medium">
                               <p className="text">
                                 <strong className="en">Large</strong>
@@ -341,8 +609,40 @@ export default function OrderDetail() {
                               </p>
                             </label>
                           </div>
-                        ) : axioData?.res1_data?.menu?.size === "LARGE" ? (
-                          <div className="select-group col-2">
+                        ) : frontData?.cupsize === "ALL" ? (
+                          <div className="select-group col-3">
+                            <input
+                              type="radio"
+                              id="orderSize01"
+                              name="orderSize"
+                              value="R"
+                              text="Regular"
+                              defaultChecked={true}
+                              onChange={() => handleResultText("중간")}
+                            />
+                            <label htmlFor="orderSize01" className="btn bdr medium">
+                              <p className="text">
+                                <strong className="en">Regular</strong>
+                                {/* <span className="en">375ml</span> */}
+                              </p>
+                            </label>
+                            <input type="radio" id="orderSize02" name="orderSize" value="L" text="Large" onChange={() => handleResultText("중간")} />
+                            <label htmlFor="orderSize02" className="btn bdr medium">
+                              <p className="text">
+                                <strong className="en">Large</strong>
+                                {/* <span className="en">591ml</span> */}
+                              </p>
+                            </label>
+                            <input type="radio" id="orderSize03" name="orderSize" value="B" text="Big" onChange={() => handleResultText("중간")} />
+                            <label htmlFor="orderSize03" className="btn bdr medium">
+                              <p className="text">
+                                <strong className="en">Big</strong>
+                                {/* <span className="en">591ml</span> */}
+                              </p>
+                            </label>
+                          </div>
+                        ) : frontData?.cupsize === "LARGE" ? (
+                          <div className="select-group col-1">
                             <input
                               type="radio"
                               defaultChecked={true}
@@ -350,7 +650,7 @@ export default function OrderDetail() {
                               name="orderSize"
                               value="L"
                               text="Large"
-                              onChange={() => handleResultText()}
+                              onChange={() => handleResultText("중간")}
                             />
                             <label htmlFor="orderSize02" className="btn bdr medium">
                               <p className="text">
@@ -359,22 +659,40 @@ export default function OrderDetail() {
                               </p>
                             </label>
                           </div>
+                        ) : frontData?.cupsize === "REGULAR" ? (
+                          <div className="select-group col-1">
+                            <input
+                              type="radio"
+                              id="orderSize01"
+                              name="orderSize"
+                              value="R"
+                              text="Regular"
+                              defaultChecked={true}
+                              onChange={() => handleResultText("중간")}
+                            />
+                            <label htmlFor="orderSize01" className="btn bdr medium">
+                              <p className="text">
+                                <strong className="en">Regular</strong>
+                                {/* <span className="en">375ml</span> */}
+                              </p>
+                            </label>
+                          </div>
                         ) : (
-                          axioData?.res1_data?.menu?.size === "REGULAR" && (
-                            <div className="select-group col-2">
+                          frontData?.cupsize === "BIG" && (
+                            <div className="select-group col-1">
                               <input
                                 type="radio"
-                                id="orderSize01"
+                                id="orderSize03"
                                 name="orderSize"
-                                value="R"
-                                text="Regular"
+                                value="B"
+                                text="Big"
                                 defaultChecked={true}
-                                onChange={() => handleResultText()}
+                                onChange={() => handleResultText("중간")}
                               />
-                              <label htmlFor="orderSize01" className="btn bdr medium">
+                              <label htmlFor="orderSize03" className="btn bdr medium">
                                 <p className="text">
-                                  <strong className="en">Regular</strong>
-                                  {/* <span className="en">375ml</span> */}
+                                  <strong className="en">Big</strong>
+                                  {/* <span className="en">591ml</span> */}
                                 </p>
                               </label>
                             </div>
@@ -384,7 +702,7 @@ export default function OrderDetail() {
 
                       <div className="field">
                         <span className="label en">Cup</span>
-                        {["MUG", "BOTH", "ALL"].indexOf(axioData?.res1_data?.menu?.cup) > -1 ? (
+                        {axioData?.res1_data?.menu?.cup === "ALL" ? (
                           <div className="select-group col-3">
                             <input
                               type="radio"
@@ -393,23 +711,57 @@ export default function OrderDetail() {
                               value="M"
                               text="매장용 컵"
                               defaultChecked={true}
-                              onClick={() => handleResultText()}
+                              onClick={() => handleResultText("중간")}
                             />
                             <label htmlFor="orderCup01" className="btn bdr medium">
                               <strong>매장용</strong>
                             </label>
-                            <input type="radio" id="orderCup02" name="orderCup" value="I" text="일회용 컵" onClick={() => handleResultText()} />
+                            <input type="radio" id="orderCup02" name="orderCup" value="I" text="일회용 컵" onClick={() => handleResultText("중간")} />
                             <label htmlFor="orderCup02" className="btn bdr medium">
                               <strong>일회용</strong>
                             </label>
-                            <input type="radio" id="orderCup03" name="orderCup" value="P" text="개인 컵" onClick={() => handleResultText()} />
+                            <input type="radio" id="orderCup03" name="orderCup" value="P" text="개인 컵" onClick={() => handleResultText("중간")} />
                             <label htmlFor="orderCup03" className="btn bdr medium">
                               <strong>개인</strong>
                               <span className="speech-bubble small en">- 300 &#8361;</span>
                             </label>
                           </div>
+                        ) : axioData?.res1_data?.menu?.cup === "BOTH" ? (
+                          <div className="select-group col-2">
+                            <input
+                              type="radio"
+                              id="orderCup01"
+                              name="orderCup"
+                              value="M"
+                              text="매장용 컵"
+                              defaultChecked={true}
+                              onClick={() => handleResultText("중간")}
+                            />
+                            <label htmlFor="orderCup01" className="btn bdr medium">
+                              <strong>매장용</strong>
+                            </label>
+                            <input type="radio" id="orderCup02" name="orderCup" value="I" text="일회용 컵" onClick={() => handleResultText("중간")} />
+                            <label htmlFor="orderCup02" className="btn bdr medium">
+                              <strong>일회용</strong>
+                            </label>
+                          </div>
+                        ) : axioData?.res1_data?.menu?.cup === "MUG" ? (
+                          <div className="select-group col-1">
+                            <input
+                              type="radio"
+                              id="orderCup01"
+                              name="orderCup"
+                              value="M"
+                              text="매장용 컵"
+                              defaultChecked={true}
+                              onClick={() => handleResultText("중간")}
+                            />
+                            <label htmlFor="orderCup01" className="btn bdr medium">
+                              <strong>매장용</strong>
+                            </label>
+                          </div>
                         ) : axioData?.res1_data?.menu?.cup === "INSTANT" ? (
-                          <div className="select-group col-3">
+                          <div className="select-group col-1">
                             <input
                               defaultChecked={true}
                               type="radio"
@@ -417,14 +769,14 @@ export default function OrderDetail() {
                               name="orderCup"
                               value="I"
                               text="일회용 컵"
-                              onClick={() => handleResultText()}
+                              onClick={() => handleResultText("중간")}
                             />
                             <label htmlFor="orderCup02" className="btn bdr medium">
                               <strong>일회용</strong>
                             </label>
                           </div>
                         ) : axioData?.res1_data?.menu?.cup === "PRIVATE" ? (
-                          <div className="select-group col-3">
+                          <div className="select-group col-1">
                             {" "}
                             <input
                               defaultChecked={true}
@@ -433,7 +785,7 @@ export default function OrderDetail() {
                               name="orderCup"
                               value="P"
                               text="개인 컵"
-                              onClick={() => handleResultText()}
+                              onClick={() => handleResultText("중간")}
                             />
                             <label htmlFor="orderCup03" className="btn bdr medium">
                               <strong>개인</strong>
@@ -576,6 +928,71 @@ export default function OrderDetail() {
                               </div>
                             </li>
                           )}
+                          {axioData?.res1_data?.menu?.available_control_honey && (
+                            <li>
+                              <div className="item options">
+                                <label htmlFor="whippingCream">꿀양</label>
+                                <div className="amount-wrap">
+                                  <div className="check-box">
+                                    <label htmlFor="amountRemove">제거</label>
+                                    <input
+                                      type="radio"
+                                      defaultChecked={false}
+                                      className="checkbox"
+                                      name="honey"
+                                      id="amountRemove"
+                                      text="꿀양"
+                                      data-text="꿀양 제거"
+                                      defaultValue={0}
+                                      onClick={(event) => handleOption(event.currentTarget, "꿀양")}
+                                    />
+                                  </div>
+                                  <div className="check-box">
+                                    <label htmlFor="amountLittle">조금</label>
+                                    <input
+                                      type="radio"
+                                      defaultChecked={false}
+                                      className="checkbox"
+                                      name="honey"
+                                      id="amountLittle"
+                                      text="꿀양"
+                                      data-text="꿀양 조금"
+                                      defaultValue={1}
+                                      onClick={(event) => handleOption(event.currentTarget, "꿀양")}
+                                    />
+                                  </div>
+                                  <div className="check-box">
+                                    <label htmlFor="amountNormal">보통</label>
+                                    <input
+                                      type="radio"
+                                      defaultChecked={true}
+                                      className="checkbox"
+                                      name="honey"
+                                      id="amountNormal"
+                                      text="꿀양"
+                                      data-text="꿀양 보통"
+                                      defaultValue={2}
+                                      onClick={(event) => handleOption(event.currentTarget, "꿀양")}
+                                    />
+                                  </div>
+                                  <div className="check-box">
+                                    <label htmlFor="amountAdd">많이</label>
+                                    <input
+                                      type="radio"
+                                      defaultChecked={false}
+                                      className="checkbox"
+                                      name="honey"
+                                      id="amountAdd"
+                                      text="꿀양"
+                                      data-text="꿀양 많이"
+                                      defaultValue={3}
+                                      onClick={(event) => handleOption(event.currentTarget, "꿀양")}
+                                    />
+                                  </div>
+                                </div>
+                              </div>
+                            </li>
+                          )}
                         </ul>
                       </div>
                     </div>
@@ -598,44 +1015,10 @@ export default function OrderDetail() {
                         </p>
                         <div className="table-wrap">
                           <div dangerouslySetInnerHTML={{ __html: axioData?.res1_data?.menu?.memo }}></div>
-                          {/* <table className="data-table">
-                            <colgroup>
-                              <col />
-                              <col />
-                              <col />
-                              <col />
-                            </colgroup>
-                            <thead>
-                              <tr>
-                                <th scope="col">당류</th>
-                                <th scope="col">포화지방</th>
-                                <th scope="col">단백질</th>
-                                <th scope="col">카페인</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              <tr>
-                                <td>54g</td>
-                                <td>0g</td>
-                                <td>2g</td>
-                                <td>6mg</td>
-                              </tr>
-                            </tbody>
-                          </table> */}
                         </div>
                       </div>
                     </div>
                   </li>
-                  {/* <li>
-                    <div className="item info-detail">
-                      <div className="title-wrap toggle-switch">
-                        <p className="title">알레르기 유발 요인</p>
-                      </div>
-                      <div className="detail-wrap toggle-cont">
-                        <p className="text">우유, 대두, 땅콩</p>
-                      </div>
-                    </div>
-                  </li> */}
                 </ul>
               </section>
 
@@ -697,15 +1080,29 @@ export default function OrderDetail() {
                             id="totalPrice"
                             data-allprice={axioData?.res1_data?.menu?.detail_info_hot_simple_regular_price}
                           >
-                            {priceValue.defaultPrice?.toLocaleString("ko-KR")}원
+                            {frontData.defaultPrice?.toLocaleString("ko-KR")}원
                           </dd>
                         </dl>
                       </div>
                     </div>
                     <div className="btn-area col-2">
-                      <button type="button" className="btn x-large light-g open-pop" pop-target="#addCart" onClick={() => handleSubmitCart()}>
-                        장바구니 담기
-                      </button>
+                      <div className="btn-various btn-area col-2">
+                        <button
+                          type="button"
+                          className="btn x-large light-g add-bookmark open-pop"
+                          pop-target="#addBookmark"
+                          onClick={() => handleFavoriteShow()}
+                        >
+                          <i className="ico heart">
+                            <span>즐겨찾기</span>
+                          </i>
+                        </button>
+                        <button type="button" className="btn x-large normal open-pop" pop-target="#addCart" onClick={() => handleSubmitCart()}>
+                          <i className="ico cart">
+                            <span>장바구니 담기</span>
+                          </i>
+                        </button>
+                      </div>
                       <button className="btn x-large dark" onClick={() => submitOrder()}>
                         주문하기
                       </button>
@@ -714,6 +1111,64 @@ export default function OrderDetail() {
                 </div>
               </div>
               {/* // 충전 후 금액 / 결제하기 영역 */}
+
+              {/* [D] 211021 즐겨찾는 메뉴 팝업 추가*/}
+              <div id="addBookmark" className="fixed-con layer-pop dimm">
+                <div className="popup">
+                  <div className="popup-wrap">
+                    <button type="button" className="btn btn-close">
+                      <i className="ico close">
+                        <span>close</span>
+                      </i>
+                    </button>
+                    <div className="popup-body">
+                      <div className="item message">
+                        <p className="text">
+                          다음 메뉴를
+                          <br /> 즐겨 찾는 메뉴에 추가하시겠습니까?
+                        </p>
+                      </div>
+
+                      <div className="content-wrap">
+                        <div className="item order">
+                          <div className="img-wrap">
+                            <img id="favoriteImg" src="/@resource/images/@temp/product_14.jpg" alt={axioData?.res1_data?.menu?.name_kor} />
+                          </div>
+                          <div className="detail-wrap">
+                            <div className="order-info">
+                              <p className="title" id="faTitle">
+                                {axioData?.res1_data?.menu?.name_kor}
+                              </p>
+                              <p className="info">
+                                <span className="en" id="faType">
+                                  ICE
+                                </span>
+                                <span className="en" id="faSize">
+                                  Regular
+                                </span>
+                                <span id="faCup">매장용 컵</span>
+                              </p>
+                              <p className="option flex-both">
+                                <span id="faOption"></span>
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      {/* // [D] 추천 메뉴 있을 시 노출 */}
+                      <div className="btn-area col-2">
+                        <button type="button" className="btn x-large normal btn-close">
+                          취소하기
+                        </button>
+                        <button type="button" className="btn x-large dark btn-close add-menu" onClick={() => handleFavorite()}>
+                          추가하기
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              {/* // [D] 211021 즐겨찾는 메뉴 팝업 추가 */}
 
               {/* 장바구니 추가 완료 팝업 영역 */}
               <div id="addCart" className="fixed-con layer-pop dimm">

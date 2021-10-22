@@ -1,8 +1,11 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
-/* eslint-disable react-hooks/rules-of-hooks */
-/* eslint-disable no-fallthrough */
+/* eslint-disable jsx-a11y/anchor-is-valid */
+// eslint-disable-next-line no-unused-vars
+import axios from "axios";
 import React, { useEffect, useReducer, useState } from "react";
 import { getCookieValue, checkMobile } from "Config/GlobalJs";
+import { SERVER_DALKOMM } from "Config/Server";
 
 export const authContext = React.createContext();
 
@@ -16,6 +19,7 @@ export const indexInitialState = {
   latitude: getCookieValue("latitude"),
   longitude: getCookieValue("longitude"),
   udid: getCookieValue("udid"),
+  fcmToken: "",
 };
 
 export const indexReducer = (state, action) => {
@@ -60,6 +64,16 @@ const ContextStore = (props) => {
     };
     data = JSON.stringify(data);
 
+    let header_config = {
+      headers: {
+        "X-dalkomm-access-token": getCookieValue("accessToken"),
+        Authorization: getCookieValue("auth"),
+        "X-DALKOMM-STORE": getCookieValue("udid"),
+        "X-dalkomm-app-type": checkMobile() === "android" ? "A" : "I",
+        "X-dalkomm-app-version": getCookieValue("app_version"),
+      },
+    };
+
     setTimeout(() => {
       try {
         if (checkMobile() === "android") {
@@ -67,10 +81,27 @@ const ContextStore = (props) => {
         } else if (checkMobile() === "ios") {
           window.webkit.messageHandlers.fn_fcmToken.postMessage(data);
         }
+        //fcmUser 토큰 처리
+        if (getCookieValue("accessToken") !== "") {
+          setTimeout(() => {
+            axios
+              .all([
+                axios.post(
+                  `${SERVER_DALKOMM}/app/api/v2/push/token/update`,
+                  {
+                    push_token: window.nativeCallbackFcmToken(),
+                    udid: getCookieValue("udid"),
+                  },
+                  header_config
+                ),
+              ])
+              .then(axios.spread((res1) => {}));
+          }, 1000);
+        }
       } catch (error) {
         console.log(error);
       }
-    }, 1000);
+    }, 500);
   }, []);
   useEffect(() => {
     //로그인 유지처리

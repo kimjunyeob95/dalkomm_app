@@ -43,26 +43,18 @@ export function OrderStoreSearch(props) {
       axios.all([axios.post(`${SERVER_DALKOMM}/app/api/v2/store/city_info `, body, header_config)]).then(
         axios.spread((res1) => {
           let city_info = res1.data.data.city_info;
-          axios
-            .all([
-              axios.post(
-                `${SERVER_DALKOMM}/app/api/v2/store/search `,
-                { city: city_info[0]?.city, sub_city: city_info[0]?.sub_city[0], q: "" },
-                header_config
-              ),
-            ])
-            .then(
-              axios.spread((res1) => {
-                let store_list = res1.data.data.store_list;
-                setData((origin) => {
-                  return {
-                    ...origin,
-                    city_info,
-                    store_list,
-                  };
-                });
-              })
-            );
+          axios.all([axios.post(`${SERVER_DALKOMM}/app/api/v2/store/search `, { city: "", sub_city: "", q: "" }, header_config)]).then(
+            axios.spread((res1) => {
+              let store_list = res1.data.data.store_list;
+              setData((origin) => {
+                return {
+                  ...origin,
+                  city_info,
+                  store_list,
+                };
+              });
+            })
+          );
         })
       );
     }
@@ -161,6 +153,7 @@ export function OrderStoreSearch(props) {
                         <div className="insert">
                           <div className="bundle">
                             <select className="select medium" name="city">
+                              <option value="">지역</option>
                               {axioData?.city_info?.map((element, index) => (
                                 <option key={index} value={element?.city}>
                                   {element?.city}
@@ -168,6 +161,7 @@ export function OrderStoreSearch(props) {
                               ))}
                             </select>
                             <select className="select medium" name="subCity">
+                              <option value="">시/구</option>
                               {axioData?.city_info[0]?.sub_city?.map((element, index) => (
                                 <option key={index} value={element}>
                                   {element}

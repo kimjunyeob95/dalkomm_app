@@ -80,6 +80,9 @@ a.btn.text[target=_blank]::after {position: relative; top: 0; display: inline-bl
 /* .btn.bookmark .ico.heart{transition: 0.25s;} */
 .btn.bookmark.active .ico.heart {background-image: url('../images/com/icon_heart.svg');}
 
+/* btn.my-bookmark */
+.btn.my-bookmark .ico.heart {width: 16vw; height: 16vw; background-color: #ff592e; background-image: url('../images/com/icon_heart_bookmark.svg'); background-position-y: center; background-size: 9.067vw 9.067vw; border-radius: 50%; box-shadow: 0 1.333vw 2.667vw 0 rgba(0, 0, 0, 0.16);}
+
 /* btn.view-page */
 .btn.view-page {width: 14.667vw; height: 14.667vw; border-radius: 50%; background-color: #fff;}
 .btn.view-page .ico {height: 100%; background-size: 4.8vw 4.533vw;}

@@ -34,7 +34,6 @@ export default function MyCart() {
   useEffect(() => {
     axios.all([axios.get(`${SERVER_DALKOMM}/app/api/v2/smartorder/cart/list?store_code=${storeCode}`, header_config)]).then(
       axios.spread((res1) => {
-        console.log(res1);
         let res1_data = res1.data.data;
         setData((origin) => {
           return {
@@ -52,7 +51,11 @@ export default function MyCart() {
     contGap();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [axioData]);
-  const handleOrder = (e) => {
+  const handleOrder = (flag) => {
+    if (flag === "불가") {
+      alert("장바구니가 비어있습니다.");
+      return false;
+    }
     let smartordermenu_list = [];
     $(".data-list li").each(function (i, e) {
       smartordermenu_list.push({ smartorder_menu_id: $(e).data("menuid"), quantity: Number($(e).find(".menuCount").val()) });
@@ -117,7 +120,6 @@ export default function MyCart() {
       $(".order-list.data-list").html("");
       $(".price.fc-orange").text("0원");
       $(".btn.full.large.dark").remove();
-      $(".btn.open-pop").remove();
       $("body").removeClass("modal-opened");
       $("#drinkDelete").removeClass("active");
     } else {
@@ -130,6 +132,7 @@ export default function MyCart() {
       })
     );
   };
+
   if (axioData) {
     return (
       <React.Fragment>
@@ -173,10 +176,19 @@ export default function MyCart() {
                               </span>
                             </p>
                             <p className="option flex-both">
-                              <span>
-                                <em className="en">Option :</em> 샷 추가
-                              </span>
-                              <span>횟수 : 1</span>
+                              {element?.get_summary_option
+                                .split(" / ")
+                                .filter((e, i) => {
+                                  let array = ["HOT", "ICE", "레귤러", "라지", "코끼리", "다회용 컵", "일회용 컵", "개인컵(-300원)"];
+                                  return array.indexOf(e) < 0;
+                                })
+                                .map((e, i) => {
+                                  if (i === 0) {
+                                    return <React.Fragment key={i}>{e}</React.Fragment>;
+                                  } else {
+                                    return <React.Fragment key={i}>, {e}</React.Fragment>;
+                                  }
+                                })}
                             </p>
                           </div>
                           <div className="price-wrap flex-both">
@@ -218,15 +230,25 @@ export default function MyCart() {
                         <div className="item info-order">
                           <dl className="flex-both">
                             <dt className="title en">Total</dt>
-                            <dd className="price fc-orange finalPrice">{axioData?.res1_data?.total_amount?.toLocaleString("ko-KR")}원</dd>
+                            {axioData?.res1_data?.cart_list.length < 1 ? (
+                              <dd className="price fc-orange finalPrice">0원</dd>
+                            ) : (
+                              <dd className="price fc-orange finalPrice">{axioData?.res1_data?.total_amount?.toLocaleString("ko-KR")}원</dd>
+                            )}
                           </dl>
                         </div>
                       </div>
                     </div>
                     <div className="btn-area" />
-                    <button to="#" className="btn full large dark" onClick={(e) => handleOrder(e.currentTarget)}>
-                      주문하기
-                    </button>
+                    {axioData?.res1_data?.cart_list.length < 1 ? (
+                      <button to="#" className="btn full large dark" onClick={() => handleOrder("불가")}>
+                        주문하기
+                      </button>
+                    ) : (
+                      <button to="#" className="btn full large dark" onClick={() => handleOrder("")}>
+                        주문하기
+                      </button>
+                    )}
                   </div>
                 </div>
               </div>

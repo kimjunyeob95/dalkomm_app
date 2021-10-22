@@ -126,19 +126,19 @@ export default function OrderFinal() {
   const handleSubmit = () => {
     let validation = true;
     let menu_coupon_array = [];
-    let menu_coupon_id = [];
+    let user_coupon_ids = [];
     axioData?.res1_data?.smartorder_detail_list?.map((e, i) => {
-      menu_coupon_array.push({ smartorder_menu_id: e?.smartorder_menu_id, menu_coupon_id });
+      menu_coupon_array.push({ smartorder_menu_id: e?.smartorder_menu_id, user_coupon_ids });
     });
     menu_coupon_array.map((e, i) => {
-      menu_coupon_id = [];
+      user_coupon_ids = [];
       $(`.couponSelect-${e?.smartorder_menu_id}`).each(function (index, element) {
         if ($(element).attr("data-value")) {
-          menu_coupon_id.push(Number($(element).attr("data-value")));
+          user_coupon_ids.push(Number($(element).attr("data-value")));
         }
 
         if ($(`.couponSelect-${e.smartorder_menu_id}`).length - 1 === index) {
-          menu_coupon_array[i] = { smartorder_menu_id: e?.smartorder_menu_id, menu_coupon_id };
+          menu_coupon_array[i] = { smartorder_menu_id: e?.smartorder_menu_id, user_coupon_ids };
         }
       });
     });
@@ -152,21 +152,12 @@ export default function OrderFinal() {
       pay_method: frontData?.orderPayment,
       order_menu_coupon: menu_coupon_array,
     };
-    // let target_value = {
-    //   store_code: "dalkomm005",
-    //   orderinfo_id: 26864,
-    //   order_user_name: "준엽김",
-    //   order_user_mobile: "01025466499",
-    //   carrier_package: 0,
-    //   pay_method: "P",
-    //   order_menu_coupon: [],
-    // };
-    // return console.log(menu_coupon_array);
 
     let result = {
       type: "post",
       link: `${SERVER_DALKOMM}/app/web/smartorder/order/to/pay/v2`,
       value: target_value,
+      title: "메뉴 결제",
     };
     result = JSON.stringify(result);
     try {
@@ -242,16 +233,38 @@ export default function OrderFinal() {
             <HeaderSub title="주문하기" redirectBack={true} location={`/order/menu/${axioData?.res1_data?.store?.store_code}`} />
 
             <div id="content" className="drink order">
-              <div className="store-search-wrap w-inner">
-                <div className="item store-search">
-                  <div className="flex-both">
-                    <dl className="detail-wrap flex-start">
-                      <dt className="title">선택매장</dt>
-                      <dd className="place">{axioData?.res1_data?.store?.store_name}</dd>
-                    </dl>
+              {/*[D] 211021 고객 정보 마크업 추가 */}
+              <section className="section">
+                <div className="w-inner">
+                  <div className="field">
+                    <div className="item order-detail">
+                      <div className="flex-both">
+                        <span className="label">고객 정보</span>
+                        <span className="customer">
+                          <em>{axioData?.res1_data?.order_user_name}</em> <em>/</em> <em>{axioData?.res1_data?.order_user_mobile}</em>
+                        </span>
+                      </div>
+                    </div>
                   </div>
                 </div>
-              </div>
+              </section>
+              {/*// [D] 211021 고객 정보 마크업 추가 */}
+
+              {/*[D] 211021 주문 매장 마크업 추가 */}
+              <section className="section">
+                <div className="w-inner">
+                  <div className="field">
+                    <div className="item order-detail">
+                      <div className="flex-both">
+                        <span className="label">주문 매장</span>
+                        <span className="store">{axioData?.res1_data?.store?.store_name}</span>
+                      </div>
+                      <span className="address">{axioData?.res1_data?.store?.store_address}</span>
+                    </div>
+                  </div>
+                </div>
+              </section>
+              {/*// [D] 211021 주문 매장 마크업 추가 */}
 
               {/* 주문하기 */}
               <section className="section">

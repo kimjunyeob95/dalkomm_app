@@ -20,9 +20,9 @@
 
       let result_fcmToken;
       function nativeCallbackFcmToken(param){
-        result_fcmToken=JSON.parse(param);
-        result_fcmToken = result_fcmToken.data
-        if(result_fcmToken !== undefined){
+        if(param !== undefined){
+          param=JSON.parse(param);
+          result_fcmToken = param.data
           return result_fcmToken;
         }
         return result_fcmToken;

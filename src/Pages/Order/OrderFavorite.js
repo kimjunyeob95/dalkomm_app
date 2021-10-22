@@ -18,7 +18,7 @@ import SwiperCore from "swiper/core";
 import { SERVER_DALKOMM } from "Config/Server";
 import { authContext } from "ContextApi/Context";
 
-export default function OrderMenu() {
+export default function OrderFavorite() {
   const [state, dispatch] = useContext(authContext);
   const [axioData, setData] = useState(false);
   const history = useHistory();
@@ -86,6 +86,7 @@ export default function OrderMenu() {
       alert("테이블오더가 불가능한 매장입니다.");
     }
   };
+
   if (axioData?.res1_data) {
     return (
       <React.Fragment>

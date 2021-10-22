@@ -153,12 +153,12 @@
 #content .fixed-con .popup ,
 #content .fixed-con .popup-wrap {padding-top: 0;}
 #content .fixed-con.layer-pop .popup {max-height: 100%; padding-top: 13.867vw; box-sizing: border-box; }
-#content .fixed-con.layer-pop:not(#addCart) .popup {overflow-y: scroll;}
+#content .fixed-con.layer-pop:not(#addCart):not(#addBookmark) .popup {overflow-y: scroll;}
 #content .fixed-con .btn-area.col-2 .btn {font-weight: 700;}
 #content .fixed-con .item.info-detail .section-slider {}
 #content .fixed-con .item.info-detail .swiper-slide {font-size: 0;}
 #content .fixed-con .btn-area.col-2 .btn.normal {border:0; border-top: 0.267vw solid #ebebeb; color: #000;}
-#content .fixed-con .btn-area.col-2 .btn.light-g {background-color: #ebebeb; color: #000;}
+#content:not(.drink.detail) .fixed-con .btn-area.col-2 .btn.light-g {background-color: #ebebeb; color: #000;}
 #content .fixed-con .btn-area .btn.full.bdr {border: 0; border-top: 0.267vw solid #ebebeb;}
 
 /* 마이페이지 */
@@ -214,11 +214,11 @@
 #content.mypage.order .sorting-wrap {border-bottom: 1px solid rgba(235,235,235,0.2);}
 #content.mypage.order .sorting-wrap .select {width: auto; padding: 0; padding-right: 4.533vw; font-size: 3.733vw; font-weight: 700; background-image: url('../images/@uio/select-arr-bk.svg'); background-position: 100% center; border: none;color: #000;}
 #content.mypage.order .order-list li {padding: 4.267vw 5.333vw;}
-#content.mypage.order .item.order .img-wrap {width: 21.333vw; height: 21.333vw;}
-#content.mypage.order .item.order .detail-wrap {width: calc(100% - 21.333vw); padding-top: 2.133vw; padding-bottom: 2.133vw;}
-#content.mypage.order .item.order .detail-wrap .location {flex-shrink: 0; padding-left: 2.667vw; font-size: 3.2vw; color: #999;}
-#content.mypage.order .item.order .detail-wrap .info {margin-top: 0.8vw; margin-bottom: 0; font-size: 3.2vw;}
-#content.mypage.order .item.order .detail-wrap .status-info {font-size: 3.733vw;}
+#content.mypage.order:not(.bookmark) .item.order .img-wrap {width: 21.333vw; height: 21.333vw;}
+#content.mypage.order:not(.bookmark) .item.order .detail-wrap {width: calc(100% - 21.333vw); padding-top: 2.133vw; padding-bottom: 2.133vw;}
+#content.mypage.order:not(.bookmark) .item.order .detail-wrap .location {flex-shrink: 0; padding-left: 2.667vw; font-size: 3.2vw; color: #999;}
+#content.mypage.order:not(.bookmark) .item.order .detail-wrap .info {margin-top: 0.8vw; margin-bottom: 0; font-size: 3.2vw;}
+#content.mypage.order:not(.bookmark) .item.order .detail-wrap .status-info {font-size: 3.733vw;}
 /* ME005 */
 #content.mypage.coupon .coupon-list {margin-top: -0.267vw;}
 #content.mypage.coupon .item.coupon {padding-left: 5.333vw;}
@@ -331,6 +331,7 @@
 #content.drink .item.menu .img-wrap {height: 49.333vw;}
 #content.drink .item.menu .img-wrap img {width: auto; height: 100%;}
 #content.drink .item.menu .detail-wrap .title {font-weight: 700;}
+#content.drink.list .section {position: relative;}
 #content.drink.list .section ,
 #content.drink.search .section {padding-left: 2.667vw; padding-right: 2.667vw; box-sizing: border-box;}
 #content.drink.list .section > .data-list.col-2 > li,
@@ -339,17 +340,25 @@
 #content.drink.search .section > .data-list.col-2 > li:nth-child(2n)  {margin-left: 0.8vw;}
 #content.drink.list .item.menu .img-wrap img,
 #content.drink.search .item.menu .img-wrap img {width: 100%; object-fit: cover; object-position: center;}
+#content.drink.list .section .btn.my-bookmark {position: fixed; right: 2.667vw; bottom: 24.133vw; z-index: 9;}
+#content.drink.list .btn.scroll-top {display: none;}
+/* TO002 */
+#content.mypage.order.bookmark .order-list > li {width: 100%; padding-top: 6.400vw; padding-bottom: 7.200vw; box-sizing: border-box;}
+#content.mypage.order.bookmark .order-list .item.order {width: 100%;}
+#content.mypage.order.bookmark .order-list .item.order .title {padding-right: 5.333vw;}
+#content.mypage.order.bookmark .order-list .item.order .detail-wrap {position: relative;}
+#content.mypage.order.bookmark .order-list .item.order .check-wrap {position: absolute; right: 0; top: 0;}
 /* TO003 */
 #content.drink.search .form .w-inner {padding-top: 5.2vw; padding-bottom: 6.4vw;}
 #content.drink.search .form .field + .text {margin-top: 6.400vw;}
 #content.drink.search .form .text {font-size: 3.733vw; text-align: center;}
 #content.drink.search .item.menu .detail-wrap .title {font-size: 4vw;}
 /* TO004 */
-#content.drink.detail > .section {padding-bottom: 8vw;}
+#content.drink.detail > .section {padding-bottom: 13.333vw;}
 #content.drink.detail .item.drink-info .detail-wrap {padding: 5.333vw 5.333vw 9.333vw;}
 #content.drink.detail .item.drink-info .btn.bookmark {position: absolute; top: 5.333vw; right: 5.333vw;}
 #content.drink.detail .item.drink-info .ico.heart {width: 6.933vw; height: 6.933vw;}
-#content.drink.detail .fieldset > .field + .w-inner {padding-top: 10.667vw; padding-bottom: 10.667vw;}
+#content.drink.detail .fieldset > .field + .w-inner {padding-top: 10.667vw; /*padding-bottom: 10.667vw;*/}
 #content.drink.detail .label + .select-group,
 #content.drink.detail .label + .data-list {margin-top: 2.667vw;}
 #content.drink.detail .field + .field {margin-top: 8vw;}
@@ -379,6 +388,16 @@
 #content.drink.detail .fixed-con .data-list .item.info-order {height: 17.067vw; line-height: 17.067vw;}
 #content.drink.detail .fixed-con .data-list + .item.info-order {padding-top: 6.933vw; padding-bottom: 6.933vw; }
 #content.drink.detail .fixed-con .data-list li.option .item.info-order {height: auto; line-height: normal; padding-top: 5.867vw; padding-bottom: 5.867vw;}
+#content.drink.detail .fixed-con:not(.layer-pop) .btn-area > .btn.dark {width: 65.867vw;}
+#content.drink.detail .fixed-con:not(.layer-pop) .btn-area > .btn-various {width: calc(100% - 65.867vw);}
+#content.drink.detail .fixed-con:not(.layer-pop) .btn-area > .btn-various .btn {border-top: 0.267vw solid rgba(112,112,112,0.1);}
+#content.drink.detail .fixed-con .btn-area .ico.heart {width: 7.200vw; height: 7.200vw;}
+#content.drink.detail .fixed-con .btn-area .btn:not(.active) .ico.heart {background-image: url('../images/com/icon_heart-line-g.svg');}
+#content.drink.detail .fixed-con .content-wrap {background-color: #f9f9f9; margin: 0 5.067vw; padding: 4vw 5.333vw 4.267vw 4.533vw;}
+#content.drink.detail .fixed-con .item.order .img-wrap {width: 17.867vw; height: 17.867vw;}
+#content.drink.detail .fixed-con .item.order .detail-wrap {width: calc(100% - 17.867vw); min-height: 17.867vw; padding-left: 3.2vw;}
+#content.drink.detail .fixed-con .item.order .detail-wrap .order-info {display: -ms-flexbox; display: -webkit-flex; display: flex; -webkit-justify-content: space-between; -ms-flex-pack: justify; justify-content: space-between;-webkit-flex-direction: column; -ms-flex-direction: column; flex-direction: column; height: 100%;}
+#content.drink.detail .fixed-con .item.order .detail-wrap .info {margin: 0;}
 #content.drink.detail .item.info-order .title {font-weight: 700;}
 #content.drink.detail .select-group input:not(:checked) + label .text span.en {color: rgba(0,0,0,0.4);}
 #content.drink.detail .option-list > li {height: 16.533vw; line-height: 16.533vw; border: 0.267vw solid #eaeaea; padding-left: 4.133vw; padding-right: 4.133vw;}
@@ -391,8 +410,15 @@
 #content.drink.detail .option-list .speech-bubble.small {display: none; order: 1; height: 6.667vw; line-height: 7.2vw; text-align: center; }
 #content.drink.detail .option-list .speech-bubble.small::before {transform: translate(0, -50%) rotate(-90deg); top:  50%; bottom:  auto; left: auto; right: -1.333vw; margin-top: 0.267vw;}
 #content.drink.detail .option-list li.adding .speech-bubble.small {display: block;}
+#content.drink.detail .option-list .check-box + .check-box {margin-left: 3.200vw;}
+#content.drink.detail .option-list .check-box .label {font-size: 3.733vw;}
+#content.drink.detail .option-list .checkbox,
+#content.drink.detail .option-list .checkbox:before {width: 4.8vw; height: 4.8vw;}
 #content.drink.basket .order-list > li{padding: 7.2vw 5.333vw;}
 #content.drink.basket .item.order .btn.delete {margin-top: -0.8vw;}
+#addBookmark .popup .popup-body .btn-area {margin-top: 10.667vw;}
+#addBookmark .popup .item.message + .content-wrap {margin-top: 6.4vw;}
+
 /* 장바구니 메뉴 삭제 팝업 */
 #content #drinkDelete.fixed-con.layer-pop{z-index: 100;}
 #content #drinkDelete.fixed-con.layer-pop .popup {padding-top: 9.6vw;}
@@ -410,7 +436,10 @@
 #content #addCart .item.menu .img-wrap {width: 26.667vw;}
 #content #addCart .item.menu .img-wrap {height: 26.667vw;;}
 /* TO006 */
+#content.drink.order {padding-top: 5.733vw; margin-bottom: 7.067vw;}
 #content.drink.order .store-search-wrap + .section {padding-top: 5.867vw; padding-bottom: 7.067vw;}
+#content.drink.order .section + .section {border-top: 0.267vw solid rgba(112,112,112,0.1); padding-top: 6.4vw; margin-top: 6vw;}
+#content.drink.order .item.order-detail .address {padding-bottom: 4.8vw;}
 #content.drink.order .field .label.en {font-weight: 600;}
 #content.drink.order .label .alert {vertical-align: 0.533vw; color: #bfbfbf;}
 #content.drink.order .label .alert > .ico.alert {top: -0.267vw; opacity: 0.7;}

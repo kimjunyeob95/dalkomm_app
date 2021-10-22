@@ -411,7 +411,11 @@ a[target=_blank]::after {content: ''; display: block; position: absolute; top: 5
 .item.order .price > span {display: inline-block; vertical-align: middle; margin-left: 1.333vw;}
 .item.order .detail-wrap .info ,
 .item.order .detail-wrap .option {font-size: 3.467vw; color: #9c9c9c;}
-.item.order .detail-wrap .option > span > em {display: inline-block; margin-right: 2.133vw;}
+.item.order .detail-wrap .option {-webkit-align-items: flex-start; -ms-flex-align: start; align-items: flex-start;}
+.item.order .detail-wrap .option span:nth-child(1) {display: -ms-flexbox; display: -webkit-flex; display: flex; -webkit-align-items: flex-start; -ms-flex-align: start; align-items: flex-start;width: calc(100% - 20vw); flex-wrap: wrap;}
+.item.order .detail-wrap .option span > em {width: 14.667vw;}
+.item.order .detail-wrap .option span + span {width: 20vw; margin-top: 0.267vw; text-align: right;}
+.item.order .detail-wrap .option > span > em {display: inline-block; margin-right: 1.067vw;}
 .item.order .detail-wrap .info {margin: 1.867vw 0 1.067vw;}
 .item.order .detail-wrap .info > span {display: inline-block; position: relative;}
 .item.order .detail-wrap .info > span + span::before {content: ''; display: inline-block; position: relative; top: 0.267vw; width: 0.267vw; height: 2.667vw; background-color: #d4d4d4; margin: 0 2vw 0 1.6vw;}
@@ -448,6 +452,12 @@ a[target=_blank]::after {content: ''; display: block; position: absolute; top: 5
 .item.info-order .price .btn-cancle {width: 6.4vw; height: 6.4vw;}
 .item.info-order .price .btn-cancle + .uio-amount {margin-left: 5.333vw;}
 .item.info-order .flex-both:not(.flex-center) {-webkit-box-align: end; -ms-flex-align: end; align-items: flex-end;}
+/* .item.order-detail */
+.item.order-detail span:not(.label) { font-size: 3.733vw;}
+.item.order-detail .store {font-weight: 700;}
+.item.order-detail .address {display: block; width: 100%; color: #666; margin-top: 2.933vw; text-align: right;}
+.item.order-detail .customer {}
+
 /* .item.history */
 .item.history {display: -ms-flexbox; display: -webkit-flex; display: flex;
 	-webkit-justify-content: space-between; -ms-flex-pack: justify; justify-content: space-between;
@@ -657,3 +667,4 @@ span.alert > .ico {position: absolute; top: 0; left: 0;}
 .uio-amount .ea {width: 13.333vw; text-align: center; font-size: 4.267vw; vertical-align: middle;}
 
 .order-list > li + li {border-top: 0.267vw solid #fbfbfb;}
+

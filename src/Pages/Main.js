@@ -161,17 +161,17 @@ export function Main(props) {
       })
     );
   };
-  // return (
-  //   <div style={{ wordBreak: "break-all" }}>
-  //     <p> accessToken : {document.cookie}</p>
-  //     <br />
-  //     <p> auth : {state?.auth}</p>
-  //     <br />
-  //   </div>
-  // );
-  //axios 반환 시
 
+  //axios 반환 시
   if (axioData?.res1_data?.main_banner_list) {
+    // return (
+    //   <div style={{ wordBreak: "break-all" }}>
+    //     <p> fcmToken : {state.app_version}</p>
+    //     <br />
+    //     <p> auth : {state?.auth}</p>
+    //     <br />
+    //   </div>
+    // );
     // fadeInOut();
     return (
       <React.Fragment>

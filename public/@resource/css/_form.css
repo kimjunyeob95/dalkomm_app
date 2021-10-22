@@ -201,6 +201,8 @@ label,
 .select-group.col-2 input:checked + label.bdr:nth-of-type(2n)::after,
 .select-group.col-3 input:checked + label::after {content: ''; display: block; position: absolute; top: 0; left: -0.267vw; width: 0.267vw; height: calc(100% + 0.533vw); background-color: #ff592e; margin-top: -0.267vw; transition: 0.4s ease;}
 
+.select-group label {width: 100%;}
+
 .select-group.col-2 {display: block;}
 .select-group.col-2 label {width: 50%;}
 .select-group.col-2 label:hover {background-color: transparent;}
@@ -209,7 +211,7 @@ label,
 .select-group.col-2 label.bdr:nth-of-type(2) {border-top: 0.267vw solid #dbdbdb;}
 .select-group.col-2 label.bdr:nth-of-type(2n){border-left: 0;}
 .select-group.col-3 label {width: calc(100% / 3);}
-.select-group.col-3 label {border-left: 0; border-top: 0;} 
+.select-group.col-3 label {border-left: 0; border-top: 0; border-bottom:  0.267vw solid #dbdbdb;} 
 .select-group.col-3 label:nth-of-type(3n+1) {border-left: 0.267vw solid #dbdbdb;}
 .select-group.col-3 label:nth-of-type(-n+3) {border-top: 0.267vw solid #dbdbdb;}
 
