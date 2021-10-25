@@ -13,6 +13,7 @@ import { authContext } from "ContextApi/Context";
 import { SERVER_DALKOMM } from "Config/Server";
 
 import { tabLink, fadeInOut, contGap } from "Jquery/Jquery";
+import { checkMobile } from "Config/GlobalJs";
 
 export default function MyCouponSend() {
   const [state, dispatch] = useContext(authContext);
@@ -43,34 +44,67 @@ export default function MyCouponSend() {
       }
       postBody = { ...postBody, mobile: $("#giftPhone").val() };
     }
-    axios.all([axios.post(`${SERVER_DALKOMM}/app/api/v2/coupon/present`, postBody, header_config)]).then(
-      axios.spread((res1) => {
-        alert(res1.data.meta.msg);
-        if (res1.data.meta.code === 20000) {
-          window.location.reload();
-        }
-      })
-    );
+    axios
+      .all([
+        axios.post(
+          `${SERVER_DALKOMM}/app/api/v2/coupon/present`,
+          postBody,
+          header_config
+        ),
+      ])
+      .then(
+        axios.spread((res1) => {
+          alert(res1.data.meta.msg);
+          if (res1.data.meta.code === 20000) {
+            window.location.reload();
+          }
+        })
+      );
   };
   useEffect(() => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
 
-    axios.all([axios.post(`${SERVER_DALKOMM}/app/api/v2/coupon/list`, body, header_config)]).then(
-      axios.spread((res1) => {
-        let res1_data = res1.data.data;
+    axios
+      .all([
+        axios.post(
+          `${SERVER_DALKOMM}/app/api/v2/coupon/list`,
+          body,
+          header_config
+        ),
+      ])
+      .then(
+        axios.spread((res1) => {
+          let res1_data = res1.data.data;
 
-        setData((origin) => {
-          return {
-            ...origin,
-            res1_data,
-          };
-        });
-      })
-    );
+          setData((origin) => {
+            return {
+              ...origin,
+              res1_data,
+            };
+          });
+        })
+      );
   }, []);
+
   useEffect(() => {
     contGap();
   }, [axioData]);
+
+  const handleGetPhone = () => {
+    let data = {
+      callbackFunc: "nativeCallbackPhone",
+    };
+    data = JSON.stringify(data);
+    try {
+      if (checkMobile() === "android") {
+        window.android.fn_callBack(data);
+      } else if (checkMobile() === "ios") {
+        window.webkit.messageHandlers.fn_callBack.postMessage(data);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
   if (axioData) {
     fadeInOut();
     return (
@@ -79,7 +113,12 @@ export default function MyCouponSend() {
 
         <div id="wrap" className="wrap">
           <div id="container" className="container">
-            <HeaderSub title="쿠폰 선물하기" location="/mypage/couponRecipt" type="flexCenter" icon="recipt" />
+            <HeaderSub
+              title="쿠폰 선물하기"
+              location="/mypage/couponRecipt"
+              type="flexCenter"
+              icon="recipt"
+            />
 
             <div id="content" className="mypage gift">
               <div className="form-wrap">
@@ -89,7 +128,11 @@ export default function MyCouponSend() {
                       <div className="field">
                         <span className="label">선물 쿠폰 선택</span>
                         <div className="insert">
-                          <select name="" id="selectCoupon" className="select medium">
+                          <select
+                            name=""
+                            id="selectCoupon"
+                            className="select medium"
+                          >
                             {axioData?.res1_data?.coupon_list
                               ?.filter((e, i) => e.status === 0)
                               .map((e, i) => (
@@ -104,29 +147,43 @@ export default function MyCouponSend() {
                       <div className="field">
                         <div className="flex-both">
                           <span className="label">받는 사람</span>
-                          <Link to="#" className="btn light-g address-book">
+                          <a
+                            className="btn light-g address-book"
+                            onClick={() => handleGetPhone()}
+                          >
                             연락처에서 가져오기
-                          </Link>
+                          </a>
                         </div>
 
                         <ul className="tabs">
                           <li className="current giftid">
-                            <Link to="#" data-href="#tabGiftId" onClick={(e) => tabLink(e)}>
+                            <a
+                              data-href="#tabGiftId"
+                              onClick={(e) => tabLink(e)}
+                            >
                               아이디로 보내기
-                            </Link>
+                            </a>
                           </li>
                           <li className="giftphone">
-                            <Link to="#" data-href="#tabGiftPhone" onClick={(e) => tabLink(e)}>
+                            <a
+                              data-href="#tabGiftPhone"
+                              onClick={(e) => tabLink(e)}
+                            >
                               휴대폰 번호로 보내기
-                            </Link>
+                            </a>
                           </li>
                         </ul>
                         <div id="tabGiftId" className="tab-content active">
-                          <label htmlFor="giftName" className="blind">
+                          <label htmlFor="giftName2" className="blind">
                             아이디
                           </label>
                           <div className="insert">
-                            <input type="text" className="input-text medium" id="giftName" placeholder="아이디를 입력해 주세요." />
+                            <input
+                              type="text"
+                              className="input-text medium"
+                              id="giftName2"
+                              placeholder="아이디를 입력해 주세요."
+                            />
                           </div>
                         </div>
                         <div id="tabGiftPhone" className="tab-content">
@@ -134,7 +191,12 @@ export default function MyCouponSend() {
                             휴대전화 번호
                           </label>
                           <div className="insert">
-                            <input type="number" className="input-text medium" id="giftPhone" placeholder="휴대전화 번호를 입력해 주세요" />
+                            <input
+                              type="number"
+                              className="input-text medium"
+                              id="giftPhone"
+                              placeholder="휴대전화 번호를 입력해 주세요"
+                            />
                           </div>
                         </div>
                       </div>
@@ -157,7 +219,11 @@ export default function MyCouponSend() {
                 <div className="popup">
                   <div className="popup-wrap">
                     <div className="btn-area">
-                      <button type="button" className="btn full x-large dark" onClick={() => fn_submit()}>
+                      <button
+                        type="button"
+                        className="btn full x-large dark"
+                        onClick={() => fn_submit()}
+                      >
                         <strong>선물하기</strong>
                       </button>
                     </div>

@@ -33,7 +33,7 @@ export default function OrderFinal() {
     headers: {
       "X-dalkomm-access-token": state.accessToken,
       Authorization: state.auth,
-      "X-DALKOMM-STORE": state.udid,
+      // "X-DALKOMM-STORE": state.udid,
     },
   };
 
@@ -52,7 +52,7 @@ export default function OrderFinal() {
           // res1_data = orderjson.data;
           [...new Array(res1_data?.total_order_count)]?.map(
             (element, index) => {
-              menu_array.push({ quantity: 1 });
+              menu_array.push({ quantity: 1, couponId: "" });
             }
           );
           if (location?.frontValue) {
@@ -62,7 +62,10 @@ export default function OrderFinal() {
             });
           } else {
             let finalPrice = res1_data.total_order_amount;
-            if (res1_data?.basic_discount_rate_percent > 0) {
+            if (
+              res1_data?.basic_discount_rate_percent > 0 &&
+              !res1_data?.affiliate_discount
+            ) {
               //맴버십 할인이 포함될경우
               finalPrice =
                 res1_data.total_order_amount -
@@ -73,6 +76,7 @@ export default function OrderFinal() {
               //제휴 할인이 적용되있을경우
               finalPrice -= 500;
             }
+            finalPrice = finalPrice - (finalPrice % 10);
             setFront((origin) => {
               return {
                 ...origin,
@@ -82,6 +86,7 @@ export default function OrderFinal() {
                 orderRequest: 0,
                 menuQuantity: menu_array,
                 smartOrderSeq: smartOrderSeq,
+                couponDiscount: 0,
               };
             });
           }
@@ -97,12 +102,30 @@ export default function OrderFinal() {
   }, [state?.auth]);
 
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     contGap();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    // location?.frontValue && $(document).scrollTop($(document).height());
+    location?.frontValue &&
+      window.scrollTo({
+        top: $(document).height(),
+        behavior: "smooth",
+      });
   }, [axioData]);
 
+  const selectOption = (index) => {
+    let result =
+      frontData?.menuQuantity[index]?.couponId !== "" &&
+      frontData?.menuQuantity[index]?.couponId;
+    return result;
+  };
+
+  const disabledOption = (index, couponId) => {
+    let result = false;
+    frontData?.menuQuantity.map((e, i) => {
+      if (Number(e.couponId) === couponId) {
+        result = true;
+      }
+    });
+    return result;
+  };
   const handlePayMethod = (value) => {
     setFront((origin) => {
       return {
@@ -224,6 +247,7 @@ export default function OrderFinal() {
 
     $(".couponSelect").each(function (i, e) {
       let couponOneplus = $(e).children("option:selected").data("oneplus");
+      let couponId = $(e).children("option:selected").val();
       if ($(e).attr("data-value") && couponOneplus === false) {
         //할인 쿠폰 선택시
         discountPrice += Number($(e).children("option:selected").data("price"));
@@ -231,9 +255,14 @@ export default function OrderFinal() {
 
       //1+1 쿠폰 선택 처리
       if ($(e).attr("data-value") && couponOneplus === true) {
-        oneplusArray.push({ idx: i, quantity: 2, type: "추가" });
+        oneplusArray.push({
+          idx: i,
+          quantity: 2,
+          type: "추가",
+          couponId: couponId,
+        });
       } else if (!$(e).attr("data-value") || couponOneplus === false) {
-        oneplusArray.push({ idx: i, quantity: 1 });
+        oneplusArray.push({ idx: i, quantity: 1, couponId: couponId });
       }
       if (i === $(".couponSelect").length - 1) {
         $("#coupon-discount").text(
@@ -244,6 +273,7 @@ export default function OrderFinal() {
             ...origin,
             menuQuantity: oneplusArray,
             finalPrice: origin.defaultFinalPrice - discountPrice,
+            couponDiscount: discountPrice,
           };
         });
       }
@@ -485,6 +515,7 @@ export default function OrderFinal() {
                                             menu_count
                                           )
                                         }
+                                        value={selectOption(menu_count)}
                                       >
                                         <option value="">
                                           쿠폰을 선택해 주세요.
@@ -498,6 +529,10 @@ export default function OrderFinal() {
                                               value={e?.user_coupon_id}
                                               data-price={e?.discount_price}
                                               data-oneplus={e?.is_one_plus_one}
+                                              disabled={disabledOption(
+                                                menu_count,
+                                                e?.user_coupon_id
+                                              )}
                                             >
                                               {e?.coupon_name}
                                             </option>
@@ -644,7 +679,11 @@ export default function OrderFinal() {
                               쿠폰 할인 <span className="coupon"></span>
                             </dt>
                             <dd className="price" id="coupon-discount">
-                              0원
+                              -
+                              {frontData?.couponDiscount?.toLocaleString(
+                                "ko-KR"
+                              )}
+                              원
                             </dd>
                           </dl>
                           <dl className="flex-both">

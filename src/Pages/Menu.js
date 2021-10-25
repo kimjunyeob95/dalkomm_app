@@ -35,8 +35,16 @@ export default function Menu() {
           axios.get(`${SERVER_DALKOMM}/app/api/notice/is-new`, {
             headers: { Authorization: state?.auth },
           }),
-          axios.post(`${SERVER_DALKOMM}/app/api/v2/my_account/user_info`, body, header_config),
-          axios.post(`${SERVER_DALKOMM}/app/api/v2/membership`, body, header_config),
+          axios.post(
+            `${SERVER_DALKOMM}/app/api/v2/my_account/user_info`,
+            body,
+            header_config
+          ),
+          axios.post(
+            `${SERVER_DALKOMM}/app/api/v2/membership`,
+            body,
+            header_config
+          ),
         ])
         .then(
           axios.spread((res1, res2, res3) => {
@@ -107,16 +115,27 @@ export default function Menu() {
                 <div className="item my-info">
                   <div className="user-wrap flex-center">
                     <p className="user">
-                      <span className="fc-orange">{axioData?.res2_data?.sub_user_list[0]?.sub_user_name}</span> 고객님
+                      <span className="fc-orange">
+                        {axioData?.res2_data?.sub_user_list[0]?.sub_user_name}
+                      </span>{" "}
+                      고객님
                     </p>
 
                     <button
                       type="button"
                       className="btn barcode open-pop"
                       pop-target="#zoomCardMembership"
-                      onClick={(e) => popupOpen(e.currentTarget, axioData?.res3_data?.stamp_card_number)}
+                      onClick={(e) =>
+                        popupOpen(
+                          e.currentTarget,
+                          axioData?.res3_data?.stamp_card_number
+                        )
+                      }
                     >
-                      <i className="ico barcode" pop-target="#zoomCardMembership">
+                      <i
+                        className="ico barcode"
+                        pop-target="#zoomCardMembership"
+                      >
                         <span>바코드</span>
                       </i>
                     </button>
@@ -140,13 +159,16 @@ export default function Menu() {
                 <li>
                   <ul>
                     <li>
-                      <Link to="/mypage/orderRecipt" className="item depth-menu">
+                      <Link
+                        to="/mypage/orderRecipt"
+                        className="item depth-menu"
+                      >
                         <i className="ico menu-order"></i>
                         <span>주문내역</span>
                       </Link>
                     </li>
                     <li>
-                      <Link to="/order" className="item depth-menu">
+                      <Link to="/order/storeSearch" className="item depth-menu">
                         <i className="ico menu-store"></i>
                         <span>매장찾기</span>
                       </Link>
@@ -161,16 +183,22 @@ export default function Menu() {
                       <Link to="/story/list" className="item depth-menu">
                         <i className="ico menu-story"></i>
                         <span>달콤스토리</span>
-                        <i className="ico new">N</i> {/* [D] 활성화 콘텐츠 메뉴일시 노출*/}
+                        <i className="ico new">N</i>{" "}
+                        {/* [D] 활성화 콘텐츠 메뉴일시 노출*/}
                       </Link>
                     </li>
                     <li className="new">
                       {" "}
                       {/* [D] 활성화 콘텐츠 메뉴 .new */}
-                      <Link to="/support/notice/list" className="item depth-menu">
+                      <Link
+                        to="/support/notice/list"
+                        className="item depth-menu"
+                      >
                         <i className="ico menu-notice"></i>
                         <span>공지사항</span>
-                        {state?.loginFlag && axioData?.is_new && <i className="ico new">N</i>}
+                        {state?.loginFlag && axioData?.is_new && (
+                          <i className="ico new">N</i>
+                        )}
                       </Link>
                     </li>
                     <li>
@@ -190,7 +218,10 @@ export default function Menu() {
                       </Link>
                     </li>
                     <li>
-                      <a onClick={() => handleOutLink()} className="item depth-menu outLink">
+                      <a
+                        onClick={() => handleOutLink()}
+                        className="item depth-menu outLink"
+                      >
                         <i className="ico menu-website"></i>
                         <span>달콤 웹사이트</span>
                       </a>
@@ -245,7 +276,9 @@ export default function Menu() {
                 <div className="item card membership">
                   <div className="card-wrap">
                     <div>
-                      <p className="grade en">{axioData?.res3_data?.membership_name}</p>
+                      <p className="grade en">
+                        {axioData?.res3_data?.membership_name}
+                      </p>
                       <p className="sort en">
                         DAL.KOMM
                         <br />
@@ -260,7 +293,9 @@ export default function Menu() {
                         {/* <div className="img-wrap">
                           <img src="/@resource/images/com/barcode.svg" alt="바코드" />
                         </div> */}
-                        <p className="num">{axioData?.res3_data?.stamp_card_number}</p>
+                        <p className="num">
+                          {axioData?.res3_data?.stamp_card_number}
+                        </p>
                       </div>
                     </div>
                   </div>
