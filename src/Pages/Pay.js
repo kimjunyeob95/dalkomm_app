@@ -27,7 +27,9 @@ export default function Pay() {
   const [state, dispatch] = useContext(authContext);
   const [axioData, setData] = useState();
   const [cardPopup, setCard] = useState(false);
-  const [activeHtml, setActive] = useState(getParameter("activeHtml") !== "" ? true : false);
+  const [activeHtml, setActive] = useState(
+    getParameter("activeHtml") !== "" ? true : false
+  );
   const history = useHistory();
 
   const body = {};
@@ -41,8 +43,16 @@ export default function Pay() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     axios
       .all([
-        axios.post(`${SERVER_DALKOMM}/app/api/v2/membership`, body, header_config),
-        axios.post(`${SERVER_DALKOMM}/app/api/v2/chargecard/list`, body, header_config),
+        axios.post(
+          `${SERVER_DALKOMM}/app/api/v2/membership`,
+          body,
+          header_config
+        ),
+        axios.post(
+          `${SERVER_DALKOMM}/app/api/v2/chargecard/list`,
+          body,
+          header_config
+        ),
       ])
       .then(
         axios.spread((res1, res2) => {
@@ -56,10 +66,26 @@ export default function Pay() {
             };
           });
           // fadeInOut();
-          window.$("#barcode").barcode(res1_data?.stamp_card_number, "code128", { barWidth: 2, barHeight: 50, fontSize: 20 });
-          window.$("#barcode1_2").barcode(res1_data?.stamp_card_number, "code128", { barWidth: 2, barHeight: 50, fontSize: 20 });
+          window
+            .$("#barcode")
+            .barcode(res1_data?.stamp_card_number, "code128", {
+              barWidth: 2,
+              barHeight: 50,
+              fontSize: 20,
+            });
+          window
+            .$("#barcode1_2")
+            .barcode(res1_data?.stamp_card_number, "code128", {
+              barWidth: 2,
+              barHeight: 50,
+              fontSize: 20,
+            });
           res2?.data?.data?.charge_card_list?.map((e, i) => {
-            window.$(`#barcode${i + 1}`).barcode(e?.card_number, "code128", { barWidth: 2, barHeight: 50, fontSize: 20 });
+            window.$(`#barcode${i + 1}`).barcode(e?.card_number, "code128", {
+              barWidth: 2,
+              barHeight: 50,
+              fontSize: 20,
+            });
           });
 
           if (activeHtml) {
@@ -78,7 +104,11 @@ export default function Pay() {
   const handleCard = (event, cardNum) => {
     let targetBarcode = $(event).prev().children(".react-barcode").html();
     $("#barcode2_gift").html(targetBarcode);
-    setCard(axioData?.res2_data?.charge_card_list?.filter((e, i) => e.card_number === cardNum)[0]);
+    setCard(
+      axioData?.res2_data?.charge_card_list?.filter(
+        (e, i) => e.card_number === cardNum
+      )[0]
+    );
   };
 
   const handleGiftDetail = (event) => {
@@ -90,21 +120,31 @@ export default function Pay() {
     let giftCode = $("#payGift .swiper-slide-active").data("cardnum");
     history.push(`/mypage/giftCharge/${giftCode}`);
   };
-  console.log(axioData);
+
   if (axioData) {
     return (
       <React.Fragment>
         <GoContents />
         <div id="wrap" className="wrap">
           <div id="container" className="container">
-            <HeaderSub type="flexCenter" title="페이" icon="gift" payHeader={true} location="/mypage/giftSend" />
+            <HeaderSub
+              type="flexCenter"
+              title="페이"
+              icon="gift"
+              payHeader={true}
+              location="/mypage/giftSend"
+            />
 
             <Nav order={2} />
 
             <div id="content" className="pay main">
               <ul className="tabs">
                 <li className="current" id="liMembership">
-                  <Link to="#" data-href="#payMembership" onClick={(e) => tabLink(e)}>
+                  <Link
+                    to="#"
+                    data-href="#payMembership"
+                    onClick={(e) => tabLink(e)}
+                  >
                     멤버십 카드
                   </Link>
                 </li>
@@ -121,8 +161,18 @@ export default function Pay() {
                                 .item.card.membership : 멤버십 카드
                                 .item.card.gift : 기프트 카드
                             */}
-                    <div className="card-wrap">
-                      <p className="grade en">{axioData?.res1_data?.membership_name}</p>
+                    {/* <div
+                      className="card-wrap"
+                    > */}
+                    <div
+                      className="card-wrap"
+                      style={{
+                        backgroundImage: `url(${axioData?.res1_data?.charge_card_image_url})`,
+                      }}
+                    >
+                      <p className="grade en">
+                        {axioData?.res1_data?.membership_name}
+                      </p>
                       <p className="sort en">
                         DAL.KOMM
                         <br />
@@ -135,16 +185,28 @@ export default function Pay() {
                         {/* <div className="img-wrap">
                           <img src="../@resource/images/com/barcode.svg" alt="바코드" />
                         </div> */}
-                        <p className="num">{axioData?.res1_data?.stamp_card_number}</p>
+                        <p className="num">
+                          {axioData?.res1_data?.stamp_card_number}
+                        </p>
                       </div>
-                      <button type="button" className="btn open-pop" pop-target="#zoomCardMembership" onClick={(e) => popupOpen(e.target)}>
-                        <i className="ico barcode-scan" pop-target="#zoomCardMembership">
+                      <button
+                        type="button"
+                        className="btn open-pop"
+                        pop-target="#zoomCardMembership"
+                        onClick={(e) => popupOpen(e.target)}
+                      >
+                        <i
+                          className="ico barcode-scan"
+                          pop-target="#zoomCardMembership"
+                        >
                           <span>바코드 확대</span>
                         </i>
                       </button>
                     </div>
                   </div>
-                  <button className="btn full medium light">멤버십 등급 소개</button>
+                  <button className="btn full medium light">
+                    멤버십 등급 소개
+                  </button>
                   <div className="item attention">
                     <dl>
                       <dt className="title">
@@ -153,9 +215,18 @@ export default function Pay() {
                       <dd className="text">
                         <ul className="attention-list">
                           <li>충전카드 10,000원 충전 시 마다 1개 적립</li>
-                          <li>테이블오더 또는 오프라인 매장에서 4천원 결제 시 마다 1개 적립</li>
-                          <li>등급 조건이 충족되었을 경우, 익일 9시에 등급 변경이 진행됩니다.</li>
-                          <li>등급 변경으로 인해 사용된 트로피는 보유 트로피에서 차감됩니다.</li>
+                          <li>
+                            테이블오더 또는 오프라인 매장에서 4천원 결제 시 마다
+                            1개 적립
+                          </li>
+                          <li>
+                            등급 조건이 충족되었을 경우, 익일 9시에 등급 변경이
+                            진행됩니다.
+                          </li>
+                          <li>
+                            등급 변경으로 인해 사용된 트로피는 보유 트로피에서
+                            차감됩니다.
+                          </li>
                         </ul>
                       </dd>
                     </dl>
@@ -174,11 +245,23 @@ export default function Pay() {
                   >
                     <ul className="swiper-wrapper">
                       {axioData?.res2_data?.charge_card_list?.map((e, i) => (
-                        <SwiperSlide className="swiper-slide" key={i} data-cardnum={e?.card_number} data-pin={e?.pin_number}>
-                          <h2>{axioData?.res1_data?.user_name}님의 기프트카드</h2>
+                        <SwiperSlide
+                          className="swiper-slide"
+                          key={i}
+                          data-cardnum={e?.card_number}
+                          data-pin={e?.pin_number}
+                        >
+                          <h2>
+                            {axioData?.res1_data?.user_name}님의 기프트카드
+                          </h2>
                           <div className="item card gift">
-                            <div className="card-wrap">
-                              {/* <div className="card-wrap" style={{ backgroundImage: `url(${e?.card_image_url})` }}> */}
+                            {/* <div className="card-wrap"> */}
+                            <div
+                              className="card-wrap"
+                              style={{
+                                backgroundImage: `url(${e?.card_image_url})`,
+                              }}
+                            >
                               <p className="grade en">
                                 RECHARGEABLE
                                 <br />
@@ -188,22 +271,33 @@ export default function Pay() {
                             </div>
                             <div className="barcode-wrap">
                               <div className="barcode">
-                                <div id={`barcode${i + 1}`} className="react-barcode"></div>
+                                <div
+                                  id={`barcode${i + 1}`}
+                                  className="react-barcode"
+                                ></div>
                                 {/* <div className="img-wrap">
                                   <img src="../@resource/images/com/barcode.svg" alt="바코드" />
                                 </div> */}
-                                <p className="num">{e?.card_number.toLocaleString("ko-KR")}</p>
+                                <p className="num">
+                                  {e?.card_number.toLocaleString("ko-KR")}
+                                </p>
                               </div>
                               <button
                                 type="button"
                                 className="btn open-pop"
                                 pop-target="#zoomCardGift"
                                 onClick={(event) => {
-                                  handleCard(event.currentTarget, e?.card_number);
+                                  handleCard(
+                                    event.currentTarget,
+                                    e?.card_number
+                                  );
                                   popupOpen(event.target);
                                 }}
                               >
-                                <i className="ico barcode-scan" pop-target="#zoomCardGift">
+                                <i
+                                  className="ico barcode-scan"
+                                  pop-target="#zoomCardGift"
+                                >
                                   <span>바코드 확대</span>
                                 </i>
                               </button>
@@ -211,9 +305,16 @@ export default function Pay() {
                             <div className="state-wrap flex-both">
                               <dl className="possess flex-list">
                                 <dt className="title">보유 금액</dt>
-                                <dd className="price fc-orange">{e?.amount.toLocaleString("ko-KR")}원</dd>
+                                <dd className="price fc-orange">
+                                  {e?.amount.toLocaleString("ko-KR")}원
+                                </dd>
                               </dl>
-                              <a onClick={(event) => handleGiftCharge(event.currentTarget)} className="btn">
+                              <a
+                                onClick={(event) =>
+                                  handleGiftCharge(event.currentTarget)
+                                }
+                                className="btn"
+                              >
                                 <i className="ico money">
                                   <span>충전하기</span>
                                 </i>
@@ -229,12 +330,20 @@ export default function Pay() {
 
                   <ul className="row-list flex-center">
                     <li>
-                      <a onClick={(event) => handleGiftDetail(event.currentTarget)}>
+                      <a
+                        onClick={(event) =>
+                          handleGiftDetail(event.currentTarget)
+                        }
+                      >
                         <i className="ico recipt"></i>사용내역
                       </a>
                     </li>
                     <li>
-                      <a className="open-pop" data-href="#popupExitJoin" onClick={(e) => popupOpen(e.target)}>
+                      <a
+                        className="open-pop"
+                        data-href="#popupExitJoin"
+                        onClick={(e) => popupOpen(e.target)}
+                      >
                         카드삭제
                       </a>
                     </li>
@@ -261,7 +370,9 @@ export default function Pay() {
               <div className="item card membership">
                 <div className="card-wrap">
                   <div>
-                    <p className="grade en">{axioData?.res1_data?.membership_name}</p>
+                    <p className="grade en">
+                      {axioData?.res1_data?.membership_name}
+                    </p>
                     <p className="sort en">
                       DAL.KOMM
                       <br />
@@ -276,7 +387,9 @@ export default function Pay() {
                       {/* <div className="img-wrap">
                         <img src="../@resource/images/com/barcode.svg" alt="바코드" />
                       </div> */}
-                      <p className="num">{axioData?.res1_data?.stamp_card_number}</p>
+                      <p className="num">
+                        {axioData?.res1_data?.stamp_card_number}
+                      </p>
                     </div>
                   </div>
                 </div>

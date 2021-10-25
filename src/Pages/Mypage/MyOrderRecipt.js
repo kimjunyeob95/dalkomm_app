@@ -2,6 +2,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 // eslint-disable-next-line no-unused-vars
 import axios from "axios";
+import $ from "jquery";
 import React, { useEffect, useState, useContext } from "react";
 
 import { SERVER_DALKOMM } from "Config/Server";
@@ -15,25 +16,65 @@ import { authContext } from "ContextApi/Context";
 export default function MyOrderRecipt() {
   const [state] = useContext(authContext);
   const [axioData, setData] = useState({});
+  const header_config = {
+    headers: {
+      "X-dalkomm-access-token": state?.accessToken,
+      Authorization: state?.auth,
+    },
+  };
   useEffect(() => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    contGap();
-    const header_config = {
-      headers: {
-        "X-dalkomm-access-token": state?.accessToken,
-        Authorization: state?.auth,
-      },
-    };
-    // axios
-    //   .get(`${SERVER_DALKOMM}/app/api/v2/smartorder/orderinfo`, header_config)
-    //   .then((res) => {
-    //     console.log(res);
-    //     setData(res.data.data);
-    //   });
+    axios
+      .all([
+        axios.post(
+          `${SERVER_DALKOMM}/app/api/v2/smartorder/orderinfo/list`,
+          { page: 1, duration: "w" },
+          header_config
+        ),
+      ])
+      .then(
+        axios.spread((res1) => {
+          let res1_data = res1.data.data;
+
+          setData((origin) => {
+            return {
+              ...origin,
+              res1_data,
+            };
+          });
+        })
+      );
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [state?.auth]);
 
+  useEffect(() => {
+    contGap();
+  }, [axioData]);
+
+  const handleDuration = () => {
+    let duration = $("#select-duration").val();
+    axios
+      .all([
+        axios.post(
+          `${SERVER_DALKOMM}/app/api/v2/smartorder/orderinfo/list`,
+          { page: 1, duration: duration },
+          header_config
+        ),
+      ])
+      .then(
+        axios.spread((res1) => {
+          let res1_data = res1.data.data;
+
+          setData((origin) => {
+            return {
+              ...origin,
+              res1_data,
+            };
+          });
+        })
+      );
+  };
   return (
     <React.Fragment>
       <GoContents />
@@ -44,90 +85,72 @@ export default function MyOrderRecipt() {
 
           <div id="content" className="mypage order">
             <div className="sorting-wrap w-inner flex-end">
-              <select className="select medium" name="" id="">
-                <option value="">1주일 이내</option>
-                <option value="">2주일 이내</option>
+              <select
+                className="select medium"
+                name=""
+                id="select-duration"
+                onChange={() => handleDuration()}
+              >
+                <option value="w">1주일 이내</option>
+                <option value="m">1개월 이내</option>
+                <option value="y">1년 이내</option>
               </select>
             </div>
 
             <ul className="order-list data-list">
-              <li>
-                <div className="item order making">
-                  {/*
+              {axioData?.res1_data?.result?.map((e, i) => (
+                <li key={i}>
+                  <div
+                    className={`item order ${
+                      e?.orderinfo_status === 2
+                        ? "making"
+                        : e?.orderinfo_status === 3
+                        ? "making"
+                        : e?.orderinfo_status === 4
+                        ? "complete"
+                        : e?.orderinfo_status === 5
+                        ? "cancel"
+                        : ""
+                    }`}
+                  >
+                    {/*
 								.item.order.making  : 제조중
 								.item.order.complete: 제조완료
 								.item.order.cancel  : 취소
 							*/}
-                  <div className="img-wrap">
-                    <img
-                      src="/@resource/images/@temp/product_04.jpg"
-                      alt="딸기 스무디"
-                    />
-                  </div>
-                  <div className="detail-wrap">
-                    <div className="order-info">
-                      <div className="flex-both">
-                        <p className="title">딸기 스무디 외 1잔</p>
-                        <p className="location">분당서현점</p>
+                    <div className="img-wrap">
+                      <img
+                        src="/@resource/images/@temp/product_04.jpg"
+                        alt={e?.menu_name_with_count}
+                      />
+                    </div>
+                    <div className="detail-wrap">
+                      <div className="order-info">
+                        <div className="flex-both">
+                          <p className="title">{e?.menu_name_with_count}</p>
+                          <p className="location">{e?.orderinfo_store_name}</p>
+                        </div>
+                        <p className="info">
+                          <span className="en">{e?.orderinfo_orderdate}</span>
+                        </p>
                       </div>
-                      <p className="info">
-                        <span className="en">2021-07-10 16:57</span>
-                      </p>
-                    </div>
-                    <div className="status-info">
-                      <p className="status">제조 중</p>
-                    </div>
-                  </div>
-                </div>
-              </li>
-              <li>
-                <div className="item order complete">
-                  <div className="img-wrap">
-                    <img
-                      src="/@resource/images/@temp/product_04.jpg"
-                      alt="딸기 스무디"
-                    />
-                  </div>
-                  <div className="detail-wrap">
-                    <div className="order-info">
-                      <div className="flex-both">
-                        <p className="title">딸기 스무디 외 1잔</p>
-                        <p className="location">분당서현점</p>
+                      <div className="status-info">
+                        <p className="status">
+                          {e?.orderinfo_status === 2
+                            ? "주문접수"
+                            : e?.orderinfo_status === 3
+                            ? "제조중"
+                            : e?.orderinfo_status === 4
+                            ? "제조완료"
+                            : e?.orderinfo_status === 5
+                            ? "취소"
+                            : ""}
+                        </p>
                       </div>
-                      <p className="info">
-                        <span className="en">2021-07-10 16:57</span>
-                      </p>
-                    </div>
-                    <div className="status-info">
-                      <p className="status">제조 완료</p>
                     </div>
                   </div>
-                </div>
-              </li>
-              <li>
-                <div className="item order cancel">
-                  <div className="img-wrap">
-                    <img
-                      src="/@resource/images/@temp/product_04.jpg"
-                      alt="딸기 스무디"
-                    />
-                  </div>
-                  <div className="detail-wrap">
-                    <div className="order-info">
-                      <div className="flex-both">
-                        <p className="title">딸기 스무디 외 1잔</p>
-                        <p className="location">분당서현점</p>
-                      </div>
-                      <p className="info">
-                        <span className="en">2021-07-10 16:57</span>
-                      </p>
-                    </div>
-                    <div className="status-info">
-                      <p className="status">취소</p>
-                    </div>
-                  </div>
-                </div>
-              </li>
+                </li>
+              ))}
             </ul>
           </div>
           {/* // #content */}

@@ -80,6 +80,8 @@ export default function OrderDetail() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [axioData]);
 
+  console.log(axioData);
+
   function getMenuObj() {
     let add_obj = {
       menu_code: String(orderCode),
