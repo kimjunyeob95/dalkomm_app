@@ -59,7 +59,8 @@ export default function OrderDetail() {
         axios.spread((res1) => {
           let res1_data = res1.data.data;
           if (res1_data?.menu?.status !== 1) {
-            alert("메뉴 상세정보만 보이는 데이터입니다.");
+            alert("결품 상품입니다. 테이블 오더가 불가능 합니다.");
+            history.goBack();
           }
           setData((origin) => {
             return {
@@ -89,8 +90,12 @@ export default function OrderDetail() {
       quantity: Number($("#orderCount").val()),
       price: Number($("#totalPrice").data("allprice")),
       size: String($('input[name="orderSize"]:checked').val()),
-      cup: String($('input[name="orderCup"]:checked').val()),
-      menu_type: String($('input[name="orderType"]:checked').val()),
+      cup: $('input[name="orderCup"]:checked').val()
+        ? String($('input[name="orderCup"]:checked').val())
+        : "",
+      menu_type: $('input[name="orderType"]:checked').val()
+        ? String($('input[name="orderType"]:checked').val())
+        : "",
       coffee_bean: "",
       add_espresso_shot: $('input[name="shot"]').val()
         ? Number($('input[name="shot"]').val())

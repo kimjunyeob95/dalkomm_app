@@ -218,7 +218,6 @@ export function Main(props) {
         })
       );
   };
-  console.log(axioData);
   //axios 반환 시
   if (axioData?.res1_data?.main_banner_list) {
     // return (
@@ -467,17 +466,23 @@ export function Main(props) {
                 >
                   <ul className="swiper-wrapper">
                     {axioData?.res7_data?.result?.map((element, index) => (
-                      <SwiperSlide className="swiper-slide">
+                      <SwiperSlide className="swiper-slide" key={index}>
                         <div className="item menu">
                           <div className="img-wrap">
                             <img
-                              src="/@resource/images/@temp/product_01.jpg"
+                              src={
+                                element?.menu_with_type === "I"
+                                  ? element?.menu_with_ice_img
+                                  : element?.menu_with_hot_img
+                              }
                               alt="아메리카노 ICE (R)"
                             />
                           </div>
                           <div className="detail-wrap">
                             <p className="title">
-                              {element?.menu_name_with_count} ICE (R)
+                              {element?.menu_name_with_count}{" "}
+                              {element?.menu_with_type === "I" ? "ICE" : "HOT"}{" "}
+                              ({element?.menu_with_size})
                             </p>
                           </div>
                         </div>

@@ -7,7 +7,7 @@ import $ from "jquery";
 import React, { useEffect, useContext, useState } from "react";
 import { Link, useParams, useHistory } from "react-router-dom";
 
-import HeaderSub2 from "Components/Header/HeaderSub2";
+import HeaderSub from "Components/Header/HeaderSub";
 import Nav from "Components/Nav/Nav";
 import GoContents from "Components/GoContents";
 import { contGap, moveScrollTop, tabLink, fadeInOut } from "Jquery/Jquery";
@@ -31,32 +31,32 @@ export default function OrderFavorite() {
     },
   };
 
+  const axiosFn = () => {
+    axios
+      .all([
+        axios.get(
+          `${SERVER_DALKOMM}/app/api/v2/favorite/menu/list`,
+          header_config
+        ),
+      ])
+      .then(
+        axios.spread((res1) => {
+          let res1_data = res1.data.data;
+          setData((origin) => {
+            return {
+              ...origin,
+              res1_data,
+            };
+          });
+        })
+      );
+  };
+
   useEffect(() => {
     // 말풍선 스크롤시 hide/show
     // eslint-disable-next-line react-hooks/exhaustive-deps
     if (state.auth !== "") {
-      axios
-        .all([
-          axios.post(`${SERVER_DALKOMM}/app/api/v2/menu/category_info`, body, header_config),
-          axios.post(`${SERVER_DALKOMM}/app/api/v2/menu/search`, { category_id: 0, store_code: storeCode }, header_config),
-          axios.post(`${SERVER_DALKOMM}/app/api/v2/store/${storeCode}`, {}, header_config),
-        ])
-        .then(
-          axios.spread((res1, res2, res3) => {
-            let res1_data = res1.data.data;
-            let all_menu = res2.data.data;
-            let res2_data = res3.data.data;
-            setData((origin) => {
-              return {
-                ...origin,
-                res1_data,
-                all_menu,
-                res2_data,
-              };
-            });
-            // fadeInOut();
-          })
-        );
+      axiosFn();
     }
   }, [state?.auth]);
 
@@ -64,29 +64,34 @@ export default function OrderFavorite() {
     contGap();
   }, [axioData]);
 
-  const jqueryTablink = (e) => {
-    tabLink(e);
-    let data_category = $(e.target).data("category") === "" ? 0 : $(e.target).data("category");
-    axios.all([axios.post(`${SERVER_DALKOMM}/app/api/v2/menu/search`, { category_id: data_category }, header_config)]).then(
-      axios.spread((res1) => {
-        let all_menu = res1.data.data;
-        setData((origin) => {
-          return {
-            ...origin,
-            all_menu,
-          };
-        });
-      })
-    );
-  };
-  const handleDetail = (e, menucode) => {
-    if (axioData?.res2_data?.store_is_smartorder) {
-      history.push(`/order/detail/${storeCode}/${menucode}`);
+  const handleRemove = () => {
+    let chk_array = [];
+    $(".favorite-chk:checked").each(function (i, e) {
+      chk_array.push(Number($(e).attr("seqno")));
+    });
+    if (chk_array.length > 0) {
+      axios
+        .all([
+          axios.post(
+            `${SERVER_DALKOMM}/app/api/v2/favorite/menu/delete`,
+            { favorite_seq_list: chk_array },
+            header_config
+          ),
+        ])
+        .then(
+          axios.spread((res1) => {
+            if (res1.data.meta.code === 20000) {
+              alert("해당 메뉴가 즐겨찾기에 삭제되었습니다.");
+              $("#drinkDelete").removeClass("active");
+              $("body").removeClass("modal-opened");
+              axiosFn();
+            }
+          })
+        );
     } else {
-      alert("테이블오더가 불가능한 매장입니다.");
+      alert("삭제할 메뉴를 선택해주세요.");
     }
   };
-
   if (axioData?.res1_data) {
     return (
       <React.Fragment>
@@ -94,98 +99,145 @@ export default function OrderFavorite() {
 
         <div id="wrap" className="wrap">
           <div id="container" className="container">
-            <HeaderSub2
-              title="메뉴선택"
-              icon="search-s"
-              icon2="cart"
-              location={`/order/menuSearch/${storeCode}`}
-              location2={`/mypage/cart/${storeCode}`}
+            <HeaderSub
+              title="즐겨찾는 메뉴"
+              headerPopup={true}
+              popTarget={true}
             />
 
-            <Nav order={3} />
+            <div id="content" className="mypage order bookmark">
+              <ul className="order-list data-list">
+                {axioData?.res1_data?.favorite_list?.map((e, i) => (
+                  <li key={i}>
+                    <div className="item order">
+                      <div className="item order">
+                        <div className="img-wrap">
+                          <img
+                            src={
+                              e?.type === "I"
+                                ? e?.thumbnail_image_ice_simple
+                                : e?.thumbnail_image_hot_simple
+                            }
+                            alt={e?.name_kor}
+                          />
+                        </div>
+                        <div className="detail-wrap">
+                          <div className="order-info">
+                            <p className="title">{e?.name_kor}</p>
+                            <p className="info">
+                              <span className="en">
+                                {e?.type === "I" ? "ICE" : "HOT"}
+                              </span>
+                              <span className="en">
+                                {e?.size === "R"
+                                  ? "Regular"
+                                  : e?.size === "L"
+                                  ? "Large"
+                                  : e?.size === "B"
+                                  ? "Big"
+                                  : ""}
+                              </span>
+                              <span>
+                                {e?.cup === "I"
+                                  ? "일회용 컵"
+                                  : e?.cup === "M"
+                                  ? "매장용 컵"
+                                  : e?.cup === "P"
+                                  ? "개인컵"
+                                  : ""}
+                              </span>
+                            </p>
+                            <p className="option flex-both">
+                              <span>
+                                <em className="en">Option :</em>샷 추가
+                              </span>
+                              <span>
+                                <em>횟수 :</em>1
+                              </span>
+                            </p>
+                          </div>
+                          <div className="price-wrap flex-both">
+                            <p className="price fc-orange">
+                              {(e.price + e.option_price).toLocaleString(
+                                "ko-KR"
+                              )}
+                              원
+                            </p>
+                          </div>
+                          <div className="check-wrap">
+                            <input
+                              type="checkbox"
+                              className="checkbox favorite-chk"
+                              smartorder_menu_id={e?.fk_smartorder_menu_id}
+                              seqno={e?.seqno}
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </li>
+                ))}
+              </ul>
 
-            <div id="content" className="drink list">
-              <div className="store-search-wrap w-inner">
-                <div className="item store-search">
-                  <div className="flex-both">
-                    <dl className="detail-wrap flex-start">
-                      <dt className="title">선택매장</dt>
-                      <dd className="place">{axioData?.res2_data?.store_name}</dd>
-                    </dl>
-                    <Link to="/order" className="btn">
-                      변경
-                    </Link>
+              {/* 신규 쿠폰 추가 버튼 영역 */}
+              <div className="fixed-con active">
+                <div className="popup">
+                  <div className="popup-wrap">
+                    <div className="btn-area col-2">
+                      <a href="TO005.html" className="btn x-large light-g">
+                        장바구니 담기
+                      </a>
+                      <a
+                        href="TO006.html"
+                        className="btn x-large dark btn-close"
+                      >
+                        주문하기
+                      </a>
+                    </div>
                   </div>
                 </div>
               </div>
-
-              <Swiper
-                id="moduleTab"
-                className="swiper-container tab-wrap w-inner"
-                slidesPerView={"auto"}
-                freeMode={true}
-                setWrapperSize={true}
-                watchSlidesVisibility={true}
-                watchSlidesProgress={true}
-                initialSlide={0}
-              >
-                <ul className="swiper-wrapper tabs" slot="container-start">
-                  <li className="swiper-slide active">
-                    <Link to="#" onClick={(e) => jqueryTablink(e)} data-category="">
-                      메뉴 전체
-                    </Link>
-                  </li>{" "}
-                  {/* [D] 현재 탭 .active 활성화 */}
-                  {axioData?.res1_data?.category_info_list?.map((e, i) => {
-                    return (
-                      <li className="swiper-slide" key={i}>
-                        <Link to="#" onClick={(e) => jqueryTablink(e)} data-category={e?.category_id}>
-                          {e?.category_name}
-                        </Link>
-                      </li>
-                    );
-                  })}
-                </ul>
-              </Swiper>
-
-              {/* 즐겨찾는 매장 */}
-              <section className="section">
-                <ul className="data-list col-2">
-                  {axioData?.all_menu?.searched_menu_list?.map((e, i) => {
-                    return (
-                      <li key={i}>
-                        <a onClick={(event) => handleDetail(event, e?.code)} className="item menu">
-                          {/* 메뉴 .bagde.round 타입 
-                                    .bagde.round.new : NEW
-                                    .bagde.round.pick : PICK
-                                */}
-                          {e.icon.split(",").indexOf("N") > -1 && <span className="badge round new">NEW</span>}
-                          <div className="img-wrap">
-                            <img src={e.thumbnail_image_url} alt={e.name_kor} />
-                          </div>
-                          <div className="detail-wrap">
-                            <p className="title">
-                              {e.name_kor}
-                              <span className="en">{e.name_eng}</span>
-                            </p>
-                            <p className="price">{e.price}원</p>
-                          </div>
-                        </a>
-                      </li>
-                    );
-                  })}
-                </ul>
-                <Link className="btn my-bookmark" to={`/order/favorite/${storeCode}`}>
-                  <i className="ico heart">
-                    <span className="blind">즐겨찾기 메뉴</span>
-                  </i>
-                </Link>
-              </section>
-              {/* //즐겨찾는 매장 */}
-
-              <button type="button" id="moveScrollTop" className="btn scroll-top" onClick={() => moveScrollTop()}>
-                <i className="ico arr-top"></i>
-              </button>
+              {/* // 신규 쿠폰 추가 버튼 영역 */}
+              {/* 장바구니 메뉴 삭제 팝업 */}
+              <div id="drinkDelete" className="fixed-con layer-pop dimm">
+                <div className="popup">
+                  <div className="popup-wrap">
+                    <button type="button" className="btn btn-close">
+                      <i className="ico close">
+                        <span>close</span>
+                      </i>
+                    </button>
+                    <div className="popup-body">
+                      <div className="item message">
+                        <i className="ico alert-c">
+                          <span>알림</span>
+                        </i>
+                        <p className="text">
+                          선택 메뉴를 즐겨찾기에서
+                          <br />
+                          삭제하시겠습니까?
+                        </p>
+                      </div>
+                      <div className="btn-area col-2">
+                        <button
+                          type="reset"
+                          className="btn large normal"
+                          onClick={() => handleRemove()}
+                        >
+                          삭제하기
+                        </button>
+                        <button
+                          type="button"
+                          className="btn large light-g btn-close"
+                        >
+                          취소
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              {/* // 장바구니 메뉴 삭제 팝업 */}
             </div>
             {/* // #content */}
           </div>
