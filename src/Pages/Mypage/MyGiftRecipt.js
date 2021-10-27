@@ -35,18 +35,11 @@ export default function MyGiftRecipt() {
         Authorization: state?.auth,
       },
     };
+
     axios
       .all([
-        axios.post(
-          `${SERVER_DALKOMM}/app/api/v2/membership`,
-          body,
-          header_config
-        ),
-        axios.post(
-          `${SERVER_DALKOMM}/app/api/v2/chargecard/usage`,
-          { card_number: giftnum },
-          header_config
-        ),
+        axios.post(`${SERVER_DALKOMM}/app/api/v2/membership`, body, header_config),
+        axios.post(`${SERVER_DALKOMM}/app/api/v2/chargecard/usage`, { card_number: giftnum }, header_config),
       ])
       .then(
         axios.spread((res1, res2) => {
@@ -66,7 +59,6 @@ export default function MyGiftRecipt() {
   useEffect(() => {
     contGap();
   }, [axioData]);
-
   if (axioData) {
     return (
       <React.Fragment>
@@ -79,11 +71,9 @@ export default function MyGiftRecipt() {
               <section className="section">
                 {axioData?.res2_data?.usage_list?.length > 0 && (
                   <div className="w-inner">
-                    <p className="card-title">
-                      {axioData?.res1_data?.user_name}님의 기프트카드
-                    </p>
+                    <p className="card-title">{axioData?.res1_data?.user_name}님의 기프트카드</p>
                     <div className="item card gift">
-                      <div className="card-wrap">
+                      <div className="card-wrap" style={{ backgroundImage: `url(${axioData?.res1_data?.charge_card_image_url})` }}>
                         <p className="grade en">
                           RECHARGEABLE
                           <br />
@@ -93,10 +83,7 @@ export default function MyGiftRecipt() {
                       </div>
                     </div>
                     <p className="hold">
-                      보유금액{" "}
-                      <span>
-                        {axioData?.res2_data?.amount?.toLocaleString("ko-KR")}원
-                      </span>
+                      보유금액 <span>{axioData?.res2_data?.amount?.toLocaleString("ko-KR")}원</span>
                     </p>
                   </div>
                 )}
@@ -104,15 +91,7 @@ export default function MyGiftRecipt() {
                   <ul className="data-list">
                     {axioData?.res2_data?.usage_list?.map((element, index) => (
                       <li key={index}>
-                        <div
-                          className={`item history ${
-                            element?.type === 0
-                              ? "recharge"
-                              : element?.type === 1
-                              ? "use"
-                              : "cancel"
-                          }`}
-                        >
+                        <div className={`item history ${element?.type === 0 ? "recharge" : element?.type === 1 ? "use" : "cancel"}`}>
                           {/*
                                           .item.history.use     : 사용
                                           .item.history.recharge : 충전
@@ -141,9 +120,9 @@ export default function MyGiftRecipt() {
                               {element?.type === 0
                                 ? "+"
                                 : element?.type === 1
-                                ? "-"
+                                ? ""
                                 : element?.type === 2
-                                ? "-"
+                                ? ""
                                 : element?.type === 3
                                 ? "-"
                                 : element?.type === 4
@@ -164,9 +143,7 @@ export default function MyGiftRecipt() {
                   <i className="ico alert">
                     <span>알림</span>
                   </i>
-                  {axioData?.res2_data?.usage_list?.length > 0
-                    ? "최근 6개월의 사용내역을 조회할 수 있습니다."
-                    : "해당카드의 사용내역이 없습니다."}
+                  {axioData?.res2_data?.usage_list?.length > 0 ? "최근 6개월의 사용내역을 조회할 수 있습니다." : "해당카드의 사용내역이 없습니다."}
                 </p>
               </section>
             </div>

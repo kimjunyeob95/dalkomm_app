@@ -69,8 +69,6 @@ export default function OrderDetail() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [axioData]);
 
-  console.log(axioData);
-
   function getMenuObj() {
     let add_obj = {
       menu_code: String(orderCode),
@@ -130,7 +128,7 @@ export default function OrderDetail() {
   const handleResultText = (type, trigger) => {
     handleFrontSize(axioData?.res1_data?.menu, type, trigger);
     handleDefaultPrice(trigger);
-    handleOptionText(trigger);
+    handleOptionText(type, trigger);
     if (trigger === "타입선택") {
       $('input[name="orderSize"]').eq(0).click();
     }
@@ -436,12 +434,24 @@ export default function OrderDetail() {
       .attr("data-allprice", total_price);
   };
 
-  const handleOptionText = (trigger) => {
+  const handleOptionText = (type, trigger) => {
     let menu_type = $('input[name="orderType"]:checked').attr("text");
-    let menu_size =
-      trigger === "타입선택" || $('input[name="orderSize"]:checked').attr("text") === undefined
-        ? "Regular"
-        : $('input[name="orderSize"]:checked').attr("text");
+    let menu_size = "";
+    if (type === "처음") {
+      menu_size = axioData?.res1_data?.menu?.size;
+      if (axioData?.res1_data?.menu?.size === "ALL" || axioData?.res1_data?.menu?.size === "BOTH" || axioData?.res1_data?.menu?.size === "REGULAR") {
+        menu_size = "Regular";
+      } else if (axioData?.res1_data?.menu?.size === "LARGE") {
+        menu_size = "Large";
+      } else if (axioData?.res1_data?.menu?.size === "BIG") {
+        menu_size = "Big";
+      }
+    } else if (type === "중간") {
+      menu_size = $('input[name="orderSize"]:checked').attr("text") === undefined ? "Regular" : $('input[name="orderSize"]:checked').attr("text");
+      if (trigger === "타입선택") {
+        menu_size = "Regular";
+      }
+    }
     let menu_cup = $('input[name="orderCup"]:checked').attr("text");
 
     let option_array = [
@@ -571,7 +581,6 @@ export default function OrderDetail() {
       )
       .catch((res) => alert("관리자에 문의 바랍니다."));
   };
-
   if (axioData) {
     return (
       <React.Fragment>
@@ -664,113 +673,59 @@ export default function OrderDetail() {
                     </div>
 
                     <div className="w-inner">
-                      <div className="field">
-                        <span className="label en">Size</span>
-                        {frontData?.cupsize === "BOTH" ? (
-                          <div className="select-group col-2">
-                            <input
-                              type="radio"
-                              id="orderSize01"
-                              name="orderSize"
-                              value="R"
-                              text="Regular"
-                              defaultChecked={true}
-                              onClick={() => handleResultText("중간")}
-                            />
-                            <label htmlFor="orderSize01" className="btn bdr medium">
-                              <p className="text">
-                                <strong className="en">Regular</strong>
-                                {/* <span className="en">375ml</span> */}
-                              </p>
-                            </label>
-                            <input type="radio" id="orderSize02" name="orderSize" value="L" text="Large" onClick={() => handleResultText("중간")} />
-                            <label htmlFor="orderSize02" className="btn bdr medium">
-                              <p className="text">
-                                <strong className="en">Large</strong>
-                                {/* <span className="en">591ml</span> */}
-                              </p>
-                            </label>
-                          </div>
-                        ) : frontData?.cupsize === "ALL" ? (
-                          <div className="select-group col-3">
-                            <input
-                              type="radio"
-                              id="orderSize01"
-                              name="orderSize"
-                              value="R"
-                              text="Regular"
-                              defaultChecked={true}
-                              onClick={() => handleResultText("중간")}
-                            />
-                            <label htmlFor="orderSize01" className="btn bdr medium">
-                              <p className="text">
-                                <strong className="en">Regular</strong>
-                                {/* <span className="en">375ml</span> */}
-                              </p>
-                            </label>
-                            <input type="radio" id="orderSize02" name="orderSize" value="L" text="Large" onClick={() => handleResultText("중간")} />
-                            <label htmlFor="orderSize02" className="btn bdr medium">
-                              <p className="text">
-                                <strong className="en">Large</strong>
-                                {/* <span className="en">591ml</span> */}
-                              </p>
-                            </label>
-                            <input type="radio" id="orderSize03" name="orderSize" value="B" text="Big" onClick={() => handleResultText("중간")} />
-                            <label htmlFor="orderSize03" className="btn bdr medium">
-                              <p className="text">
-                                <strong className="en">Big</strong>
-                                {/* <span className="en">591ml</span> */}
-                              </p>
-                            </label>
-                          </div>
-                        ) : frontData?.cupsize === "LARGE" ? (
-                          <div className="select-group col-1">
-                            <input
-                              type="radio"
-                              defaultChecked={true}
-                              id="orderSize02"
-                              name="orderSize"
-                              value="L"
-                              text="Large"
-                              onClick={() => handleResultText("중간")}
-                            />
-                            <label htmlFor="orderSize02" className="btn bdr medium">
-                              <p className="text">
-                                <strong className="en">Large</strong>
-                                {/* <span className="en">591ml</span> */}
-                              </p>
-                            </label>
-                          </div>
-                        ) : frontData?.cupsize === "REGULAR" ? (
-                          <div className="select-group col-1">
-                            <input
-                              type="radio"
-                              id="orderSize01"
-                              name="orderSize"
-                              value="R"
-                              text="Regular"
-                              defaultChecked={true}
-                              onClick={() => handleResultText("중간")}
-                            />
-                            <label htmlFor="orderSize01" className="btn bdr medium">
-                              <p className="text">
-                                <strong className="en">Regular</strong>
-                                {/* <span className="en">375ml</span> */}
-                              </p>
-                            </label>
-                          </div>
-                        ) : (
-                          frontData?.cupsize === "BIG" && (
-                            <div className="select-group col-1">
+                      {axioData?.res1_data?.menu?.size !== null && (
+                        <div className="field">
+                          <span className="label en">Size</span>
+                          {frontData?.cupsize === "BOTH" ? (
+                            <div className="select-group col-2">
                               <input
                                 type="radio"
-                                id="orderSize03"
+                                id="orderSize01"
                                 name="orderSize"
-                                value="B"
-                                text="Big"
+                                value="R"
+                                text="Regular"
                                 defaultChecked={true}
                                 onClick={() => handleResultText("중간")}
                               />
+                              <label htmlFor="orderSize01" className="btn bdr medium">
+                                <p className="text">
+                                  <strong className="en">Regular</strong>
+                                  {/* <span className="en">375ml</span> */}
+                                </p>
+                              </label>
+                              <input type="radio" id="orderSize02" name="orderSize" value="L" text="Large" onClick={() => handleResultText("중간")} />
+                              <label htmlFor="orderSize02" className="btn bdr medium">
+                                <p className="text">
+                                  <strong className="en">Large</strong>
+                                  {/* <span className="en">591ml</span> */}
+                                </p>
+                              </label>
+                            </div>
+                          ) : frontData?.cupsize === "ALL" ? (
+                            <div className="select-group col-3">
+                              <input
+                                type="radio"
+                                id="orderSize01"
+                                name="orderSize"
+                                value="R"
+                                text="Regular"
+                                defaultChecked={true}
+                                onClick={() => handleResultText("중간")}
+                              />
+                              <label htmlFor="orderSize01" className="btn bdr medium">
+                                <p className="text">
+                                  <strong className="en">Regular</strong>
+                                  {/* <span className="en">375ml</span> */}
+                                </p>
+                              </label>
+                              <input type="radio" id="orderSize02" name="orderSize" value="L" text="Large" onClick={() => handleResultText("중간")} />
+                              <label htmlFor="orderSize02" className="btn bdr medium">
+                                <p className="text">
+                                  <strong className="en">Large</strong>
+                                  {/* <span className="en">591ml</span> */}
+                                </p>
+                              </label>
+                              <input type="radio" id="orderSize03" name="orderSize" value="B" text="Big" onClick={() => handleResultText("중간")} />
                               <label htmlFor="orderSize03" className="btn bdr medium">
                                 <p className="text">
                                   <strong className="en">Big</strong>
@@ -778,305 +733,381 @@ export default function OrderDetail() {
                                 </p>
                               </label>
                             </div>
-                          )
-                        )}
-                      </div>
-
-                      <div className="field">
-                        <span className="label en">Cup</span>
-                        {axioData?.res1_data?.menu?.cup === "ALL" ? (
-                          <div className="select-group col-3">
-                            <input
-                              type="radio"
-                              id="orderCup01"
-                              name="orderCup"
-                              value="M"
-                              text="매장용 컵"
-                              defaultChecked={true}
-                              onClick={() => handleResultText("중간")}
-                            />
-                            <label htmlFor="orderCup01" className="btn bdr medium">
-                              <strong>매장용</strong>
-                            </label>
-                            <input type="radio" id="orderCup02" name="orderCup" value="I" text="일회용 컵" onClick={() => handleResultText("중간")} />
-                            <label htmlFor="orderCup02" className="btn bdr medium">
-                              <strong>일회용</strong>
-                            </label>
-                            <input type="radio" id="orderCup03" name="orderCup" value="P" text="개인 컵" onClick={() => handleResultText("중간")} />
-                            <label htmlFor="orderCup03" className="btn bdr medium">
-                              <strong>개인</strong>
-                              <span className="speech-bubble small en">- 300 &#8361;</span>
-                            </label>
-                          </div>
-                        ) : axioData?.res1_data?.menu?.cup === "BOTH" ? (
-                          <div className="select-group col-2">
-                            <input
-                              type="radio"
-                              id="orderCup01"
-                              name="orderCup"
-                              value="M"
-                              text="매장용 컵"
-                              defaultChecked={true}
-                              onClick={() => handleResultText("중간")}
-                            />
-                            <label htmlFor="orderCup01" className="btn bdr medium">
-                              <strong>매장용</strong>
-                            </label>
-                            <input type="radio" id="orderCup02" name="orderCup" value="I" text="일회용 컵" onClick={() => handleResultText("중간")} />
-                            <label htmlFor="orderCup02" className="btn bdr medium">
-                              <strong>일회용</strong>
-                            </label>
-                          </div>
-                        ) : axioData?.res1_data?.menu?.cup === "MUG" ? (
-                          <div className="select-group col-1">
-                            <input
-                              type="radio"
-                              id="orderCup01"
-                              name="orderCup"
-                              value="M"
-                              text="매장용 컵"
-                              defaultChecked={true}
-                              onClick={() => handleResultText("중간")}
-                            />
-                            <label htmlFor="orderCup01" className="btn bdr medium">
-                              <strong>매장용</strong>
-                            </label>
-                          </div>
-                        ) : axioData?.res1_data?.menu?.cup === "INSTANT" ? (
-                          <div className="select-group col-1">
-                            <input
-                              defaultChecked={true}
-                              type="radio"
-                              id="orderCup02"
-                              name="orderCup"
-                              value="I"
-                              text="일회용 컵"
-                              onClick={() => handleResultText("중간")}
-                            />
-                            <label htmlFor="orderCup02" className="btn bdr medium">
-                              <strong>일회용</strong>
-                            </label>
-                          </div>
-                        ) : axioData?.res1_data?.menu?.cup === "PRIVATE" ? (
-                          <div className="select-group col-1">
-                            {" "}
-                            <input
-                              defaultChecked={true}
-                              type="radio"
-                              id="orderCup03"
-                              name="orderCup"
-                              value="P"
-                              text="개인 컵"
-                              onClick={() => handleResultText("중간")}
-                            />
-                            <label htmlFor="orderCup03" className="btn bdr medium">
-                              <strong>개인</strong>
-                              <span className="speech-bubble small en">- 300 &#8361;</span>
-                            </label>
-                          </div>
-                        ) : (
-                          ""
-                        )}
-                      </div>
-
-                      <div className="field">
-                        <span className="label en">Option</span>
-                        <ul className="data-list option-list">
-                          {axioData?.res1_data?.menu?.available_add_espresso_shot && (
-                            <li>
+                          ) : frontData?.cupsize === "LARGE" ? (
+                            <div className="select-group col-1">
+                              <input
+                                type="radio"
+                                defaultChecked={true}
+                                id="orderSize02"
+                                name="orderSize"
+                                value="L"
+                                text="Large"
+                                onClick={() => handleResultText("중간")}
+                              />
+                              <label htmlFor="orderSize02" className="btn bdr medium">
+                                <p className="text">
+                                  <strong className="en">Large</strong>
+                                  {/* <span className="en">591ml</span> */}
+                                </p>
+                              </label>
+                            </div>
+                          ) : frontData?.cupsize === "REGULAR" ? (
+                            <div className="select-group col-1">
+                              <input
+                                type="radio"
+                                id="orderSize01"
+                                name="orderSize"
+                                value="R"
+                                text="Regular"
+                                defaultChecked={true}
+                                onClick={() => handleResultText("중간")}
+                              />
+                              <label htmlFor="orderSize01" className="btn bdr medium">
+                                <p className="text">
+                                  <strong className="en">Regular</strong>
+                                  {/* <span className="en">375ml</span> */}
+                                </p>
+                              </label>
+                            </div>
+                          ) : (
+                            frontData?.cupsize === "BIG" && (
+                              <div className="select-group col-1">
+                                <input
+                                  type="radio"
+                                  id="orderSize03"
+                                  name="orderSize"
+                                  value="B"
+                                  text="Big"
+                                  defaultChecked={true}
+                                  onClick={() => handleResultText("중간")}
+                                />
+                                <label htmlFor="orderSize03" className="btn bdr medium">
+                                  <p className="text">
+                                    <strong className="en">Big</strong>
+                                    {/* <span className="en">591ml</span> */}
+                                  </p>
+                                </label>
+                              </div>
+                            )
+                          )}
+                        </div>
+                      )}
+                      {axioData?.res1_data?.menu?.cup !== null && (
+                        <div className="field">
+                          <span className="label en">Cup</span>
+                          {axioData?.res1_data?.menu?.cup === "ALL" ? (
+                            <div className="select-group col-3">
+                              <input
+                                type="radio"
+                                id="orderCup01"
+                                name="orderCup"
+                                value="M"
+                                text="매장용 컵"
+                                defaultChecked={true}
+                                onClick={() => handleResultText("중간")}
+                              />
+                              <label htmlFor="orderCup01" className="btn bdr medium">
+                                <strong>매장용</strong>
+                              </label>
+                              <input
+                                type="radio"
+                                id="orderCup02"
+                                name="orderCup"
+                                value="I"
+                                text="일회용 컵"
+                                onClick={() => handleResultText("중간")}
+                              />
+                              <label htmlFor="orderCup02" className="btn bdr medium">
+                                <strong>일회용</strong>
+                              </label>
+                              <input type="radio" id="orderCup03" name="orderCup" value="P" text="개인 컵" onClick={() => handleResultText("중간")} />
+                              <label htmlFor="orderCup03" className="btn bdr medium">
+                                <strong>개인</strong>
+                                <span className="speech-bubble small en">- 300 &#8361;</span>
+                              </label>
+                            </div>
+                          ) : axioData?.res1_data?.menu?.cup === "BOTH" ? (
+                            <div className="select-group col-2">
+                              <input
+                                type="radio"
+                                id="orderCup01"
+                                name="orderCup"
+                                value="M"
+                                text="매장용 컵"
+                                defaultChecked={true}
+                                onClick={() => handleResultText("중간")}
+                              />
+                              <label htmlFor="orderCup01" className="btn bdr medium">
+                                <strong>매장용</strong>
+                              </label>
+                              <input
+                                type="radio"
+                                id="orderCup02"
+                                name="orderCup"
+                                value="I"
+                                text="일회용 컵"
+                                onClick={() => handleResultText("중간")}
+                              />
+                              <label htmlFor="orderCup02" className="btn bdr medium">
+                                <strong>일회용</strong>
+                              </label>
+                            </div>
+                          ) : axioData?.res1_data?.menu?.cup === "MUG" ? (
+                            <div className="select-group col-1">
+                              <input
+                                type="radio"
+                                id="orderCup01"
+                                name="orderCup"
+                                value="M"
+                                text="매장용 컵"
+                                defaultChecked={true}
+                                onClick={() => handleResultText("중간")}
+                              />
+                              <label htmlFor="orderCup01" className="btn bdr medium">
+                                <strong>매장용</strong>
+                              </label>
+                            </div>
+                          ) : axioData?.res1_data?.menu?.cup === "INSTANT" ? (
+                            <div className="select-group col-1">
+                              <input
+                                defaultChecked={true}
+                                type="radio"
+                                id="orderCup02"
+                                name="orderCup"
+                                value="I"
+                                text="일회용 컵"
+                                onClick={() => handleResultText("중간")}
+                              />
+                              <label htmlFor="orderCup02" className="btn bdr medium">
+                                <strong>일회용</strong>
+                              </label>
+                            </div>
+                          ) : axioData?.res1_data?.menu?.cup === "PRIVATE" ? (
+                            <div className="select-group col-1">
                               {" "}
-                              {/* [D] 옵션 추가시 adding 클래스 활성화 */}
-                              <div className="item options">
-                                <label>샷 추가</label>
-                                <div className="amount-wrap">
-                                  <p className="uio-amount">
-                                    <button
-                                      type="button"
-                                      className="btn amount"
-                                      onClick={(event) => handleOption(event.currentTarget, "minus", "샷")}
-                                    >
-                                      <i className="ico decrease"></i>
-                                      <span className="blind">감소</span>
-                                    </button>
-                                    <input type="number" name="shot" text="샷" defaultValue={0} className="ea" disabled /> {/* [D] 디폴트 값 0 */}
-                                    <button type="button" className="btn amount" onClick={(event) => handleOption(event.currentTarget, "plus", "샷")}>
-                                      <i className="ico increase"></i>
-                                      <span className="blind">증가</span>
-                                    </button>
-                                  </p>
-                                  <span className="speech-bubble small en"> {/* [D] 수량 증가 시 금액 증가 */}+ 500 &#8361;</span>
-                                </div>
-                              </div>
-                            </li>
+                              <input
+                                defaultChecked={true}
+                                type="radio"
+                                id="orderCup03"
+                                name="orderCup"
+                                value="P"
+                                text="개인 컵"
+                                onClick={() => handleResultText("중간")}
+                              />
+                              <label htmlFor="orderCup03" className="btn bdr medium">
+                                <strong>개인</strong>
+                                <span className="speech-bubble small en">- 300 &#8361;</span>
+                              </label>
+                            </div>
+                          ) : (
+                            ""
                           )}
-                          {axioData?.res1_data?.menu?.available_add_hazelnut_syrup && (
-                            <li>
-                              <div className="item options">
-                                <label>헤이즐럿 시럽 추가</label>
-                                <div className="amount-wrap">
-                                  <p className="uio-amount">
-                                    <button
-                                      type="button"
-                                      className="btn amount"
-                                      onClick={(event) => handleOption(event.currentTarget, "minus", "헤이즐럿")}
-                                    >
-                                      <i className="ico decrease"></i>
-                                      <span className="blind">감소</span>
-                                    </button>
-                                    <input type="number" name="hazelnut" text="헤이즐럿 시럽" defaultValue={0} className="ea" disabled />{" "}
-                                    {/* [D] 디폴트 값 0 */}
-                                    <button
-                                      type="button"
-                                      className="btn amount"
-                                      onClick={(event) => handleOption(event.currentTarget, "plus", "헤이즐럿")}
-                                    >
-                                      <i className="ico increase"></i>
-                                      <span className="blind">증가</span>
-                                    </button>
-                                  </p>
-                                  <span className="speech-bubble small en"> {/* [D] 수량 증가 시 금액 증가 */}+ 500 &#8361;</span>
+                        </div>
+                      )}
+                      {axioData?.res1_data?.menu?.cup !== null && axioData?.res1_data?.menu?.size !== null && (
+                        <div className="field">
+                          <span className="label en">Option</span>
+                          <ul className="data-list option-list">
+                            {axioData?.res1_data?.menu?.available_add_espresso_shot && (
+                              <li>
+                                {" "}
+                                {/* [D] 옵션 추가시 adding 클래스 활성화 */}
+                                <div className="item options">
+                                  <label>샷 추가</label>
+                                  <div className="amount-wrap">
+                                    <p className="uio-amount">
+                                      <button
+                                        type="button"
+                                        className="btn amount"
+                                        onClick={(event) => handleOption(event.currentTarget, "minus", "샷")}
+                                      >
+                                        <i className="ico decrease"></i>
+                                        <span className="blind">감소</span>
+                                      </button>
+                                      <input type="number" name="shot" text="샷" defaultValue={0} className="ea" disabled /> {/* [D] 디폴트 값 0 */}
+                                      <button
+                                        type="button"
+                                        className="btn amount"
+                                        onClick={(event) => handleOption(event.currentTarget, "plus", "샷")}
+                                      >
+                                        <i className="ico increase"></i>
+                                        <span className="blind">증가</span>
+                                      </button>
+                                    </p>
+                                    <span className="speech-bubble small en"> {/* [D] 수량 증가 시 금액 증가 */}+ 500 &#8361;</span>
+                                  </div>
                                 </div>
-                              </div>
-                            </li>
-                          )}
-                          {axioData?.res1_data?.menu?.available_add_vanilla_syrup && (
-                            <li>
-                              <div className="item options">
-                                <label>바닐라 시럽 추가</label>
-                                <div className="amount-wrap">
-                                  <p className="uio-amount">
-                                    <button
-                                      type="button"
-                                      className="btn amount"
-                                      onClick={(event) => handleOption(event.currentTarget, "minus", "바닐라")}
-                                    >
-                                      <i className="ico decrease"></i>
-                                      <span className="blind">감소</span>
-                                    </button>
-                                    <input type="number" name="vanilla" text="바닐라 시럽" defaultValue={0} className="ea" disabled />{" "}
-                                    {/* [D] 디폴트 값 0 */}
-                                    <button
-                                      type="button"
-                                      className="btn amount"
-                                      onClick={(event) => handleOption(event.currentTarget, "plus", "바닐라")}
-                                    >
-                                      <i className="ico increase"></i>
-                                      <span className="blind">증가</span>
-                                    </button>
-                                  </p>
-                                  <span className="speech-bubble small en"> {/* [D] 수량 증가 시 금액 증가 */}+ 500 &#8361;</span>
+                              </li>
+                            )}
+                            {axioData?.res1_data?.menu?.available_add_hazelnut_syrup && (
+                              <li>
+                                <div className="item options">
+                                  <label>헤이즐럿 시럽 추가</label>
+                                  <div className="amount-wrap">
+                                    <p className="uio-amount">
+                                      <button
+                                        type="button"
+                                        className="btn amount"
+                                        onClick={(event) => handleOption(event.currentTarget, "minus", "헤이즐럿")}
+                                      >
+                                        <i className="ico decrease"></i>
+                                        <span className="blind">감소</span>
+                                      </button>
+                                      <input type="number" name="hazelnut" text="헤이즐럿 시럽" defaultValue={0} className="ea" disabled />{" "}
+                                      {/* [D] 디폴트 값 0 */}
+                                      <button
+                                        type="button"
+                                        className="btn amount"
+                                        onClick={(event) => handleOption(event.currentTarget, "plus", "헤이즐럿")}
+                                      >
+                                        <i className="ico increase"></i>
+                                        <span className="blind">증가</span>
+                                      </button>
+                                    </p>
+                                    <span className="speech-bubble small en"> {/* [D] 수량 증가 시 금액 증가 */}+ 500 &#8361;</span>
+                                  </div>
                                 </div>
-                              </div>
-                            </li>
-                          )}
-                          {axioData?.res1_data?.menu?.available_add_whipping_cream && (
-                            <li>
-                              <div className="item options">
-                                <label htmlFor="whippingCream">휘핑 크림</label>
-                                {/* [D] 211014 .amount-wrap 추가 */}
-                                <div className="amount-wrap">
-                                  <input
-                                    type="checkbox"
-                                    className="checkbox"
-                                    defaultChecked={false}
-                                    name="whippingCream"
-                                    id="whippingCream"
-                                    text="휘핑 크림"
-                                    onClick={(event) => handleOption(event.currentTarget, "휘핑크림", "휘핑크림")}
-                                  />
-                                  <span className="speech-bubble small en"> {/* [D] 수량 증가 시 금액 증가 */}+ 500 &#8361;</span>
+                              </li>
+                            )}
+                            {axioData?.res1_data?.menu?.available_add_vanilla_syrup && (
+                              <li>
+                                <div className="item options">
+                                  <label>바닐라 시럽 추가</label>
+                                  <div className="amount-wrap">
+                                    <p className="uio-amount">
+                                      <button
+                                        type="button"
+                                        className="btn amount"
+                                        onClick={(event) => handleOption(event.currentTarget, "minus", "바닐라")}
+                                      >
+                                        <i className="ico decrease"></i>
+                                        <span className="blind">감소</span>
+                                      </button>
+                                      <input type="number" name="vanilla" text="바닐라 시럽" defaultValue={0} className="ea" disabled />{" "}
+                                      {/* [D] 디폴트 값 0 */}
+                                      <button
+                                        type="button"
+                                        className="btn amount"
+                                        onClick={(event) => handleOption(event.currentTarget, "plus", "바닐라")}
+                                      >
+                                        <i className="ico increase"></i>
+                                        <span className="blind">증가</span>
+                                      </button>
+                                    </p>
+                                    <span className="speech-bubble small en"> {/* [D] 수량 증가 시 금액 증가 */}+ 500 &#8361;</span>
+                                  </div>
                                 </div>
-                                {/* // [D] 211014 .amount-wrap 추가 */}
-                              </div>
-                            </li>
-                          )}
-                          {axioData?.res1_data?.menu?.available_remove_whipping_cream && (
-                            <li>
-                              <div className="item options">
-                                <label htmlFor="whippingCream">휘핑 크림 제거</label>
-                                {/* [D] 211014 .amount-wrap 추가 */}
-                                <div className="amount-wrap">
-                                  <input
-                                    type="checkbox"
-                                    className="checkbox"
-                                    defaultChecked={false}
-                                    name="whippingCreamRemove"
-                                    id="whippingCreamRemove"
-                                    text="휘핑 크림 제거"
-                                    onClick={(event) => handleOption(event.currentTarget, "휘핑크림제거", "휘핑크림제거")}
-                                  />
-                                </div>
-                                {/* // [D] 211014 .amount-wrap 추가 */}
-                              </div>
-                            </li>
-                          )}
-                          {axioData?.res1_data?.menu?.available_control_honey && (
-                            <li>
-                              <div className="item options">
-                                <label htmlFor="whippingCream">꿀양</label>
-                                <div className="amount-wrap">
-                                  <div className="check-box">
-                                    <label htmlFor="amountRemove">제거</label>
+                              </li>
+                            )}
+                            {axioData?.res1_data?.menu?.available_add_whipping_cream && (
+                              <li>
+                                <div className="item options">
+                                  <label htmlFor="whippingCream">휘핑 크림</label>
+                                  {/* [D] 211014 .amount-wrap 추가 */}
+                                  <div className="amount-wrap">
                                     <input
-                                      type="radio"
+                                      type="checkbox"
+                                      className="checkbox"
                                       defaultChecked={false}
-                                      className="checkbox"
-                                      name="honey"
-                                      id="amountRemove"
-                                      text="꿀양"
-                                      data-text="꿀양 제거"
-                                      defaultValue={0}
-                                      onClick={(event) => handleOption(event.currentTarget, "꿀양")}
+                                      name="whippingCream"
+                                      id="whippingCream"
+                                      text="휘핑 크림"
+                                      onClick={(event) => handleOption(event.currentTarget, "휘핑크림", "휘핑크림")}
                                     />
+                                    <span className="speech-bubble small en"> {/* [D] 수량 증가 시 금액 증가 */}+ 500 &#8361;</span>
                                   </div>
-                                  <div className="check-box">
-                                    <label htmlFor="amountLittle">조금</label>
+                                  {/* // [D] 211014 .amount-wrap 추가 */}
+                                </div>
+                              </li>
+                            )}
+                            {axioData?.res1_data?.menu?.available_remove_whipping_cream && (
+                              <li>
+                                <div className="item options">
+                                  <label htmlFor="whippingCream">휘핑 크림 제거</label>
+                                  {/* [D] 211014 .amount-wrap 추가 */}
+                                  <div className="amount-wrap">
                                     <input
-                                      type="radio"
+                                      type="checkbox"
+                                      className="checkbox"
                                       defaultChecked={false}
-                                      className="checkbox"
-                                      name="honey"
-                                      id="amountLittle"
-                                      text="꿀양"
-                                      data-text="꿀양 조금"
-                                      defaultValue={1}
-                                      onClick={(event) => handleOption(event.currentTarget, "꿀양")}
+                                      name="whippingCreamRemove"
+                                      id="whippingCreamRemove"
+                                      text="휘핑 크림 제거"
+                                      onClick={(event) => handleOption(event.currentTarget, "휘핑크림제거", "휘핑크림제거")}
                                     />
                                   </div>
-                                  <div className="check-box">
-                                    <label htmlFor="amountNormal">보통</label>
-                                    <input
-                                      type="radio"
-                                      defaultChecked={true}
-                                      className="checkbox"
-                                      name="honey"
-                                      id="amountNormal"
-                                      text="꿀양"
-                                      data-text="꿀양 보통"
-                                      defaultValue={2}
-                                      onClick={(event) => handleOption(event.currentTarget, "꿀양")}
-                                    />
-                                  </div>
-                                  <div className="check-box">
-                                    <label htmlFor="amountAdd">많이</label>
-                                    <input
-                                      type="radio"
-                                      defaultChecked={false}
-                                      className="checkbox"
-                                      name="honey"
-                                      id="amountAdd"
-                                      text="꿀양"
-                                      data-text="꿀양 많이"
-                                      defaultValue={3}
-                                      onClick={(event) => handleOption(event.currentTarget, "꿀양")}
-                                    />
+                                  {/* // [D] 211014 .amount-wrap 추가 */}
+                                </div>
+                              </li>
+                            )}
+                            {axioData?.res1_data?.menu?.available_control_honey && (
+                              <li>
+                                <div className="item options">
+                                  <label htmlFor="whippingCream">꿀양</label>
+                                  <div className="amount-wrap">
+                                    <div className="check-box">
+                                      <label htmlFor="amountRemove">제거</label>
+                                      <input
+                                        type="radio"
+                                        defaultChecked={false}
+                                        className="checkbox"
+                                        name="honey"
+                                        id="amountRemove"
+                                        text="꿀양"
+                                        data-text="꿀양 제거"
+                                        defaultValue={0}
+                                        onClick={(event) => handleOption(event.currentTarget, "꿀양")}
+                                      />
+                                    </div>
+                                    <div className="check-box">
+                                      <label htmlFor="amountLittle">조금</label>
+                                      <input
+                                        type="radio"
+                                        defaultChecked={false}
+                                        className="checkbox"
+                                        name="honey"
+                                        id="amountLittle"
+                                        text="꿀양"
+                                        data-text="꿀양 조금"
+                                        defaultValue={1}
+                                        onClick={(event) => handleOption(event.currentTarget, "꿀양")}
+                                      />
+                                    </div>
+                                    <div className="check-box">
+                                      <label htmlFor="amountNormal">보통</label>
+                                      <input
+                                        type="radio"
+                                        defaultChecked={true}
+                                        className="checkbox"
+                                        name="honey"
+                                        id="amountNormal"
+                                        text="꿀양"
+                                        data-text="꿀양 보통"
+                                        defaultValue={2}
+                                        onClick={(event) => handleOption(event.currentTarget, "꿀양")}
+                                      />
+                                    </div>
+                                    <div className="check-box">
+                                      <label htmlFor="amountAdd">많이</label>
+                                      <input
+                                        type="radio"
+                                        defaultChecked={false}
+                                        className="checkbox"
+                                        name="honey"
+                                        id="amountAdd"
+                                        text="꿀양"
+                                        data-text="꿀양 많이"
+                                        defaultValue={3}
+                                        onClick={(event) => handleOption(event.currentTarget, "꿀양")}
+                                      />
+                                    </div>
                                   </div>
                                 </div>
-                              </div>
-                            </li>
-                          )}
-                        </ul>
-                      </div>
+                              </li>
+                            )}
+                          </ul>
+                        </div>
+                      )}
                     </div>
                   </fieldset>
                 </form>
@@ -1148,18 +1179,20 @@ export default function OrderDetail() {
                         </li>
 
                         {/* [D] 211013 li.option 수정 */}
-                        <li className="option">
-                          <div className="item info-order">
-                            <dl className="flex-both w-inner">
-                              <dt className="title en">Option</dt>
-                              <dd className="text option">
-                                <span className="en option menutype"></span>
-                                <span className="en option size"></span>
-                                <span className="option cup"></span>
-                              </dd>
-                            </dl>
-                          </div>
-                        </li>
+                        {axioData?.res1_data?.menu?.cup !== null && axioData?.res1_data?.menu?.size !== null && (
+                          <li className="option">
+                            <div className="item info-order">
+                              <dl className="flex-both w-inner">
+                                <dt className="title en">Option</dt>
+                                <dd className="text option">
+                                  <span className="en option menutype"></span>
+                                  <span className="en option size"></span>
+                                  <span className="option cup"></span>
+                                </dd>
+                              </dl>
+                            </div>
+                          </li>
+                        )}
                         {/* // [D] 211013 li.option 수정 */}
                       </ul>
                       <div className="item info-order">

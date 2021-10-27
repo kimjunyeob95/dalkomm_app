@@ -90,7 +90,7 @@ ReactDOM.render(
         <PrivateRoute path="/order/final/:smartOrderSeq">
           <OrderFinal />
         </PrivateRoute>
-        <PrivateRoute path="/order/membership">
+        <PrivateRoute path="/order/membership/:smartOrderSeq">
           <OrderMembership />
         </PrivateRoute>
 
