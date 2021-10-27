@@ -124,7 +124,8 @@ const ContextStore = (props) => {
       // indexInitialState.app_version = "3.0.0";
       // indexInitialState.os = "ios";
       // indexInitialState.isApp = "Y";
-      // indexInitialState.auth = "Basic ZGFsa29tbTpkYWxrb21tX2FwcDs3NWEzMjRkMTNkY2FjYjM1ZjhkODc0MjZjZDRjYjAyODExZTBkYTM1OzIwMjExMDA2MTEzOTU0";
+      // indexInitialState.auth =
+      //   "Basic ZGFsa29tbTpkYWxrb21tX2FwcDs3NWEzMjRkMTNkY2FjYjM1ZjhkODc0MjZjZDRjYjAyODExZTBkYTM1OzIwMjExMDA2MTEzOTU0";
       // indexInitialState.latitude = 37.507232666015625;
       // indexInitialState.longitude = 127.05642398540016;
       // indexInitialState.udid = "8280af29616a4ec1bb85a9ed17b9594e828e8140";

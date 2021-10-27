@@ -69,7 +69,7 @@ export default function OrderFinal() {
             let discountPrice = res1_data.total_order_amount - finalPrice;
             return {
               ...origin,
-              defaultFinalPrice: finalPrice,
+              defaultPrice: res1_data.total_order_amount,
               finalPrice: finalPrice,
               orderPayment: res1_data.default_pay_method,
               orderRequest: 0,
@@ -256,7 +256,7 @@ export default function OrderFinal() {
             ...origin,
             menuQuantity: oneplusArray,
             smartOrderSeq: smartOrderSeq,
-            finalPrice: origin.defaultFinalPrice - discountPrice,
+            finalPrice: origin.defaultPrice - discountPrice,
             orderDiscountType: {
               type: axioData?.res1_data?.basic_discount_rate_percent > 0 && !axioData?.res1_data?.affiliate_discount ? "coupon" : "",
               price: discountPrice,
@@ -266,10 +266,9 @@ export default function OrderFinal() {
       }
     });
   };
-
-  let menu_count = -1;
-  console.log(axioData);
   console.log(frontData);
+  let menu_count = -1;
+
   if (axioData) {
     return (
       <React.Fragment>
