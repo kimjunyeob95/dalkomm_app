@@ -5,3 +5,4 @@ body.fade-out {opacity: 1; transition: all 900ms ease-in-out;}
 .react-barcode div:last-child {display: none;}
 #content.drink.detail .fixed-con .item.info-order .text > span::after{content: none;}
 .drink.detail input:disabled{background-color: rgb(255, 255, 255); color:rgb(0, 0, 0)}
+.btn-area.col-1 .btn {width: 100%;}

@@ -26,14 +26,7 @@ export default function OrderDetail() {
   const [frontData, setFront] = useState({ defaultPrice: 0 });
 
   const flagFn = (element) => {
-    if (
-      element === 0 ||
-      element === null ||
-      element === "" ||
-      element === undefined ||
-      element === "0" ||
-      element === "None"
-    ) {
+    if (element === 0 || element === null || element === "" || element === undefined || element === "0" || element === "None") {
       return false;
     } else {
       return true;
@@ -49,12 +42,7 @@ export default function OrderDetail() {
   };
   useEffect(() => {
     axios
-      .all([
-        axios.get(
-          `${SERVER_DALKOMM}/app/api/v2/menu/detail?code=${orderCode}&store_code=${storeCode}&is_smartorder=${1}`,
-          header_config
-        ),
-      ])
+      .all([axios.get(`${SERVER_DALKOMM}/app/api/v2/menu/detail?code=${orderCode}&store_code=${storeCode}&is_smartorder=${1}`, header_config)])
       .then(
         axios.spread((res1) => {
           let res1_data = res1.data.data;
@@ -90,28 +78,14 @@ export default function OrderDetail() {
       quantity: Number($("#orderCount").val()),
       price: Number($("#totalPrice").data("allprice")),
       size: String($('input[name="orderSize"]:checked').val()),
-      cup: $('input[name="orderCup"]:checked').val()
-        ? String($('input[name="orderCup"]:checked').val())
-        : "",
-      menu_type: $('input[name="orderType"]:checked').val()
-        ? String($('input[name="orderType"]:checked').val())
-        : "",
+      cup: $('input[name="orderCup"]:checked').val() ? String($('input[name="orderCup"]:checked').val()) : "",
+      menu_type: $('input[name="orderType"]:checked').val() ? String($('input[name="orderType"]:checked').val()) : "",
       coffee_bean: "",
-      add_espresso_shot: $('input[name="shot"]').val()
-        ? Number($('input[name="shot"]').val())
-        : "",
-      add_vanilla_syrup: $('input[name="vanilla"]').val()
-        ? Number($('input[name="vanilla"]').val())
-        : "",
-      control_honey: $('input[name="honey"]:checked').val()
-        ? $('input[name="honey"]:checked').val()
-        : null,
-      is_remove_whipping_cream: String(
-        $('input[name="whippingCreamRemove"]').is(":checked")
-      ),
-      is_add_whipping_cream: String(
-        $('input[name="whippingCream"]').is(":checked")
-      ),
+      add_espresso_shot: $('input[name="shot"]').val() ? Number($('input[name="shot"]').val()) : "",
+      add_vanilla_syrup: $('input[name="vanilla"]').val() ? Number($('input[name="vanilla"]').val()) : "",
+      control_honey: $('input[name="honey"]:checked').val() ? $('input[name="honey"]:checked').val() : null,
+      is_remove_whipping_cream: String($('input[name="whippingCreamRemove"]').is(":checked")),
+      is_add_whipping_cream: String($('input[name="whippingCream"]').is(":checked")),
     };
     return add_obj;
   }
@@ -123,19 +97,11 @@ export default function OrderDetail() {
 
     let add_obj = getMenuObj();
     axios
-      .all([
-        axios.post(
-          `${SERVER_DALKOMM}/app/api/v2/menu/to/order`,
-          add_obj,
-          header_config
-        ),
-      ])
+      .all([axios.post(`${SERVER_DALKOMM}/app/api/v2/menu/to/order`, add_obj, header_config)])
       .then(
         axios.spread((res1) => {
           if (res1.data.meta.code === 20000) {
-            history.push(
-              `/order/final/${res1.data.data.smartorder_orderinfo_id}`
-            );
+            history.push(`/order/final/${res1.data.data.smartorder_orderinfo_id}`);
           } else {
             alert(res1.data.meta.msg);
           }
@@ -147,13 +113,7 @@ export default function OrderDetail() {
   const handleSubmitCart = (event) => {
     let add_obj = getMenuObj();
     axios
-      .all([
-        axios.post(
-          `${SERVER_DALKOMM}/app/api/v2/smartorder/cart/add`,
-          add_obj,
-          header_config
-        ),
-      ])
+      .all([axios.post(`${SERVER_DALKOMM}/app/api/v2/smartorder/cart/add`, add_obj, header_config)])
       .then(axios.spread((res1) => {}))
       .catch((res) => {
         $("#addCart").removeClass("active");
@@ -179,8 +139,7 @@ export default function OrderDetail() {
     let option_type = $('input[name="orderType"]:checked').attr("text");
     let option_price = 0;
     let cupsize = "";
-    let option_size =
-      trigger === "타입선택" ? "R" : $('input[name="orderSize"]:checked').val();
+    let option_size = trigger === "타입선택" ? "R" : $('input[name="orderSize"]:checked').val();
     if (start === "처음" && ["HOT", "BOTH"].indexOf(res1_data?.type) > -1) {
       if (
         flagFn(res1_data?.detail_info_hot_big_price) &&
@@ -413,10 +372,7 @@ export default function OrderDetail() {
     }
   };
   const handleDefaultPrice = (trigger) => {
-    let menu_size =
-      $('input[name="orderSize"]:checked').val() === undefined
-        ? "R"
-        : $('input[name="orderSize"]:checked').val();
+    let menu_size = $('input[name="orderSize"]:checked').val() === undefined ? "R" : $('input[name="orderSize"]:checked').val();
     let type = $('input[name="orderType"]:checked').val();
     if (trigger === "타입선택") {
       menu_size = "R";
@@ -432,13 +388,9 @@ export default function OrderDetail() {
         select_price = axioData?.res1_data?.menu?.detail_info_ice_big_price;
       }
     } else {
-      $("#orderImg").attr(
-        "src",
-        axioData?.res1_data?.menu?.detail_image_hot_simple
-      );
+      $("#orderImg").attr("src", axioData?.res1_data?.menu?.detail_image_hot_simple);
       if (menu_size === "R") {
-        select_price =
-          axioData?.res1_data?.menu?.detail_info_hot_simple_regular_price;
+        select_price = axioData?.res1_data?.menu?.detail_info_hot_simple_regular_price;
       } else if (menu_size === "L") {
         select_price = axioData?.res1_data?.menu?.detail_info_hot_large_price;
       } else if (menu_size === "B") {
@@ -453,20 +405,11 @@ export default function OrderDetail() {
     let price_menu = {
       menu_type: $('input[name="orderType"]:checked').val(),
       menu_size:
-        trigger === "타입선택" ||
-        $('input[name="orderSize"]:checked').val() === undefined
-          ? "R"
-          : $('input[name="orderSize"]:checked').val(),
+        trigger === "타입선택" || $('input[name="orderSize"]:checked').val() === undefined ? "R" : $('input[name="orderSize"]:checked').val(),
       menu_cup: $('input[name="orderCup"]:checked').val(),
-      shot: $('input[name="shot"]').val()
-        ? Number($('input[name="shot"]').val())
-        : "",
-      hazelnut: $('input[name="hazelnut"]').val()
-        ? Number($('input[name="hazelnut"]').val())
-        : "",
-      vanilla: $('input[name="vanilla"]').val()
-        ? Number($('input[name="vanilla"]').val())
-        : "",
+      shot: $('input[name="shot"]').val() ? Number($('input[name="shot"]').val()) : "",
+      hazelnut: $('input[name="hazelnut"]').val() ? Number($('input[name="hazelnut"]').val()) : "",
+      vanilla: $('input[name="vanilla"]').val() ? Number($('input[name="vanilla"]').val()) : "",
       whippingCream: $('input[name="whippingCream"]').is(":checked"),
       orderCount: Number($("#orderCount").val()),
     };
@@ -496,8 +439,7 @@ export default function OrderDetail() {
   const handleOptionText = (trigger) => {
     let menu_type = $('input[name="orderType"]:checked').attr("text");
     let menu_size =
-      trigger === "타입선택" ||
-      $('input[name="orderSize"]:checked').attr("text") === undefined
+      trigger === "타입선택" || $('input[name="orderSize"]:checked').attr("text") === undefined
         ? "Regular"
         : $('input[name="orderSize"]:checked').attr("text");
     let menu_cup = $('input[name="orderCup"]:checked').attr("text");
@@ -537,11 +479,7 @@ export default function OrderDetail() {
     $(".addopion").remove();
 
     option_array.forEach((element, index) => {
-      if (
-        element.value !== "0" &&
-        element.value !== false &&
-        element.value !== undefined
-      ) {
+      if (element.value !== "0" && element.value !== false && element.value !== undefined) {
         if (element.text === "휘핑 크림") {
           returnText += `<span class="addopion" text="${element.text}">, ${element.text}</span>`;
         } else if (element.text === "휘핑 크림 제거") {
@@ -593,9 +531,7 @@ export default function OrderDetail() {
       }
     } else if (flag === "휘핑크림") {
       if (type === "휘핑크림") {
-        $(e).is(":checked")
-          ? $(e).parents("li").addClass("adding")
-          : $(e).parents("li").removeClass("adding");
+        $(e).is(":checked") ? $(e).parents("li").addClass("adding") : $(e).parents("li").removeClass("adding");
       }
     }
     handleResultText("중간");
@@ -617,34 +553,20 @@ export default function OrderDetail() {
     $("#faOption").text(option_text);
     $("#faCup").text(menu_cup);
     if (menu_type === "I") {
-      $("#favoriteImg").attr(
-        "src",
-        axioData?.res1_data?.menu?.thumbnail_image_ice
-      );
+      $("#favoriteImg").attr("src", axioData?.res1_data?.menu?.thumbnail_image_ice);
       $("#faType").text("ICE");
     } else {
       $("#faType").text("HOT");
-      $("#favoriteImg").attr(
-        "src",
-        axioData?.res1_data?.menu?.thumbnail_image_hot_simple
-      );
+      $("#favoriteImg").attr("src", axioData?.res1_data?.menu?.thumbnail_image_hot_simple);
     }
   };
   const handleFavorite = () => {
     let add_obj = getMenuObj();
     axios
-      .all([
-        axios.post(
-          `${SERVER_DALKOMM}/app/api/v2/favorite/menu/add`,
-          add_obj,
-          header_config
-        ),
-      ])
+      .all([axios.post(`${SERVER_DALKOMM}/app/api/v2/favorite/menu/add`, add_obj, header_config)])
       .then(
         axios.spread((res1) => {
-          res1.data.meta.code === 20000
-            ? alert("해당 메뉴가 즐겨찾기에 추가되었습니다.")
-            : alert(res1.data.meta.msg);
+          res1.data.meta.code === 20000 ? alert("해당 메뉴가 즐겨찾기에 추가되었습니다.") : alert(res1.data.meta.msg);
         })
       )
       .catch((res) => alert("관리자에 문의 바랍니다."));
@@ -663,28 +585,18 @@ export default function OrderDetail() {
               <section className="section">
                 <div className="item drink-info">
                   <div className="img-wrap">
-                    <img
-                      id="orderImg"
-                      src={axioData?.res1_data?.menu?.detail_image_hot_simple}
-                      alt={axioData?.res1_data?.menu?.name_eng}
-                    />
+                    <img id="orderImg" src={axioData?.res1_data?.menu?.detail_image_hot_simple} alt={axioData?.res1_data?.menu?.name_eng} />
                   </div>
                   <div className="detail-wrap">
                     <div className="text-box">
                       {/* <p className="type en fc-orange">COFFEE</p> */}
                       <p className="name">
-                        <span id="orderName">
-                          {axioData?.res1_data?.menu?.name_kor}
-                        </span>
-                        <span className="en">
-                          {axioData?.res1_data?.menu?.name_eng}
-                        </span>
+                        <span id="orderName">{axioData?.res1_data?.menu?.name_kor}</span>
+                        <span className="en">{axioData?.res1_data?.menu?.name_eng}</span>
                       </p>
                       <p className="text">{axioData?.res1_data?.menu?.desc}</p>
                     </div>
-                    <p className="price">
-                      {frontData?.defaultPrice?.toLocaleString("ko-KR")}원
-                    </p>
+                    <p className="price">{frontData?.defaultPrice?.toLocaleString("ko-KR")}원</p>
                   </div>
                 </div>
                 <form className="form">
@@ -699,14 +611,9 @@ export default function OrderDetail() {
                             value="I"
                             text="ICE"
                             defaultChecked={true}
-                            onChange={() =>
-                              handleResultText("중간", "타입선택")
-                            }
+                            onChange={() => handleResultText("중간", "타입선택")}
                           />
-                          <label
-                            htmlFor="orderType01"
-                            className="btn normal small"
-                          >
+                          <label htmlFor="orderType01" className="btn normal small">
                             <strong className="en">ICE</strong>
                           </label>
                         </div>
@@ -719,14 +626,9 @@ export default function OrderDetail() {
                             name="orderType"
                             value="H"
                             text="HOT"
-                            onChange={() =>
-                              handleResultText("중간", "타입선택")
-                            }
+                            onChange={() => handleResultText("중간", "타입선택")}
                           />
-                          <label
-                            htmlFor="orderType02"
-                            className="btn normal small"
-                          >
+                          <label htmlFor="orderType02" className="btn normal small">
                             <strong className="en">HOT</strong>
                           </label>
                         </div>
@@ -740,14 +642,9 @@ export default function OrderDetail() {
                               name="orderType"
                               value="H"
                               text="HOT"
-                              onChange={() =>
-                                handleResultText("중간", "타입선택")
-                              }
+                              onChange={() => handleResultText("중간", "타입선택")}
                             />
-                            <label
-                              htmlFor="orderType02"
-                              className="btn normal small"
-                            >
+                            <label htmlFor="orderType02" className="btn normal small">
                               <strong className="en">HOT</strong>
                             </label>
                             <input
@@ -756,14 +653,9 @@ export default function OrderDetail() {
                               name="orderType"
                               value="I"
                               text="ICE"
-                              onChange={() =>
-                                handleResultText("중간", "타입선택")
-                              }
+                              onChange={() => handleResultText("중간", "타입선택")}
                             />
-                            <label
-                              htmlFor="orderType01"
-                              className="btn normal small"
-                            >
+                            <label htmlFor="orderType01" className="btn normal small">
                               <strong className="en">ICE</strong>
                             </label>
                           </div>
@@ -785,27 +677,14 @@ export default function OrderDetail() {
                               defaultChecked={true}
                               onClick={() => handleResultText("중간")}
                             />
-                            <label
-                              htmlFor="orderSize01"
-                              className="btn bdr medium"
-                            >
+                            <label htmlFor="orderSize01" className="btn bdr medium">
                               <p className="text">
                                 <strong className="en">Regular</strong>
                                 {/* <span className="en">375ml</span> */}
                               </p>
                             </label>
-                            <input
-                              type="radio"
-                              id="orderSize02"
-                              name="orderSize"
-                              value="L"
-                              text="Large"
-                              onClick={() => handleResultText("중간")}
-                            />
-                            <label
-                              htmlFor="orderSize02"
-                              className="btn bdr medium"
-                            >
+                            <input type="radio" id="orderSize02" name="orderSize" value="L" text="Large" onClick={() => handleResultText("중간")} />
+                            <label htmlFor="orderSize02" className="btn bdr medium">
                               <p className="text">
                                 <strong className="en">Large</strong>
                                 {/* <span className="en">591ml</span> */}
@@ -823,44 +702,21 @@ export default function OrderDetail() {
                               defaultChecked={true}
                               onClick={() => handleResultText("중간")}
                             />
-                            <label
-                              htmlFor="orderSize01"
-                              className="btn bdr medium"
-                            >
+                            <label htmlFor="orderSize01" className="btn bdr medium">
                               <p className="text">
                                 <strong className="en">Regular</strong>
                                 {/* <span className="en">375ml</span> */}
                               </p>
                             </label>
-                            <input
-                              type="radio"
-                              id="orderSize02"
-                              name="orderSize"
-                              value="L"
-                              text="Large"
-                              onClick={() => handleResultText("중간")}
-                            />
-                            <label
-                              htmlFor="orderSize02"
-                              className="btn bdr medium"
-                            >
+                            <input type="radio" id="orderSize02" name="orderSize" value="L" text="Large" onClick={() => handleResultText("중간")} />
+                            <label htmlFor="orderSize02" className="btn bdr medium">
                               <p className="text">
                                 <strong className="en">Large</strong>
                                 {/* <span className="en">591ml</span> */}
                               </p>
                             </label>
-                            <input
-                              type="radio"
-                              id="orderSize03"
-                              name="orderSize"
-                              value="B"
-                              text="Big"
-                              onClick={() => handleResultText("중간")}
-                            />
-                            <label
-                              htmlFor="orderSize03"
-                              className="btn bdr medium"
-                            >
+                            <input type="radio" id="orderSize03" name="orderSize" value="B" text="Big" onClick={() => handleResultText("중간")} />
+                            <label htmlFor="orderSize03" className="btn bdr medium">
                               <p className="text">
                                 <strong className="en">Big</strong>
                                 {/* <span className="en">591ml</span> */}
@@ -878,10 +734,7 @@ export default function OrderDetail() {
                               text="Large"
                               onClick={() => handleResultText("중간")}
                             />
-                            <label
-                              htmlFor="orderSize02"
-                              className="btn bdr medium"
-                            >
+                            <label htmlFor="orderSize02" className="btn bdr medium">
                               <p className="text">
                                 <strong className="en">Large</strong>
                                 {/* <span className="en">591ml</span> */}
@@ -899,10 +752,7 @@ export default function OrderDetail() {
                               defaultChecked={true}
                               onClick={() => handleResultText("중간")}
                             />
-                            <label
-                              htmlFor="orderSize01"
-                              className="btn bdr medium"
-                            >
+                            <label htmlFor="orderSize01" className="btn bdr medium">
                               <p className="text">
                                 <strong className="en">Regular</strong>
                                 {/* <span className="en">375ml</span> */}
@@ -921,10 +771,7 @@ export default function OrderDetail() {
                                 defaultChecked={true}
                                 onClick={() => handleResultText("중간")}
                               />
-                              <label
-                                htmlFor="orderSize03"
-                                className="btn bdr medium"
-                              >
+                              <label htmlFor="orderSize03" className="btn bdr medium">
                                 <p className="text">
                                   <strong className="en">Big</strong>
                                   {/* <span className="en">591ml</span> */}
@@ -948,42 +795,17 @@ export default function OrderDetail() {
                               defaultChecked={true}
                               onClick={() => handleResultText("중간")}
                             />
-                            <label
-                              htmlFor="orderCup01"
-                              className="btn bdr medium"
-                            >
+                            <label htmlFor="orderCup01" className="btn bdr medium">
                               <strong>매장용</strong>
                             </label>
-                            <input
-                              type="radio"
-                              id="orderCup02"
-                              name="orderCup"
-                              value="I"
-                              text="일회용 컵"
-                              onClick={() => handleResultText("중간")}
-                            />
-                            <label
-                              htmlFor="orderCup02"
-                              className="btn bdr medium"
-                            >
+                            <input type="radio" id="orderCup02" name="orderCup" value="I" text="일회용 컵" onClick={() => handleResultText("중간")} />
+                            <label htmlFor="orderCup02" className="btn bdr medium">
                               <strong>일회용</strong>
                             </label>
-                            <input
-                              type="radio"
-                              id="orderCup03"
-                              name="orderCup"
-                              value="P"
-                              text="개인 컵"
-                              onClick={() => handleResultText("중간")}
-                            />
-                            <label
-                              htmlFor="orderCup03"
-                              className="btn bdr medium"
-                            >
+                            <input type="radio" id="orderCup03" name="orderCup" value="P" text="개인 컵" onClick={() => handleResultText("중간")} />
+                            <label htmlFor="orderCup03" className="btn bdr medium">
                               <strong>개인</strong>
-                              <span className="speech-bubble small en">
-                                - 300 &#8361;
-                              </span>
+                              <span className="speech-bubble small en">- 300 &#8361;</span>
                             </label>
                           </div>
                         ) : axioData?.res1_data?.menu?.cup === "BOTH" ? (
@@ -997,24 +819,11 @@ export default function OrderDetail() {
                               defaultChecked={true}
                               onClick={() => handleResultText("중간")}
                             />
-                            <label
-                              htmlFor="orderCup01"
-                              className="btn bdr medium"
-                            >
+                            <label htmlFor="orderCup01" className="btn bdr medium">
                               <strong>매장용</strong>
                             </label>
-                            <input
-                              type="radio"
-                              id="orderCup02"
-                              name="orderCup"
-                              value="I"
-                              text="일회용 컵"
-                              onClick={() => handleResultText("중간")}
-                            />
-                            <label
-                              htmlFor="orderCup02"
-                              className="btn bdr medium"
-                            >
+                            <input type="radio" id="orderCup02" name="orderCup" value="I" text="일회용 컵" onClick={() => handleResultText("중간")} />
+                            <label htmlFor="orderCup02" className="btn bdr medium">
                               <strong>일회용</strong>
                             </label>
                           </div>
@@ -1029,10 +838,7 @@ export default function OrderDetail() {
                               defaultChecked={true}
                               onClick={() => handleResultText("중간")}
                             />
-                            <label
-                              htmlFor="orderCup01"
-                              className="btn bdr medium"
-                            >
+                            <label htmlFor="orderCup01" className="btn bdr medium">
                               <strong>매장용</strong>
                             </label>
                           </div>
@@ -1047,10 +853,7 @@ export default function OrderDetail() {
                               text="일회용 컵"
                               onClick={() => handleResultText("중간")}
                             />
-                            <label
-                              htmlFor="orderCup02"
-                              className="btn bdr medium"
-                            >
+                            <label htmlFor="orderCup02" className="btn bdr medium">
                               <strong>일회용</strong>
                             </label>
                           </div>
@@ -1066,14 +869,9 @@ export default function OrderDetail() {
                               text="개인 컵"
                               onClick={() => handleResultText("중간")}
                             />
-                            <label
-                              htmlFor="orderCup03"
-                              className="btn bdr medium"
-                            >
+                            <label htmlFor="orderCup03" className="btn bdr medium">
                               <strong>개인</strong>
-                              <span className="speech-bubble small en">
-                                - 300 &#8361;
-                              </span>
+                              <span className="speech-bubble small en">- 300 &#8361;</span>
                             </label>
                           </div>
                         ) : (
@@ -1084,8 +882,7 @@ export default function OrderDetail() {
                       <div className="field">
                         <span className="label en">Option</span>
                         <ul className="data-list option-list">
-                          {axioData?.res1_data?.menu
-                            ?.available_add_espresso_shot && (
+                          {axioData?.res1_data?.menu?.available_add_espresso_shot && (
                             <li>
                               {" "}
                               {/* [D] 옵션 추가시 adding 클래스 활성화 */}
@@ -1096,52 +893,23 @@ export default function OrderDetail() {
                                     <button
                                       type="button"
                                       className="btn amount"
-                                      onClick={(event) =>
-                                        handleOption(
-                                          event.currentTarget,
-                                          "minus",
-                                          "샷"
-                                        )
-                                      }
+                                      onClick={(event) => handleOption(event.currentTarget, "minus", "샷")}
                                     >
                                       <i className="ico decrease"></i>
                                       <span className="blind">감소</span>
                                     </button>
-                                    <input
-                                      type="number"
-                                      name="shot"
-                                      text="샷"
-                                      defaultValue={0}
-                                      className="ea"
-                                      disabled
-                                    />{" "}
-                                    {/* [D] 디폴트 값 0 */}
-                                    <button
-                                      type="button"
-                                      className="btn amount"
-                                      onClick={(event) =>
-                                        handleOption(
-                                          event.currentTarget,
-                                          "plus",
-                                          "샷"
-                                        )
-                                      }
-                                    >
+                                    <input type="number" name="shot" text="샷" defaultValue={0} className="ea" disabled /> {/* [D] 디폴트 값 0 */}
+                                    <button type="button" className="btn amount" onClick={(event) => handleOption(event.currentTarget, "plus", "샷")}>
                                       <i className="ico increase"></i>
                                       <span className="blind">증가</span>
                                     </button>
                                   </p>
-                                  <span className="speech-bubble small en">
-                                    {" "}
-                                    {/* [D] 수량 증가 시 금액 증가 */}+ 500
-                                    &#8361;
-                                  </span>
+                                  <span className="speech-bubble small en"> {/* [D] 수량 증가 시 금액 증가 */}+ 500 &#8361;</span>
                                 </div>
                               </div>
                             </li>
                           )}
-                          {axioData?.res1_data?.menu
-                            ?.available_add_hazelnut_syrup && (
+                          {axioData?.res1_data?.menu?.available_add_hazelnut_syrup && (
                             <li>
                               <div className="item options">
                                 <label>헤이즐럿 시럽 추가</label>
@@ -1150,52 +918,28 @@ export default function OrderDetail() {
                                     <button
                                       type="button"
                                       className="btn amount"
-                                      onClick={(event) =>
-                                        handleOption(
-                                          event.currentTarget,
-                                          "minus",
-                                          "헤이즐럿"
-                                        )
-                                      }
+                                      onClick={(event) => handleOption(event.currentTarget, "minus", "헤이즐럿")}
                                     >
                                       <i className="ico decrease"></i>
                                       <span className="blind">감소</span>
                                     </button>
-                                    <input
-                                      type="number"
-                                      name="hazelnut"
-                                      text="헤이즐럿 시럽"
-                                      defaultValue={0}
-                                      className="ea"
-                                      disabled
-                                    />{" "}
+                                    <input type="number" name="hazelnut" text="헤이즐럿 시럽" defaultValue={0} className="ea" disabled />{" "}
                                     {/* [D] 디폴트 값 0 */}
                                     <button
                                       type="button"
                                       className="btn amount"
-                                      onClick={(event) =>
-                                        handleOption(
-                                          event.currentTarget,
-                                          "plus",
-                                          "헤이즐럿"
-                                        )
-                                      }
+                                      onClick={(event) => handleOption(event.currentTarget, "plus", "헤이즐럿")}
                                     >
                                       <i className="ico increase"></i>
                                       <span className="blind">증가</span>
                                     </button>
                                   </p>
-                                  <span className="speech-bubble small en">
-                                    {" "}
-                                    {/* [D] 수량 증가 시 금액 증가 */}+ 500
-                                    &#8361;
-                                  </span>
+                                  <span className="speech-bubble small en"> {/* [D] 수량 증가 시 금액 증가 */}+ 500 &#8361;</span>
                                 </div>
                               </div>
                             </li>
                           )}
-                          {axioData?.res1_data?.menu
-                            ?.available_add_vanilla_syrup && (
+                          {axioData?.res1_data?.menu?.available_add_vanilla_syrup && (
                             <li>
                               <div className="item options">
                                 <label>바닐라 시럽 추가</label>
@@ -1204,52 +948,28 @@ export default function OrderDetail() {
                                     <button
                                       type="button"
                                       className="btn amount"
-                                      onClick={(event) =>
-                                        handleOption(
-                                          event.currentTarget,
-                                          "minus",
-                                          "바닐라"
-                                        )
-                                      }
+                                      onClick={(event) => handleOption(event.currentTarget, "minus", "바닐라")}
                                     >
                                       <i className="ico decrease"></i>
                                       <span className="blind">감소</span>
                                     </button>
-                                    <input
-                                      type="number"
-                                      name="vanilla"
-                                      text="바닐라 시럽"
-                                      defaultValue={0}
-                                      className="ea"
-                                      disabled
-                                    />{" "}
+                                    <input type="number" name="vanilla" text="바닐라 시럽" defaultValue={0} className="ea" disabled />{" "}
                                     {/* [D] 디폴트 값 0 */}
                                     <button
                                       type="button"
                                       className="btn amount"
-                                      onClick={(event) =>
-                                        handleOption(
-                                          event.currentTarget,
-                                          "plus",
-                                          "바닐라"
-                                        )
-                                      }
+                                      onClick={(event) => handleOption(event.currentTarget, "plus", "바닐라")}
                                     >
                                       <i className="ico increase"></i>
                                       <span className="blind">증가</span>
                                     </button>
                                   </p>
-                                  <span className="speech-bubble small en">
-                                    {" "}
-                                    {/* [D] 수량 증가 시 금액 증가 */}+ 500
-                                    &#8361;
-                                  </span>
+                                  <span className="speech-bubble small en"> {/* [D] 수량 증가 시 금액 증가 */}+ 500 &#8361;</span>
                                 </div>
                               </div>
                             </li>
                           )}
-                          {axioData?.res1_data?.menu
-                            ?.available_add_whipping_cream && (
+                          {axioData?.res1_data?.menu?.available_add_whipping_cream && (
                             <li>
                               <div className="item options">
                                 <label htmlFor="whippingCream">휘핑 크림</label>
@@ -1262,31 +982,18 @@ export default function OrderDetail() {
                                     name="whippingCream"
                                     id="whippingCream"
                                     text="휘핑 크림"
-                                    onClick={(event) =>
-                                      handleOption(
-                                        event.currentTarget,
-                                        "휘핑크림",
-                                        "휘핑크림"
-                                      )
-                                    }
+                                    onClick={(event) => handleOption(event.currentTarget, "휘핑크림", "휘핑크림")}
                                   />
-                                  <span className="speech-bubble small en">
-                                    {" "}
-                                    {/* [D] 수량 증가 시 금액 증가 */}+ 500
-                                    &#8361;
-                                  </span>
+                                  <span className="speech-bubble small en"> {/* [D] 수량 증가 시 금액 증가 */}+ 500 &#8361;</span>
                                 </div>
                                 {/* // [D] 211014 .amount-wrap 추가 */}
                               </div>
                             </li>
                           )}
-                          {axioData?.res1_data?.menu
-                            ?.available_remove_whipping_cream && (
+                          {axioData?.res1_data?.menu?.available_remove_whipping_cream && (
                             <li>
                               <div className="item options">
-                                <label htmlFor="whippingCream">
-                                  휘핑 크림 제거
-                                </label>
+                                <label htmlFor="whippingCream">휘핑 크림 제거</label>
                                 {/* [D] 211014 .amount-wrap 추가 */}
                                 <div className="amount-wrap">
                                   <input
@@ -1296,21 +1003,14 @@ export default function OrderDetail() {
                                     name="whippingCreamRemove"
                                     id="whippingCreamRemove"
                                     text="휘핑 크림 제거"
-                                    onClick={(event) =>
-                                      handleOption(
-                                        event.currentTarget,
-                                        "휘핑크림제거",
-                                        "휘핑크림제거"
-                                      )
-                                    }
+                                    onClick={(event) => handleOption(event.currentTarget, "휘핑크림제거", "휘핑크림제거")}
                                   />
                                 </div>
                                 {/* // [D] 211014 .amount-wrap 추가 */}
                               </div>
                             </li>
                           )}
-                          {axioData?.res1_data?.menu
-                            ?.available_control_honey && (
+                          {axioData?.res1_data?.menu?.available_control_honey && (
                             <li>
                               <div className="item options">
                                 <label htmlFor="whippingCream">꿀양</label>
@@ -1326,12 +1026,7 @@ export default function OrderDetail() {
                                       text="꿀양"
                                       data-text="꿀양 제거"
                                       defaultValue={0}
-                                      onClick={(event) =>
-                                        handleOption(
-                                          event.currentTarget,
-                                          "꿀양"
-                                        )
-                                      }
+                                      onClick={(event) => handleOption(event.currentTarget, "꿀양")}
                                     />
                                   </div>
                                   <div className="check-box">
@@ -1345,12 +1040,7 @@ export default function OrderDetail() {
                                       text="꿀양"
                                       data-text="꿀양 조금"
                                       defaultValue={1}
-                                      onClick={(event) =>
-                                        handleOption(
-                                          event.currentTarget,
-                                          "꿀양"
-                                        )
-                                      }
+                                      onClick={(event) => handleOption(event.currentTarget, "꿀양")}
                                     />
                                   </div>
                                   <div className="check-box">
@@ -1364,12 +1054,7 @@ export default function OrderDetail() {
                                       text="꿀양"
                                       data-text="꿀양 보통"
                                       defaultValue={2}
-                                      onClick={(event) =>
-                                        handleOption(
-                                          event.currentTarget,
-                                          "꿀양"
-                                        )
-                                      }
+                                      onClick={(event) => handleOption(event.currentTarget, "꿀양")}
                                     />
                                   </div>
                                   <div className="check-box">
@@ -1383,12 +1068,7 @@ export default function OrderDetail() {
                                       text="꿀양"
                                       data-text="꿀양 많이"
                                       defaultValue={3}
-                                      onClick={(event) =>
-                                        handleOption(
-                                          event.currentTarget,
-                                          "꿀양"
-                                        )
-                                      }
+                                      onClick={(event) => handleOption(event.currentTarget, "꿀양")}
                                     />
                                   </div>
                                 </div>
@@ -1406,27 +1086,15 @@ export default function OrderDetail() {
                       <div className="title-wrap toggle-switch">
                         <p className="title">영양 성분 정보</p>
                       </div>
-                      <div
-                        className="detail-wrap toggle-cont"
-                        style={{ display: "block" }}
-                      >
+                      <div className="detail-wrap toggle-cont" style={{ display: "block" }}>
                         <p className="text">
                           <span>
-                            1회 제공량{" "}
-                            <em>
-                              {
-                                axioData?.res1_data?.menu
-                                  ?.detail_info_ice_regular_size
-                              }
-                            </em>
+                            1회 제공량 <em>{axioData?.res1_data?.menu?.detail_info_ice_regular_size}</em>
                           </span>
                           <span>
                             열량{" "}
                             <em>
-                              {
-                                axioData?.res1_data?.menu
-                                  ?.detail_info_ice_regular_cal
-                              }
+                              {axioData?.res1_data?.menu?.detail_info_ice_regular_cal}
                               (kcal)
                             </em>
                           </span>
@@ -1459,34 +1127,16 @@ export default function OrderDetail() {
                                   <button
                                     type="button"
                                     className="btn amount"
-                                    onClick={(event) =>
-                                      handleOption(
-                                        event.currentTarget,
-                                        "minus",
-                                        "주문수량"
-                                      )
-                                    }
+                                    onClick={(event) => handleOption(event.currentTarget, "minus", "주문수량")}
                                   >
                                     <i className="ico decrease"></i>
                                     <span className="blind">감소</span>
                                   </button>
-                                  <input
-                                    type="number"
-                                    defaultValue={1}
-                                    className="ea"
-                                    disabled
-                                    id="orderCount"
-                                  />
+                                  <input type="number" defaultValue={1} className="ea" disabled id="orderCount" />
                                   <button
                                     type="button"
                                     className="btn amount"
-                                    onClick={(event) =>
-                                      handleOption(
-                                        event.currentTarget,
-                                        "plus",
-                                        "주문수량"
-                                      )
-                                    }
+                                    onClick={(event) => handleOption(event.currentTarget, "plus", "주문수량")}
                                   >
                                     <i className="ico increase"></i>
                                     <span className="blind">증가</span>
@@ -1514,15 +1164,11 @@ export default function OrderDetail() {
                       </ul>
                       <div className="item info-order">
                         <dl className="flex-both w-inner">
-                          <dt className="title">주문 금액</dt>{" "}
-                          {/* [D] 211013 .en 삭제 , 텍스트 수정 */}
+                          <dt className="title">주문 금액</dt> {/* [D] 211013 .en 삭제 , 텍스트 수정 */}
                           <dd
                             className="price fc-orange"
                             id="totalPrice"
-                            data-allprice={
-                              axioData?.res1_data?.menu
-                                ?.detail_info_hot_simple_regular_price
-                            }
+                            data-allprice={axioData?.res1_data?.menu?.detail_info_hot_simple_regular_price}
                           >
                             {frontData.defaultPrice?.toLocaleString("ko-KR")}원
                           </dd>
@@ -1541,21 +1187,13 @@ export default function OrderDetail() {
                             <span>즐겨찾기</span>
                           </i>
                         </button>
-                        <button
-                          type="button"
-                          className="btn x-large normal open-pop"
-                          pop-target="#addCart"
-                          onClick={() => handleSubmitCart()}
-                        >
+                        <button type="button" className="btn x-large normal open-pop" pop-target="#addCart" onClick={() => handleSubmitCart()}>
                           <i className="ico cart">
                             <span>장바구니 담기</span>
                           </i>
                         </button>
                       </div>
-                      <button
-                        className="btn x-large dark"
-                        onClick={() => submitOrder()}
-                      >
+                      <button className="btn x-large dark" onClick={() => submitOrder()}>
                         주문하기
                       </button>
                     </div>
@@ -1584,11 +1222,7 @@ export default function OrderDetail() {
                       <div className="content-wrap">
                         <div className="item order">
                           <div className="img-wrap">
-                            <img
-                              id="favoriteImg"
-                              src="/@resource/images/@temp/product_14.jpg"
-                              alt={axioData?.res1_data?.menu?.name_kor}
-                            />
+                            <img id="favoriteImg" src="/@resource/images/@temp/product_14.jpg" alt={axioData?.res1_data?.menu?.name_kor} />
                           </div>
                           <div className="detail-wrap">
                             <div className="order-info">
@@ -1613,17 +1247,10 @@ export default function OrderDetail() {
                       </div>
                       {/* // [D] 추천 메뉴 있을 시 노출 */}
                       <div className="btn-area col-2">
-                        <button
-                          type="button"
-                          className="btn x-large normal btn-close"
-                        >
+                        <button type="button" className="btn x-large normal btn-close">
                           취소하기
                         </button>
-                        <button
-                          type="button"
-                          className="btn x-large dark btn-close add-menu"
-                          onClick={() => handleFavorite()}
-                        >
+                        <button type="button" className="btn x-large dark btn-close add-menu" onClick={() => handleFavorite()}>
                           추가하기
                         </button>
                       </div>
@@ -1652,9 +1279,7 @@ export default function OrderDetail() {
 
                       {/* [D] 추천 메뉴 있을 시 노출 */}
                       <div className="recommend-wrap">
-                        <p className="text ta-c">
-                          함께하면 2배 더 달콤한 베이커리 추천 드려요!
-                        </p>
+                        <p className="text ta-c">함께하면 2배 더 달콤한 베이커리 추천 드려요!</p>
                         <Swiper
                           id="recommendMenu"
                           className="swiper-container section-slider"
@@ -1663,17 +1288,11 @@ export default function OrderDetail() {
                           observer={true}
                           observeParents={true}
                         >
-                          <ul
-                            className="swiper-wrapper data-list"
-                            slot="container-start"
-                          >
+                          <ul className="swiper-wrapper data-list" slot="container-start">
                             <li className="swiper-slide">
                               <div className="item menu">
                                 <div className="img-wrap">
-                                  <img
-                                    src="/@resource/images/@temp/product_recommend_01.jpg"
-                                    alt="크루아상"
-                                  />
+                                  <img src="/@resource/images/@temp/product_recommend_01.jpg" alt="크루아상" />
                                 </div>
                                 <div className="detail-wrap">
                                   <p className="title">
@@ -1686,10 +1305,7 @@ export default function OrderDetail() {
                             <li className="swiper-slide">
                               <div className="item menu">
                                 <div className="img-wrap">
-                                  <img
-                                    src="/@resource/images/@temp/product_recommend_02.jpg"
-                                    alt="클래식 스콘"
-                                  />
+                                  <img src="/@resource/images/@temp/product_recommend_02.jpg" alt="클래식 스콘" />
                                 </div>
                                 <div className="detail-wrap">
                                   <p className="title">
@@ -1702,10 +1318,7 @@ export default function OrderDetail() {
                             <li className="swiper-slide">
                               <div className="item menu">
                                 <div className="img-wrap">
-                                  <img
-                                    src="/@resource/images/@temp/product_recommend_03.jpg"
-                                    alt="애플파이"
-                                  />
+                                  <img src="/@resource/images/@temp/product_recommend_03.jpg" alt="애플파이" />
                                 </div>
                                 <div className="detail-wrap">
                                   <p className="title">
@@ -1718,10 +1331,7 @@ export default function OrderDetail() {
                             <li className="swiper-slide">
                               <div className="item menu">
                                 <div className="img-wrap">
-                                  <img
-                                    src="/@resource/images/@temp/product_recommend_04.jpg"
-                                    alt="고소한 단팥빵"
-                                  />
+                                  <img src="/@resource/images/@temp/product_recommend_04.jpg" alt="고소한 단팥빵" />
                                 </div>
                                 <div className="detail-wrap">
                                   <p className="title">
@@ -1734,10 +1344,7 @@ export default function OrderDetail() {
                             <li className="swiper-slide">
                               <div className="item menu">
                                 <div className="img-wrap">
-                                  <img
-                                    src="/@resource/images/@temp/product_recommend_01.jpg"
-                                    alt="크루아상"
-                                  />
+                                  <img src="/@resource/images/@temp/product_recommend_01.jpg" alt="크루아상" />
                                 </div>
                                 <div className="detail-wrap">
                                   <p className="title">
@@ -1750,10 +1357,7 @@ export default function OrderDetail() {
                             <li className="swiper-slide">
                               <div className="item menu">
                                 <div className="img-wrap">
-                                  <img
-                                    src="/@resource/images/@temp/product_recommend_02.jpg"
-                                    alt="클래식 스콘"
-                                  />
+                                  <img src="/@resource/images/@temp/product_recommend_02.jpg" alt="클래식 스콘" />
                                 </div>
                                 <div className="detail-wrap">
                                   <p className="title">
@@ -1766,10 +1370,7 @@ export default function OrderDetail() {
                             <li className="swiper-slide">
                               <div className="item menu">
                                 <div className="img-wrap">
-                                  <img
-                                    src="/@resource/images/@temp/product_recommend_03.jpg"
-                                    alt="애플파이"
-                                  />
+                                  <img src="/@resource/images/@temp/product_recommend_03.jpg" alt="애플파이" />
                                 </div>
                                 <div className="detail-wrap">
                                   <p className="title">
@@ -1782,10 +1383,7 @@ export default function OrderDetail() {
                             <li className="swiper-slide">
                               <div className="item menu">
                                 <div className="img-wrap">
-                                  <img
-                                    src="/@resource/images/@temp/product_recommend_04.jpg"
-                                    alt="고소한 단팥빵"
-                                  />
+                                  <img src="/@resource/images/@temp/product_recommend_04.jpg" alt="고소한 단팥빵" />
                                 </div>
                                 <div className="detail-wrap">
                                   <p className="title">
@@ -1800,17 +1398,10 @@ export default function OrderDetail() {
                       </div>
                       {/* // [D] 추천 메뉴 있을 시 노출 */}
                       <div className="btn-area col-2">
-                        <Link
-                          to="#"
-                          className="btn x-large normal"
-                          onClick={() => otherMenu()}
-                        >
+                        <Link to="#" className="btn x-large normal" onClick={() => otherMenu()}>
                           다른 메뉴 더 담기
                         </Link>
-                        <Link
-                          to={`/mypage/cart/${storeCode}`}
-                          className="btn x-large dark btn-close"
-                        >
+                        <Link to={`/mypage/cart/${storeCode}`} className="btn x-large dark btn-close">
                           장바구니 바로가기
                         </Link>
                       </div>
@@ -1820,11 +1411,7 @@ export default function OrderDetail() {
               </div>
               {/* // 장바구니 추가 완료 팝업 영역 */}
 
-              <button
-                type="button"
-                id="moveScrollTop"
-                className="btn scroll-top"
-              >
+              <button type="button" id="moveScrollTop" className="btn scroll-top">
                 <i className="ico arr-top"></i>
               </button>
             </div>

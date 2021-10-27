@@ -24,26 +24,18 @@ export default function MyOrderRecipt() {
   };
   useEffect(() => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    axios
-      .all([
-        axios.post(
-          `${SERVER_DALKOMM}/app/api/v2/smartorder/orderinfo/list`,
-          { page: 1, duration: "w" },
-          header_config
-        ),
-      ])
-      .then(
-        axios.spread((res1) => {
-          let res1_data = res1.data.data;
+    axios.all([axios.post(`${SERVER_DALKOMM}/app/api/v2/smartorder/orderinfo/list`, { page: 1, duration: "w" }, header_config)]).then(
+      axios.spread((res1) => {
+        let res1_data = res1.data.data;
 
-          setData((origin) => {
-            return {
-              ...origin,
-              res1_data,
-            };
-          });
-        })
-      );
+        setData((origin) => {
+          return {
+            ...origin,
+            res1_data,
+          };
+        });
+      })
+    );
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state?.auth]);
@@ -54,26 +46,18 @@ export default function MyOrderRecipt() {
 
   const handleDuration = () => {
     let duration = $("#select-duration").val();
-    axios
-      .all([
-        axios.post(
-          `${SERVER_DALKOMM}/app/api/v2/smartorder/orderinfo/list`,
-          { page: 1, duration: duration },
-          header_config
-        ),
-      ])
-      .then(
-        axios.spread((res1) => {
-          let res1_data = res1.data.data;
+    axios.all([axios.post(`${SERVER_DALKOMM}/app/api/v2/smartorder/orderinfo/list`, { page: 1, duration: duration }, header_config)]).then(
+      axios.spread((res1) => {
+        let res1_data = res1.data.data;
 
-          setData((origin) => {
-            return {
-              ...origin,
-              res1_data,
-            };
-          });
-        })
-      );
+        setData((origin) => {
+          return {
+            ...origin,
+            res1_data,
+          };
+        });
+      })
+    );
   };
   return (
     <React.Fragment>
@@ -85,12 +69,7 @@ export default function MyOrderRecipt() {
 
           <div id="content" className="mypage order">
             <div className="sorting-wrap w-inner flex-end">
-              <select
-                className="select medium"
-                name=""
-                id="select-duration"
-                onChange={() => handleDuration()}
-              >
+              <select className="select medium" name="" id="select-duration" onChange={() => handleDuration()}>
                 <option value="w">1주일 이내</option>
                 <option value="m">1개월 이내</option>
                 <option value="y">1년 이내</option>
@@ -119,10 +98,7 @@ export default function MyOrderRecipt() {
 								.item.order.cancel  : 취소
 							*/}
                     <div className="img-wrap">
-                      <img
-                        src="/@resource/images/@temp/product_04.jpg"
-                        alt={e?.menu_name_with_count}
-                      />
+                      <img src={e?.menu_with_type === "I" ? e?.menu_with_ice_img : e?.menu_with_hot_img} alt={e?.menu_name_with_count} />
                     </div>
                     <div className="detail-wrap">
                       <div className="order-info">

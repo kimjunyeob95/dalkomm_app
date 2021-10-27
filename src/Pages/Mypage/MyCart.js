@@ -193,7 +193,7 @@ export default function MyCart() {
                           </div>
                           <div className="price-wrap flex-both">
                             <p className="price fc-orange showPrice" data-price={(element?.price + element?.option_price) * element?.quantity}>
-                              {(element?.price + element?.option_price)?.toLocaleString("ko-KR")}원
+                              {((element?.price + element?.option_price) * element?.quantity)?.toLocaleString("ko-KR")}원
                             </p>
                             <p className="uio-amount">
                               <button type="button" className="btn amount" onClick={(e) => handleClick(e.currentTarget, "감소")}>
