@@ -62,7 +62,6 @@ export default function OrderMenu() {
   useEffect(() => {
     contGap();
   }, [axioData]);
-
   const jqueryTablink = (e) => {
     tabLink(e);
     let data_category = $(e.target).data("category") === "" ? 0 : $(e.target).data("category");

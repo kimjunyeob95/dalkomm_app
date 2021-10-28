@@ -266,7 +266,6 @@ export default function OrderFinal() {
       }
     });
   };
-  console.log(frontData);
   let menu_count = -1;
 
   if (axioData) {

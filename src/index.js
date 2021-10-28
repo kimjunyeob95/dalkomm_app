@@ -19,6 +19,7 @@ import OrderSearch from "Pages/Order/OrderSearch";
 import OrderFinal from "Pages/Order/OrderFinal";
 import OrderMembership from "Pages/Order/OrderMembership";
 import OrderFavorite from "Pages/Order/OrderFavorite";
+import OrderInfo from "Pages/Order/OrderInfo";
 
 //join page
 import JoinStep1 from "Pages/Join/JoinStep1";
@@ -83,6 +84,9 @@ ReactDOM.render(
         <Route exact path="/order/menuSearch/:storeCode" component={() => <OrderSearch />} />
         <PrivateRoute path="/order/favorite/:storeCode">
           <OrderFavorite />
+        </PrivateRoute>
+        <PrivateRoute path="/order/info/:orderCode">
+          <OrderInfo />
         </PrivateRoute>
         <PrivateRoute path="/order/detail/:storeCode/:orderCode">
           <OrderDetail />

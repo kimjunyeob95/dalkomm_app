@@ -229,6 +229,14 @@ export function OrderStoreSearch(props) {
                                   <span>인터넷가능 매장</span>
                                 </i>
                               </li>
+                              {e?.store_is_smartorder && (
+                                <li>
+                                  <i className="ico kiosk">
+                                    <span>키오스크 매장</span>
+                                  </i>
+                                </li>
+                              )}
+                              {/* 
                               <li>
                                 <i className="ico parking">
                                   <span>주차가능 매장</span>
@@ -248,7 +256,7 @@ export function OrderStoreSearch(props) {
                                 <i className="ico drive">
                                   <span>드라이브스루 매장</span>
                                 </i>
-                              </li>
+                              </li> */}
                             </ul>
                             <p className="distance">{e.store_distance !== "-1" && e.store_distance + "km"}</p>
                           </div>
@@ -327,12 +335,18 @@ export function OrderStoreSearch(props) {
                                     </i>
                                   </li>
                                 )}
-
-                                <li>
+                                {storeData?.detailStore?.store_is_smartorder && (
+                                  <li>
+                                    <i className="ico kiosk">
+                                      <span>키오스크 매장</span>
+                                    </i>
+                                  </li>
+                                )}
+                                {/* <li>
                                   <i className="ico smoking">
                                     <span>흡연가능 매장</span>
                                   </i>
-                                </li>
+                                </li> */}
                               </ul>
                             </div>
                           </div>

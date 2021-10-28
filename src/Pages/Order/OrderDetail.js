@@ -87,6 +87,7 @@ export default function OrderDetail() {
     };
     return add_obj;
   }
+  console.log(axioData);
   const submitOrder = () => {
     if ($('input[name="orderSize"]:checked').val() === undefined) {
       alert("size를 선택해주세요.");
