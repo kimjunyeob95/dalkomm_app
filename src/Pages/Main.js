@@ -43,6 +43,7 @@ export function Main(props) {
     }
     if (state.accessToken !== "") {
       //로그인 시
+
       axios
         .all([
           axios.post(`${SERVER_DALKOMM}/app/api/main`, body, header_config),
@@ -101,7 +102,6 @@ export function Main(props) {
           );
       }
     }
-    // console.log(nativeCallbackLocation(1, 2));
   }, [state?.auth]);
 
   useEffect(() => {

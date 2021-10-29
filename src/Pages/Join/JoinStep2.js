@@ -63,18 +63,13 @@ export default function JoinStep2() {
         axios.all([axios.post(`${SERVER_DALKOMM}/app/api/account/simple/join`, body, header_config)]).then(
           axios.spread((res1) => {
             if (res1.data.meta.code === 20000 && res1.data.meta.message === "SUCCESS") {
-              // axios.all([axios.post(`${SERVER_DALKOMM}/app/api/v2/push/agree`, { agree_receive_push: true }, header_config)]).then(
-              //   axios.spread((res1) => {
-              //     res1.data.meta.code !== 20000 && alert(res1.data.meta.msg);
-              //   })
-              // );
               history.push({
                 pathname: "/join/step3",
                 userName: $("#userName").val(),
               });
             } else {
               alert(res1.data.meta.msg);
-              history.push("/");
+              // history.push("/");
             }
           })
         );

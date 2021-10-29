@@ -184,7 +184,6 @@ export default function OrderFinal() {
       pay_method: frontData?.orderPayment,
       order_menu_coupon: menu_coupon_array,
     };
-
     let result = {
       type: "post",
       link: `${SERVER_DALKOMM}/app/web/smartorder/order/to/pay/v2`,

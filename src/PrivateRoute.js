@@ -20,6 +20,7 @@ export default function PrivateRoute({ children, ...rest }) {
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state.loginFlag]);
+
   if (loading && state?.loginFlag) {
     //로그인시
     return <Route {...rest} render={({ location }) => children} />;
