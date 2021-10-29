@@ -33,21 +33,9 @@ export default function MyPage() {
     axios
       .all([
         axios.post(`${SERVER_DALKOMM}/app/api/main/user`, body, header_config),
-        axios.post(
-          `${SERVER_DALKOMM}/app/api/account/simple/profile`,
-          body,
-          header_config
-        ),
-        axios.post(
-          `${SERVER_DALKOMM}/app/api/v2/coupon/list`,
-          body,
-          header_config
-        ),
-        axios.post(
-          `${SERVER_DALKOMM}/app/api/v2/membership`,
-          body,
-          header_config
-        ),
+        axios.post(`${SERVER_DALKOMM}/app/api/account/simple/profile`, body, header_config),
+        axios.post(`${SERVER_DALKOMM}/app/api/v2/coupon/list`, body, header_config),
+        axios.post(`${SERVER_DALKOMM}/app/api/v2/membership`, body, header_config),
       ])
       .then(
         axios.spread((res1, res2, res3, res4) => {
@@ -78,51 +66,30 @@ export default function MyPage() {
         <GoContents />
         <div id="wrap" className="wrap">
           <div id="container" className="container">
-            <HeaderSub
-              type="flexCenter"
-              icon="modify"
-              title="마이 달콤"
-              location="/mypage/modify"
-              noBack={true}
-            />
+            <HeaderSub type="flexCenter" icon="modify" title="마이 달콤" location="/mypage/modify" noBack={true} />
             <Nav order={4} />
             <div id="content" className="mypage main">
               <div className="user-info-wrap">
                 <div className="item my-info">
                   <p className="user">
-                    <strong>{decodeURI(axioData?.res2_data?.name)}</strong>{" "}
-                    고객님
+                    <strong>{decodeURI(axioData?.res2_data?.name)}</strong> 고객님
                   </p>
                   <div className="flex-center">
-                    <span className="en grade">
-                      {axioData?.res1_data?.user?.membership_name}
-                    </span>
+                    <span className="en grade">{axioData?.res1_data?.user?.membership_name}</span>
                     <button
                       type="button"
                       className="btn barcode  open-pop"
                       pop-target="#zoomCardMembership"
-                      onClick={(e) =>
-                        popupOpen(
-                          e.target,
-                          axioData?.res4_data?.stamp_card_number
-                        )
-                      }
+                      onClick={(e) => popupOpen(e.target, axioData?.res4_data?.stamp_card_number)}
                     >
-                      <i
-                        className="ico barcode-w"
-                        pop-target="#zoomCardMembership"
-                      >
+                      <i className="ico barcode-w" pop-target="#zoomCardMembership">
                         <span>바코드</span>
                       </i>
                     </button>
                   </div>
                 </div>
                 <ul className="data-list">
-                  <li className="en">
-                    {axioData?.res2_data?.birthday
-                      ?.replace(/(.{4})/, "$1-")
-                      .replace(/(.{7})/, "$1-")}
-                  </li>
+                  <li className="en">{axioData?.res2_data?.birthday?.replace(/(.{4})/, "$1-").replace(/(.{7})/, "$1-")}</li>
                   <li className="en">{axioData?.res2_data?.login_email}</li>
                 </ul>
               </div>
@@ -139,11 +106,7 @@ export default function MyPage() {
                       <div className="data-wrap">
                         <p className="title">보유 스탬프 수</p>
                         <p className="state">
-                          {
-                            axioData?.res1_data?.user?.stamp_card
-                              ?.complete_count
-                          }{" "}
-                          <em>/ 12</em>
+                          {axioData?.res1_data?.user?.stamp_card?.complete_count} <em>/ 12</em>
                         </p>
                       </div>
                     </Link>
@@ -159,9 +122,7 @@ export default function MyPage() {
                       <div className="data-wrap">
                         <p className="title">쿠폰</p>
                         <p className="state">
-                          <span className="new">
-                            {axioData?.res3_data?.coupon_list?.length}
-                          </span>
+                          <span className="new">{axioData?.res3_data?.coupon_list?.length}</span>
                         </p>
                       </div>
                     </Link>
@@ -188,18 +149,14 @@ export default function MyPage() {
                 <li>
                   <Link to="/mypage/orderRecipt">주문 내역</Link>
                 </li>
-                <li>
+                {/* <li>
                   <Link to="#">즐겨 찾는 매장 관리</Link>
-                </li>
+                </li> */}
                 {/* <li>
                   <Link to="/mypage/favoriteMenu">즐겨 찾는 메뉴 관리</Link>
                 </li> */}
                 <li>
-                  <a
-                    className="open-pop"
-                    data-href="#popupExitJoin"
-                    onClick={(e) => popupOpen(e.target)}
-                  >
+                  <a className="open-pop" data-href="#popupExitJoin" onClick={(e) => popupOpen(e.target)}>
                     로그아웃
                   </a>
                 </li>
@@ -223,9 +180,7 @@ export default function MyPage() {
               <div className="item card membership">
                 <div className="card-wrap">
                   <div>
-                    <p className="grade en">
-                      {axioData?.res4_data?.membership_name}
-                    </p>
+                    <p className="grade en">{axioData?.res4_data?.membership_name}</p>
                     <p className="sort en">
                       DAL.KOMM
                       <br />
@@ -240,9 +195,7 @@ export default function MyPage() {
                       {/* <div className="img-wrap">
                         <img src="../@resource/images/com/barcode.svg" alt="바코드" />
                       </div> */}
-                      <p className="num">
-                        {axioData?.res4_data?.stamp_card_number}
-                      </p>
+                      <p className="num">{axioData?.res4_data?.stamp_card_number}</p>
                     </div>
                   </div>
                 </div>

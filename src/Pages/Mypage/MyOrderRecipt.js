@@ -59,6 +59,7 @@ export default function MyOrderRecipt() {
       })
     );
   };
+  console.log(axioData);
   return (
     <React.Fragment>
       <GoContents />

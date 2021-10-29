@@ -166,7 +166,7 @@ export function Order(props) {
         })
       );
   };
-  console.log(axioData);
+
   if (axioData) {
     return (
       <React.Fragment>

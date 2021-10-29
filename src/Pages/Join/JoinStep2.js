@@ -79,6 +79,7 @@ export default function JoinStep2() {
           name: $("#userName").val(),
           birthday: $("#datepicker").val().split("-").join(""),
         };
+
         axios
           .all([
             axios.post(

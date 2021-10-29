@@ -595,11 +595,19 @@ export default function OrderDetail() {
               <section className="section">
                 <div className="item drink-info">
                   <div className="img-wrap">
-                    <img id="orderImg" src={axioData?.res1_data?.menu?.detail_image_hot_simple} alt={axioData?.res1_data?.menu?.name_eng} />
+                    <img
+                      id="orderImg"
+                      src={
+                        axioData?.res1_data?.menu?.type === "ICE"
+                          ? axioData?.res1_data?.menu?.detail_image_ice
+                          : axioData?.res1_data?.menu?.detail_image_hot_simple
+                      }
+                      alt={axioData?.res1_data?.menu?.name_eng}
+                    />
                   </div>
                   <div className="detail-wrap">
                     <div className="text-box">
-                      {/* <p className="type en fc-orange">COFFEE</p> */}
+                      <p className="type en fc-orange"> </p>
                       <p className="name">
                         <span id="orderName">{axioData?.res1_data?.menu?.name_kor}</span>
                         <span className="en">{axioData?.res1_data?.menu?.name_eng}</span>
