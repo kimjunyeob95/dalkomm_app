@@ -8,6 +8,7 @@ import $ from "jquery";
 import { SERVER_DALKOMM } from "Config/Server";
 import { authContext } from "ContextApi/Context";
 import { checkMobile } from "Config/GlobalJs";
+import Popup_nomal from "Components/Popup/Popup_nomal";
 
 import React, { useEffect, useContext, useState } from "react";
 import HeaderSub from "Components/Header/HeaderSub";
@@ -30,7 +31,10 @@ export default function Find_id() {
   const handleCheck = (e) => {
     let phoneValue = $("#userPhone").val();
     if (phoneValue === "") {
-      return alert("인증받을 번호를 입력해주세요.");
+      $("#resAlert").text("인증받을 번호를 입력해주세요.");
+      $(".overlay.popupExitJoin").addClass("active");
+      $("body").addClass("modal-opened");
+      return false;
     } else {
       let body = {
         request_type: "find_id",
@@ -51,10 +55,12 @@ export default function Find_id() {
               res1.data.meta.code === 20000 &&
               res1.data.meta.message === "SUCCESS"
             ) {
-              alert("인증번호를 전송했습니다.");
+              $("#resAlert").text("인증번호를 전송했습니다.");
             } else {
-              alert("잘못된 번호입니다.");
+              $("#resAlert").text("잘못된 번호입니다.");
             }
+            $(".overlay.popupExitJoin").addClass("active");
+            $("body").addClass("modal-opened");
           })
         );
     }
@@ -64,7 +70,10 @@ export default function Find_id() {
     let phoneValue = $("#userPhone").val();
     let body = {};
     if (phoneValue === "") {
-      return alert("인증받을 번호를 입력해주세요.");
+      $("#resAlert").text("인증받을 번호를 입력해주세요.");
+      $(".overlay.popupExitJoin").addClass("active");
+      $("body").addClass("modal-opened");
+      return false;
     } else {
       body = {
         request_type: "find_id",
@@ -99,12 +108,18 @@ export default function Find_id() {
                 };
               });
             } else {
-              return alert(res1.data.meta.msg);
+              $("#resAlert").text(res1.data.meta.msg);
+              $(".overlay.popupExitJoin").addClass("active");
+              $("body").addClass("modal-opened");
+              return false;
             }
           })
         );
     } else {
-      return alert("인증번호를 제대로 입력해주세요.");
+      $("#resAlert").text("인증번호를 제대로 입력해주세요.");
+      $(".overlay.popupExitJoin").addClass("active");
+      $("body").addClass("modal-opened");
+      return false;
     }
   };
 
@@ -254,7 +269,7 @@ export default function Find_id() {
         </div>
         {/* // #container */}
       </div>
-
+      <Popup_nomal />
       {/* // #wrap */}
     </React.Fragment>
   );

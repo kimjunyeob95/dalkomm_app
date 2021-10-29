@@ -16,7 +16,13 @@ import Popup_removeUser from "Components/Popup/Popup_removeUser";
 import HeaderSub from "Components/Header/HeaderSub";
 import GoContents from "Components/GoContents";
 
-import { contGap, fadeInOut, fn_pw_check, name_check, popupOpen } from "Jquery/Jquery";
+import {
+  contGap,
+  fadeInOut,
+  fn_pw_check,
+  name_check,
+  popupOpen,
+} from "Jquery/Jquery";
 import { SERVER_DALKOMM } from "Config/Server";
 
 import { authContext } from "ContextApi/Context";
@@ -26,7 +32,20 @@ const range = require("lodash");
 export default function MyModify() {
   const [startDate, setStartDate] = useState(new Date());
   const years = range.range(1940, getYear(new Date()) + 1, 1); // 수정
-  const months = ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"];
+  const months = [
+    "1월",
+    "2월",
+    "3월",
+    "4월",
+    "5월",
+    "6월",
+    "7월",
+    "8월",
+    "9월",
+    "10월",
+    "11월",
+    "12월",
+  ];
 
   const [state, dispatch] = useContext(authContext);
   const [axioData, setData] = useState();
@@ -45,7 +64,11 @@ export default function MyModify() {
     axios
       .all([
         axios.post(`${SERVER_DALKOMM}/app/api/main/user`, body, header_config),
-        axios.post(`${SERVER_DALKOMM}/app/api/v2/my_account/profile`, body, header_config),
+        axios.post(
+          `${SERVER_DALKOMM}/app/api/v2/my_account/profile`,
+          body,
+          header_config
+        ),
       ])
       .then(
         axios.spread((res1, res2) => {
@@ -58,22 +81,43 @@ export default function MyModify() {
               res2_data,
             };
           });
+
           if (res2.data.data.is_email_user) {
-            axios.all([axios.post(`${SERVER_DALKOMM}/app/api/account/simple/profile`, body, header_config)]).then(
-              axios.spread((ress1) => {
-                res2_data = ress1.data.data;
-                setData((origin) => {
-                  return {
-                    ...origin,
-                    res1_data,
-                    res2_data,
-                  };
-                });
-                setStartDate(new Date(res2_data?.birthday?.replace(/(.{4})/, "$1-").replace(/(.{7})/, "$1-")));
-              })
-            );
+            axios
+              .all([
+                axios.post(
+                  `${SERVER_DALKOMM}/app/api/account/simple/profile`,
+                  body,
+                  header_config
+                ),
+              ])
+              .then(
+                axios.spread((ress1) => {
+                  res2_data = ress1.data.data;
+                  setData((origin) => {
+                    return {
+                      ...origin,
+                      res1_data,
+                      res2_data,
+                    };
+                  });
+                  setStartDate(
+                    new Date(
+                      res2_data?.birthday
+                        ?.replace(/(.{4})/, "$1-")
+                        .replace(/(.{7})/, "$1-")
+                    )
+                  );
+                })
+              );
           } else {
-            setStartDate(new Date(res2_data?.birthday?.replace(/(.{4})/, "$1-").replace(/(.{7})/, "$1-")));
+            setStartDate(
+              new Date(
+                res2_data?.birthday
+                  ?.replace(/(.{4})/, "$1-")
+                  .replace(/(.{7})/, "$1-")
+              )
+            );
           }
         })
       );
@@ -102,12 +146,20 @@ export default function MyModify() {
           name: $("#userName").val(),
           birthday: $("#datepicker").val().split("-").join(""),
         };
-        axios.all([axios.post(`${SERVER_DALKOMM}/app/api/v2/my_account/update_profile`, body, header_config)]).then(
-          axios.spread((res1) => {
-            alert(res1.data.meta.msg);
-            window.location.reload();
-          })
-        );
+        axios
+          .all([
+            axios.post(
+              `${SERVER_DALKOMM}/app/api/v2/my_account/update_profile`,
+              body,
+              header_config
+            ),
+          ])
+          .then(
+            axios.spread((res1) => {
+              alert(res1.data.meta.msg);
+              window.location.reload();
+            })
+          );
       }
     } else if (type === "비밀번호") {
       $(".chk-validation").each(function (i, e) {
@@ -118,7 +170,11 @@ export default function MyModify() {
           return false;
         }
       });
-      if (validation && name_check($("#userName").val()) && fn_pw_check($("#userNewPw").val(), $("#userNewPwChk").val())) {
+      if (
+        validation &&
+        name_check($("#userName").val()) &&
+        fn_pw_check($("#userNewPw").val(), $("#userNewPwChk").val())
+      ) {
         body = {
           name: $("#userName").val(),
           country_code: "82",
@@ -126,12 +182,20 @@ export default function MyModify() {
           birthday: $("#datepicker").val().split("-").join(""),
           password: $("#userNewPw").val(),
         };
-        axios.all([axios.post(`${SERVER_DALKOMM}/app/api/account/simple/update/profile`, body, header_config)]).then(
-          axios.spread((res1) => {
-            alert(res1.data.meta.msg);
-            window.location.reload();
-          })
-        );
+        axios
+          .all([
+            axios.post(
+              `${SERVER_DALKOMM}/app/api/account/simple/update/profile`,
+              body,
+              header_config
+            ),
+          ])
+          .then(
+            axios.spread((res1) => {
+              alert(res1.data.meta.msg);
+              window.location.reload();
+            })
+          );
       }
     } else if (type === "휴대전화") {
       $(".chk-validation").each(function (i, e) {
@@ -158,27 +222,43 @@ export default function MyModify() {
           };
         }
         if ($("#numChk").val() !== "") {
-          axios.all([axios.post(`${SERVER_DALKOMM}/app/api/account/simple/cert/confirm`, body, header_config)]).then(
-            axios.spread((res1) => {
-              if (res1.data.meta.code === 20000) {
-                body = {
-                  name: $("#userName").val(),
-                  country_code: "82",
-                  mobile: axioData.res2_data?.mobile,
-                  birthday: $("#datepicker").val().split("-").join(""),
-                  update_profile_token: res1.data.data.update_profile_token,
-                };
-                axios.all([axios.post(`${SERVER_DALKOMM}/app/api/account/simple/update/profile`, body, header_config)]).then(
-                  axios.spread((res1) => {
-                    alert(res1.data.meta.msg);
-                    window.location.reload();
-                  })
-                );
-              } else {
-                return alert(res1.data.meta.msg);
-              }
-            })
-          );
+          axios
+            .all([
+              axios.post(
+                `${SERVER_DALKOMM}/app/api/account/simple/cert/confirm`,
+                body,
+                header_config
+              ),
+            ])
+            .then(
+              axios.spread((res1) => {
+                if (res1.data.meta.code === 20000) {
+                  body = {
+                    name: $("#userName").val(),
+                    country_code: "82",
+                    mobile: axioData.res2_data?.mobile,
+                    birthday: $("#datepicker").val().split("-").join(""),
+                    update_profile_token: res1.data.data.update_profile_token,
+                  };
+                  axios
+                    .all([
+                      axios.post(
+                        `${SERVER_DALKOMM}/app/api/account/simple/update/profile`,
+                        body,
+                        header_config
+                      ),
+                    ])
+                    .then(
+                      axios.spread((res1) => {
+                        alert(res1.data.meta.msg);
+                        window.location.reload();
+                      })
+                    );
+                } else {
+                  return alert(res1.data.meta.msg);
+                }
+              })
+            );
         } else {
           return alert("인증번호를 제대로 입력해주세요.");
         }
@@ -197,18 +277,30 @@ export default function MyModify() {
         mobile: phoneValue,
       };
 
-      axios.all([axios.post(`${SERVER_DALKOMM}/app/api/account/simple/cert/create_number`, body, header_config)]).then(
-        axios.spread((res1) => {
-          if (res1.data.meta.code === 20000 && res1.data.meta.message === "SUCCESS") {
-            alert("인증번호를 전송했습니다.");
-          } else {
-            alert("잘못된 번호입니다.");
-          }
-        })
-      );
+      axios
+        .all([
+          axios.post(
+            `${SERVER_DALKOMM}/app/api/account/simple/cert/create_number`,
+            body,
+            header_config
+          ),
+        ])
+        .then(
+          axios.spread((res1) => {
+            if (
+              res1.data.meta.code === 20000 &&
+              res1.data.meta.message === "SUCCESS"
+            ) {
+              alert("인증번호를 전송했습니다.");
+            } else {
+              alert("잘못된 번호입니다.");
+            }
+          })
+        );
     }
   };
 
+  $("#userName").change(function () {});
   if (axioData) {
     return (
       <React.Fragment>
@@ -236,7 +328,11 @@ export default function MyModify() {
                           className="input-text medium"
                           id="userId"
                           name="email"
-                          defaultValue={axioData?.res2_data?.is_email_user ? axioData?.res2_data?.login_email : axioData?.res2_data?.email}
+                          defaultValue={
+                            axioData?.res2_data?.is_email_user
+                              ? axioData?.res2_data?.login_email
+                              : axioData?.res2_data?.email
+                          }
                           disabled
                         />
                       </div>
@@ -253,10 +349,12 @@ export default function MyModify() {
                           title="이름 (닉네임)"
                           name="user_name"
                           defaultValue={
-                            axioData?.res2_data?.is_email_user && axioData?.res2_data?.name
+                            axioData?.res2_data?.is_email_user &&
+                            axioData?.res2_data?.name
                               ? decodeURI(axioData?.res2_data?.name)
                               : axioData?.res2_data?.user?.user_name
                           }
+                          onChange={() => console.log("zz")}
                         />
                       </div>
                     </div>
@@ -276,18 +374,34 @@ export default function MyModify() {
                             nextMonthButtonDisabled,
                           }) => (
                             <div>
-                              <button onClick={decreaseMonth} disabled={prevMonthButtonDisabled} type="button">
+                              <button
+                                onClick={decreaseMonth}
+                                disabled={prevMonthButtonDisabled}
+                                type="button"
+                              >
                                 {"<"}
                               </button>
-                              <select value={getYear(date)} onChange={({ target: { value } }) => changeYear(value)}>
+                              <select
+                                value={getYear(date)}
+                                onChange={({ target: { value } }) =>
+                                  changeYear(value)
+                                }
+                              >
                                 {years.map((option) => (
                                   <option key={option} value={option}>
                                     {option}
                                   </option>
                                 ))}
                               </select>
-                              년<span className="date_month">{months[getMonth(date)]}</span>
-                              <button onClick={increaseMonth} disabled={nextMonthButtonDisabled} type="button">
+                              년
+                              <span className="date_month">
+                                {months[getMonth(date)]}
+                              </span>
+                              <button
+                                onClick={increaseMonth}
+                                disabled={nextMonthButtonDisabled}
+                                type="button"
+                              >
                                 {">"}
                               </button>
                             </div>
@@ -312,7 +426,11 @@ export default function MyModify() {
                     </div>
                   </fieldset>
                   <div className="btn-area">
-                    <button type="button" className="btn dark large full" onClick={() => handleNomalModify("정보")}>
+                    <button
+                      type="button"
+                      className="btn dark large full"
+                      onClick={() => handleNomalModify("정보")}
+                    >
                       정보 수정하기
                     </button>
                   </div>
@@ -353,7 +471,10 @@ export default function MyModify() {
                           id="userNewPw"
                           placeholder="신규 비밀번호를 입력해 주세요."
                         />
-                        <p className="guide-txt">8자리 이상 영문,숫자,특수문자 중 2가지 이상 사용해 주세요</p>
+                        <p className="guide-txt">
+                          8자리 이상 영문,숫자,특수문자 중 2가지 이상 사용해
+                          주세요
+                        </p>
                       </div>
                     </div>
                     <div className="field">
@@ -372,7 +493,11 @@ export default function MyModify() {
                     </div>
                   </fieldset>
                   <div className="btn-area">
-                    <button type="button" className="btn dark large full" onClick={() => handleNomalModify("비밀번호")}>
+                    <button
+                      type="button"
+                      className="btn dark large full"
+                      onClick={() => handleNomalModify("비밀번호")}
+                    >
                       비밀번호 변경하기
                     </button>
                   </div>
@@ -382,7 +507,11 @@ export default function MyModify() {
               <div className="form-wrap">
                 <div className="form-title flex-both">
                   <h2 className="h2">휴대전화 번호 수정</h2>
-                  <span className="user-info">{axioData.res2_data?.mobile?.replace(/(.{3})/, "$1-").replace(/(.{8})/, "$1-")}</span>
+                  <span className="user-info">
+                    {axioData.res2_data?.mobile
+                      ?.replace(/(.{3})/, "$1-")
+                      .replace(/(.{8})/, "$1-")}
+                  </span>
                 </div>
                 <form className="form">
                   <fieldset className="fieldset">
@@ -400,7 +529,11 @@ export default function MyModify() {
                             placeholder="변경할 번호를 입력해 주세요."
                             inputMode="numeric"
                           />
-                          <button type="button" className="btn dark-g small" onClick={(e) => handleCheck(e.currentTarget)}>
+                          <button
+                            type="button"
+                            className="btn dark-g small"
+                            onClick={(e) => handleCheck(e.currentTarget)}
+                          >
                             인증하기
                           </button>
                         </div>
@@ -422,7 +555,11 @@ export default function MyModify() {
                     </div>
                   </fieldset>
                   <div className="btn-area">
-                    <button type="button" className="btn dark large full" onClick={() => handleNomalModify("휴대전화")}>
+                    <button
+                      type="button"
+                      className="btn dark large full"
+                      onClick={() => handleNomalModify("휴대전화")}
+                    >
                       휴대전화 번호 수정하기
                     </button>
                   </div>
@@ -430,7 +567,11 @@ export default function MyModify() {
               </div>
 
               <div className="withdrawal-btn">
-                <a className="open-pop" data-href="#popupExitJoin" onClick={(e) => popupOpen(e.target)}>
+                <a
+                  className="open-pop"
+                  data-href="#popupExitJoin"
+                  onClick={(e) => popupOpen(e.target)}
+                >
                   회원 탈퇴하기
                 </a>
               </div>

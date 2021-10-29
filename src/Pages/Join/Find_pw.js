@@ -9,6 +9,7 @@ import { SERVER_DALKOMM } from "Config/Server";
 import { authContext } from "ContextApi/Context";
 import { checkMobile } from "Config/GlobalJs";
 import { fn_pw_check } from "Jquery/Jquery";
+import Popup_nomal from "Components/Popup/Popup_nomal";
 
 import React, { useEffect, useContext, useState } from "react";
 import HeaderSub from "Components/Header/HeaderSub";
@@ -28,10 +29,16 @@ export default function Find_pw() {
     let phoneValue = $("#userPhone").val();
     let userIdValue = $("#userId").val();
     if (userIdValue === "") {
-      return alert("아이디나 이메일주소를 입력해주세요.");
+      $("#resAlert").text("아이디나 이메일주소를 입력해주세요.");
+      $(".overlay.popupExitJoin").addClass("active");
+      $("body").addClass("modal-opened");
+      return false;
     }
     if (phoneValue === "") {
-      return alert("인증받을 번호를 입력해주세요.");
+      $("#resAlert").text("인증받을 번호를 입력해주세요.");
+      $(".overlay.popupExitJoin").addClass("active");
+      $("body").addClass("modal-opened");
+      return false;
     }
 
     let body = {
@@ -54,10 +61,14 @@ export default function Find_pw() {
             res1.data.meta.code === 20000 &&
             res1.data.meta.message === "SUCCESS"
           ) {
-            alert("인증번호를 전송했습니다.");
+            $("#resAlert").text("인증번호를 전송했습니다.");
           } else {
-            alert("잘못된 번호입니다.");
+            $("#resAlert").text("잘못된 번호입니다.");
           }
+
+          $(".overlay.popupExitJoin").addClass("active");
+          $("body").addClass("modal-opened");
+          return false;
         })
       );
   };
@@ -67,10 +78,16 @@ export default function Find_pw() {
     let userIdValue = $("#userId").val();
     let body = {};
     if (userIdValue === "") {
-      return alert("아이디나 이메일주소를 입력해주세요.");
+      $("#resAlert").text("아이디나 이메일주소를 입력해주세요.");
+      $(".overlay.popupExitJoin").addClass("active");
+      $("body").addClass("modal-opened");
+      return false;
     }
     if (phoneValue === "") {
-      return alert("인증받을 번호를 입력해주세요.");
+      $("#resAlert").text("인증받을 번호를 입력해주세요.");
+      $(".overlay.popupExitJoin").addClass("active");
+      $("body").addClass("modal-opened");
+      return false;
     }
 
     body = {
@@ -107,12 +124,18 @@ export default function Find_pw() {
                 };
               });
             } else {
-              return alert(res1.data.meta.msg);
+              $("#resAlert").text(res1.data.meta.msg);
+              $(".overlay.popupExitJoin").addClass("active");
+              $("body").addClass("modal-opened");
+              return false;
             }
           })
         );
     } else {
-      return alert("인증번호를 제대로 입력해주세요.");
+      $("#resAlert").text("인증번호를 제대로 입력해주세요.");
+      $(".overlay.popupExitJoin").addClass("active");
+      $("body").addClass("modal-opened");
+      return false;
     }
   };
 
@@ -121,8 +144,9 @@ export default function Find_pw() {
     $(".chk-validation").each(function (i, e) {
       if ($(e).val() === "") {
         validation = false;
-        alert($(e).attr("title") + "(을)를 입력해주세요.");
-        $(e).focus();
+        $("#resAlert").text($(e).attr("title") + "(을)를 입력해주세요.");
+        $(".overlay.popupExitJoin").addClass("active");
+        $("body").addClass("modal-opened");
         return false;
       }
     });
@@ -142,7 +166,9 @@ export default function Find_pw() {
         ])
         .then(
           axios.spread((res1) => {
-            alert(res1.data.meta.msg);
+            $("#resAlert").text(res1.data.meta.msg);
+            $(".overlay.popupExitJoin").addClass("active");
+            $("body").addClass("modal-opened");
           })
         );
       setTimeout(() => {
@@ -309,6 +335,7 @@ export default function Find_pw() {
           {/* // #content */}
         </div>
         {/* // #container */}
+        <Popup_nomal />
       </div>
     </React.Fragment>
   );

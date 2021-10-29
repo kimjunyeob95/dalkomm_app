@@ -10,15 +10,25 @@ export function fadeInOut() {
 
 export function fn_masking(input, index, character, type) {
   if (type === "back") {
-    return input.substr(index.length, index) + character + input.substr(index + character.length);
+    return (
+      input.substr(index.length, index) +
+      character +
+      input.substr(index + character.length)
+    );
   } else if (type === "front") {
-    return input.substr(0, index) + character + input.substr(index + character.length);
+    return (
+      input.substr(0, index) +
+      character +
+      input.substr(index + character.length)
+    );
   }
 }
 export function name_check(name) {
   const regex = /^[ㄱ-ㅎ|가-힣|a-z|A-Z]+$/;
   if (!regex.test(name) || name.length < 2) {
-    alert("2자 이상, 한글 또는 영문만 입력 가능합니다.");
+    $("#resAlert").text("2자 이상, 한글 또는 영문만 입력 가능합니다.");
+    $(".overlay.popupExitJoin").addClass("active");
+    $("body").addClass("modal-opened");
     return false;
   } else {
     return true;
@@ -26,9 +36,12 @@ export function name_check(name) {
 }
 
 export function email_check(email) {
-  var reg = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
+  var reg =
+    /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
   if (!reg.test(email)) {
-    alert("올바른 형식의 이메일 주소를 입력해 주세요.");
+    $("#resAlert").text("올바른 형식의 이메일 주소를 입력해 주세요.");
+    $(".overlay.popupExitJoin").addClass("active");
+    $("body").addClass("modal-opened");
     return false;
   } else {
     return true;
@@ -41,11 +54,15 @@ export function fn_pw_check(pw, pw2) {
   var pattern3 = /[~!@#$%<>^&*]/; // 원하는 특수문자 추가 제거
 
   if (pw.length === 0) {
-    alert("비밀번호를 입력해주세요");
+    $("#resAlert").text("비밀번호를 입력해주세요");
+    $(".overlay.popupExitJoin").addClass("active");
+    $("body").addClass("modal-opened");
     return false;
   } else {
     if (pw !== pw2) {
-      alert("비밀번호가 일치하지 않습니다.");
+      $("#resAlert").text("비밀번호가 일치하지 않습니다.");
+      $(".overlay.popupExitJoin").addClass("active");
+      $("body").addClass("modal-opened");
       return false;
     }
   }
@@ -63,7 +80,11 @@ export function fn_pw_check(pw, pw2) {
     pw.length > 50
   ) {
     $(".alert-text").show();
-    alert("8자리 이상 영문, 숫자, 특수문자 중 2가지 이상 사용해 주세요.");
+    $("#resAlert").text(
+      "8자리 이상 영문, 숫자, 특수문자 중 2가지 이상 사용해 주세요."
+    );
+    $(".overlay.popupExitJoin").addClass("active");
+    $("body").addClass("modal-opened");
     return false;
   }
   return true;
@@ -80,7 +101,10 @@ export function accordion(e, targetN) {
     container = $(e).parent().parent().parent();
   } else if ($(e).prop("tagName") === "DIV" && $(e).hasClass("flex-both")) {
     container = $(e).parent().parent();
-  } else if ($(e).prop("tagName") === "DIV" && $(e).hasClass("js-accordion-switche")) {
+  } else if (
+    $(e).prop("tagName") === "DIV" &&
+    $(e).hasClass("js-accordion-switche")
+  ) {
     container = $(e).parent();
   }
 
@@ -107,7 +131,10 @@ export function accordion(e, targetN) {
 
   function siblingsClose() {
     $(container).siblings().removeClass("active");
-    $(container).siblings().children(".js-accordion-content").removeClass("active");
+    $(container)
+      .siblings()
+      .children(".js-accordion-content")
+      .removeClass("active");
   }
 }
 
@@ -134,7 +161,11 @@ export function popupOpen(e, cardNumber) {
   }
   $(e).attr("temp-id", "" + target);
   if (target === "#zoomCardMembership" || target === "#zoomCardGift") {
-    window.$("#barcode").barcode(cardNumber, "code128", { barWidth: 2, barHeight: 50, fontSize: 20 });
+    window.$("#barcode").barcode(cardNumber, "code128", {
+      barWidth: 2,
+      barHeight: 50,
+      fontSize: 20,
+    });
     try {
       let if_data = JSON.stringify({ data: "Y" });
       if (checkMobile() === "android") {
@@ -196,7 +227,10 @@ export function tabLink(e) {
   var tabTarget = $(e.target).data("href");
   $(e.target).parent("li").addClass("current active");
   $(e.target).parent("li").siblings("li").removeClass("current active");
-  $(tabTarget).addClass("active").siblings(".tab-content").removeClass("active");
+  $(tabTarget)
+    .addClass("active")
+    .siblings(".tab-content")
+    .removeClass("active");
 }
 
 export function contGap() {

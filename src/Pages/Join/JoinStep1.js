@@ -8,7 +8,8 @@ import $ from "jquery";
 import React, { useEffect, useContext, useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { popupOpen, fadeInOut } from "Jquery/Jquery";
-import Popup_bak from "./Popup_bak";
+import Popup_bak from "Components/Popup/Popup_bak";
+import Popup_nomal from "Components/Popup/Popup_nomal";
 
 import { SERVER_DALKOMM } from "Config/Server";
 import { authContext } from "ContextApi/Context";
@@ -31,7 +32,10 @@ export default function JoinStep1() {
   const handleCheck = (e) => {
     let phoneValue = $("#userPhone").val();
     if (phoneValue === "") {
-      return alert("인증받을 번호를 입력해주세요.");
+      $("#resAlert").text("인증받을 번호를 입력해 주세요.");
+      $(".overlay.popupExitJoin").addClass("active");
+      $("body").addClass("modal-opened");
+      return false;
     } else {
       let body = {
         request_type: "join",
@@ -39,15 +43,30 @@ export default function JoinStep1() {
         mobile: phoneValue,
       };
 
-      axios.all([axios.post(`${SERVER_DALKOMM}/app/api/account/simple/cert/create_number`, body, header_config)]).then(
-        axios.spread((res1) => {
-          if (res1.data.meta.code === 20000 && res1.data.meta.message === "SUCCESS") {
-            alert("인증번호를 전송했습니다.");
-          } else {
-            alert("잘못된 번호입니다.");
-          }
-        })
-      );
+      axios
+        .all([
+          axios.post(
+            `${SERVER_DALKOMM}/app/api/account/simple/cert/create_number`,
+            body,
+            header_config
+          ),
+        ])
+        .then(
+          axios.spread((res1) => {
+            if (
+              res1.data.meta.code === 20000 &&
+              res1.data.meta.message === "SUCCESS"
+            ) {
+              $("#resAlert").text("인증번호를 전송했습니다.");
+              $(".overlay.popupExitJoin").addClass("active");
+              $("body").addClass("modal-opened");
+            } else {
+              $("#resAlert").text("잘못된 번호입니다.");
+              $(".overlay.popupExitJoin").addClass("active");
+              $("body").addClass("modal-opened");
+            }
+          })
+        );
     }
   };
 
@@ -55,7 +74,10 @@ export default function JoinStep1() {
     let phoneValue = $("#userPhone").val();
     let body = {};
     if (phoneValue === "") {
-      return alert("인증받을 번호를 입력해주세요.");
+      $("#resAlert").text("인증받을 번호를 입력해 주세요.");
+      $(".overlay.popupExitJoin").addClass("active");
+      $("body").addClass("modal-opened");
+      return false;
     } else {
       body = {
         request_type: "join",
@@ -65,20 +87,34 @@ export default function JoinStep1() {
       };
     }
     if ($("#numChk").val() !== "") {
-      axios.all([axios.post(`${SERVER_DALKOMM}/app/api/account/simple/cert/confirm`, body, header_config)]).then(
-        axios.spread((res1) => {
-          if (res1.data.meta.code === 20000) {
-            history.push({
-              pathname: "/join/step2",
-              join_token: res1.data.data.join_token,
-            });
-          } else {
-            return alert(res1.data.meta.msg);
-          }
-        })
-      );
+      axios
+        .all([
+          axios.post(
+            `${SERVER_DALKOMM}/app/api/account/simple/cert/confirm`,
+            body,
+            header_config
+          ),
+        ])
+        .then(
+          axios.spread((res1) => {
+            if (res1.data.meta.code === 20000) {
+              history.push({
+                pathname: "/join/step2",
+                join_token: res1.data.data.join_token,
+              });
+            } else {
+              $("#resAlert").text(res1.data.meta.msg);
+              $(".overlay.popupExitJoin").addClass("active");
+              $("body").addClass("modal-opened");
+              return false;
+            }
+          })
+        );
     } else {
-      return alert("인증번호를 제대로 입력해주세요.");
+      $("#resAlert").text("인증번호를 제대로 입력해주세요.");
+      $(".overlay.popupExitJoin").addClass("active");
+      $("body").addClass("modal-opened");
+      return false;
     }
   };
   return (
@@ -91,7 +127,12 @@ export default function JoinStep1() {
         <div id="container" className="container">
           <header id="header" className="header">
             <h1 className="page-title">회원가입</h1>
-            <button type="button" className="btn back open-pop" pop-target="#popupExitJoin" onClick={(e) => popupOpen(e.target)}>
+            <button
+              type="button"
+              className="btn back open-pop"
+              pop-target="#popupExitJoin"
+              onClick={(e) => popupOpen(e.target)}
+            >
               <i className="ico back" pop-target="#popupExitJoin">
                 <span className="blind">뒤로</span>
               </i>
@@ -134,7 +175,11 @@ export default function JoinStep1() {
                             placeholder="휴대전화 번호를 입력해 주세요."
                             inputMode="numeric"
                           />
-                          <button type="button" className="btn dark-g small" onClick={(e) => handleCheck(e.currentTarget)}>
+                          <button
+                            type="button"
+                            className="btn dark-g small"
+                            onClick={(e) => handleCheck(e.currentTarget)}
+                          >
                             인증하기
                           </button>
                         </div>
@@ -156,7 +201,11 @@ export default function JoinStep1() {
                     </div>
                   </fieldset>
                   <div className="btn-area">
-                    <button type="button" className="btn dark full large" onClick={(e) => handleSubmit(e.currentTarget)}>
+                    <button
+                      type="button"
+                      className="btn dark full large"
+                      onClick={(e) => handleSubmit(e.currentTarget)}
+                    >
                       인증번호 입력
                     </button>
                   </div>
@@ -170,6 +219,7 @@ export default function JoinStep1() {
       </div>
 
       <Popup_bak />
+      <Popup_nomal />
     </React.Fragment>
   );
 }
