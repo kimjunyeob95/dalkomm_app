@@ -1,4 +1,4 @@
-/* eslint-disable jsx-a11y/iframe-has-title */
+/* eslint-disable react/jsx-pascal-case */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
 /* eslint-disable jsx-a11y/anchor-is-valid */
@@ -11,6 +11,7 @@ import HeaderSub from "Components/Header/HeaderSub";
 import GoContents from "Components/GoContents";
 import { authContext } from "ContextApi/Context";
 import { SERVER_DALKOMM } from "Config/Server";
+import Popup_nomal from "Components/Popup/Popup_nomal";
 
 import { tabLink, fadeInOut, contGap } from "Jquery/Jquery";
 import { checkMobile } from "Config/GlobalJs";
@@ -29,30 +30,31 @@ export default function MyCouponSend() {
 
   const fn_submit = () => {
     let postBody = { user_coupon_id: Number($("#selectCoupon").val()) };
+    let validation = true;
     if ($(".giftid").hasClass("current")) {
       //아이디로 보내기
-      if ($("#giftName").val() === "") {
-        alert("아이디를 입력해 주세요");
+      if ($("#giftName").val() === "" || $("#giftName").val() === undefined) {
+        $("#resAlert").text("아이디를 입력해 주세요");
+        $(".overlay.popupExitJoin").addClass("active");
+        $("body").addClass("modal-opened");
+        validation = false;
         return false;
       }
       postBody = { ...postBody, user_id: $("#giftName").val() };
     } else {
       //휴대폰으로 보내기
-      if ($("#giftPhone").val() === "") {
-        alert("휴대폰 번호를 입력해 주세요");
+      if ($("#giftPhone").val() === "" || $("#giftPhone").val() === undefined) {
+        $("#resAlert").text("휴대폰 번호를 입력해 주세요");
+        $(".overlay.popupExitJoin").addClass("active");
+        $("body").addClass("modal-opened");
+        validation = false;
         return false;
       }
       postBody = { ...postBody, mobile: $("#giftPhone").val() };
     }
-    axios
-      .all([
-        axios.post(
-          `${SERVER_DALKOMM}/app/api/v2/coupon/present`,
-          postBody,
-          header_config
-        ),
-      ])
-      .then(
+
+    if (validation) {
+      axios.all([axios.post(`${SERVER_DALKOMM}/app/api/v2/coupon/present`, postBody, header_config)]).then(
         axios.spread((res1) => {
           alert(res1.data.meta.msg);
           if (res1.data.meta.code === 20000) {
@@ -60,30 +62,23 @@ export default function MyCouponSend() {
           }
         })
       );
+    }
   };
   useEffect(() => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
 
-    axios
-      .all([
-        axios.post(
-          `${SERVER_DALKOMM}/app/api/v2/coupon/list`,
-          body,
-          header_config
-        ),
-      ])
-      .then(
-        axios.spread((res1) => {
-          let res1_data = res1.data.data;
+    axios.all([axios.post(`${SERVER_DALKOMM}/app/api/v2/coupon/list`, body, header_config)]).then(
+      axios.spread((res1) => {
+        let res1_data = res1.data.data;
 
-          setData((origin) => {
-            return {
-              ...origin,
-              res1_data,
-            };
-          });
-        })
-      );
+        setData((origin) => {
+          return {
+            ...origin,
+            res1_data,
+          };
+        });
+      })
+    );
   }, []);
 
   useEffect(() => {
@@ -113,12 +108,7 @@ export default function MyCouponSend() {
 
         <div id="wrap" className="wrap">
           <div id="container" className="container">
-            <HeaderSub
-              title="쿠폰 선물하기"
-              location="/mypage/couponRecipt"
-              type="flexCenter"
-              icon="recipt"
-            />
+            <HeaderSub title="쿠폰 선물하기" location="/mypage/couponRecipt" type="flexCenter" icon="recipt" />
 
             <div id="content" className="mypage gift">
               <div className="form-wrap">
@@ -128,11 +118,7 @@ export default function MyCouponSend() {
                       <div className="field">
                         <span className="label">선물 쿠폰 선택</span>
                         <div className="insert">
-                          <select
-                            name=""
-                            id="selectCoupon"
-                            className="select medium"
-                          >
+                          <select name="" id="selectCoupon" className="select medium">
                             {axioData?.res1_data?.coupon_list
                               ?.filter((e, i) => e.status === 0)
                               .map((e, i) => (
@@ -147,28 +133,19 @@ export default function MyCouponSend() {
                       <div className="field">
                         <div className="flex-both">
                           <span className="label">받는 사람</span>
-                          <a
-                            className="btn light-g address-book"
-                            onClick={() => handleGetPhone()}
-                          >
+                          <a className="btn light-g address-book" onClick={() => handleGetPhone()}>
                             연락처에서 가져오기
                           </a>
                         </div>
 
                         <ul className="tabs">
                           <li className="current giftid">
-                            <a
-                              data-href="#tabGiftId"
-                              onClick={(e) => tabLink(e)}
-                            >
+                            <a data-href="#tabGiftId" onClick={(e) => tabLink(e)}>
                               아이디로 보내기
                             </a>
                           </li>
                           <li className="giftphone">
-                            <a
-                              data-href="#tabGiftPhone"
-                              onClick={(e) => tabLink(e)}
-                            >
+                            <a data-href="#tabGiftPhone" onClick={(e) => tabLink(e)}>
                               휴대폰 번호로 보내기
                             </a>
                           </li>
@@ -178,12 +155,7 @@ export default function MyCouponSend() {
                             아이디
                           </label>
                           <div className="insert">
-                            <input
-                              type="text"
-                              className="input-text medium"
-                              id="giftName2"
-                              placeholder="아이디를 입력해 주세요."
-                            />
+                            <input type="text" className="input-text medium" id="giftName2" placeholder="아이디를 입력해 주세요." />
                           </div>
                         </div>
                         <div id="tabGiftPhone" className="tab-content">
@@ -191,12 +163,7 @@ export default function MyCouponSend() {
                             휴대전화 번호
                           </label>
                           <div className="insert">
-                            <input
-                              type="number"
-                              className="input-text medium"
-                              id="giftPhone"
-                              placeholder="휴대전화 번호를 입력해 주세요"
-                            />
+                            <input type="number" className="input-text medium" id="giftPhone" placeholder="휴대전화 번호를 입력해 주세요" />
                           </div>
                         </div>
                       </div>
@@ -219,11 +186,7 @@ export default function MyCouponSend() {
                 <div className="popup">
                   <div className="popup-wrap">
                     <div className="btn-area">
-                      <button
-                        type="button"
-                        className="btn full x-large dark"
-                        onClick={() => fn_submit()}
-                      >
+                      <button type="button" className="btn full x-large dark" onClick={() => fn_submit()}>
                         <strong>선물하기</strong>
                       </button>
                     </div>
@@ -235,6 +198,7 @@ export default function MyCouponSend() {
             {/* // #content */}
           </div>
           {/* // #container */}
+          <Popup_nomal />
         </div>
         {/* // #wrap */}
       </React.Fragment>

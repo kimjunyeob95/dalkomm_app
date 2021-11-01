@@ -248,7 +248,7 @@ export default function OrderMembership() {
                   </div>
                   <div className="w-inner">
                     <div className="btn-area">
-                      <button type="button" className="btn nomal full large membership-agree" onClick={() => handleNotAgree("아니오")}>
+                      <button type="button" className="btn grey full large membership-agree" onClick={() => handleNotAgree("아니오")}>
                         아니오
                       </button>
                       <button type="button" className="btn dark full large membership-agree" onClick={() => handleNotAgree("네")}>

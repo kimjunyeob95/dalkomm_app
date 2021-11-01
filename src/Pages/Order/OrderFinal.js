@@ -266,7 +266,6 @@ export default function OrderFinal() {
     });
   };
   let menu_count = -1;
-
   if (axioData) {
     return (
       <React.Fragment>
@@ -467,51 +466,27 @@ export default function OrderFinal() {
                         <div className="select-group col-3">
                           {axioData?.res1_data?.pay_methods?.map((e, i) => (
                             <React.Fragment key={i}>
-                              {i === 0 ? (
-                                <React.Fragment>
-                                  <input
-                                    type="radio"
-                                    defaultChecked={e?.pay_method === frontData?.orderPayment}
-                                    defaultValue={e?.pay_method}
-                                    id={`orderPayment0${i}`}
-                                    name="orderPayment"
-                                    onClick={() => handlePayMethod(e?.pay_method)}
-                                  />
-                                  <label htmlFor={`orderPayment0${i}`} className="btn bdr medium">
-                                    {e?.name === "충전카드" ? (
-                                      <strong>
-                                        {e?.name}
-                                        <br />
-                                        {e?.balance?.toLocaleString("ko-KR") + "원"}
-                                      </strong>
-                                    ) : (
-                                      <strong>{e?.name}</strong>
-                                    )}
-                                  </label>
-                                </React.Fragment>
-                              ) : (
-                                <React.Fragment>
-                                  <input
-                                    type="radio"
-                                    defaultChecked={e?.pay_method === frontData?.orderPayment}
-                                    defaultValue={e?.pay_method}
-                                    id={`orderPayment0${i}`}
-                                    name="orderPayment"
-                                    onClick={() => handlePayMethod(e?.pay_method)}
-                                  />
-                                  <label htmlFor={`orderPayment0${i}`} className="btn bdr medium">
-                                    {e?.name === "충전카드" ? (
-                                      <strong>
-                                        {e?.name}
-                                        <br />
-                                        {e?.balance?.toLocaleString("ko-KR") + "원"}
-                                      </strong>
-                                    ) : (
-                                      <strong>{e?.name}</strong>
-                                    )}
-                                  </label>
-                                </React.Fragment>
-                              )}
+                              <input
+                                type="radio"
+                                defaultChecked={e?.pay_method === frontData?.orderPayment}
+                                defaultValue={e?.pay_method}
+                                id={`orderPayment0${i}`}
+                                name="orderPayment"
+                                onClick={() => handlePayMethod(e?.pay_method)}
+                              />
+                              <label htmlFor={`orderPayment0${i}`} className="btn bdr medium">
+                                {e?.name === "충전카드" ? (
+                                  <strong>
+                                    {e?.name}
+                                    <br />
+                                    {e?.balance?.toLocaleString("ko-KR") + "원"}
+                                  </strong>
+                                ) : e?.name === "페이코인 암호화폐 결제" ? (
+                                  <strong>페이코인</strong>
+                                ) : (
+                                  <strong>{e?.name}</strong>
+                                )}
+                              </label>
                             </React.Fragment>
                           ))}
                         </div>

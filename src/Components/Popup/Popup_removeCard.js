@@ -35,10 +35,12 @@ export default function Popup_removeCard() {
         axios.spread((response) => {
           if (response.data.meta.code === 20000) {
             alert("해당 충전카드가 삭제되었습니다.");
+            window.location.reload();
           } else {
             alert(response.data.meta.msg);
+            $("body").removeClass("modal-opened");
+            $("#popupExitJoin").removeClass("active");
           }
-          window.location.reload();
         })
       );
     }
