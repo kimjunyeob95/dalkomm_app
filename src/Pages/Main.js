@@ -6,14 +6,14 @@
 import axios from "axios";
 import $ from "jquery";
 import React, { useEffect, useContext, useState } from "react";
-import { useLocation, Link } from "react-router-dom";
+import { useLocation, Link, useHistory } from "react-router-dom";
 import HeaderMain from "Components/Header/HeaderMain";
 import Nav from "Components/Nav/Nav";
 import GoContents from "Components/GoContents";
 import Popup_nomal from "Components/Popup/Popup_nomal";
 
 import { accordion, scrollDetail, popupOpen, contGap, moveScrollTop, fadeInOut } from "Jquery/Jquery";
-import { checkMobile } from "Config/GlobalJs";
+import { checkMobile, getCookieValue } from "Config/GlobalJs";
 import { SERVER_DALKOMM } from "Config/Server";
 import { Swiper, SwiperSlide } from "swiper/react";
 import SwiperCore, { Autoplay, Scrollbar } from "swiper/core";
@@ -26,6 +26,7 @@ export function Main(props) {
   const [state, dispatch] = useContext(authContext);
   const [axioData, setData] = useState(false);
   const [storeData, setStore] = useState(false);
+  const history = useHistory();
   const { search } = useLocation();
 
   const body = {};
@@ -36,14 +37,11 @@ export function Main(props) {
       Authorization: state.auth,
     },
   };
-
   useEffect(() => {
     // 말풍선 스크롤시 hide/show
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    let location_body = {};
-    if (state?.latitude !== "" && state?.longitude !== "") {
-      location_body = { latitude: state.latitude, longitude: state?.longitude };
-    }
+    let location_body = { latitude: getCookieValue("latitude"), longitude: getCookieValue("longitude") };
+    // let location_body = { latitude: 37.507232666015625, longitude: 127.05642398540016 };
     if (state.accessToken !== "") {
       //로그인 시
 
@@ -374,7 +372,7 @@ export function Main(props) {
                 <Swiper id="recentlyOrder" className="swiper-container section-slider menu-slider" slidesPerView={"auto"} freeMode={false}>
                   <ul className="swiper-wrapper">
                     {axioData?.res7_data?.result?.map((element, index) => (
-                      <SwiperSlide className="swiper-slide" key={index}>
+                      <SwiperSlide className="swiper-slide" key={index} onClick={() => history.push(`/order/info/${element?.smartorderinfo_id}`)}>
                         <div className="item menu">
                           <div className="img-wrap">
                             <img
@@ -982,7 +980,18 @@ export function Main(props) {
         <Popup_nomal />
       </React.Fragment>
     );
-  } else return <React.Fragment></React.Fragment>;
+  } else
+    return (
+      <React.Fragment>
+        <div id="wrap" className="wrap">
+          <div id="container" className="container">
+            <HeaderMain />
+
+            <Nav order={1} />
+          </div>
+        </div>
+      </React.Fragment>
+    );
 }
 
 export default GoogleApiWrapper({

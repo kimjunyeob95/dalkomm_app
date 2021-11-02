@@ -206,5 +206,16 @@ export default function MyPage() {
         {/* // 멤버쉽 카드 확대 팝업 */}
       </React.Fragment>
     );
-  } else return <React.Fragment></React.Fragment>;
+  } else
+    return (
+      <React.Fragment>
+        <GoContents />
+        <div id="wrap" className="wrap">
+          <div id="container" className="container">
+            <HeaderSub type="flexCenter" icon="modify" title="마이 달콤" location="/mypage/modify" noBack={true} />
+            <Nav order={4} />
+          </div>
+        </div>
+      </React.Fragment>
+    );
 }

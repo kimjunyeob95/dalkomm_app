@@ -117,3 +117,40 @@
 .pay_way_content1 li.pay-method label::before {content: ''; display: inline-block; position: absolute; top: 0; right: -0.267vw; width: 0.267vw; height: 100%; background-color: #ebebeb; transition: background-color 0.4 ease;}
 .pay_way_content1 li.pay-method .radio.active + label::before {background-color: #ff592e;}
 
+.pay_card .title-wrap {display: -ms-flexbox; display: -webkit-flex; display: flex; -webkit-justify-content: space-between; -ms-flex-pack: justify; justify-content: space-between;
+	-webkit-align-items: center; -ms-flex-align: center; align-items: center;}
+.pay_card .title-wrap .name {width: 56vw; font-size: 4vw; display:block;overflow:hidden;text-overflow:ellipsis;-webkit-box-orient:vertical;word-wrap:break-word;display:-webkit-box;-webkit-line-clamp:1; text-align: right;}
+.pay_card .title-wrap .name > span {display: inline;}
+.pay_card .title-wrap .name > span + span {}
+.pay_card .title-wrap .name > span + span::before {content: ','; display: inline-block; position: relative; left: -0.533vw; font-size: inherit;}
+.pay_card .title-wrap .title,
+.cash_receipt .title-wrap .title {font-weight: 700;}
+.cash_receipt .title-wrap .title > span {font-weight: 400; color: rgba(0,0,0,0.5);}
+.pay_card .list.cards {background-color: #f9f9f9; padding-left: 5.333vw; padding-right: 5.333vw;}
+.pay_card .list.cards .cards_img {font-size: 0;}
+.cash_receipt .pay_way_content {display: -ms-flexbox; display: -webkit-flex; display: flex; -webkit-align-items: center; -ms-flex-align: center; align-items: center;}
+.cash_receipt .pay_way_content .receipt {display: -ms-flexbox; display: -webkit-flex; display: flex; -webkit-box-orient: horizontal; -webkit-box-direction: reverse; -ms-flex-direction: row-reverse; flex-direction: row-reverse; -webkit-align-items: center; -ms-flex-align: center; align-items: center;}
+.cash_receipt .pay_way_content .receipt + .receipt {margin-left: 4.267vw;}
+.cash_receipt .pay_way_content .radio_text { margin-left: 1.6vw; padding-top: 0.267vw; box-sizing: border-box;}
+.cash_receipt .pay_way_content .radio_text em {display: inline-block; font-size: 3.467vw; color: rgba(0,0,0,0.5);}
+.cash_receipt #receipt_number {width: 100%; height: 10.133vw; line-height: 10.133vw; border-bottom: 0.267vw solid #dbdbdb; font-size: 3.467vw;}
+.cash_receipt form + form {margin-top: 4vw;}
+
+.bg_bk {
+    background: rgba(0,0,0,0.5);
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    z-index: 102;
+}
+.wrap_s {width: 100%; padding: 0 5.333vw; box-sizing: border-box; z-index: 103;}
+.wrap_s .popup {width: 100%; }
+.wrap_s .popup .popup-body .text {text-align: center; font-size: 4.2667vw; line-height: 1.38; letter-spacing: -0.085vw; padding: 0 5.333vw; word-break: keep-all;}
+.wrap_s .popup .popup-body .text + .text {margin-top: 1.867vw;}
+.wrap_s .popup .popup-body .text strong {font-weight: 700;}
+.wrap_s .popup .popup-body .text + .alert { margin-top: 3.2vw;}
+.wrap_s .popup .popup-body .alert {font-size: 3.733vw; color: #ff5858;}
+.wrap_s .popup .btn-area.half .btn {width: 50%;}
+
+.charge-card-use {position: absolute; top: 3.2vw; left: 3.2vw; width: auto; font-size: 0;}
+.charge-card-use .btn {font-size: 0; line-height: 0; text-indent: -9999px;}

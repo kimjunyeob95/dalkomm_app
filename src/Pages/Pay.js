@@ -349,5 +349,17 @@ export default function Pay() {
         {/* // 기프트 카드 확대 팝업 */}
       </React.Fragment>
     );
-  } else return <React.Fragment></React.Fragment>;
+  } else
+    return (
+      <React.Fragment>
+        <GoContents />
+        <div id="wrap" className="wrap">
+          <div id="container" className="container">
+            <HeaderSub type="flexCenter" title="페이" icon="gift" payHeader={true} location="/mypage/giftSend" />
+
+            <Nav order={2} />
+          </div>
+        </div>
+      </React.Fragment>
+    );
 }

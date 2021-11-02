@@ -300,5 +300,18 @@ export default function MyCart() {
         {/* // #wrap */}
       </React.Fragment>
     );
-  } else return <React.Fragment></React.Fragment>;
+  } else
+    return (
+      <React.Fragment>
+        <GoContents />
+
+        <div id="wrap" className="wrap">
+          <div id="container" className="container">
+            <HeaderSub title="장바구니" location="/member/cart" icon="trash" headerPopup={true} popTarget="#drinkDelete" />
+
+            <Nav order={3} />
+          </div>
+        </div>
+      </React.Fragment>
+    );
 }

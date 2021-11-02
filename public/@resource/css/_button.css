@@ -53,8 +53,8 @@ button.btn	{overflow:visible;margin:0;padding:0;background-color:transparent;}
 .btn.scroll-top { width: 10.667vw; height: 10.667vw; background-color: #fff; border: 0.267vw solid #ebebeb; box-sizing: border-box;}
 
 .btn.scroll-top {position: fixed; right: 5.333vw; bottom: 22.933vw; z-index: 10;}
-body:not(.show-scrolltop-btn) .btn.scroll-top {opacity: 0; visibility: hidden; z-index: -9999; transition: all 0.5s ease-in;}
-body.show-scrolltop-btn .btn.scroll-top {opacity: 1; visibility: visible; transition: all 0.5s ease-in 0.1s;}
+body:not(.show-scrolltop-btn) .btn.scroll-top {opacity: 0; visibility: hidden; z-index: -9999; -webkit-transition: opacity 0.5s ease-in; -o-transition: opacity 0.5s ease-in; transition: opacity 0.5s ease-in;}
+body.show-scrolltop-btn .btn.scroll-top {opacity: 1; visibility: visible; -webkit-transition: opacity 0.5s ease-in 0.1s; -o-transition: opacity 0.5s ease-in 0.1s; transition: opacity 0.5s ease-in 0.1s;}
 
 /* .btn.back */
 /* .btn.go-page */
@@ -68,7 +68,7 @@ body.show-scrolltop-btn .btn.scroll-top {opacity: 1; visibility: visible; transi
 .btn.text span + .ico {margin-left: 1.333vw;}
 .btn.text span + .ico.arr-r {margin-bottom: 0.267vw;}
 a.btn.text[target=_blank] {position: relative;}
-a.btn.text[target=_blank]::after {position: relative; top: 0; display: inline-block; width: 4.533vw; height: 4.533vw; background-image: url('../images/com/icon_external.svg'); transform: translateY(0); margin-left: 1.067vw;}
+a.btn.text[target=_blank]::after {position: relative; top: 0; display: inline-block; width: 4.533vw; height: 4.533vw; background-image: url('../images/com/icon_external.svg'); -webkit-transform: translateY(0); -ms-transform: translateY(0); transform: translateY(0); margin-left: 1.067vw;}
 
 /* button sns */
 .btn.sns {width: 10.667vw; height: 10.667vw; line-height: 10.667vw; background-color: #f8f8f8;}
@@ -81,7 +81,8 @@ a.btn.text[target=_blank]::after {position: relative; top: 0; display: inline-bl
 .btn.bookmark.active .ico.heart {background-image: url('../images/com/icon_heart.svg');}
 
 /* btn.my-bookmark */
-.btn.my-bookmark .ico.heart {width: 16vw; height: 16vw; background-color: #ff592e; background-image: url('../images/com/icon_heart_bookmark.svg'); background-position-y: center; background-size: 9.067vw 9.067vw; border-radius: 50%; box-shadow: 0 1.333vw 2.667vw 0 rgba(0, 0, 0, 0.16);}
+.btn.my-bookmark {width: 16vw;height: 16vw;background-color: #ff592e; border-radius: 50%;box-shadow: 0 1.333vw 2.667vw 0 rgba(0, 0, 0, 0.16);}
+.btn.my-bookmark .ico.heart {width: 100%;height: 100%;background-image: url('../images/com/icon_heart_bookmark.svg');background-position-y: center;background-size: 9.067vw 9.067vw;}
 
 /* btn.view-page */
 .btn.view-page {width: 14.667vw; height: 14.667vw; border-radius: 50%; background-color: #fff;}
@@ -97,11 +98,15 @@ a.btn.text[target=_blank]::after {position: relative; top: 0; display: inline-bl
 
 /* .btn.back.bdr , .btn.share.bdr */
 .btn.back ,
-.btn.share{transition: width 0.25s ease, height 0.25s ease, border-width 0.25s ease;}
+.btn.share{-webkit-transition: width 0.25s ease, height 0.25s ease, border-width 0.25s ease;-o-transition: width 0.25s ease, height 0.25s ease, border-width 0.25s ease;transition: width 0.25s ease, height 0.25s ease, border-width 0.25s ease;}
 .btn.back.bdr,
-.btn.share.bdr {width: 10.667vw; height: 10.667vw; background-color: rgba(255,255,255,0.8); transition: width 0.25s ease, height 0.25s ease, border-width 0.25s ease;}
+.btn.share.bdr {width: 10.667vw; height: 10.667vw; background-color: rgba(255,255,255,0.8);-webkit-transition: width 0.25s ease, height 0.25s ease, border-width 0.25s ease; -o-transition: width 0.25s ease, height 0.25s ease, border-width 0.25s ease; transition: width 0.25s ease, height 0.25s ease, border-width 0.25s ease;}
 .btn.back.bdr > .ico,
 .btn.share.bdr > .ico{width: 100%; height: 100%; background-size: 8vw 8vw; background-position: center;}
 
 /* btn.verify */ 
 .btn.verify {height: 8vw; line-height: 8vw; border-radius: 0.800vw; background-color: #b5b5b5; font-size: 3.467vw; color: #fff; text-align: center; padding: 0 2.667vw;}
+
+/* .btn.tel */
+.btn.tel {position: relative;}
+.btn.tel::before {content: ''; display: inline-block; position: absolute; bottom: 0; left: 0; width: 100%; height: 0.267vw; background-color: #000;}

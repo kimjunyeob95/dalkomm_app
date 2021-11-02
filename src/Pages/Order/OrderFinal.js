@@ -477,7 +477,7 @@ export default function OrderFinal() {
                               <label htmlFor={`orderPayment0${i}`} className="btn bdr medium">
                                 {e?.name === "충전카드" ? (
                                   <strong>
-                                    {e?.name}
+                                    기프트카드
                                     <br />
                                     {e?.balance?.toLocaleString("ko-KR") + "원"}
                                   </strong>

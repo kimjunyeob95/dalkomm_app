@@ -4,11 +4,7 @@ function checkMobile() {
   if (varUA.indexOf("android") > -1) {
     //안드로이드
     return "android";
-  } else if (
-    varUA.indexOf("iphone") > -1 ||
-    varUA.indexOf("ipad") > -1 ||
-    varUA.indexOf("ipod") > -1
-  ) {
+  } else if (varUA.indexOf("iphone") > -1 || varUA.indexOf("ipad") > -1 || varUA.indexOf("ipod") > -1) {
     //IOS
     return "ios";
   } else {
@@ -231,10 +227,7 @@ function accordion(targetN) {
 
     function siblingsClose() {
       $(container).siblings().removeClass("active");
-      $(container)
-        .siblings()
-        .children(".js-accordion-content")
-        .removeClass("active");
+      $(container).siblings().children(".js-accordion-content").removeClass("active");
     }
   });
 }

@@ -77,7 +77,6 @@ export default function OrderMenu() {
       })
     );
   };
-  console.log(axioData);
   const handleDetail = (e, menucode, type) => {
     if (type) {
       history.push(`/order/detail/${storeCode}/${menucode}`);
@@ -193,5 +192,24 @@ export default function OrderMenu() {
         {/* // #wrap */}
       </React.Fragment>
     );
-  } else return <React.Fragment></React.Fragment>;
+  } else
+    return (
+      <React.Fragment>
+        <GoContents />
+
+        <div id="wrap" className="wrap">
+          <div id="container" className="container">
+            <HeaderSub2
+              title="메뉴선택"
+              icon="search-s"
+              icon2="cart"
+              location={`/order/menuSearch/${storeCode}`}
+              location2={`/mypage/cart/${storeCode}`}
+            />
+
+            <Nav order={3} />
+          </div>
+        </div>
+      </React.Fragment>
+    );
 }

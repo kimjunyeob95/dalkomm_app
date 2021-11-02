@@ -10,12 +10,13 @@ import { SERVER_DALKOMM } from "Config/Server";
 import HeaderSub from "Components/Header/HeaderSub";
 import GoContents from "Components/GoContents";
 import { contGap } from "Jquery/Jquery";
-
+import { useHistory } from "react-router";
 import { authContext } from "ContextApi/Context";
 
 export default function MyOrderRecipt() {
   const [state] = useContext(authContext);
   const [axioData, setData] = useState({});
+  const history = useHistory();
   const header_config = {
     headers: {
       "X-dalkomm-access-token": state?.accessToken,
@@ -59,14 +60,17 @@ export default function MyOrderRecipt() {
       })
     );
   };
-  console.log(axioData);
+
+  const handleDetail = (smartorderinfo_id) => {
+    history.push(`/order/info/${smartorderinfo_id}`);
+  };
   return (
     <React.Fragment>
       <GoContents />
 
       <div id="wrap" className="wrap">
         <div id="container" className="container">
-          <HeaderSub title="주문내역" />
+          <HeaderSub title="주문내역" redirectBack={true} location={"/"} />
 
           <div id="content" className="mypage order">
             <div className="sorting-wrap w-inner flex-end">
@@ -79,7 +83,7 @@ export default function MyOrderRecipt() {
 
             <ul className="order-list data-list">
               {axioData?.res1_data?.result?.map((e, i) => (
-                <li key={i}>
+                <li key={i} onClick={() => handleDetail(e?.smartorderinfo_id)}>
                   <div
                     className={`item order ${
                       e?.orderinfo_status === 2
