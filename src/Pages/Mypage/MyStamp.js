@@ -11,6 +11,7 @@ import { authContext } from "ContextApi/Context";
 import { SERVER_DALKOMM } from "Config/Server";
 
 import { contGap, fadeInOut } from "Jquery/Jquery";
+import { fadeOut } from "Config/GlobalJs";
 
 export default function MyStamp() {
   const [state, dispatch] = useContext(authContext);
@@ -39,9 +40,9 @@ export default function MyStamp() {
   }, [state?.accessToken, state?.auth]);
   useEffect(() => {
     contGap();
+    fadeOut();
   }, [axioData]);
   if (axioData) {
-    fadeInOut();
     return (
       <React.Fragment>
         <GoContents />
@@ -50,7 +51,7 @@ export default function MyStamp() {
           <div id="container" className="container">
             <HeaderSub title="나의 적립 내역" type="flexCenter" />
 
-            <div id="content" className="mypage stamp">
+            <div id="content" className="mypage stamp fade-in">
               <div className="user-stamp-wrap">
                 <div className="flex-both">
                   <div className="title-wrap flex-center">

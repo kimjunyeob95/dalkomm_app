@@ -12,6 +12,7 @@ import Nav from "Components/Nav/Nav";
 import GoContents from "Components/GoContents";
 import { contGap, popupOpen, fadeInOut } from "Jquery/Jquery";
 import Popup_logout from "Components/Popup/Popup_logout";
+import { fadeOut } from "Config/GlobalJs";
 
 import { authContext } from "ContextApi/Context";
 import { SERVER_DALKOMM } from "Config/Server";
@@ -58,6 +59,7 @@ export default function MyPage() {
 
   useEffect(() => {
     contGap();
+    fadeOut();
   }, [axioData]);
   if (axioData) {
     // fadeInOut();
@@ -68,7 +70,7 @@ export default function MyPage() {
           <div id="container" className="container">
             <HeaderSub type="flexCenter" icon="modify" title="마이 달콤" location="/mypage/modify" noBack={true} />
             <Nav order={4} />
-            <div id="content" className="mypage main">
+            <div id="content" className="mypage main fade-in">
               <div className="user-info-wrap">
                 <div className="item my-info">
                   <p className="user">

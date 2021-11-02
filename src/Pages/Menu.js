@@ -9,11 +9,11 @@ import { Link } from "react-router-dom";
 
 import Nav from "Components/Nav/Nav";
 import GoContents from "Components/GoContents";
-import { contGap, fadeInOut, popupOpen } from "Jquery/Jquery";
+import { contGap, popupOpen } from "Jquery/Jquery";
 
 import { authContext } from "ContextApi/Context";
 import { SERVER_DALKOMM } from "Config/Server";
-import { checkMobile } from "Config/GlobalJs";
+import { checkMobile, fadeOut } from "Config/GlobalJs";
 
 export default function Menu() {
   const [state, dispatch] = useContext(authContext);
@@ -91,6 +91,7 @@ export default function Menu() {
   };
   useEffect(() => {
     contGap();
+    fadeOut();
   }, [axioData]);
   if (axioData) {
     // fadeInOut();
@@ -102,7 +103,7 @@ export default function Menu() {
           <div id="container" className="container">
             <Nav order={5} />
 
-            <div id="content" className="app-menu">
+            <div id="content" className="app-menu fade-in">
               {state?.loginFlag && (
                 <div className="item my-info">
                   <div className="user-wrap flex-center">

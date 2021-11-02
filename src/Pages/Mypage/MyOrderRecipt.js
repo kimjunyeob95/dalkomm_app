@@ -12,6 +12,7 @@ import GoContents from "Components/GoContents";
 import { contGap } from "Jquery/Jquery";
 import { useHistory } from "react-router";
 import { authContext } from "ContextApi/Context";
+import { fadeOut } from "Config/GlobalJs";
 
 export default function MyOrderRecipt() {
   const [state] = useContext(authContext);
@@ -43,6 +44,7 @@ export default function MyOrderRecipt() {
 
   useEffect(() => {
     contGap();
+    fadeOut();
   }, [axioData]);
 
   const handleDuration = () => {
@@ -72,7 +74,7 @@ export default function MyOrderRecipt() {
         <div id="container" className="container">
           <HeaderSub title="주문내역" redirectBack={true} location={"/"} />
 
-          <div id="content" className="mypage order">
+          <div id="content" className="mypage order fade-in">
             <div className="sorting-wrap w-inner flex-end">
               <select className="select medium" name="" id="select-duration" onChange={() => handleDuration()}>
                 <option value="w">1주일 이내</option>

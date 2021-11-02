@@ -21,6 +21,7 @@ import { SERVER_DALKOMM } from "Config/Server";
 
 import { Swiper, SwiperSlide } from "swiper/react";
 import SwiperCore, { Pagination } from "swiper/core";
+import { fadeOut } from "Config/GlobalJs";
 
 export default function Pay() {
   SwiperCore.use([Pagination]);
@@ -85,6 +86,7 @@ export default function Pay() {
   }, [state?.auth]);
   useEffect(() => {
     contGap();
+    fadeOut();
   }, [axioData]);
 
   const handleCard = (event, cardNum) => {
@@ -112,7 +114,7 @@ export default function Pay() {
 
             <Nav order={2} />
 
-            <div id="content" className="pay main">
+            <div id="content" className="pay main fade-in">
               <ul className="tabs">
                 <li className="current" id="liMembership">
                   <Link to="#" data-href="#payMembership" onClick={(e) => tabLink(e)}>

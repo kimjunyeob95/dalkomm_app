@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 // eslint-disable-next-line no-unused-vars
@@ -9,6 +10,7 @@ import HeaderSub from "Components/Header/HeaderSub";
 import GoContents from "Components/GoContents";
 
 import { authContext } from "ContextApi/Context";
+import { fadeOut } from "Config/GlobalJs";
 
 export default function StoryList() {
   const [state] = useContext(authContext);
@@ -26,6 +28,7 @@ export default function StoryList() {
     // });
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
+    fadeOut();
   }, []);
   return (
     <React.Fragment>
@@ -35,7 +38,7 @@ export default function StoryList() {
         <div id="container" className="container">
           <HeaderSub noBack={false} title="달콤스토리" />
 
-          <div id="content" className="story">
+          <div id="content" className="story fade-in">
             {/* 주문하기 */}
             <section className="section">
               <div className="w-inner">

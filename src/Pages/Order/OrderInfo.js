@@ -8,13 +8,10 @@ import $ from "jquery";
 import React, { useEffect, useContext, useState } from "react";
 import { Link, useParams, useHistory } from "react-router-dom";
 
-import HeaderSub from "Components/Header/HeaderSub";
-import Nav from "Components/Nav/Nav";
 import GoContents from "Components/GoContents";
 import { contGap, moveScrollTop, tabLink, fadeInOut } from "Jquery/Jquery";
 
-import { Swiper } from "swiper/react";
-import SwiperCore from "swiper/core";
+import { fadeOut } from "Config/GlobalJs";
 
 import { SERVER_DALKOMM } from "Config/Server";
 import { authContext } from "ContextApi/Context";
@@ -56,6 +53,7 @@ export default function OrderInfo() {
 
   useEffect(() => {
     contGap();
+    fadeOut();
   }, [axioData]);
   const handleF5 = () => {
     axiosFn();
@@ -87,7 +85,7 @@ export default function OrderInfo() {
               </div>
             </header>
 
-            <div id="content" className="drink order info-detail">
+            <div id="content" className="drink order info-detail fade-in">
               <section className="section">
                 <div className="w-inner">
                   <div className="item describe flex-both">

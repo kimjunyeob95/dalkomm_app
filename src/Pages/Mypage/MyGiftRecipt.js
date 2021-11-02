@@ -17,11 +17,11 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import SwiperCore, { Pagination } from "swiper/core";
 
 import { tabLink, moveScrollTop, contGap, fadeInOut } from "Jquery/Jquery";
+import { fadeOut } from "Config/GlobalJs";
 
 export default function MyGiftRecipt() {
   const [state, dispatch] = useContext(authContext);
   const [axioData, setData] = useState();
-  const [timeOut, setTime] = useState(false);
   const { giftnum } = useParams();
 
   SwiperCore.use([Pagination]);
@@ -58,6 +58,7 @@ export default function MyGiftRecipt() {
   }, [state?.auth]);
   useEffect(() => {
     contGap();
+    fadeOut();
   }, [axioData]);
   if (axioData) {
     return (
@@ -67,7 +68,7 @@ export default function MyGiftRecipt() {
         <div id="wrap" className="wrap">
           <div id="container" className="container">
             <HeaderSub title="기프트카드 사용내역" />
-            <div id="content" className="pay charge history">
+            <div id="content" className="pay charge history fade-in">
               <section className="section">
                 {axioData?.res2_data?.usage_list?.length > 0 && (
                   <div className="w-inner">
@@ -154,5 +155,16 @@ export default function MyGiftRecipt() {
         {/* // #wrap */}
       </React.Fragment>
     );
-  } else return <React.Fragment></React.Fragment>;
+  } else
+    return (
+      <React.Fragment>
+        <GoContents />
+
+        <div id="wrap" className="wrap">
+          <div id="container" className="container">
+            <HeaderSub title="기프트카드 사용내역" />
+          </div>
+        </div>
+      </React.Fragment>
+    );
 }

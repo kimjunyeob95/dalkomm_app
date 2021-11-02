@@ -13,7 +13,7 @@ import GoContents from "Components/GoContents";
 import Popup_nomal from "Components/Popup/Popup_nomal";
 
 import { accordion, scrollDetail, popupOpen, contGap, moveScrollTop, fadeInOut } from "Jquery/Jquery";
-import { checkMobile, getCookieValue } from "Config/GlobalJs";
+import { checkMobile, getCookieValue, fadeOut } from "Config/GlobalJs";
 import { SERVER_DALKOMM } from "Config/Server";
 import { Swiper, SwiperSlide } from "swiper/react";
 import SwiperCore, { Autoplay, Scrollbar } from "swiper/core";
@@ -109,6 +109,7 @@ export function Main(props) {
     SwiperCore.use([Autoplay, Scrollbar]);
     scrollDetail();
     contGap();
+    fadeOut();
   }, [axioData]);
 
   const handleLogin = (e) => {
@@ -174,7 +175,6 @@ export function Main(props) {
     //     <br />
     //   </div>
     // );
-    // fadeInOut();
     return (
       <React.Fragment>
         <GoContents />
@@ -185,7 +185,7 @@ export function Main(props) {
 
             <Nav order={1} />
 
-            <div id="content" className="main home">
+            <div id="content" className="main home fade-in">
               {/* main-visual */}
               <Swiper
                 id="mainVisual"

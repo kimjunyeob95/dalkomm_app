@@ -8,15 +8,12 @@ import React, { useEffect, useContext, useState } from "react";
 import { Link, useParams, useHistory } from "react-router-dom";
 
 import HeaderSub from "Components/Header/HeaderSub";
-import Nav from "Components/Nav/Nav";
 import GoContents from "Components/GoContents";
 import { contGap, moveScrollTop, tabLink, fadeInOut } from "Jquery/Jquery";
 
-import { Swiper } from "swiper/react";
-import SwiperCore from "swiper/core";
-
 import { SERVER_DALKOMM } from "Config/Server";
 import { authContext } from "ContextApi/Context";
+import { fadeOut } from "Config/GlobalJs";
 
 export default function OrderFavorite() {
   const [state, dispatch] = useContext(authContext);
@@ -55,6 +52,7 @@ export default function OrderFavorite() {
 
   useEffect(() => {
     contGap();
+    fadeOut();
   }, [axioData]);
 
   const handleRemove = () => {
@@ -145,7 +143,7 @@ export default function OrderFavorite() {
           <div id="container" className="container">
             <HeaderSub title="즐겨찾는 메뉴" headerPopup={true} popTarget={true} />
 
-            <div id="content" className="mypage order bookmark">
+            <div id="content" className="mypage order bookmark fade-in">
               <ul className="order-list data-list">
                 {axioData?.res1_data?.favorite_list?.map((e, i) => (
                   <li key={i}>

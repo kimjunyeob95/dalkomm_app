@@ -21,7 +21,7 @@ import SwiperCore, { Scrollbar } from "swiper/core";
 
 import { SERVER_DALKOMM } from "Config/Server";
 import { authContext } from "ContextApi/Context";
-import { getCookieValue } from "Config/GlobalJs";
+import { getCookieValue, fadeOut } from "Config/GlobalJs";
 
 export function Order(props) {
   const [state, dispatch] = useContext(authContext);
@@ -81,8 +81,7 @@ export function Order(props) {
     // 말풍선 스크롤시 hide/show
     contGap();
     SwiperCore.use([Scrollbar]);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    // fadeInOut();
+    fadeOut();
   }, [axioData]);
 
   const handleFavorite = (e, storeCode) => {
@@ -139,7 +138,7 @@ export function Order(props) {
 
             <Nav order={3} />
 
-            <div id="content" className="store list">
+            <div id="content" className="store list fade-in">
               {/* 즐겨찾는 매장 */}
               {state?.accessToken !== "" && (
                 <section className="section">

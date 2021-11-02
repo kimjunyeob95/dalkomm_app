@@ -17,7 +17,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import SwiperCore, { Pagination } from "swiper/core";
 
 import { tabLink, fadeInOut, contGap } from "Jquery/Jquery";
-import { checkMobile } from "Config/GlobalJs";
+import { checkMobile, fadeOut } from "Config/GlobalJs";
 
 export default function MyGiftSend() {
   const [state, dispatch] = useContext(authContext);
@@ -55,6 +55,7 @@ export default function MyGiftSend() {
   useEffect(() => {
     contGap();
     SwiperCore.use([Pagination]);
+    fadeOut();
   }, [axioData]);
 
   const handleSubmit = (e) => {
@@ -126,7 +127,7 @@ export default function MyGiftSend() {
           <div id="container" className="container">
             <HeaderSub title="기프트카드 선물하기" location="/mypage/giftSendRecipt" type="flexCenter" icon="recipt" />
 
-            <div id="content" className="pay gift">
+            <div id="content" className="pay gift fade-in">
               <section className="section">
                 <form className="form">
                   <fieldset className="fieldset">

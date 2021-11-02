@@ -18,7 +18,7 @@ import { contGap, fadeInOut, moveScrollTop } from "Jquery/Jquery";
 import { Map, GoogleApiWrapper, Marker } from "google-maps-react";
 
 import { Swiper, SwiperSlide } from "swiper/react";
-import SwiperCore, { Scrollbar } from "swiper/core";
+import { fadeOut } from "Config/GlobalJs";
 
 import { SERVER_DALKOMM } from "Config/Server";
 import { authContext } from "ContextApi/Context";
@@ -62,6 +62,7 @@ export function OrderStoreSearch(props) {
 
   useEffect(() => {
     contGap();
+    fadeOut();
   }, [axioData]);
 
   const handleDetail = (e, storeCode) => {
@@ -133,7 +134,7 @@ export function OrderStoreSearch(props) {
 
             <Nav order={3} />
 
-            <div id="content" className="store search">
+            <div id="content" className="store search fade-in">
               <section className="section">
                 <div className="w-inner">
                   <form className="form" onSubmit={(e) => e.preventDefault()}>
@@ -537,7 +538,20 @@ export function OrderStoreSearch(props) {
         {/* // #wrap */}
       </React.Fragment>
     );
-  } else return <React.Fragment></React.Fragment>;
+  } else
+    return (
+      <React.Fragment>
+        <GoContents />
+
+        <div id="wrap" className="wrap">
+          <div id="container" className="container">
+            <HeaderSub title="매장검색" />
+
+            <Nav order={3} />
+          </div>
+        </div>
+      </React.Fragment>
+    );
 }
 
 export default GoogleApiWrapper({

@@ -41,7 +41,6 @@ import MyStamp from "Pages/Mypage/MyStamp";
 import MyOrderRecipt from "Pages/Mypage/MyOrderRecipt";
 import MyModify from "Pages/Mypage/MyModify";
 import MyOption from "Pages/Mypage/MyOption";
-import MyFavoriteMenu from "Pages/Mypage/MyFavoriteMenu";
 
 //story page
 import StoryList from "Pages/Story/StoryList";
@@ -136,9 +135,6 @@ ReactDOM.render(
         </PrivateRoute>
         <PrivateRoute exact path="/mypage/option">
           <MyOption />
-        </PrivateRoute>
-        <PrivateRoute exact path="/mypage/favoriteMenu">
-          <MyFavoriteMenu />
         </PrivateRoute>
 
         {/* <PrivateRoute exact path="/menu">

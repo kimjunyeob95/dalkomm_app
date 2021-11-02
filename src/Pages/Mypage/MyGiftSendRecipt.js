@@ -14,6 +14,7 @@ import { authContext } from "ContextApi/Context";
 import { SERVER_DALKOMM } from "Config/Server";
 
 import { tabLink, moveScrollTop, contGap, fadeInOut } from "Jquery/Jquery";
+import { fadeOut } from "Config/GlobalJs";
 
 export default function MyGiftSendRecipt() {
   const [state, dispatch] = useContext(authContext);
@@ -58,10 +59,10 @@ export default function MyGiftSendRecipt() {
   }, []);
   useEffect(() => {
     contGap();
+    fadeOut();
   }, [axioData]);
 
   if (axioData) {
-    fadeInOut();
     return (
       <React.Fragment>
         <GoContents />
@@ -69,7 +70,7 @@ export default function MyGiftSendRecipt() {
         <div id="wrap" className="wrap">
           <div id="container" className="container">
             <HeaderSub title="기프트카드 선물내역" />
-            <div id="content" className={`pay gift history ${axioData?.resultList?.length < 1 && "charge"}`}>
+            <div id="content" className={`pay gift history fade-in ${axioData?.resultList?.length < 1 && "charge"}`}>
               <section className="section">
                 <ol className="data-list">
                   {axioData?.resultList?.map((element, index) => (

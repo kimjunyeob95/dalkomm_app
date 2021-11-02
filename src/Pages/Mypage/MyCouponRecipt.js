@@ -14,6 +14,7 @@ import { authContext } from "ContextApi/Context";
 import { SERVER_DALKOMM } from "Config/Server";
 
 import { tabLink, moveScrollTop, contGap, fadeInOut } from "Jquery/Jquery";
+import { fadeOut } from "Config/GlobalJs";
 
 export default function MyCouponRecipt() {
   const [state, dispatch] = useContext(authContext);
@@ -31,57 +32,6 @@ export default function MyCouponRecipt() {
     axios.all([axios.post(`${SERVER_DALKOMM}/app/api/v2/coupon/present/history`, body, header_config)]).then(
       axios.spread((res1) => {
         let resultList = res1.data.data.present_history;
-        // let resultList = [];
-        // resultList = [
-        //   {
-        //     amount: 20000,
-        //     date: "2021.10.12",
-        //     present_id: 252,
-        //     coupon_name: "01025466499",
-        //     user_name: "김준엽성함",
-        //     type: 1,
-        //   },
-        //   {
-        //     amount: 20000,
-        //     date: "2021.10.12",
-        //     present_id: 252,
-        //     coupon_name: "01025466499",
-        //     user_name: "김준엽성함2",
-        //     type: 1,
-        //   },
-        //   {
-        //     amount: 10000,
-        //     date: "2021.10.12",
-        //     present_id: 251,
-        //     coupon_name: "01025466499",
-        //     user_name: "김준여",
-        //     type: 2,
-        //   },
-        //   {
-        //     amount: 10000,
-        //     date: "2021.10.12",
-        //     present_id: 251,
-        //     coupon_name: "01025466499",
-        //     user_name: "김준여2",
-        //     type: 2,
-        //   },
-        //   {
-        //     amount: 10000,
-        //     date: "2021.10.08",
-        //     present_id: 248,
-        //     coupon_name: "01025466499",
-        //     user_name: "김준엽",
-        //     type: 1,
-        //   },
-        //   {
-        //     amount: 10000,
-        //     date: "2021.10.08",
-        //     present_id: 248,
-        //     coupon_name: "01025466499",
-        //     user_name: "김준엽2",
-        //     type: 1,
-        //   },
-        // ];
         resultList = resultList
           .sort((a, b) => {
             if (a.date > b.date) return -1;
@@ -109,10 +59,10 @@ export default function MyCouponRecipt() {
   }, []);
   useEffect(() => {
     contGap();
+    fadeOut();
   }, [axioData]);
 
   if (axioData) {
-    fadeInOut();
     return (
       <React.Fragment>
         <GoContents />
@@ -120,7 +70,7 @@ export default function MyCouponRecipt() {
         <div id="wrap" className="wrap">
           <div id="container" className="container">
             <HeaderSub title="쿠폰 선물 내역" />
-            <div id="content" className="mypage history">
+            <div id="content" className="mypage history fade-in">
               <section className="section">
                 <ul className="tabs">
                   <li className="current">

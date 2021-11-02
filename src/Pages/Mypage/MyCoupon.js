@@ -14,6 +14,7 @@ import { authContext } from "ContextApi/Context";
 import { SERVER_DALKOMM } from "Config/Server";
 
 import { accordion, tabLink, contGap, fadeInOut } from "Jquery/Jquery";
+import { fadeOut } from "Config/GlobalJs";
 
 export default function MyCoupon() {
   const [state, dispatch] = useContext(authContext);
@@ -66,6 +67,7 @@ export default function MyCoupon() {
 
   useEffect(() => {
     contGap();
+    fadeOut();
   }, [axioData]);
 
   if (axioData) {
@@ -78,7 +80,7 @@ export default function MyCoupon() {
           <div id="container" className="container">
             <HeaderSub title="나의 쿠폰 리스트" location="/mypage/couponSend" type="flexCenter" icon="gift" />
 
-            <div id="content" className="mypage coupon">
+            <div id="content" className="mypage coupon fade-in">
               <section className="section">
                 <ul className="tabs">
                   <li className="current">

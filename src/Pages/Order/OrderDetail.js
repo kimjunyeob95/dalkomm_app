@@ -16,7 +16,7 @@ import { Swiper } from "swiper/react";
 
 import { SERVER_DALKOMM } from "Config/Server";
 import { authContext } from "ContextApi/Context";
-import { isCompositeComponent } from "react-dom/test-utils";
+import { fadeOut } from "Config/GlobalJs";
 
 export default function OrderDetail() {
   const [state, dispatch] = useContext(authContext);
@@ -65,6 +65,7 @@ export default function OrderDetail() {
     if (axioData) {
       contGap();
       handleResultText("처음");
+      fadeOut();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [axioData]);
@@ -591,7 +592,7 @@ export default function OrderDetail() {
           <div id="container" className="container">
             <HeaderSub className="only-button-header" />
 
-            <div id="content" className="drink detail">
+            <div id="content" className="drink detail fade-in">
               <section className="section">
                 <div className="item drink-info">
                   <div className="img-wrap">

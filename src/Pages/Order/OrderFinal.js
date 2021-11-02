@@ -13,7 +13,7 @@ import HeaderSub from "Components/Header/HeaderSub";
 import { Link, useHistory, useParams, useLocation } from "react-router-dom";
 import GoContents from "Components/GoContents";
 import { contGap } from "Jquery/Jquery";
-import { checkMobile } from "Config/GlobalJs";
+import { checkMobile, fadeOut } from "Config/GlobalJs";
 
 import { SERVER_DALKOMM } from "Config/Server";
 import { authContext } from "ContextApi/Context";
@@ -101,6 +101,7 @@ export default function OrderFinal() {
         top: $(document).height(),
         behavior: "smooth",
       });
+    fadeOut();
   }, [axioData]);
 
   const selectOption = (index) => {
@@ -266,6 +267,7 @@ export default function OrderFinal() {
     });
   };
   let menu_count = -1;
+  console.log(axioData);
   if (axioData) {
     return (
       <React.Fragment>
@@ -277,7 +279,7 @@ export default function OrderFinal() {
           <div id="container" className="container">
             <HeaderSub title="주문하기" redirectBack={true} location={`/order/menu/${axioData?.res1_data?.store?.store_code}`} />
 
-            <div id="content" className="drink order">
+            <div id="content" className="drink order fade-in">
               {/*[D] 211021 고객 정보 마크업 추가 */}
               <section className="section">
                 <div className="w-inner">

@@ -13,8 +13,8 @@ import { authContext } from "ContextApi/Context";
 import { SERVER_DALKOMM } from "Config/Server";
 import Popup_nomal from "Components/Popup/Popup_nomal";
 
-import { tabLink, fadeInOut, contGap } from "Jquery/Jquery";
-import { checkMobile } from "Config/GlobalJs";
+import { tabLink, contGap } from "Jquery/Jquery";
+import { checkMobile, fadeOut } from "Config/GlobalJs";
 
 export default function MyCouponSend() {
   const [state, dispatch] = useContext(authContext);
@@ -83,6 +83,7 @@ export default function MyCouponSend() {
 
   useEffect(() => {
     contGap();
+    fadeOut();
   }, [axioData]);
 
   const handleGetPhone = () => {
@@ -101,7 +102,6 @@ export default function MyCouponSend() {
     }
   };
   if (axioData) {
-    fadeInOut();
     return (
       <React.Fragment>
         <GoContents />
@@ -110,7 +110,7 @@ export default function MyCouponSend() {
           <div id="container" className="container">
             <HeaderSub title="쿠폰 선물하기" location="/mypage/couponRecipt" type="flexCenter" icon="recipt" />
 
-            <div id="content" className="mypage gift">
+            <div id="content" className="mypage gift fade-in">
               <div className="form-wrap">
                 <form className="form">
                   <fieldset className="fieldset">

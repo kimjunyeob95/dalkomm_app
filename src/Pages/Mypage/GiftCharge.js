@@ -17,6 +17,7 @@ import { Swiper } from "swiper/react";
 import SwiperCore, { Pagination } from "swiper/core";
 
 import { authContext } from "ContextApi/Context";
+import { fadeOut } from "Config/GlobalJs";
 import { SERVER_DALKOMM } from "Config/Server";
 
 export default function GiftCharge() {
@@ -63,6 +64,7 @@ export default function GiftCharge() {
 
   useEffect(() => {
     contGap();
+    fadeOut();
   }, [axioData]);
   const handleOnclick = (e) => {
     let body = {
@@ -99,7 +101,7 @@ export default function GiftCharge() {
           <div id="container" className="container">
             <HeaderSub title="충전하기" />
 
-            <div id="content" className="pay charge">
+            <div id="content" className="pay charge fade-in">
               <section className="section">
                 <div className="w-inner">
                   <form className="form">

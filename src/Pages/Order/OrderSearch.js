@@ -12,6 +12,7 @@ import HeaderSub from "Components/Header/HeaderSub";
 import Nav from "Components/Nav/Nav";
 import GoContents from "Components/GoContents";
 import { contGap, fadeInOut } from "Jquery/Jquery";
+import { fadeOut } from "Config/GlobalJs";
 
 import { SERVER_DALKOMM } from "Config/Server";
 import { authContext } from "ContextApi/Context";
@@ -49,6 +50,7 @@ export default function OrderSearch() {
 
   useEffect(() => {
     contGap();
+    fadeOut();
   }, [axioData]);
 
   const handleSearch = (e) => {
@@ -96,7 +98,7 @@ export default function OrderSearch() {
             <HeaderSub title="메뉴검색" location={`/mypage/cart/${storeCode}`} icon="cart" />
 
             <Nav order={3} />
-            <div id="content" className="drink search">
+            <div id="content" className="drink search fade-in">
               <form className="form" onSubmit={(e) => handleSubmit(e)}>
                 <fieldset className="fieldset">
                   <div className="w-inner">

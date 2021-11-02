@@ -13,7 +13,7 @@ import GoContents from "Components/GoContents";
 import { contGap, moveScrollTop, tabLink, fadeInOut } from "Jquery/Jquery";
 
 import { Swiper } from "swiper/react";
-import SwiperCore from "swiper/core";
+import { fadeOut } from "Config/GlobalJs";
 
 import { SERVER_DALKOMM } from "Config/Server";
 import { authContext } from "ContextApi/Context";
@@ -61,6 +61,7 @@ export default function OrderMenu() {
 
   useEffect(() => {
     contGap();
+    fadeOut();
   }, [axioData]);
   const jqueryTablink = (e) => {
     tabLink(e);
@@ -102,7 +103,7 @@ export default function OrderMenu() {
 
             <Nav order={3} />
 
-            <div id="content" className="drink list">
+            <div id="content" className="drink list fade-in">
               <div className="store-search-wrap w-inner">
                 <div className="item store-search">
                   <div className="flex-both">

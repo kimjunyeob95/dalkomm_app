@@ -53,6 +53,12 @@ export function getParameter(name) {
   return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
 }
 
+export function fadeOut() {
+  setTimeout(() => {
+    $("#content").removeClass("fade-in").addClass("fade-out");
+  }, 100);
+}
+
 export function finalOrderHtml() {
   // 211019 마크업 수정
   $(".smartorder-menu .list_cell").before('<h4 class="pay-title">주문 메뉴</div>');

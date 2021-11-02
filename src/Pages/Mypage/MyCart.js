@@ -12,7 +12,7 @@ import { Link, useHistory, useParams } from "react-router-dom";
 import GoContents from "Components/GoContents";
 import { contGap } from "Jquery/Jquery";
 
-import { Swiper } from "swiper/react";
+import { fadeOut } from "Config/GlobalJs";
 
 import { SERVER_DALKOMM } from "Config/Server";
 import { authContext } from "ContextApi/Context";
@@ -49,6 +49,7 @@ export default function MyCart() {
   useEffect(() => {
     // 말풍선 스크롤시 hide/show
     contGap();
+    fadeOut();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [axioData]);
   const handleOrder = (flag) => {
@@ -144,7 +145,7 @@ export default function MyCart() {
 
             <Nav order={3} />
 
-            <div id="content" className="drink basket">
+            <div id="content" className="drink basket fade-in">
               {/* 장바구니 */}
               <section className="section">
                 <ul className="order-list data-list">

@@ -1,8 +1,8 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable react/jsx-pascal-case */
-import React from "react";
+import React, { useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { checkMobile } from "Config/GlobalJs";
+import { checkMobile, fadeOut } from "Config/GlobalJs";
 
 export default function JoinStep3() {
   const { userName, loginId, loginPw } = useLocation();
@@ -11,6 +11,9 @@ export default function JoinStep3() {
     loginPw: loginPw,
     redirectUrl: "/",
   };
+  useEffect(() => {
+    fadeOut();
+  }, []);
   const handleLocation = () => {
     let data = JSON.stringify(json_data);
     try {
@@ -40,7 +43,7 @@ export default function JoinStep3() {
             </button>
           </header>
 
-          <div id="content" className="join finish">
+          <div id="content" className="join finish fade-in">
             <div className="w-inner">
               <ul className="step-state">
                 <li>

@@ -9,6 +9,7 @@ import { moveScrollTop } from "Jquery/Jquery";
 
 import { Swiper, SwiperSlide } from "swiper/react";
 import SwiperCore, { Pagination } from "swiper/core";
+import { fadeOut } from "Config/GlobalJs";
 
 export default function StoryDetail() {
   SwiperCore.use([Pagination]);
@@ -41,7 +42,7 @@ export default function StoryDetail() {
       } catch (error) {}
     });
     sectionGap();
-
+    fadeOut();
     return () => {
       $(window).off("scroll");
     };
@@ -54,7 +55,7 @@ export default function StoryDetail() {
         <div id="container" className="container">
           <HeaderSub title="달콤스토리" btnType="share" icon="share" blindClass={false} PathName="detail" />
 
-          <div id="content" className="story detail">
+          <div id="content" className="story detail fade-in">
             <Swiper
               id="storyBanner"
               className="swiper-container"

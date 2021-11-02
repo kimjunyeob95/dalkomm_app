@@ -7,7 +7,7 @@ import axios from "axios";
 import $ from "jquery";
 import { SERVER_DALKOMM } from "Config/Server";
 import { authContext } from "ContextApi/Context";
-import { checkMobile } from "Config/GlobalJs";
+import { checkMobile, fadeOut } from "Config/GlobalJs";
 import Popup_nomal from "Components/Popup/Popup_nomal";
 
 import React, { useEffect, useContext, useState } from "react";
@@ -41,28 +41,17 @@ export default function Find_id() {
         country_code: "82",
         mobile: phoneValue,
       };
-      axios
-        .all([
-          axios.post(
-            `${SERVER_DALKOMM}/app/api/account/simple/cert/create_number`,
-            body,
-            header_config
-          ),
-        ])
-        .then(
-          axios.spread((res1) => {
-            if (
-              res1.data.meta.code === 20000 &&
-              res1.data.meta.message === "SUCCESS"
-            ) {
-              $("#resAlert").text("인증번호를 전송했습니다.");
-            } else {
-              $("#resAlert").text("잘못된 번호입니다.");
-            }
-            $(".overlay.popupExitJoin").addClass("active");
-            $("body").addClass("modal-opened");
-          })
-        );
+      axios.all([axios.post(`${SERVER_DALKOMM}/app/api/account/simple/cert/create_number`, body, header_config)]).then(
+        axios.spread((res1) => {
+          if (res1.data.meta.code === 20000 && res1.data.meta.message === "SUCCESS") {
+            $("#resAlert").text("인증번호를 전송했습니다.");
+          } else {
+            $("#resAlert").text("잘못된 번호입니다.");
+          }
+          $(".overlay.popupExitJoin").addClass("active");
+          $("body").addClass("modal-opened");
+        })
+      );
     }
   };
 
@@ -83,38 +72,30 @@ export default function Find_id() {
       };
     }
     if ($("#numChk").val() !== "") {
-      axios
-        .all([
-          axios.post(
-            `${SERVER_DALKOMM}/app/api/account/simple/cert/confirm`,
-            body,
-            header_config
-          ),
-        ])
-        .then(
-          axios.spread((res1) => {
-            if (res1.data.meta.code === 20000) {
-              setFlag((origin) => {
-                return {
-                  ...origin,
-                  userInfo: res1.data.data,
-                };
-              });
-            } else if (res1.data.meta.code === 200518) {
-              setFlag((origin) => {
-                return {
-                  ...origin,
-                  userInfo: { login_id: "" },
-                };
-              });
-            } else {
-              $("#resAlert").text(res1.data.meta.msg);
-              $(".overlay.popupExitJoin").addClass("active");
-              $("body").addClass("modal-opened");
-              return false;
-            }
-          })
-        );
+      axios.all([axios.post(`${SERVER_DALKOMM}/app/api/account/simple/cert/confirm`, body, header_config)]).then(
+        axios.spread((res1) => {
+          if (res1.data.meta.code === 20000) {
+            setFlag((origin) => {
+              return {
+                ...origin,
+                userInfo: res1.data.data,
+              };
+            });
+          } else if (res1.data.meta.code === 200518) {
+            setFlag((origin) => {
+              return {
+                ...origin,
+                userInfo: { login_id: "" },
+              };
+            });
+          } else {
+            $("#resAlert").text(res1.data.meta.msg);
+            $(".overlay.popupExitJoin").addClass("active");
+            $("body").addClass("modal-opened");
+            return false;
+          }
+        })
+      );
     } else {
       $("#resAlert").text("인증번호를 제대로 입력해주세요.");
       $(".overlay.popupExitJoin").addClass("active");
@@ -169,11 +150,7 @@ export default function Find_id() {
                             placeholder="휴대전화 번호를 입력해 주세요."
                             inputMode="numeric"
                           />
-                          <button
-                            type="button"
-                            className="btn dark-g small"
-                            onClick={(e) => handleCheck(e.currentTarget)}
-                          >
+                          <button type="button" className="btn dark-g small" onClick={(e) => handleCheck(e.currentTarget)}>
                             인증하기
                           </button>
                         </div>
@@ -184,22 +161,12 @@ export default function Find_id() {
                         인증번호
                       </label>
                       <div className="insert">
-                        <input
-                          type="number"
-                          className="input-text medium"
-                          id="numChk"
-                          placeholder="인증번호를 입력해 주세요."
-                          inputMode="numeric"
-                        />
+                        <input type="number" className="input-text medium" id="numChk" placeholder="인증번호를 입력해 주세요." inputMode="numeric" />
                       </div>
                     </div>
                   </fieldset>
                   <div className="btn-area">
-                    <button
-                      className="btn dark full large"
-                      type="button"
-                      onClick={(e) => handleSubmit(e.currentTarget)}
-                    >
+                    <button className="btn dark full large" type="button" onClick={(e) => handleSubmit(e.currentTarget)}>
                       인증번호 입력
                     </button>
                   </div>
@@ -207,37 +174,29 @@ export default function Find_id() {
               </div>
 
               {/* [D]:일치하는 아이디가 있는 경우 노출 */}
-              {domFlag?.userInfo?.login_id !== "" &&
-                domFlag?.userInfo?.login_id !== undefined && (
-                  <div className="result-wrap">
-                    <div className="title-wrap">
-                      <h2 className="title">
-                        고객님의 아이디를 알려 드립니다.
-                      </h2>
-                    </div>
-
-                    <div className="detail-wrap">
-                      <p className="info fc-orange">
-                        {domFlag?.userInfo?.login_id}
-                      </p>
-                    </div>
-
-                    <div className="btn-area">
-                      <button
-                        onClick={(e) => handleLogin(e.currentTarget)}
-                        className="btn dark full large"
-                      >
-                        로그인 하기
-                      </button>
-                    </div>
-
-                    <div className="search-induce">
-                      <Link to="/join/findpw" className="btn">
-                        비밀번호가 기억나지 않으세요?
-                      </Link>
-                    </div>
+              {domFlag?.userInfo?.login_id !== "" && domFlag?.userInfo?.login_id !== undefined && (
+                <div className="result-wrap">
+                  <div className="title-wrap">
+                    <h2 className="title">고객님의 아이디를 알려 드립니다.</h2>
                   </div>
-                )}
+
+                  <div className="detail-wrap">
+                    <p className="info fc-orange">{domFlag?.userInfo?.login_id}</p>
+                  </div>
+
+                  <div className="btn-area">
+                    <button onClick={(e) => handleLogin(e.currentTarget)} className="btn dark full large">
+                      로그인 하기
+                    </button>
+                  </div>
+
+                  <div className="search-induce">
+                    <Link to="/join/findpw" className="btn">
+                      비밀번호가 기억나지 않으세요?
+                    </Link>
+                  </div>
+                </div>
+              )}
 
               {/* [D]:일치하는 아이디가 없는 경우 노출 */}
               {domFlag?.userInfo?.login_id === "" && (
@@ -251,10 +210,7 @@ export default function Find_id() {
                   </div>
 
                   <div className="btn-area full">
-                    <button
-                      onClick={(e) => handleCheck(e.currentTarget)}
-                      className="btn normal large"
-                    >
+                    <button onClick={(e) => handleCheck(e.currentTarget)} className="btn normal large">
                       다시 인증하기
                     </button>
                     <Link to="/join/step1" className="btn dark large">
