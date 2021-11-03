@@ -24,7 +24,6 @@ import SwiperCore, { Pagination } from "swiper/core";
 import { fadeOut } from "Config/GlobalJs";
 
 export default function Pay() {
-  SwiperCore.use([Pagination]);
   const [state, dispatch] = useContext(authContext);
   const [axioData, setData] = useState();
   const [cardPopup, setCard] = useState(false);
@@ -87,6 +86,7 @@ export default function Pay() {
   useEffect(() => {
     contGap();
     fadeOut();
+    SwiperCore.use([Pagination]);
   }, [axioData]);
 
   const handleCard = (event, cardNum) => {
@@ -104,6 +104,7 @@ export default function Pay() {
     let giftCode = $("#payGift .swiper-slide-active").data("cardnum");
     history.push(`/mypage/giftCharge/${giftCode}`);
   };
+  // console.log(axioData);
   if (axioData) {
     return (
       <React.Fragment>
@@ -134,15 +135,13 @@ export default function Pay() {
                                 .item.card.membership : 멤버십 카드
                                 .item.card.gift : 기프트 카드
                             */}
-                    {/* <div
-                      className="card-wrap"
-                    > */}
-                    <div
+                    <div className="card-wrap">
+                      {/* <div
                       className="card-wrap"
                       style={{
                         backgroundImage: `url(${axioData?.res1_data?.charge_card_image_url})`,
                       }}
-                    >
+                    > */}
                       <p className="grade en">{axioData?.res1_data?.membership_name}</p>
                       <p className="sort en">
                         DAL.KOMM
@@ -198,13 +197,13 @@ export default function Pay() {
                         <SwiperSlide className="swiper-slide" key={i} data-cardnum={e?.card_number} data-pin={e?.pin_number}>
                           <h2>{axioData?.res1_data?.user_name}님의 기프트카드</h2>
                           <div className="item card gift">
-                            {/* <div className="card-wrap"> */}
-                            <div
+                            <div className="card-wrap">
+                              {/* <div
                               className="card-wrap"
                               style={{
                                 backgroundImage: `url(${e?.card_image_url})`,
                               }}
-                            >
+                            > */}
                               <p className="grade en">
                                 RECHARGEABLE
                                 <br />

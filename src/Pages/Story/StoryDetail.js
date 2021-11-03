@@ -53,7 +53,8 @@ export default function StoryDetail() {
 
       <div id="wrap" className="wrap">
         <div id="container" className="container">
-          <HeaderSub title="달콤스토리" btnType="share" icon="share" blindClass={false} PathName="detail" />
+          {/* <HeaderSub title="달콤스토리" btnType="share" icon="share" blindClass={false} PathName="detail" /> */}
+          <HeaderSub title="달콤스토리" blindClass={false} PathName="detail" />
 
           <div id="content" className="story detail fade-in">
             <Swiper

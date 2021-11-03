@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-pascal-case */
 /* eslint-disable array-callback-return */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
@@ -10,6 +11,7 @@ import { Link, useParams, useHistory } from "react-router-dom";
 
 import GoContents from "Components/GoContents";
 import { contGap, moveScrollTop, tabLink, fadeInOut } from "Jquery/Jquery";
+import Popup_nomal from "Components/Popup/Popup_nomal";
 
 import { fadeOut } from "Config/GlobalJs";
 
@@ -59,8 +61,20 @@ export default function OrderInfo() {
     axiosFn();
   };
 
-  const handleReorder = () => {
-    console.log("재주문");
+  const handleReorder = (order_id) => {
+    let form = new FormData();
+    form.append("orderinfo_id", order_id);
+    axios.all([axios.post(`${SERVER_DALKOMM}/app/api/v2/smartorder/reorder`, form, header_config)]).then(
+      axios.spread((res1) => {
+        if (res1.data.meta.code === 20000) {
+          history.push(`/order/final/${res1.data.data.orderinfo_id}`);
+        } else {
+          $("#resAlert").text("시스템 관리자에 문의 바랍니다.");
+          $(".overlay.popupExitJoin").addClass("active");
+          $("body").addClass("modal-opened");
+        }
+      })
+    );
   };
   if (axioData) {
     return (
@@ -311,7 +325,7 @@ export default function OrderInfo() {
                   <div className="popup">
                     <div className="popup-wrap">
                       <div className="btn-area">
-                        <a className="btn full x-large dark" onClick={() => handleReorder()}>
+                        <a className="btn full x-large dark" onClick={() => handleReorder(axioData?.res1_data?.orderinfo_id)}>
                           바로 주문하기
                         </a>
                       </div>
@@ -323,6 +337,7 @@ export default function OrderInfo() {
               )}
             </div>
             {/* // #content */}
+            <Popup_nomal />
           </div>
           {/* // #container */}
         </div>

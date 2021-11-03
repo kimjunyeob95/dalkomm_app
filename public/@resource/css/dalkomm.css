@@ -40,7 +40,7 @@
 .section-slider .has-scrollbar-swiper {padding-bottom: 5.867vw;}
 
 /* LD001 */
-#content.splash {position: relative; height: 100vh; overflow-y: hidden;}
+#content.splash {position: relative; height: 100vh; overflow: hidden;}
 #content.splash .content-wrap {display: -ms-flexbox; display: -webkit-flex; display: inline-flex;
 	-webkit-flex-direction: column; -ms-flex-direction: column; flex-direction: column;
 	-webkit-align-items: center; -ms-flex-align: center; align-items: center;
@@ -51,11 +51,13 @@
 /* MA001 (메인) */
 #content.main.home {padding-bottom: 24.933vw;}
 .main.home .main-visual {border-bottom: 0.267vw solid #f1f1f1;}
+.main.home .main-visual .swiper-slide {width: 100% !important;}
 .main.home .main-visual .banner-wrap .img-wrap {height:93.067vw;}
 .main.home .main-visual .btn.view-page {position: absolute; right: 5.333vw; bottom: 11.733vw; z-index: 1;}
 .main.home .swiper-container-horizontal>.swiper-scrollbar {bottom: 11.467vw; width: 48%;}
 .main.home .item.my-info + .myinfo-wrap {margin-top: -0.267vw;}
 .main.home .myinfo-wrap .data-list.col-3 > li + li {border-left: 0.267vw solid #f1f1f1; margin-left: -0.267vw;}
+.main.home .myinfo-wrap .item.my-state .data-wrap .state {display:block;overflow:hidden;text-overflow:ellipsis;-webkit-box-orient:vertical;word-wrap:break-word;display:-webkit-box;-webkit-line-clamp:1;}
 .main.home .myinfo-wrap + .section {margin-top: 13.333vw;}
 .main.home .menu-slider.section-slider .swiper-slide {width: 37.867vw;}
 .main.home .menu-slider.section-slider .swiper-slide + .swiper-slide {margin-left: 1.067vw;}
@@ -79,8 +81,8 @@
 #popupServiceAccess .popup-footer .btn {width: 100%;}
 #popupServiceAccess .title-wrap .h2 {font-size: 4.2667vw; letter-spacing: -0.085vw; text-align: center;}
 #popupServiceAccess .title-wrap .h2 + .info {margin-top: 4.2667vw;}
-#popupServiceAccess .title-wrap .info {font-size: 3.2vw; letter-spacing: -0.32px; opacity: 0.8; text-align: center;}
-#popupServiceAccess .data-list {margin-top: 8vw; padding-top: 8vw; border-top: 1px solid #ebebeb;}
+#popupServiceAccess .title-wrap .info {font-size: 3.2vw; letter-spacing: -0.085vw; opacity: 0.8; text-align: center;}
+#popupServiceAccess .data-list {margin-top: 8vw; padding-top: 8vw; border-top: 0.267vw solid #ebebeb;}
 #popupServiceAccess .data-list li {-webkit-box-align: center;-ms-flex-align: center;align-items: center;}
 #popupServiceAccess .data-list li + li {margin-top: 8vw;}
 #popupServiceAccess .data-list .thumb-wrap {width: 10.6667vw; height: 10.6667vw; margin-right: 4.2667vw;}
@@ -105,7 +107,7 @@
 #content.login .sns-login {width: calc(100% + 10.667vw); border-top: 0.267vw solid #f1f1f1; padding: 5.333vw 0 8vw; margin-left: -5.333vw;}
 #content.login .sns-login .title + .data-list {margin-top: 3.467vw;}
 #content.login .join-induce .etc-btn {margin-top: 8vw; text-align: center;}
-#content.login .join-induce .etc-btn .btn {font-size: 3.467vw; color: #707070; border-bottom: 1px solid #b5b5b5;}
+#content.login .join-induce .etc-btn .btn {font-size: 3.467vw; color: #707070; border-bottom: 0.267vw solid #b5b5b5;}
 
 /* LL002 */
 #content.login.search {padding-top: 13.3333vw; padding-bottom: 16vw;}
@@ -113,7 +115,7 @@
 #content.login.search .title-wrap + .fieldset {margin-top: 13.3333vw;}
 #content.login.search .field + .field {margin-top: 2.1333vw;}
 #content.login.search .result-wrap {position: relative; margin-top: 11.4667vw; padding-top: 11.2vw;}
-#content.login.search .result-wrap::before {display: block; content: ''; position: absolute; top: 0;left: -5.333vw; width: calc(100% + 10.666vw); height: 1px; background-color: rgba(112,112,112,0.1);}
+#content.login.search .result-wrap::before {display: block; content: ''; position: absolute; top: 0;left: -5.333vw; width: calc(100% + 10.666vw); height: 0.267vw; background-color: rgba(112,112,112,0.1);}
 #content.login.search .result-wrap .detail-wrap {margin-top: 10.6667vw;}
 #content.login.search .result-wrap .detail-wrap .info {font-size: 4.2667vw; text-align: center;}
 #content.login.search .result-wrap .btn-area {margin-top: 13.3333vw;}
@@ -122,7 +124,7 @@
 #content.login.search .result-wrap .btn-area.full .btn.normal {border-color: #dbdbdb;}
 #content.login.search .result-wrap .search-induce {margin-top: 5.3333vw; text-align: center;}
 #content.login.search .result-wrap .search-induce .btn {position: relative; display: inline-block; font-size: 3.4667vw; opacity: 0.5;}
-#content.login.search .result-wrap .search-induce .btn::after {content: ''; display: inline-block; position: absolute; bottom: -2px; left: 0; width: 100%; height: 1px; background-color: #000; opacity: 0.3;}
+#content.login.search .result-wrap .search-induce .btn::after {content: ''; display: inline-block; position: absolute; bottom: -0.533vw; left: 0; width: 100%; height: 0.267vw; background-color: #000; opacity: 0.3;}
 #content.login.search .result-wrap .form-wrap {margin-top: 8vw;}
 #content.login.search .result-wrap .form-wrap .field + .field {margin-top: 5.3333vw;}
 #content.login.search .result-wrap .form-wrap .btn-area {margin-top: 8vw;}
@@ -172,13 +174,13 @@
 #content.mypage.main .user-info-wrap .data-list li {font-size: 3.2vw; opacity: 0.7;}
 #content.mypage.main .user-info-wrap .data-list li + li {margin-top: 1.467vw;}
 #content.mypage.main .user-state-wrap li {background-color: rgba(255,255,255,0.23); box-sizing: border-box;}
-#content.mypage.main .user-state-wrap li + li {border-left: 1px solid #ebebeb;}
+#content.mypage.main .user-state-wrap li + li {border-left: 0.267vw solid #ebebeb;}
 #content.mypage.main .item.my-state {border-color: #ebebeb;}
 #content.mypage.main .item.my-state .state .new {display: inline-block; position: relative;}
 #content.mypage.main .item.my-state .state .new::after {display: inline-block; position: absolute; content: ''; top: -0.533vw; right: -1.867vw; width: 1.067vw; height: 1.067vw; border-radius: 50%; background-color: #ff592e;}
-#content.mypage.main .my-gnb-list {border-bottom: 1px solid rgba(168,168,168,0.1);}
+#content.mypage.main .my-gnb-list {border-bottom: 0.267vw solid rgba(168,168,168,0.1);}
 #content.mypage.main .my-gnb-list li {font-size: 4.267vw; line-height: 16vw; opacity: 0.8;}
-#content.mypage.main .my-gnb-list li + li {border-top: 1px solid rgba(235,235,235,0.2);}
+#content.mypage.main .my-gnb-list li + li {border-top: 0.267vw solid rgba(235,235,235,0.2);}
 #content.mypage.main .my-gnb-list li a {display: block; padding: 0 5.333vw;}
 /* ME002 */
 #content.mypage.stamp .user-stamp-wrap {padding: 6.4vw 8vw 10.667vw; background-color: #f8f8f8;}
@@ -201,7 +203,7 @@
 #content.mypage.stamp .btn.full {font-size: 3.733vw;}
 /* ME003 */
 #content.mypage.modify .form-wrap {padding: 8vw 5.333vw;}
-#content.mypage.modify .form-wrap + .form-wrap {border-top: 1px solid rgba(112,112,112,0.1);}
+#content.mypage.modify .form-wrap + .form-wrap {border-top: 0.267vw solid rgba(112,112,112,0.1);}
 #content.mypage.modify .form-wrap .field + .field.space {margin-top: 2.133vw;}
 #content.mypage.modify .form-title {margin-bottom: 8vw;}
 #content.mypage.modify .form-title .h2 {font-size: 4.267vw;}
@@ -211,7 +213,7 @@
 #content.mypage.modify .withdrawal-btn .btn,
 #content.mypage.modify .withdrawal-btn .open-pop {font-size: 3.733vw; opacity: 0.4;}
 /* ME004 */
-#content.mypage.order .sorting-wrap {border-bottom: 1px solid rgba(235,235,235,0.2);}
+#content.mypage.order .sorting-wrap {border-bottom: 0.267vw solid rgba(235,235,235,0.2);}
 #content.mypage.order .sorting-wrap .select {width: auto; padding: 0; padding-right: 4.533vw; font-size: 3.733vw; font-weight: 700; background-image: url('../images/@uio/select-arr-bk.svg'); background-position: 100% calc(50% - 0.7vw); border: none;color: #000;}
 #content.mypage.order .order-list li {padding: 4.267vw 5.333vw;}
 #content.mypage.order:not(.bookmark) .item.order .img-wrap {width: 21.333vw; height: 21.333vw;}
@@ -230,7 +232,8 @@
 #content.drink.order.info-detail .item.order .price strong,
 #content.drink.order.info-detail .item.info-order .title strong {font-weight: 700;}
 #content.drink.order.info-detail .item.order .amount {color: rgba(0,0,0,0.5);}
-#content.drink.order.info-detail .item.order .detail-wrap .info {margin: 1.067vw 0 7.200vw;}
+#content.drink.order.info-detail .item.order .detail-wrap .info {margin: 1.067vw 0 0;}
+#content.drink.order.info-detail .item.order .order-info + .price-wrap {margin-top: 7.2vw;}
 #content.drink.order.info-detail .item.info-order {padding-bottom: 0;}
 #content.drink.order.info-detail .item.info-order .price {font-size: 4.267vw;}
 #content.drink.order.info-detail .item.info-order dl + dl.total {border-top: 0.267vw solid rgba(112,112,112,0.1); padding-top: 5.867vw;}
@@ -251,7 +254,7 @@
 #content.mypage.gift .form-wrap {margin-top: 6.667vw;}
 #content.mypage.gift .form-wrap .field + .field {margin-top: 10.667vw;}
 #content.mypage.gift .tabs {margin-top: 5.333vw;}
-#content.mypage.gift .tabs li {border: 1px solid #dbdbdb;}
+#content.mypage.gift .tabs li {border: 0.267vw solid #dbdbdb;}
 #content.mypage.gift .tabs li a {font-size: 3.733vw;}
 #content.mypage.gift .tabs li + li {border-left: none;}
 #content.mypage.gift .tab-content {margin-top: 2.667vw;}
@@ -259,7 +262,7 @@
 #content.mypage.gift .item.attention .text {padding-left: 0;}
 #content.mypage.gift .fixed-con .btn.x-large {padding-top: 0; padding-bottom: 5.333vw;}
 /* ME007 */
-#content.mypage.history {padding-bottom: 40px;}
+#content.mypage.history {padding-bottom: 10.667vw;}
 #content.mypage.history .data-list .history-header {padding: 3.467vw 5.333vw; font-weight: 700; font-size: 3.733vw; background-color: #f7f7f7;}
 #content.mypage.history .item.coupon {display: block; height: auto; padding: 6.667vw 5.333vw;}
 #content.mypage.history .item.coupon {display: block; height: auto;}
@@ -289,7 +292,7 @@
 #content.notice.detail .item.notice .title-area {font-weight: 700;}
 #content.notice.detail .item.board {background-color: #fbfbfb;}
 /* CM001 */
-#content.settings .setting-list li {padding: 5.467vw 5.333vw; font-size: 4.267vw; border-bottom: 1px solid rgba(235,235,235,0.2);}
+#content.settings .setting-list li {padding: 5.467vw 5.333vw; font-size: 4.267vw; border-bottom: 0.267vw solid rgba(235,235,235,0.2);}
 #content.settings .setting-list li a {display: block;}
 #content.settings .setting-list .sub-info {margin-top: 2.133vw; font-size: 2.933vw; line-height: 1.45; opacity: 0.4;}
 #content.settings .setting-list .btn-area {margin-top: 5.333vw;}
@@ -382,7 +385,8 @@
 #content.drink.detail .item.drink-info .detail-wrap .price {width: 28%; text-align: right;}
 #content.drink.detail .item.drink-info .btn.bookmark {position: absolute; top: 5.333vw; right: 5.333vw;}
 #content.drink.detail .item.drink-info .ico.heart {width: 6.933vw; height: 6.933vw;}
-#content.drink.detail .fieldset > .field + .w-inner {padding-top: 10.667vw; /*padding-bottom: 10.667vw;*/}
+#content.drink.detail .fieldset > .field + .w-inner {padding-top: 10.667vw; /*padding-bottom: 10.533vw;*/}
+#content.drink.detail .form + .toggle-wrap {margin-top: 10.533vw;}
 #content.drink.detail .label + .select-group,
 #content.drink.detail .label + .data-list {margin-top: 2.667vw;}
 #content.drink.detail .field + .field {margin-top: 8vw;}
@@ -393,6 +397,7 @@
 #content.drink.detail .toggle-wrap ,
 #content.drink.detail .toggle-wrap > li {border-color: #f3f3f3;}
 #content.drink.detail .item.info-detail .title-wrap {padding-top: 5.787vw; padding-bottom: 5.947vw;}
+#content.drink.detail .item.info-detail .title-wrap.toggle-switch .title {font-weight: 700;}
 #content.drink.detail .item.info-detail .detail-wrap .text > span {position: relative;}
 #content.drink.detail .item.info-detail .detail-wrap .text > span + span::before {content: ''; display: inline-block; position: relative; width: 0.533vw; height: 0.533vw; background-color: #000; margin: 0 1.867vw; vertical-align: middle;}
 #content.drink.detail .item.info-detail .detail-wrap .text > span > em {display: inline-block; margin-left: 1.600vw;}
@@ -405,7 +410,7 @@
 #content.drink.detail .fixed-con .item.info-order .title + .text {width: calc(100% - 24.533vw); text-align: right;}
 #content.drink.detail .fixed-con .item.info-order .title.en,
 #content.drink.detail .fixed-con .item.info-order .text > span.en {font-family: 'Montserrat','NanumSquare', sans-serif; font-weight: 500; font-size: 3.733vw; margin-right: 1.067vw;}
-#content.drink.detail .fixed-con .item.info-order .text > span {display: inline-block; position: relative; font-size: 3.733vw; color: rgba(0,0,0,0.6);}
+#content.drink.detail .fixed-con .item.info-order .text > span {display: inline-block; position: relative; font-size: 3.733vw; color: rgba(0,0,0,0.8);}
 #content.drink.detail .fixed-con .item.info-order .text > span::after {content: ','; display: inline-block; position: relative; font-size: inherit; color: inherit;}
 #content.drink.detail .fixed-con .item.info-order .text > span:last-child {margin-right: 0;}
 #content.drink.detail .fixed-con .item.info-order .text > span:last-child::after {display: none;}
@@ -417,7 +422,8 @@
 #content.drink.detail .fixed-con:not(.layer-pop) .btn-area > .btn-various {width: calc(100% - 65.867vw);}
 #content.drink.detail .fixed-con:not(.layer-pop) .btn-area > .btn-various .btn {border-top: 0.267vw solid rgba(112,112,112,0.1);}
 #content.drink.detail .fixed-con .btn-area .ico.heart {width: 8.533vw; height: 8.533vw;}
-#content.drink.detail .fixed-con .btn-area .btn:not(.active) .ico.heart {background-image: url('../images/com/icon_heart-line-g.svg');}
+#content.drink.detail .fixed-con .btn-area .btn:not(.active) .ico.heart {width: 7.467vw; height: 7.467vw; background-image: url('../images/com/icon_heart-line-b.svg');}
+#content.drink.detail .fixed-con .btn-area .btn:not(.active) .ico.cart {background-image: url('../images/com/icon_cart-b.svg');}
 #content.drink.detail .fixed-con .content-wrap {background-color: #f9f9f9; margin: 0 5.067vw; padding: 4vw 5.333vw 4.267vw 4.533vw;}
 #content.drink.detail .fixed-con .item.order .img-wrap {width: 17.867vw; height: 17.867vw;}
 #content.drink.detail .fixed-con .item.order .detail-wrap {width: calc(100% - 17.867vw); min-height: 17.867vw; padding-left: 3.2vw;}
@@ -425,7 +431,7 @@
 #content.drink.detail .fixed-con .item.order .detail-wrap .info {margin: 0;}
 #content.drink.detail .item.info-order .title {font-weight: 700;}
 #content.drink.detail .select-group input:not(:checked) + label .text span.en {color: rgba(0,0,0,0.4);}
-#content.drink.detail .option-list > li {height: 16.533vw; line-height: 16.533vw; border: 0.267vw solid #eaeaea; padding-left: 4.133vw; padding-right: 4.133vw;}
+#content.drink.detail .option-list > li {height: 16.267vw; line-height: 16.267vw; border: 0.267vw solid #eaeaea; padding-left: 4.133vw; padding-right: 4.133vw;}
 #content.drink.detail .option-list > li + li {margin-top: -0.267vw;}
 #content.drink.detail .option-list .amount-wrap {position: relative; display: -ms-flexbox; display: -webkit-flex; display: flex; -webkit-justify-content: space-between; -ms-flex-pack: justify; justify-content: space-between; -webkit-box-align: center;-ms-flex-align: center;align-items: center;}
 #content.drink.detail .option-list .amount-wrap .check-box label + input {margin-left: 1.067vw;}
@@ -469,7 +475,8 @@
 #content.drink.order {padding-top: 5.733vw; margin-bottom: 7.067vw;}
 #content.drink.order .store-search-wrap + .section {padding-top: 5.867vw; padding-bottom: 7.067vw;}
 #content.drink.order .section + .section {border-top: 0.267vw solid rgba(112,112,112,0.1); padding-top: 6.4vw; margin-top: 6vw;}
-#content.drink.order .item.order-detail .address {padding-bottom: 4.8vw;}
+#content.drink.order .section + .section:nth-child(3) {border-top: none;}
+#content.drink.order .item.order-detail .address {margin-top: 2.667vw; padding-bottom: 0.933vw;}
 #content.drink.order .field .label.en {font-weight: 600;}
 #content.drink.order .label .alert {vertical-align: 0.533vw; color: #bfbfbf;}
 #content.drink.order .label .alert > .ico.alert {top: -0.267vw; opacity: 0.7;}
@@ -478,10 +485,10 @@
 #content.drink.order .order-list > li + li {border-color: #f7f7f7; margin-top: 8vw; padding-top: 8vw;}
 #content.drink.order .item.order + .select {margin-top: 5.333vw;}
 #content.drink.order .field + .field {margin-top: 10.667vw;}
-#content.drink.order:not(.info-detail) .field .label + .item.info-order {border-top: 1px solid #dbdbdb; margin-top: 5.333vw; padding-bottom: 0;}
-#content.drink.order .field .item.info-order .flex-both.total + .flex-both{border-top: 1px solid rgba(112,112,112,0.1); padding-top: 6.667vw;}
+#content.drink.order:not(.info-detail) .field .label + .item.info-order {border-top: 0.267vw solid #dbdbdb; margin-top: 5.333vw; padding-bottom: 0;}
+#content.drink.order .field .item.info-order .flex-both.total + .flex-both{border-top: 0.267vw solid rgba(112,112,112,0.1); padding-top: 6.667vw;}
 /* #content.drink.order .fixed-con {box-shadow: 0 -0.417vw 12.500vw 0 rgba(0, 0, 0, 0.05);} */
-#content.drink.order .fixed-con .popup {box-shadow: none; border-top: 1px solid rgba(112,112,112,0.1);}
+#content.drink.order .fixed-con .popup {box-shadow: none; border-top: 0.267vw solid rgba(112,112,112,0.1);}
 #content.drink.order .fixed-con .item.info-order {padding-top: 5.333vw; padding-left: 5.333vw; padding-right: 5.333vw; padding-bottom: 7.600vw;}
 #content.drink.order .item.info-order + .item.info-order {height: 16vw; line-height: 16vw; border-top: 0.267vw solid #e3e3e3; padding-top: 0; padding-bottom: 0;}
 #content.drink.order .item.info-order dl + dl {margin-top: 5.867vw;}
@@ -493,6 +500,7 @@
 #content.drink.order .fixed-con .popup {-webkit-transition-delay: 0.3s;-o-transition-delay: 0.3s;transition-delay: 0.3s;}
 #content.drink.order .fixed-con .item.info-order .total .title {font-weight: 600;}
 #content.drink.order .fixed-con .item.info-order .price {font-weight: 800;}
+#content.drink.order .fixed-con .btn-area .btn.full {font-weight: 700;}
 
 /* TO006_1 */
 #content.membership .form-wrap {padding-top: 6.8vw;}
@@ -570,7 +578,7 @@
 #content.pay.charge:not(.history):not(.recharge) #cardSlider {padding-bottom: 14.933vw;}
 #content.pay.charge:not(.history) #cardSlider::after {content: ''; display: block; position: absolute; bottom: 0; left: 0; width: calc(100% + 10.667vw); height: 0.267vw; background-color: #fdfdfd; margin-left: -5.333vw;}
 #content.pay.charge:not(.history) #cardSlider .swiper-pagination-bullets{bottom: 5.333vw;}
-#content.pay.charge .fixed-con .item.info-order {padding-top: 7.333vw; padding-bottom: 8vw;}
+#content.pay.charge .fixed-con .item.info-order {padding-top: 5.333vw;padding-bottom: 6vw;}
 /* CA003 */
 #content.pay.charge.history .data-list {margin-top: 17.600vw;}
 #content.pay.charge.history .data-list li + li {border-top: 0.267vw solid #ebebeb;}
@@ -629,7 +637,7 @@ body.modal-opened .zoom-card .item.card {-webkit-transform: translateX(0); -ms-t
 #content.story.detail .banner-wrap img {width: 100%; height: 100%; -o-object-fit: cover; object-fit: cover; -o-object-position: center; object-position: center; -webkit-transform: scale(1); -ms-transform: scale(1); transform: scale(1); -webkit-transition: -webkit-transform 0.3s linear; -o-transition: transform 0.3s linear; transition: transform 0.3s linear;}
 #content.story.detail .swiper-container {position: fixed; top: 0; left: 0; z-index: 1;}
 #content.story.detail .swiper-container .swiper-pagination {bottom: 6.4vw;}
-#content.story.detail .item.dalkomm-story {border: 0; border-bottom: 1px solid #ebebeb; padding: 5.333vw 5.333vw 6.4vw;}
+#content.story.detail .item.dalkomm-story {border: 0; border-bottom: 0.267vw solid #ebebeb; padding: 5.333vw 5.333vw 6.4vw;}
 #content.story.detail .item.dalkomm-story .badge-wrap {position: relative; top: auto; left: auto;}
 #content.story.detail .item.dalkomm-story .badge-wrap + .data-wrap {margin-top: 5.333vw;}
 #content.story.detail .item.dalkomm-story .data-wrap {padding: 0;}

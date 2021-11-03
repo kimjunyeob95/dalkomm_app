@@ -11,7 +11,7 @@ import { Link } from "react-router-dom";
 import HeaderSub from "Components/Header/HeaderSub";
 import Nav from "Components/Nav/Nav";
 import GoContents from "Components/GoContents";
-import { contGap, moveScrollTop, fadeInOut } from "Jquery/Jquery";
+import { contGap, moveScrollTop } from "Jquery/Jquery";
 import Popup_nomal from "Components/Popup/Popup_nomal";
 
 import { Map, GoogleApiWrapper, Marker } from "google-maps-react";
@@ -80,8 +80,8 @@ export function Order(props) {
   useEffect(() => {
     // 말풍선 스크롤시 hide/show
     contGap();
-    SwiperCore.use([Scrollbar]);
     fadeOut();
+    SwiperCore.use([Scrollbar]);
   }, [axioData]);
 
   const handleFavorite = (e, storeCode) => {

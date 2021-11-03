@@ -169,7 +169,7 @@ export default function JoinStep2() {
                     <div className="field-wrap">
                       <div className="field">
                         <label className="label" htmlFor="datepicker">
-                          생년월일<span>(선택)</span>
+                          생년월일<span>(필수)</span>
                         </label>
                         <div className="insert">
                           <DatePicker
@@ -201,7 +201,7 @@ export default function JoinStep2() {
                             )}
                             locale="ko" // 달력 한글화
                             selected={startDate}
-                            className="input-text medium input-date"
+                            className="input-text medium input-date chk-validation"
                             id="datepicker"
                             name="datepicker"
                             onChange={(date) => setStartDate(date)}

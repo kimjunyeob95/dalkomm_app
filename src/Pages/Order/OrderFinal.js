@@ -267,7 +267,7 @@ export default function OrderFinal() {
     });
   };
   let menu_count = -1;
-  console.log(axioData);
+
   if (axioData) {
     return (
       <React.Fragment>
@@ -329,10 +329,17 @@ export default function OrderFinal() {
                                 <li key={index2}>
                                   <div className="item order">
                                     <div className="img-wrap">
-                                      <img
-                                        src={axioData?.res1_data?.smartorder_detail_list[index]?.smartorder_menu_img}
-                                        alt={axioData?.res1_data?.smartorder_detail_list[index]?.menu_name_kor}
-                                      />
+                                      {axioData?.res1_data?.smartorder_detail_list[index]?.get_summary_option[0] === "ICE" ? (
+                                        <img
+                                          src={axioData?.res1_data?.smartorder_detail_list[index]?.smartorder_menu_img_ice}
+                                          alt={axioData?.res1_data?.smartorder_detail_list[index]?.menu_name_kor}
+                                        />
+                                      ) : (
+                                        <img
+                                          src={axioData?.res1_data?.smartorder_detail_list[index]?.smartorder_menu_img}
+                                          alt={axioData?.res1_data?.smartorder_detail_list[index]?.menu_name_kor}
+                                        />
+                                      )}
                                     </div>
                                     <div className="detail-wrap">
                                       <div className="order-info">
@@ -348,10 +355,16 @@ export default function OrderFinal() {
                                             })}
                                           </span>
                                           <span className="en">
-                                            {axioData?.res1_data?.smartorder_detail_list[index]?.get_summary_option.filter((e, i) => {
+                                            {axioData?.res1_data?.smartorder_detail_list[index]?.get_summary_option.map((e, i) => {
                                               let array = ["레귤러", "라지", "코끼리"];
                                               if (array.indexOf(e) > -1) {
-                                                return e;
+                                                if (e === "레귤러") {
+                                                  return "Legular";
+                                                } else if (e === "라지") {
+                                                  return "Large";
+                                                } else if (e === "코끼리") {
+                                                  return "Big";
+                                                }
                                               }
                                             })}
                                           </span>

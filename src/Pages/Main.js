@@ -106,10 +106,10 @@ export function Main(props) {
   }, [state.auth]);
 
   useEffect(() => {
-    SwiperCore.use([Autoplay, Scrollbar]);
     scrollDetail();
     contGap();
     fadeOut();
+    SwiperCore.use([Autoplay, Scrollbar]);
   }, [axioData]);
 
   const handleLogin = (e) => {
@@ -169,7 +169,7 @@ export function Main(props) {
   if (axioData?.res1_data?.main_banner_list) {
     // return (
     //   <div style={{ wordBreak: "break-all" }}>
-    //     <p> fcmToken : {state.app_version}</p>
+    //     <p> accessToken : {state?.accessToken}</p>
     //     <br />
     //     <p> auth : {state?.auth}</p>
     //     <br />

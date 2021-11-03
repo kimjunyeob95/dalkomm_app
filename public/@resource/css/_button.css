@@ -26,13 +26,13 @@ button.btn	{overflow:visible;margin:0;padding:0;background-color:transparent;}
 .btn.x-large > strong {font-weight: 700;}
 
 /* button color */
-.btn.normal{border: 1px solid #000;color: #000;background-color: #fff;}
-.btn.light{background-color:#fcfcfc;color:#989898;border: 1px solid #ebebeb;}
+.btn.normal{border: 0.267vw solid #000;color: #000;background-color: #fff;}
+.btn.light{background-color:#fcfcfc;color:#989898;border: 0.267vw solid #ebebeb;}
 .btn.light-g{background-color:#f6f6f6; color: #000;}
 .btn.dark{background-color: #000;color: #fff;}
 .btn.dark-g{background-color: #535353;color: #fff;}
 .btn.full{width: 100%;}
-.btn.bdr{border: 1px solid #ebebeb;color: #000;background-color: #fff;}
+.btn.bdr{border: 0.267vw solid #ebebeb;color: #000;background-color: #fff;}
 
 .btn[disabled]{cursor: auto;}
 .btn.dark[disabled] {background-color: #bfbfbf;}
@@ -82,7 +82,7 @@ a.btn.text[target=_blank]::after {position: relative; top: 0; display: inline-bl
 
 /* btn.my-bookmark */
 .btn.my-bookmark {width: 16vw;height: 16vw;background-color: #ff592e; border-radius: 50%;box-shadow: 0 1.333vw 2.667vw 0 rgba(0, 0, 0, 0.16);}
-.btn.my-bookmark .ico.heart {width: 100%;height: 100%;background-image: url('../images/com/icon_heart_bookmark.svg');background-position-y: center;background-size: 9.067vw 9.067vw;}
+.btn.my-bookmark .ico.heart {width: 100%;height: 100%;background-image: url('../images/com/icon_heart_bookmark.svg');background-position-y: center;background-size: 6.667vw 5.867vw;}
 
 /* btn.view-page */
 .btn.view-page {width: 14.667vw; height: 14.667vw; border-radius: 50%; background-color: #fff;}

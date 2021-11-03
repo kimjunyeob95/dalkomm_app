@@ -431,7 +431,7 @@ export default function OrderDetail() {
     }
     total_price = total_price * price_menu.orderCount;
 
-    $("#totalPrice")
+    $("#totalPrice span")
       .text(total_price?.toLocaleString("ko-KR") + "원")
       .attr("data-allprice", total_price);
   };
@@ -1193,7 +1193,7 @@ export default function OrderDetail() {
                           <li className="option">
                             <div className="item info-order">
                               <dl className="flex-both w-inner">
-                                <dt className="title en">Option</dt>
+                                <dt className="title">옵션</dt>
                                 <dd className="text option">
                                   <span className="en option menutype"></span>
                                   <span className="en option size"></span>
@@ -1205,9 +1205,9 @@ export default function OrderDetail() {
                         )}
                         {/* // [D] 211013 li.option 수정 */}
                       </ul>
-                      <div className="item info-order">
+                      {/* <div className="item info-order">
                         <dl className="flex-both w-inner">
-                          <dt className="title">주문 금액</dt> {/* [D] 211013 .en 삭제 , 텍스트 수정 */}
+                          <dt className="title">주문 금액</dt> 
                           <dd
                             className="price fc-orange"
                             id="totalPrice"
@@ -1216,7 +1216,7 @@ export default function OrderDetail() {
                             {frontData.defaultPrice?.toLocaleString("ko-KR")}원
                           </dd>
                         </dl>
-                      </div>
+                      </div> */}
                     </div>
                     <div className="btn-area col-2">
                       <div className="btn-various btn-area col-2">
@@ -1236,8 +1236,13 @@ export default function OrderDetail() {
                           </i>
                         </button>
                       </div>
-                      <button className="btn x-large dark" onClick={() => submitOrder()}>
-                        주문하기
+                      <button
+                        id="totalPrice"
+                        data-allprice={axioData?.res1_data?.menu?.detail_info_hot_simple_regular_price}
+                        className="btn x-large dark"
+                        onClick={() => submitOrder()}
+                      >
+                        <span>{frontData.defaultPrice?.toLocaleString("ko-KR")}원</span>&nbsp;주문하기
                       </button>
                     </div>
                   </div>

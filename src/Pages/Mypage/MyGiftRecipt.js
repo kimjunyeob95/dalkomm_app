@@ -9,6 +9,7 @@ import React, { useEffect, useContext, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import HeaderSub from "Components/Header/HeaderSub";
 import GoContents from "Components/GoContents";
+import { BarLoader, FadeLoader } from "react-spinners";
 
 import { authContext } from "ContextApi/Context";
 import { SERVER_DALKOMM } from "Config/Server";
@@ -60,6 +61,7 @@ export default function MyGiftRecipt() {
     contGap();
     fadeOut();
   }, [axioData]);
+
   if (axioData) {
     return (
       <React.Fragment>
@@ -74,7 +76,8 @@ export default function MyGiftRecipt() {
                   <div className="w-inner">
                     <p className="card-title">{axioData?.res1_data?.user_name}님의 기프트카드</p>
                     <div className="item card gift">
-                      <div className="card-wrap" style={{ backgroundImage: `url(${axioData?.res1_data?.charge_card_image_url})` }}>
+                      {/* <div className="card-wrap" style={{ backgroundImage: `url(${axioData?.res1_data?.charge_card_image_url})` }}> */}
+                      <div className="card-wrap">
                         <p className="grade en">
                           RECHARGEABLE
                           <br />
@@ -163,6 +166,13 @@ export default function MyGiftRecipt() {
         <div id="wrap" className="wrap">
           <div id="container" className="container">
             <HeaderSub title="기프트카드 사용내역" />
+            <FadeLoader
+              loading={true}
+              size={50}
+              height={6}
+              color="red"
+              css={{ position: "absolute", transform: "translate(-50%, -50%)", top: "50%", left: "56%", height: "6px" }}
+            />
           </div>
         </div>
       </React.Fragment>
