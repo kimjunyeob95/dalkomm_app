@@ -13,7 +13,7 @@ import GoContents from "Components/GoContents";
 import { contGap, moveScrollTop, tabLink, fadeInOut } from "Jquery/Jquery";
 import Popup_nomal from "Components/Popup/Popup_nomal";
 
-import { fadeOut } from "Config/GlobalJs";
+import { fadeOut, checkMobile } from "Config/GlobalJs";
 
 import { SERVER_DALKOMM } from "Config/Server";
 import { authContext } from "ContextApi/Context";
@@ -75,6 +75,20 @@ export default function OrderInfo() {
         }
       })
     );
+  };
+
+  const handleCall = (number) => {
+    let data = { phoneNum: number };
+    data = JSON.stringify(data);
+    try {
+      if (checkMobile() === "android") {
+        window.android.fn_directCall(data);
+      } else if (checkMobile() === "ios") {
+        window.webkit.messageHandlers.fn_directCall.postMessage(data);
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
   if (axioData) {
     return (
@@ -273,7 +287,9 @@ export default function OrderInfo() {
                                 <dt className="title">주문 매장</dt>
                                 <dd className="text">
                                   <span>{axioData?.res1_data?.order_store}</span>
-                                  <a className="btn tel">{axioData?.res1_data?.order_store_mobile}</a>
+                                  <a className="btn tel" onClick={() => handleCall(axioData?.res1_data?.order_store_mobile)}>
+                                    {axioData?.res1_data?.order_store_mobile}
+                                  </a>
                                 </dd>
                               </dl>
                             </li>

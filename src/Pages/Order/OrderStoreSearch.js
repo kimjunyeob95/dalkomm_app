@@ -18,7 +18,7 @@ import { contGap, fadeInOut, moveScrollTop } from "Jquery/Jquery";
 import { Map, GoogleApiWrapper, Marker } from "google-maps-react";
 
 import { Swiper, SwiperSlide } from "swiper/react";
-import { fadeOut } from "Config/GlobalJs";
+import { fadeOut, checkMobile } from "Config/GlobalJs";
 
 import { SERVER_DALKOMM } from "Config/Server";
 import { authContext } from "ContextApi/Context";
@@ -122,6 +122,20 @@ export function OrderStoreSearch(props) {
         });
       })
     );
+  };
+
+  const handleCall = (number) => {
+    let data = { phoneNum: number };
+    data = JSON.stringify(data);
+    try {
+      if (checkMobile() === "android") {
+        window.android.fn_directCall(data);
+      } else if (checkMobile() === "ios") {
+        window.webkit.messageHandlers.fn_directCall.postMessage(data);
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
   if (axioData) {
     return (
@@ -376,7 +390,7 @@ export function OrderStoreSearch(props) {
                             </div>
                             <div className="detail-wrap toggle-cont">
                               <ul>
-                                <li>
+                                <li onClick={() => handleCall(storeData?.detailStore?.store_mobile)}>
                                   <i className="ico tel">
                                     <span>전화번호</span>
                                   </i>

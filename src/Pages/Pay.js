@@ -87,6 +87,9 @@ export default function Pay() {
     contGap();
     fadeOut();
     SwiperCore.use([Pagination]);
+    if (axioData?.res2_data?.charge_card_list?.length < 0) {
+      $(".swiper-pagination.swiper-pagination-clickable.swiper-pagination-bullets").css("display", "none");
+    }
   }, [axioData]);
 
   const handleCard = (event, cardNum) => {
@@ -104,7 +107,7 @@ export default function Pay() {
     let giftCode = $("#payGift .swiper-slide-active").data("cardnum");
     history.push(`/mypage/giftCharge/${giftCode}`);
   };
-  // console.log(axioData);
+
   if (axioData) {
     return (
       <React.Fragment>
@@ -193,77 +196,76 @@ export default function Pay() {
                     observeParents={true}
                   >
                     <ul className="swiper-wrapper">
-                      {axioData?.res2_data?.charge_card_list?.map((e, i) => (
-                        <SwiperSlide className="swiper-slide" key={i} data-cardnum={e?.card_number} data-pin={e?.pin_number}>
-                          <h2>{axioData?.res1_data?.user_name}님의 기프트카드</h2>
-                          <div className="item card gift">
-                            <div className="card-wrap">
-                              {/* <div
-                              className="card-wrap"
-                              style={{
-                                backgroundImage: `url(${e?.card_image_url})`,
-                              }}
-                            > */}
-                              <p className="grade en">
-                                RECHARGEABLE
-                                <br />
-                                GIFT CARD
-                              </p>
-                              <p className="sort en">DAL.KOMM GIFT CARD</p>
-                            </div>
-                            <div className="barcode-wrap">
-                              <div className="barcode">
-                                <div id={`barcode${i + 1}`} className="react-barcode"></div>
-                                {/* <div className="img-wrap">
+                      {axioData?.res2_data?.charge_card_list?.length > 0 ? (
+                        axioData?.res2_data?.charge_card_list?.map((e, i) => (
+                          <SwiperSlide className="swiper-slide" key={i} data-cardnum={e?.card_number} data-pin={e?.pin_number}>
+                            <h2>{axioData?.res1_data?.user_name}님의 기프트카드</h2>
+                            <div className="item card gift">
+                              <div className="card-wrap">
+                                <p className="grade en">
+                                  RECHARGEABLE
+                                  <br />
+                                  GIFT CARD
+                                </p>
+                                <p className="sort en">DAL.KOMM GIFT CARD</p>
+                              </div>
+                              <div className="barcode-wrap">
+                                <div className="barcode">
+                                  <div id={`barcode${i + 1}`} className="react-barcode"></div>
+                                  {/* <div className="img-wrap">
                                   <img src="../@resource/images/com/barcode.svg" alt="바코드" />
                                 </div> */}
-                                <p className="num">{e?.card_number.toLocaleString("ko-KR")}</p>
+                                  <p className="num">{e?.card_number.toLocaleString("ko-KR")}</p>
+                                </div>
+                                <button
+                                  type="button"
+                                  className="btn open-pop"
+                                  pop-target="#zoomCardGift"
+                                  onClick={(event) => {
+                                    handleCard(event.currentTarget, e?.card_number);
+                                    popupOpen(event.target);
+                                  }}
+                                >
+                                  <i className="ico barcode-scan" pop-target="#zoomCardGift">
+                                    <span>바코드 확대</span>
+                                  </i>
+                                </button>
                               </div>
-                              <button
-                                type="button"
-                                className="btn open-pop"
-                                pop-target="#zoomCardGift"
-                                onClick={(event) => {
-                                  handleCard(event.currentTarget, e?.card_number);
-                                  popupOpen(event.target);
-                                }}
-                              >
-                                <i className="ico barcode-scan" pop-target="#zoomCardGift">
-                                  <span>바코드 확대</span>
-                                </i>
-                              </button>
+                              <div className="state-wrap flex-both">
+                                <dl className="possess flex-list">
+                                  <dt className="title">보유 금액</dt>
+                                  <dd className="price fc-orange">{e?.amount.toLocaleString("ko-KR")}원</dd>
+                                </dl>
+                                <a onClick={(event) => handleGiftCharge(event.currentTarget)} className="btn">
+                                  <i className="ico money">
+                                    <span>충전하기</span>
+                                  </i>
+                                  &nbsp;충전하기
+                                </a>
+                              </div>
                             </div>
-                            <div className="state-wrap flex-both">
-                              <dl className="possess flex-list">
-                                <dt className="title">보유 금액</dt>
-                                <dd className="price fc-orange">{e?.amount.toLocaleString("ko-KR")}원</dd>
-                              </dl>
-                              <a onClick={(event) => handleGiftCharge(event.currentTarget)} className="btn">
-                                <i className="ico money">
-                                  <span>충전하기</span>
-                                </i>
-                                &nbsp;충전하기
-                              </a>
-                            </div>
-                          </div>
-                        </SwiperSlide>
-                      ))}
+                          </SwiperSlide>
+                        ))
+                      ) : (
+                        <React.Fragment></React.Fragment>
+                      )}
                     </ul>
                     <div className="swiper-pagination"></div>
                   </Swiper>
-
-                  <ul className="row-list flex-center">
-                    <li>
-                      <a onClick={(event) => handleGiftDetail(event.currentTarget)}>
-                        <i className="ico recipt"></i>사용내역
-                      </a>
-                    </li>
-                    <li>
-                      <a className="open-pop" data-href="#popupExitJoin" onClick={(e) => popupOpen(e.target)}>
-                        카드삭제
-                      </a>
-                    </li>
-                  </ul>
+                  {axioData?.res2_data?.charge_card_list?.length > 0 && (
+                    <ul className="row-list flex-center">
+                      <li>
+                        <a onClick={(event) => handleGiftDetail(event.currentTarget)}>
+                          <i className="ico recipt"></i>사용내역
+                        </a>
+                      </li>
+                      <li>
+                        <a className="open-pop" data-href="#popupExitJoin" onClick={(e) => popupOpen(e.target)}>
+                          카드삭제
+                        </a>
+                      </li>
+                    </ul>
+                  )}
                 </div>
               </div>
             </div>

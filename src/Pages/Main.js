@@ -27,7 +27,6 @@ export function Main(props) {
   const [axioData, setData] = useState(false);
   const [storeData, setStore] = useState(false);
   const history = useHistory();
-  const { search } = useLocation();
 
   const body = {};
 
@@ -42,6 +41,7 @@ export function Main(props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     let location_body = { latitude: getCookieValue("latitude"), longitude: getCookieValue("longitude") };
     // let location_body = { latitude: 37.507232666015625, longitude: 127.05642398540016 };
+    //최초 진입 시 실행
     if (state.accessToken !== "") {
       //로그인 시
 
@@ -87,24 +87,21 @@ export function Main(props) {
             axios.post(`${SERVER_DALKOMM}/app/api/v2/store/around`, location_body, header_config),
           ])
           .then(
-            axios.spread((res1, res2, res3) => {
+            axios.spread((res1, res2) => {
               let res1_data = res1.data.data;
               let res2_data = res2.data.data;
-              let res3_data = {};
               setData((origin) => {
                 return {
                   ...origin,
                   res1_data,
                   res2_data,
-                  res3_data,
                 };
               });
             })
           );
       }
     }
-  }, [state.auth]);
-
+  }, []);
   useEffect(() => {
     scrollDetail();
     contGap();
@@ -165,8 +162,22 @@ export function Main(props) {
       })
     );
   };
+
+  const handleCall = (number) => {
+    let data = { phoneNum: number };
+    data = JSON.stringify(data);
+    try {
+      if (checkMobile() === "android") {
+        window.android.fn_directCall(data);
+      } else if (checkMobile() === "ios") {
+        window.webkit.messageHandlers.fn_directCall.postMessage(data);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
   //axios 반환 시
-  if (axioData?.res1_data?.main_banner_list) {
+  if (axioData) {
     // return (
     //   <div style={{ wordBreak: "break-all" }}>
     //     <p> accessToken : {state?.accessToken}</p>
@@ -247,7 +258,9 @@ export function Main(props) {
                       <span>바코드</span>
                     </i>
                   </button>
-                  <p className="speech-bubble">오늘은 신메뉴 어떠세요?</p>
+                  <div className="speech-wrap">
+                    <p className="speech-bubble ani">오늘은 신메뉴 어떠세요?</p>
+                  </div>
                 </div>
               ) : (
                 <div className="item my-info" onClick={(e) => handleLogin(e.currentTarget)}>
@@ -767,7 +780,7 @@ export function Main(props) {
                             </div>
                             <div className="detail-wrap toggle-cont">
                               <ul>
-                                <li>
+                                <li onClick={() => handleCall(storeData?.detailStore?.store_mobile)}>
                                   <i className="ico tel">
                                     <span>전화번호</span>
                                   </i>
@@ -980,7 +993,7 @@ export function Main(props) {
         <Popup_nomal />
       </React.Fragment>
     );
-  } else
+  } else {
     return (
       <React.Fragment>
         <div id="wrap" className="wrap">
@@ -992,6 +1005,7 @@ export function Main(props) {
         </div>
       </React.Fragment>
     );
+  }
 }
 
 export default GoogleApiWrapper({

@@ -52,11 +52,18 @@ export default function OrderFinal() {
             return location?.frontValue;
           });
         } else {
-          let finalPrice = res1_data.total_order_amount;
+          let finalPrice = 0;
+          res1_data.smartorder_detail_list?.map((element, index) => {
+            if (element?.quantity > 1) {
+              finalPrice = element?.price * element?.quantity;
+            } else {
+              finalPrice += element?.price;
+            }
+          });
           let discountType = "";
           if (res1_data?.basic_discount_rate_percent > 0 && !res1_data?.affiliate_discount) {
             //맴버십 할인이 포함될경우
-            finalPrice = res1_data.total_order_amount - res1_data.total_order_amount * (res1_data?.basic_discount_rate_percent / 100);
+            finalPrice = res1_data.total_order_amount - finalPrice * (res1_data?.basic_discount_rate_percent / 100);
             discountType = "platinum";
           }
           if (res1_data?.affiliate_discount) {
@@ -250,19 +257,46 @@ export default function OrderFinal() {
       if (i === $(".couponSelect").length - 1) {
         $("#coupon-discount").text("-" + discountPrice.toLocaleString("ko-KR") + "원");
 
+        //멤버십 할인 적용 가능한 인원 분기
         //다른 할인 적용 false 시키기
-        setFront((origin) => {
-          return {
-            ...origin,
-            menuQuantity: oneplusArray,
-            smartOrderSeq: smartOrderSeq,
-            finalPrice: origin.defaultPrice - discountPrice,
-            orderDiscountType: {
-              type: axioData?.res1_data?.basic_discount_rate_percent > 0 && !axioData?.res1_data?.affiliate_discount ? "coupon" : "",
-              price: discountPrice,
-            },
-          };
-        });
+        if (axioData?.res1_data?.available_affiliate_discount && discountPrice === 0) {
+          let finalPrice = 0;
+          axioData?.res1_data?.smartorder_detail_list?.map((element, index) => {
+            if (element?.quantity > 1) {
+              finalPrice = element?.price * element?.quantity;
+            } else {
+              finalPrice += element?.price;
+            }
+          });
+          finalPrice = axioData?.res1_data.total_order_amount - finalPrice * (axioData?.res1_data?.basic_discount_rate_percent / 100);
+          finalPrice = finalPrice - (finalPrice % 10);
+          let discountPrice = axioData?.res1_data.total_order_amount - finalPrice;
+          setFront((origin) => {
+            return {
+              ...origin,
+              menuQuantity: oneplusArray,
+              smartOrderSeq: smartOrderSeq,
+              finalPrice: origin.defaultPrice - discountPrice,
+              orderDiscountType: {
+                type: axioData?.res1_data?.basic_discount_rate_percent > 0 && !axioData?.res1_data?.affiliate_discount ? "platinum" : "",
+                price: discountPrice,
+              },
+            };
+          });
+        } else {
+          setFront((origin) => {
+            return {
+              ...origin,
+              menuQuantity: oneplusArray,
+              smartOrderSeq: smartOrderSeq,
+              finalPrice: origin.defaultPrice - discountPrice,
+              orderDiscountType: {
+                type: axioData?.res1_data?.basic_discount_rate_percent > 0 && !axioData?.res1_data?.affiliate_discount ? "coupon" : "",
+                price: discountPrice,
+              },
+            };
+          });
+        }
       }
     });
   };

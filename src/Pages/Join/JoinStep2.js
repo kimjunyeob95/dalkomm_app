@@ -35,10 +35,10 @@ export default function JoinStep2() {
     },
   };
   useEffect(() => {
-    if (location?.join_token === "" || !location?.join_token) {
-      alert("잘못된 접근입니다.");
-      history.push("/");
-    }
+    // if (location?.join_token === "" || !location?.join_token) {
+    //   alert("잘못된 접근입니다.");
+    //   history.push("/");
+    // }
   }, []);
 
   const handleSubmit = (e) => {
@@ -130,9 +130,15 @@ export default function JoinStep2() {
                           기본정보<span>(필수)</span>
                         </label>
                         <div className="insert">
-                          <input type="text" className="input-text medium chk-validation" id="userName" placeholder="이름(닉네임)을 입력해 주세요." />
+                          <input
+                            type="text"
+                            className="input-text medium chk-validation"
+                            id="userName"
+                            maxLength={8}
+                            placeholder="이름(닉네임)을 입력해 주세요."
+                          />
                         </div>
-                        <p className="guide-txt">2자 이상, 한글 또는 영문만 입력 가능합니다.</p>
+                        <p className="guide-txt">2자 이상 8자 이하, 한글 또는 영문만 입력 가능합니다.</p>
                       </div>
                       <div className="field">
                         <label className="blind" htmlFor="useEmail">

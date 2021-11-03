@@ -266,7 +266,7 @@ a[target=_blank]::after {content: ''; display: block; position: absolute; top: 5
 .item.store {width: 100%; height: 57.6vw; border: 0.267vw solid #ebebeb; padding: 2.667vw 0;}
 .item.store > .flex-both {-webkit-align-items: flex-start; -ms-flex-align: start; align-items: flex-start; padding: 0 2.933vw;}
 .item.store .table-order {display: block; width: 1.867vw; height: 1.867vw;; border-radius: 50%; margin-top: 0.8vw;margin-right: 0.8vw;}
-.item.store .table-order.possible {background-color: #004a98;}
+.item.store .table-order.possible {background-color: #3ed156;}
 .item.store .table-order.impossible {background-color: #bfbfbf;}
 .item.store .img-wrap {width: 18.667vw; height: 18.933vw; margin: 0 auto;}
 .item.store .bookmark {margin-top: -1.067vw; margin-left: -1.067vw;}
@@ -274,7 +274,7 @@ a[target=_blank]::after {content: ''; display: block; position: absolute; top: 5
 .item.store .img-wrap .ico {width: 100%; height: 100%;}
 /* .item.store .img-wrap + .data-wrap {margin-top: 2.133vw;} */
 .item.store .data-wrap {text-align: center;}
-.item.store .data-wrap .place {font-weight: 700; font-size: 3.733vw; min-height: 6.400vw; max-height: 9.627vw; display: -ms-flexbox; display: -webkit-flex; display: flex; -webkit-align-items: center; -ms-flex-align: center; align-items: center; -webkit-justify-content: flex-end; -ms-flex-pack: end; justify-content: flex-end;-webkit-flex-direction: column; -ms-flex-direction: column; flex-direction: column; padding: 0 1.333vw;}
+.item.store .data-wrap .place {font-weight: 700; font-size: 3.733vw; min-height: 6.400vw; max-height: 9.627vw; display: -ms-flexbox; display: -webkit-flex; display: flex; -webkit-align-items: center; -ms-flex-align: center; align-items: center; -webkit-justify-content: flex-end; -ms-flex-pack: end; justify-content: flex-end;-webkit-flex-direction: column; -ms-flex-direction: column; flex-direction: column; word-break: keep-all; padding: 0 1.333vw;}
 .item.store .data-wrap .distance {font-weight: 700; font-size: 3.200vw;}
 .item.store .data-wrap .place + .provide-list,
 .item.store .data-wrap .provide-list + .distance{margin-top: 5.333vw;}
@@ -355,7 +355,7 @@ a[target=_blank]::after {content: ''; display: block; position: absolute; top: 5
     -webkit-align-items: center; -ms-flex-align: center; align-items: center;}
 .item.my-info .btn,
 .item.my-info .btn-area {height: 100%;}
-.item.my-info .speech-bubble {position: absolute; top: -5.280vw; left: 27.867vw; z-index: 2;}
+.item.my-info .speech-wrap {position: absolute; top: -5.280vw; left: 27.867vw; z-index: 2;}
 .item.my-info .btn-area .btn + .btn {margin-left: 4.267vw;}
 .item.my-info .btn > .ico {vertical-align: middle;}
 /* .item.my-state */

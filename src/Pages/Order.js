@@ -21,7 +21,7 @@ import SwiperCore, { Scrollbar } from "swiper/core";
 
 import { SERVER_DALKOMM } from "Config/Server";
 import { authContext } from "ContextApi/Context";
-import { getCookieValue, fadeOut } from "Config/GlobalJs";
+import { getCookieValue, fadeOut, checkMobile } from "Config/GlobalJs";
 
 export function Order(props) {
   const [state, dispatch] = useContext(authContext);
@@ -125,7 +125,19 @@ export function Order(props) {
       })
     );
   };
-
+  const handleCall = (number) => {
+    let data = { phoneNum: number };
+    data = JSON.stringify(data);
+    try {
+      if (checkMobile() === "android") {
+        window.android.fn_directCall(data);
+      } else if (checkMobile() === "ios") {
+        window.webkit.messageHandlers.fn_directCall.postMessage(data);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
   if (axioData) {
     return (
       <React.Fragment>
@@ -484,7 +496,7 @@ export function Order(props) {
                             </div>
                             <div className="detail-wrap toggle-cont">
                               <ul>
-                                <li>
+                                <li onClick={() => handleCall(storeData?.detailStore?.store_mobile)}>
                                   <i className="ico tel">
                                     <span>전화번호</span>
                                   </i>
