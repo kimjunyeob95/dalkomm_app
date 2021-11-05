@@ -141,7 +141,14 @@ export default function MyCart() {
 
         <div id="wrap" className="wrap">
           <div id="container" className="container">
-            <HeaderSub title="장바구니" location="/member/cart" icon="trash" headerPopup={true} popTarget="#drinkDelete" />
+            <HeaderSub
+              title="장바구니"
+              location={`/order/menu/${storeCode}`}
+              icon="trash"
+              redirectBack={true}
+              headerPopup={true}
+              popTarget="#drinkDelete"
+            />
 
             <Nav order={3} />
 

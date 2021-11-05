@@ -7,7 +7,6 @@
 import axios from "axios";
 import $ from "jquery";
 import React, { useEffect, useContext, useState } from "react";
-import HeaderSub from "Components/Header/HeaderSub";
 import { Link, useHistory, useParams } from "react-router-dom";
 import GoContents from "Components/GoContents";
 import { contGap } from "Jquery/Jquery";
@@ -46,7 +45,7 @@ export default function OrderDetail() {
       .then(
         axios.spread((res1) => {
           let res1_data = res1.data.data;
-          if (res1_data?.menu?.status !== 1) {
+          if (res1_data?.menu?.status === 2) {
             alert("결품 상품입니다. 테이블 오더가 불가능 합니다.");
             history.goBack();
           }
@@ -76,26 +75,28 @@ export default function OrderDetail() {
       store_code: String(storeCode),
       quantity: Number($("#orderCount").val()),
       price: Number($("#totalPrice").data("allprice")),
-      size: String($('input[name="orderSize"]:checked').val()),
+      size: $('input[name="orderSize"]:checked').val() ? String($('input[name="orderSize"]:checked').val()) : "",
       cup: $('input[name="orderCup"]:checked').val() ? String($('input[name="orderCup"]:checked').val()) : "",
       menu_type: $('input[name="orderType"]:checked').val() ? String($('input[name="orderType"]:checked').val()) : "",
       coffee_bean: "",
       add_espresso_shot: $('input[name="shot"]').val() ? Number($('input[name="shot"]').val()) : "",
       add_vanilla_syrup: $('input[name="vanilla"]').val() ? Number($('input[name="vanilla"]').val()) : "",
+      add_hazelnut_syrup: $('input[name="hazelnut"]').val() ? Number($('input[name="hazelnut"]').val()) : "",
       control_honey: $('input[name="honey"]:checked').val() ? $('input[name="honey"]:checked').val() : null,
       is_remove_whipping_cream: String($('input[name="whippingCreamRemove"]').is(":checked")),
       is_add_whipping_cream: String($('input[name="whippingCream"]').is(":checked")),
     };
     return add_obj;
   }
-  console.log(axioData);
+
   const submitOrder = () => {
-    if ($('input[name="orderSize"]:checked').val() === undefined) {
+    if ($('input[name="orderSize"]:checked').val() === undefined && axioData?.res1_data.menu?.size) {
       alert("size를 선택해주세요.");
       return false;
     }
 
     let add_obj = getMenuObj();
+    // return console.log(add_obj);
     axios
       .all([axios.post(`${SERVER_DALKOMM}/app/api/v2/menu/to/order`, add_obj, header_config)])
       .then(
@@ -493,13 +494,13 @@ export default function OrderDetail() {
     option_array.forEach((element, index) => {
       if (element.value !== "0" && element.value !== false && element.value !== undefined) {
         if (element.text === "휘핑 크림") {
-          returnText += `<span class="addopion" text="${element.text}">, ${element.text}</span>`;
+          returnText += `<span className="addopion" text="${element.text}">, ${element.text}</span>`;
         } else if (element.text === "휘핑 크림 제거") {
-          returnText += `<span class="addopion" text="${element.text}" >, ${element.text}</span>`;
+          returnText += `<span className="addopion" text="${element.text}" >, ${element.text}</span>`;
         } else if (element.text === "꿀양") {
-          returnText += `<span class="addopion" text="${element.value}">, ${element.value}</span>`;
+          returnText += `<span className="addopion" text="${element.value}">, ${element.value}</span>`;
         } else {
-          returnText += `<span class="addopion" text="${element.text} ${element.value}">, ${element.text} ${element.value}</span>`;
+          returnText += `<span className="addopion" text="${element.text} ${element.value}">, ${element.text} ${element.value}</span>`;
         }
       }
     });
@@ -590,7 +591,17 @@ export default function OrderDetail() {
 
         <div id="wrap" className="wrap">
           <div id="container" className="container">
-            <HeaderSub className="only-button-header" />
+            {/* 사파리 이슈사항으로 강제이동시킴 */}
+            <header id="header" className="header only-button-header">
+              <h1>
+                <span className="blind">메뉴상세</span>
+              </h1>
+              <button type="button" className="btn back" onClick={() => history.push(`/order/menu/${storeCode}`)}>
+                <i className="ico back">
+                  <span className="blind">뒤로</span>
+                </i>
+              </button>
+            </header>
 
             <div id="content" className="drink detail fade-in">
               <section className="section">

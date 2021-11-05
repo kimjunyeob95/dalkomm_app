@@ -9,3 +9,4 @@
 #popupExitJoin .popup-footer.col-1 .btn {width: 100%}
 .overlay.active {z-index: 999;}
 .btn.grey {background-color:#e4e4e4;color: #000; border: none;}
+.item.store .data-wrap .place {word-break: break-all;}

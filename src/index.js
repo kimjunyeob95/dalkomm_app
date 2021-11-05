@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import ReactDOM from "react-dom";
 
 import ScrollToTop from "./ScrollToTop";
+import DevTest from "Pages/DevTest";
 
 import Main from "Pages/Main";
 import Login from "Pages/Login";
@@ -51,9 +52,6 @@ import NoticeList from "Pages/Support/NoticeList";
 import NoticeDetail from "Pages/Support/NoticeDetail";
 import Faq from "Pages/Support/Faq";
 
-//webview page
-import Webview from "Pages/Webview";
-
 import PrivateRoute from "PrivateRoute";
 import reportWebVitals from "./reportWebVitals";
 
@@ -65,7 +63,7 @@ ReactDOM.render(
       <ScrollToTop />
       <Switch>
         <Route exact path="/" component={() => <Main />} />
-        <Route exact path="/webview" component={() => <Webview />} />
+        <Route exact path="/dev" component={() => <DevTest />} />
 
         <Route exact path="/join/step1" component={() => <JoinStep1 />} />
         <Route exact path="/join/step2" component={() => <JoinStep2 />} />

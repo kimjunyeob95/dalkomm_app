@@ -1,5 +1,9 @@
-/* eslint-disable array-callback-return */
 /* eslint-disable react/jsx-pascal-case */
+/* eslint-disable no-unreachable */
+/* eslint-disable no-undef */
+/* eslint-disable array-callback-return */
+/* eslint-disable no-unused-expressions */
+/* eslint-disable no-script-url */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
 /* eslint-disable jsx-a11y/anchor-is-valid */
@@ -12,8 +16,8 @@ import { Link, useHistory, useParams, useLocation } from "react-router-dom";
 import HeaderSub from "Components/Header/HeaderSub";
 import GoContents from "Components/GoContents";
 import { contGap, popupOpen, tabLink, fadeInOut } from "Jquery/Jquery";
-import Popup_removeCard from "Components/Popup/Popup_removeCard";
-import { getParameter } from "Config/GlobalJs";
+
+import Popup_cancleMembership from "Components/Popup/Popup_cancleMembership";
 
 import { authContext } from "ContextApi/Context";
 import { SERVER_DALKOMM } from "Config/Server";
@@ -90,11 +94,17 @@ export default function OrderMembership() {
     $("body").removeClass("modal-opened");
     $("#popupMembership").removeClass("active");
   };
-
+  console.log(FrontData);
   const handleSubmit = () => {
     let data = FrontData;
+    let couponList = [];
+    data?.menuQuantity?.map((e, i) => {
+      couponList.push({ idx: e.idx, quantity: e.quantity });
+    });
     data = {
       ...FrontData,
+      menuQuantity: couponList,
+      finalPrice: data.defaultPrice - 500,
       orderDiscountType: {
         type: "ktmembership",
         price: 500,
@@ -107,22 +117,9 @@ export default function OrderMembership() {
   };
 
   const handleCancle = () => {
-    let body = {
-      card_no: String($("#membershipCard").val()),
-      orderinfo_id: Number(frontValue?.smartOrderSeq),
-    };
-    axios.all([axios.post(`${SERVER_DALKOMM}/app/api/v2/smartorder/order/${Number(frontValue?.smartOrderSeq)}/kt/detach`, body, header_config)]).then(
-      axios.spread((res1) => {
-        if (res1.data.meta.code === 20000) {
-          history.push({
-            pathname: `/order/final/${frontValue?.smartOrderSeq}`,
-            frontValue: FrontData,
-          });
-        } else {
-          alert(res1.data.meta.msg);
-        }
-      })
-    );
+    $("#resAlert").text("필수 정보는 모두 입력해 주세요.");
+    $(".overlay.popupExitJoin").addClass("active");
+    $("body").addClass("modal-opened");
   };
 
   if (axioData) {
@@ -218,6 +215,7 @@ export default function OrderMembership() {
               {/* // 선물하기 버튼 영역 */}
             </div>
             {/* // #content */}
+            <Popup_cancleMembership FrontData={FrontData} header_config={header_config} />
           </div>
           {/* // #container */}
         </div>

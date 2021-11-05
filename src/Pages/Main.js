@@ -21,8 +21,10 @@ import { authContext } from "ContextApi/Context";
 
 import { Map, GoogleApiWrapper, Marker } from "google-maps-react";
 import Clipboard from "react-clipboard.js";
+import { FadeLoader } from "react-spinners";
 
 export function Main(props) {
+  let dev_count = 1;
   const [state, dispatch] = useContext(authContext);
   const [axioData, setData] = useState(false);
   const [storeData, setStore] = useState(false);
@@ -42,9 +44,8 @@ export function Main(props) {
     let location_body = { latitude: getCookieValue("latitude"), longitude: getCookieValue("longitude") };
     // let location_body = { latitude: 37.507232666015625, longitude: 127.05642398540016 };
     //최초 진입 시 실행
-    if (state.accessToken !== "") {
+    if (state.loginFlag) {
       //로그인 시
-
       axios
         .all([
           axios.post(`${SERVER_DALKOMM}/app/api/main`, body, header_config),
@@ -80,28 +81,27 @@ export function Main(props) {
         );
     } else {
       //비로그인 시
-      if (state.auth !== "") {
-        axios
-          .all([
-            axios.post(`${SERVER_DALKOMM}/app/api/main`, body, header_config),
-            axios.post(`${SERVER_DALKOMM}/app/api/v2/store/around`, location_body, header_config),
-          ])
-          .then(
-            axios.spread((res1, res2) => {
-              let res1_data = res1.data.data;
-              let res2_data = res2.data.data;
-              setData((origin) => {
-                return {
-                  ...origin,
-                  res1_data,
-                  res2_data,
-                };
-              });
-            })
-          );
-      }
+      axios
+        .all([
+          axios.post(`${SERVER_DALKOMM}/app/api/main`, body, header_config),
+          axios.post(`${SERVER_DALKOMM}/app/api/v2/store/around`, location_body, header_config),
+        ])
+        .then(
+          axios.spread((res1, res2) => {
+            let res1_data = res1.data.data;
+            let res2_data = res2.data.data;
+            setData((origin) => {
+              return {
+                ...origin,
+                res1_data,
+                res2_data,
+              };
+            });
+          })
+        );
     }
   }, []);
+
   useEffect(() => {
     scrollDetail();
     contGap();
@@ -162,7 +162,6 @@ export function Main(props) {
       })
     );
   };
-
   const handleCall = (number) => {
     let data = { phoneNum: number };
     data = JSON.stringify(data);
@@ -176,16 +175,15 @@ export function Main(props) {
       console.log(error);
     }
   };
+
+  const fn_dev = () => {
+    dev_count++;
+    if (dev_count === 5) {
+      history.push("/dev");
+    }
+  };
   //axios 반환 시
   if (axioData) {
-    // return (
-    //   <div style={{ wordBreak: "break-all" }}>
-    //     <p> accessToken : {state?.accessToken}</p>
-    //     <br />
-    //     <p> auth : {state?.auth}</p>
-    //     <br />
-    //   </div>
-    // );
     return (
       <React.Fragment>
         <GoContents />
@@ -317,25 +315,25 @@ export function Main(props) {
                       <div className="img-wrap">
                         <i
                           className={`ico store-type small ${
-                            axioData?.res4_data?.store_list[0]?.store_type === 0
+                            axioData?.res4_data?.store_list[0]?.store_sub_type === 0
                               ? "house"
-                              : axioData?.res4_data?.store_list[0]?.store_type === 1
+                              : axioData?.res4_data?.store_list[0]?.store_sub_type === 1
                               ? "building"
-                              : axioData?.res4_data?.store_list[0]?.store_type === 2
+                              : axioData?.res4_data?.store_list[0]?.store_sub_type === 2
                               ? "rest-area"
-                              : axioData?.res4_data?.store_list[0]?.store_type === 3
+                              : axioData?.res4_data?.store_list[0]?.store_sub_type === 3
                               ? "terminal"
-                              : axioData?.res4_data?.store_list[0]?.store_type === 4
+                              : axioData?.res4_data?.store_list[0]?.store_sub_type === 4
                               ? "head-office"
-                              : axioData?.res4_data?.store_list[0]?.store_type === 5
+                              : axioData?.res4_data?.store_list[0]?.store_sub_type === 5
                               ? "drive-thru"
-                              : axioData?.res4_data?.store_list[0]?.store_type === 6
+                              : axioData?.res4_data?.store_list[0]?.store_sub_type === 6
                               ? "drive-thru"
-                              : axioData?.res4_data?.store_list[0]?.store_type === 7
+                              : axioData?.res4_data?.store_list[0]?.store_sub_type === 7
                               ? "vivaldi-park"
-                              : axioData?.res4_data?.store_list[0]?.store_type === 8
+                              : axioData?.res4_data?.store_list[0]?.store_sub_type === 8
                               ? "hospital"
-                              : axioData?.res4_data?.store_list[0]?.store_type === 9
+                              : axioData?.res4_data?.store_list[0]?.store_sub_type === 9
                               ? "cinema"
                               : ""
                           }`}
@@ -516,25 +514,25 @@ export function Main(props) {
                             <div className="img-wrap">
                               <i
                                 className={`ico store-type ${
-                                  e?.store_type === 0
+                                  e?.store_sub_type === 0
                                     ? "house"
-                                    : e?.store_type === 1
+                                    : e?.store_sub_type === 1
                                     ? "building"
-                                    : e?.store_type === 2
+                                    : e?.store_sub_type === 2
                                     ? "rest-area"
-                                    : e?.store_type === 3
+                                    : e?.store_sub_type === 3
                                     ? "terminal"
-                                    : e?.store_type === 4
+                                    : e?.store_sub_type === 4
                                     ? "head-office"
-                                    : e?.store_type === 5
+                                    : e?.store_sub_type === 5
                                     ? "drive-thru"
-                                    : e?.store_type === 6
+                                    : e?.store_sub_type === 6
                                     ? "drive-thru"
-                                    : e?.store_type === 7
+                                    : e?.store_sub_type === 7
                                     ? "vivaldi-park"
-                                    : e?.store_type === 8
+                                    : e?.store_sub_type === 8
                                     ? "hospital"
-                                    : e?.store_type === 9
+                                    : e?.store_sub_type === 9
                                     ? "cinema"
                                     : ""
                                 }`}
@@ -560,29 +558,28 @@ export function Main(props) {
                                     <span>인터넷가능 매장</span>
                                   </i>
                                 </li>
-                                {e?.store_is_smartorder && (
+                                {e?.store_is_park && (
+                                  <li>
+                                    <i className="ico parking">
+                                      <span>주차가능 매장</span>
+                                    </i>
+                                  </li>
+                                )}
+                                {e?.store_is_kiosk && (
                                   <li>
                                     <i className="ico kiosk">
                                       <span>키오스크 매장</span>
                                     </i>
                                   </li>
                                 )}
-                                {/* 
-                                <li>
-                                  <i className="ico parking">
-                                    <span>주차가능 매장</span>
-                                  </i>
-                                </li>
-                                <li>
-                                  <i className="ico smoking">
-                                    <span>흡연가능 매장</span>
-                                  </i>
-                                </li>
-                                <li>
-                                  <i className="ico kiosk">
-                                    <span>키오스크 매장</span>
-                                  </i>
-                                </li>
+                                {e?.store_is_smoking && (
+                                  <li>
+                                    <i className="ico smoking">
+                                      <span>흡연가능 매장</span>
+                                    </i>
+                                  </li>
+                                )}
+                                {/*
                                 <li>
                                   <i className="ico drive">
                                     <span>드라이브스루 매장</span>
@@ -624,7 +621,9 @@ export function Main(props) {
               {/* 달콤 MD */}
               <section className="section">
                 <div className="title-wrap w-inner flex-both">
-                  <h3 className="section-title">달콤 MD</h3>
+                  <h3 className="section-title" onClick={() => fn_dev()}>
+                    달콤 MD
+                  </h3>
                   <Link to="/order" target="_blank" className="btn text">
                     <span>더 보기</span>
                   </Link>
@@ -740,18 +739,20 @@ export function Main(props) {
                                     </i>
                                   </li>
                                 )}
-                                {storeData?.detailStore?.store_is_smartorder && (
+                                {storeData?.detailStore?.store_kiosk && (
                                   <li>
                                     <i className="ico kiosk">
                                       <span>키오스크 매장</span>
                                     </i>
                                   </li>
                                 )}
-                                {/* <li>
-                                  <i className="ico smoking">
-                                    <span>흡연가능 매장</span>
-                                  </i>
-                                </li> */}
+                                {storeData?.detailStore?.store_smoking && (
+                                  <li>
+                                    <i className="ico smoking">
+                                      <span>흡연가능 매장</span>
+                                    </i>
+                                  </li>
+                                )}
                               </ul>
                             </div>
                           </div>
@@ -999,7 +1000,13 @@ export function Main(props) {
         <div id="wrap" className="wrap">
           <div id="container" className="container">
             <HeaderMain />
-
+            <FadeLoader
+              loading={true}
+              size={50}
+              height={6}
+              color="red"
+              css={{ position: "absolute", transform: "translate(-50%, -50%)", top: "50%", left: "56%", height: "6px" }}
+            />
             <Nav order={1} />
           </div>
         </div>

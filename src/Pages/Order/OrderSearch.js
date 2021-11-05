@@ -33,18 +33,26 @@ export default function OrderSearch() {
     // 말풍선 스크롤시 hide/show
     // eslint-disable-next-line react-hooks/exhaustive-deps
     if (state.auth !== "") {
-      axios.all([axios.post(`${SERVER_DALKOMM}/app/api/v2/menu/search`, { store_code: storeCode }, header_config)]).then(
-        axios.spread((res1) => {
-          let all_menu = res1.data.data;
-          setData((origin) => {
-            return {
-              ...origin,
-              all_menu,
-            };
-          });
-          fadeInOut();
-        })
-      );
+      axios
+        .all([
+          axios.post(
+            `${SERVER_DALKOMM}/app/api/v2/menu/search`,
+            { store_code: storeCode, is_smartorder: storeCode !== 0 ? true : false },
+            header_config
+          ),
+        ])
+        .then(
+          axios.spread((res1) => {
+            let all_menu = res1.data.data;
+            setData((origin) => {
+              return {
+                ...origin,
+                all_menu,
+              };
+            });
+            fadeInOut();
+          })
+        );
     }
   }, [state?.auth]);
 
@@ -95,7 +103,24 @@ export default function OrderSearch() {
 
         <div id="wrap" className="wrap">
           <div id="container" className="container">
-            <HeaderSub title="메뉴검색" location={`/mypage/cart/${storeCode}`} icon="cart" />
+            {/* 사파리 이슈사항으로 강제이동시킴 */}
+            <header id="header" className="header">
+              <h1 className="page-title">메뉴검색</h1>
+              <button type="button" className="btn back" onClick={() => history.push(`/order/menu/${storeCode}`)}>
+                <i className="ico back">
+                  <span className="blind">뒤로</span>
+                </i>
+              </button>
+              {storeCode !== "0" && (
+                <div className="btn-area false">
+                  <Link className="btn" to={`/mypage/cart/${storeCode}`}>
+                    <i className="ico cart">
+                      <span>장바구니</span>
+                    </i>
+                  </Link>
+                </div>
+              )}
+            </header>
 
             <Nav order={3} />
             <div id="content" className="drink search fade-in">
@@ -133,7 +158,13 @@ export default function OrderSearch() {
                                     .bagde.round.new : NEW
                                     .bagde.round.pick : PICK
                                 */}
-                          {e.icon.split(",").indexOf("N") > -1 && <span className="badge round new">NEW</span>}
+                          {e?.icon === "N" ? (
+                            <span className="badge round new">NEW</span>
+                          ) : e?.icon === "B" ? (
+                            <span className="badge round pick">PICK</span>
+                          ) : (
+                            ""
+                          )}
                           <div className="img-wrap">
                             <img src={e.thumbnail_image_url} alt={e.name_kor} />
                           </div>
@@ -170,7 +201,24 @@ export default function OrderSearch() {
 
         <div id="wrap" className="wrap">
           <div id="container" className="container">
-            <HeaderSub title="메뉴검색" location={`/mypage/cart/${storeCode}`} icon="cart" />
+            {/* 사파리 이슈사항으로 강제이동시킴 */}
+            <header id="header" className="header">
+              <h1 className="page-title">메뉴검색</h1>
+              <button type="button" className="btn back" onClick={() => history.push(`/order/menu/${storeCode}`)}>
+                <i className="ico back">
+                  <span className="blind">뒤로</span>
+                </i>
+              </button>
+              {storeCode !== "0" && (
+                <div className="btn-area false">
+                  <Link className="btn" to={`/mypage/cart/${storeCode}`}>
+                    <i className="ico cart">
+                      <span>장바구니</span>
+                    </i>
+                  </Link>
+                </div>
+              )}
+            </header>
 
             <Nav order={3} />
           </div>

@@ -64,16 +64,19 @@ export default function OrderFinal() {
           if (res1_data?.basic_discount_rate_percent > 0 && !res1_data?.affiliate_discount) {
             //맴버십 할인이 포함될경우
             finalPrice = res1_data.total_order_amount - finalPrice * (res1_data?.basic_discount_rate_percent / 100);
-            discountType = "platinum";
+
+            discountType = true;
           }
           if (res1_data?.affiliate_discount) {
             //제휴 할인이 적용되있을경우
             finalPrice -= 500;
-            discountType = "ktmembership";
           }
+
           finalPrice = finalPrice - (finalPrice % 10);
+          console.log(finalPrice);
           setFront((origin) => {
             let discountPrice = res1_data.total_order_amount - finalPrice;
+
             return {
               ...origin,
               defaultPrice: res1_data.total_order_amount,
@@ -82,10 +85,13 @@ export default function OrderFinal() {
               orderRequest: 0,
               menuQuantity: menu_array,
               smartOrderSeq: smartOrderSeq,
-              couponDiscount: 0,
               orderDiscountType: {
-                type: res1_data?.basic_discount_rate_percent > 0 && !res1_data?.affiliate_discount ? discountType : "",
-                price: discountPrice,
+                ktFlag: res1_data?.affiliate_discount ? true : false,
+                ktPrice: res1_data?.affiliate_discount ? res1_data?.affiliate_discount?.discount_amount : 0,
+                couponFlag: false,
+                couponPrice: 0,
+                memberFlag: res1_data?.basic_discount_rate_percent > 0 && !res1_data?.affiliate_discount ? discountType : "",
+                memberPrice: discountPrice,
               },
             };
           });
@@ -99,7 +105,7 @@ export default function OrderFinal() {
         });
       })
     );
-  }, [state?.auth]);
+  }, []);
 
   useEffect(() => {
     contGap();
@@ -211,13 +217,13 @@ export default function OrderFinal() {
   };
 
   const handleCoupon = (defaultPrice, target, index, index2) => {
-    let couponId = $(target).val();
-    let couponPrice = Number($(target).children("option:selected").data("price"));
-    let couponValue = $(target).children("option:selected").val();
-
+    let couponActive_count = 0;
+    let finalPrice = 0;
+    let MemberdiscountPrice = 0;
     $(target).attr("data-value", $(target).val());
 
     let discountPrice = 0;
+    let discountPrice2 = 0;
     let oneplusArray = [];
 
     //쿠폰 선택시 다른 곳에서 선택 못하게 제어
@@ -225,8 +231,14 @@ export default function OrderFinal() {
     $(".couponSelect option:selected").each(function (i, e) {
       if ($(e).val() !== "") {
         select_coponid.push($(e).val());
+      } else if ($(e).val() === "") {
+        MemberdiscountPrice += Number($(e).data("originprice")) * 0.05;
       }
     });
+    MemberdiscountPrice = axioData?.res1_data.total_order_amount - MemberdiscountPrice;
+    MemberdiscountPrice = MemberdiscountPrice - (MemberdiscountPrice % 10);
+    MemberdiscountPrice = axioData?.res1_data.total_order_amount - MemberdiscountPrice;
+
     $(".couponSelect option").each(function (index, e) {
       if (select_coponid.indexOf($(e).val()) > -1) {
         $(e).attr("disabled", true);
@@ -238,70 +250,75 @@ export default function OrderFinal() {
     $(".couponSelect").each(function (i, e) {
       let couponOneplus = $(e).children("option:selected").data("oneplus");
       let couponId = $(e).children("option:selected").val();
+
       if ($(e).attr("data-value") && couponOneplus === false) {
         //할인 쿠폰 선택시
         discountPrice += Number($(e).children("option:selected").data("price"));
       }
-
       //1+1 쿠폰 선택 처리
-      if ($(e).attr("data-value") && couponOneplus === true) {
+      if ($(e).children("option:selected").attr("value") !== "" && couponOneplus === true) {
         oneplusArray.push({
           idx: i,
           quantity: 2,
           type: "추가",
           couponId: couponId,
         });
-      } else if (!$(e).attr("data-value") || couponOneplus === false) {
+        discountPrice2 += Number($(e).attr("data-originprice"));
+        finalPrice = axioData?.res1_data.total_order_amount;
+      } else if ($(e).children("option:selected").attr("value") === "" || couponOneplus === false) {
+        console.log(2);
         oneplusArray.push({ idx: i, quantity: 1, couponId: couponId });
+        finalPrice = axioData?.res1_data.total_order_amount - discountPrice;
+      } else if ($(e).children("option:selected").attr("value") === "" && couponOneplus === false) {
+        console.log(1);
       }
-      if (i === $(".couponSelect").length - 1) {
-        $("#coupon-discount").text("-" + discountPrice.toLocaleString("ko-KR") + "원");
 
-        //멤버십 할인 적용 가능한 인원 분기
-        //다른 할인 적용 false 시키기
-        if (axioData?.res1_data?.available_affiliate_discount && discountPrice === 0) {
-          let finalPrice = 0;
-          axioData?.res1_data?.smartorder_detail_list?.map((element, index) => {
-            if (element?.quantity > 1) {
-              finalPrice = element?.price * element?.quantity;
-            } else {
-              finalPrice += element?.price;
-            }
-          });
-          finalPrice = axioData?.res1_data.total_order_amount - finalPrice * (axioData?.res1_data?.basic_discount_rate_percent / 100);
-          finalPrice = finalPrice - (finalPrice % 10);
-          let discountPrice = axioData?.res1_data.total_order_amount - finalPrice;
-          setFront((origin) => {
-            return {
-              ...origin,
-              menuQuantity: oneplusArray,
-              smartOrderSeq: smartOrderSeq,
-              finalPrice: origin.defaultPrice - discountPrice,
-              orderDiscountType: {
-                type: axioData?.res1_data?.basic_discount_rate_percent > 0 && !axioData?.res1_data?.affiliate_discount ? "platinum" : "",
-                price: discountPrice,
-              },
-            };
-          });
-        } else {
-          setFront((origin) => {
-            return {
-              ...origin,
-              menuQuantity: oneplusArray,
-              smartOrderSeq: smartOrderSeq,
-              finalPrice: origin.defaultPrice - discountPrice,
-              orderDiscountType: {
-                type: axioData?.res1_data?.basic_discount_rate_percent > 0 && !axioData?.res1_data?.affiliate_discount ? "coupon" : "",
-                price: discountPrice,
-              },
-            };
-          });
-        }
+      if ($(e).attr("data-value")) {
+        couponActive_count++;
       }
     });
+
+    //메뉴 중에 쿠폰을 모두 선택 시
+    if ($(".couponSelect").length === couponActive_count) {
+      setFront((origin) => {
+        return {
+          ...origin,
+          finalPrice: finalPrice,
+          menuQuantity: oneplusArray,
+          orderDiscountType: {
+            ktFlag: false,
+            ktPrice: 0,
+            couponFlag: true,
+            couponPrice: discountPrice,
+            memberFlag: false,
+            memberPrice: 0,
+          },
+        };
+      });
+    } else {
+      //멤버십 인경우
+      if (axioData?.res1_data?.basic_discount_rate_percent > 0 && !axioData?.res1_data?.affiliate_discount) {
+        finalPrice -= MemberdiscountPrice;
+        setFront((origin) => {
+          return {
+            ...origin,
+            finalPrice: finalPrice,
+            menuQuantity: oneplusArray,
+            orderDiscountType: {
+              ktFlag: false,
+              ktPrice: 0,
+              couponFlag: true,
+              couponPrice: discountPrice,
+              memberFlag: true,
+              memberPrice: MemberdiscountPrice,
+            },
+          };
+        });
+      }
+    }
   };
   let menu_count = -1;
-
+  console.log(frontData);
   if (axioData) {
     return (
       <React.Fragment>
@@ -380,28 +397,41 @@ export default function OrderFinal() {
                                         <p className="title">{axioData?.res1_data?.smartorder_detail_list[index]?.menu_name_kor}</p>
 
                                         <p className="info">
-                                          <span className="en">
-                                            {axioData?.res1_data?.smartorder_detail_list[index]?.get_summary_option.filter((e, i) => {
-                                              let array = ["HOT", "ICE"];
-                                              if (array.indexOf(e) > -1) {
-                                                return e;
+                                          {axioData?.res1_data?.smartorder_detail_list[index]?.get_summary_option.map((e, i) => {
+                                            let array = ["HOT", "ICE"];
+                                            if (array.indexOf(e) > -1) {
+                                              return (
+                                                <span className="en" key={i}>
+                                                  {e}
+                                                </span>
+                                              );
+                                            }
+                                          })}
+
+                                          {axioData?.res1_data?.smartorder_detail_list[index]?.get_summary_option.map((e, i) => {
+                                            let array = ["레귤러", "라지", "코끼리"];
+                                            if (array.indexOf(e) > -1) {
+                                              if (e === "레귤러") {
+                                                return (
+                                                  <span className="en" key={i}>
+                                                    Legular
+                                                  </span>
+                                                );
+                                              } else if (e === "라지") {
+                                                return (
+                                                  <span className="en" key={i}>
+                                                    Large
+                                                  </span>
+                                                );
+                                              } else if (e === "코끼리") {
+                                                return (
+                                                  <span className="en" key={i}>
+                                                    Big
+                                                  </span>
+                                                );
                                               }
-                                            })}
-                                          </span>
-                                          <span className="en">
-                                            {axioData?.res1_data?.smartorder_detail_list[index]?.get_summary_option.map((e, i) => {
-                                              let array = ["레귤러", "라지", "코끼리"];
-                                              if (array.indexOf(e) > -1) {
-                                                if (e === "레귤러") {
-                                                  return "Legular";
-                                                } else if (e === "라지") {
-                                                  return "Large";
-                                                } else if (e === "코끼리") {
-                                                  return "Big";
-                                                }
-                                              }
-                                            })}
-                                          </span>
+                                            }
+                                          })}
                                           <span>
                                             {axioData?.res1_data?.smartorder_detail_list[index]?.get_summary_option.filter((e, i) => {
                                               let array = ["다회용 컵", "일회용 컵", "개인컵(-300원)"];
@@ -447,6 +477,8 @@ export default function OrderFinal() {
                                     data-menuid={axioData?.res1_data?.smartorder_detail_list[index]?.smartorder_menu_id}
                                     data-quantity={axioData?.res1_data?.smartorder_detail_list[index]?.quantity}
                                     data-index={index}
+                                    data-originprice={axioData?.res1_data?.smartorder_detail_list[index]?.price}
+                                    data-optionprice={axioData?.res1_data?.smartorder_detail_list[index]?.option_price}
                                     onChange={(e) =>
                                       handleCoupon(
                                         (axioData?.res1_data?.smartorder_detail_list[index]?.price +
@@ -457,15 +489,23 @@ export default function OrderFinal() {
                                         menu_count
                                       )
                                     }
-                                    value={frontData?.orderDiscountType?.type === "coupon" && selectOption(menu_count)}
+                                    value={frontData?.orderDiscountType?.couponFlag && selectOption(menu_count)}
                                   >
-                                    <option value="">쿠폰을 선택해 주세요.</option>
+                                    <option
+                                      value=""
+                                      data-originprice={axioData?.res1_data?.smartorder_detail_list[index]?.price}
+                                      data-oneplus={false}
+                                    >
+                                      쿠폰을 선택해 주세요.
+                                    </option>
                                     {axioData?.res1_data?.smartorder_detail_list[index]?.user_coupon_detail_list?.map((e, i) => (
                                       <option
                                         key={i}
                                         value={e?.user_coupon_id}
                                         data-price={e?.discount_price}
                                         data-oneplus={e?.is_one_plus_one}
+                                        data-originprice={axioData?.res1_data?.smartorder_detail_list[index]?.price}
+                                        data-optionprice={axioData?.res1_data?.smartorder_detail_list[index]?.option_price}
                                         disabled={disabledOption(menu_count, e?.user_coupon_id)}
                                       >
                                         {e?.coupon_name}
@@ -559,18 +599,18 @@ export default function OrderFinal() {
                               쿠폰 할인 <span className="coupon"></span>
                             </dt>
                             <dd className="price" id="coupon-discount">
-                              {frontData?.orderDiscountType?.type === "coupon"
-                                ? "-" + frontData?.orderDiscountType?.price?.toLocaleString("ko-KR") + "원"
+                              {frontData?.orderDiscountType?.couponFlag
+                                ? "-" + frontData?.orderDiscountType?.couponPrice?.toLocaleString("ko-KR") + "원"
                                 : "-" + 0 + "원"}
                             </dd>
                           </dl>
                           <dl className="flex-both">
-                            {frontData?.orderDiscountType?.type === "platinum" ? (
+                            {frontData?.orderDiscountType?.memberFlag ? (
                               <React.Fragment>
                                 <dt className="title">
                                   멤버십 5% 할인 <span className="grade">[PLETINUM]</span>
                                 </dt>
-                                <dd className="price">-{frontData?.orderDiscountType?.price.toLocaleString("ko-KR") + "원"}</dd>
+                                <dd className="price">-{frontData?.orderDiscountType?.memberPrice?.toLocaleString("ko-KR") + "원"}</dd>
                               </React.Fragment>
                             ) : (
                               <React.Fragment>
@@ -581,12 +621,12 @@ export default function OrderFinal() {
                               </React.Fragment>
                             )}
                           </dl>
-                          {axioData?.res1_data?.affiliate_discount && (
+                          {frontData?.orderDiscountType?.ktFlag && (
                             <dl className="flex-both">
                               <dt className="title">
                                 KT 제휴 할인 <span className="coupon"></span>
                               </dt>
-                              <dd className="price">{axioData?.res1_data?.affiliate_discount?.discount_amount?.toLocaleString("ko-KR")}원</dd>
+                              <dd className="price">-{frontData?.orderDiscountType?.ktPrice?.toLocaleString("ko-KR") + "원"}</dd>
                             </dl>
                           )}
                           <dl className="flex-both flex-center">

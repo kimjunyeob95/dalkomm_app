@@ -23,6 +23,10 @@ export default function OrderMenu() {
   const [axioData, setData] = useState(false);
   const history = useHistory();
   const { storeCode } = useParams();
+  if (storeCode === "0") {
+    history.push("/");
+  }
+
   const body = {};
   let header_config = {
     headers: {
@@ -30,6 +34,7 @@ export default function OrderMenu() {
       Authorization: state.auth,
     },
   };
+
   useEffect(() => {
     // 말풍선 스크롤시 hide/show
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -37,7 +42,7 @@ export default function OrderMenu() {
       axios
         .all([
           axios.post(`${SERVER_DALKOMM}/app/api/v2/menu/category_info`, body, header_config),
-          axios.post(`${SERVER_DALKOMM}/app/api/v2/menu/search`, { category_id: 0, store_code: storeCode }, header_config),
+          axios.post(`${SERVER_DALKOMM}/app/api/v2/menu/search`, { category_id: 0, store_code: storeCode, is_smartorder: true }, header_config),
           axios.post(`${SERVER_DALKOMM}/app/api/v2/store/${storeCode}`, {}, header_config),
         ])
         .then(
@@ -66,17 +71,47 @@ export default function OrderMenu() {
   const jqueryTablink = (e) => {
     tabLink(e);
     let data_category = $(e.target).data("category") === "" ? 0 : $(e.target).data("category");
-    axios.all([axios.post(`${SERVER_DALKOMM}/app/api/v2/menu/search`, { category_id: data_category }, header_config)]).then(
-      axios.spread((res1) => {
-        let all_menu = res1.data.data;
-        setData((origin) => {
-          return {
-            ...origin,
-            all_menu,
-          };
-        });
-      })
-    );
+    if (data_category === 0) {
+      axios
+        .all([
+          axios.post(
+            `${SERVER_DALKOMM}/app/api/v2/menu/search`,
+            { category_id: data_category, is_smartorder: true, store_code: storeCode },
+            header_config
+          ),
+        ])
+        .then(
+          axios.spread((res1) => {
+            let all_menu = res1.data.data;
+            setData((origin) => {
+              return {
+                ...origin,
+                all_menu,
+              };
+            });
+          })
+        );
+    } else {
+      axios
+        .all([
+          axios.post(
+            `${SERVER_DALKOMM}/app/api/v2/menu/category/list`,
+            { category_id: data_category, is_smartorder: true, store_code: storeCode },
+            header_config
+          ),
+        ])
+        .then(
+          axios.spread((res1) => {
+            let all_menu = { searched_menu_list: res1.data.data.menu_list };
+            setData((origin) => {
+              return {
+                ...origin,
+                all_menu,
+              };
+            });
+          })
+        );
+    }
   };
   const handleDetail = (e, menucode, type) => {
     if (type) {
@@ -97,6 +132,8 @@ export default function OrderMenu() {
               title="메뉴선택"
               icon="search-s"
               icon2="cart"
+              noBack={true}
+              directUrl={"/order"}
               location={`/order/menuSearch/${storeCode}`}
               location2={`/mypage/cart/${storeCode}`}
             />
@@ -158,7 +195,13 @@ export default function OrderMenu() {
                                     .bagde.round.new : NEW
                                     .bagde.round.pick : PICK
                                 */}
-                          {e.icon.split(",").indexOf("N") > -1 && <span className="badge round new">NEW</span>}
+                          {e?.icon === "N" ? (
+                            <span className="badge round new">NEW</span>
+                          ) : e?.icon === "B" ? (
+                            <span className="badge round pick">PICK</span>
+                          ) : (
+                            ""
+                          )}
                           <div className="img-wrap">
                             <img src={e.thumbnail_image_url} alt={e.name_kor} />
                           </div>

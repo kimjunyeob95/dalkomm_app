@@ -4,7 +4,6 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 // eslint-disable-next-line no-unused-vars
 import axios from "axios";
-import $ from "jquery";
 import React, { useEffect, useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import HeaderSub from "Components/Header/HeaderSub";
@@ -16,6 +15,7 @@ import { fadeOut } from "Config/GlobalJs";
 
 import { authContext } from "ContextApi/Context";
 import { SERVER_DALKOMM } from "Config/Server";
+import { FadeLoader } from "react-spinners";
 
 export default function MyPage() {
   const [state, dispatch] = useContext(authContext);
@@ -37,13 +37,15 @@ export default function MyPage() {
         axios.post(`${SERVER_DALKOMM}/app/api/account/simple/profile`, body, header_config),
         axios.post(`${SERVER_DALKOMM}/app/api/v2/coupon/list`, body, header_config),
         axios.post(`${SERVER_DALKOMM}/app/api/v2/membership`, body, header_config),
+        axios.post(`${SERVER_DALKOMM}/app/api/v2/smartorder/orderinfo/list`, { page: 1, duration: "w" }, header_config),
       ])
       .then(
-        axios.spread((res1, res2, res3, res4) => {
+        axios.spread((res1, res2, res3, res4, res5) => {
           let res1_data = res1.data.data;
           let res2_data = res2.data.data;
           let res3_data = res3.data.data;
           let res4_data = res4.data.data;
+          let res5_data = res5?.data?.data?.result[0];
           setData((origin) => {
             return {
               ...origin,
@@ -51,6 +53,7 @@ export default function MyPage() {
               res2_data,
               res3_data,
               res4_data,
+              res5_data,
             };
           });
         })
@@ -215,6 +218,13 @@ export default function MyPage() {
         <div id="wrap" className="wrap">
           <div id="container" className="container">
             <HeaderSub type="flexCenter" icon="modify" title="마이 달콤" location="/mypage/modify" noBack={true} />
+            <FadeLoader
+              loading={true}
+              size={50}
+              height={6}
+              color="red"
+              css={{ position: "absolute", transform: "translate(-50%, -50%)", top: "50%", left: "56%", height: "6px" }}
+            />
             <Nav order={4} />
           </div>
         </div>

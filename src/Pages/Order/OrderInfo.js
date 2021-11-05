@@ -90,6 +90,7 @@ export default function OrderInfo() {
       console.log(error);
     }
   };
+  console.log(axioData);
   if (axioData) {
     return (
       <React.Fragment>
@@ -236,7 +237,7 @@ export default function OrderInfo() {
                           {axioData?.res1_data?.total_coupon_discount_amount > 0 && (
                             <dl className="flex-both">
                               <dt className="title">
-                                쿠폰 할인 <span className="coupon">[FREE 음료 쿠폰]</span>
+                                쿠폰 할인 <span className="coupon"></span>
                               </dt>
                               <dd className="price">-{axioData?.res1_data?.total_coupon_discount_amount.toLocaleString("ko-KR")}원</dd>
                             </dl>

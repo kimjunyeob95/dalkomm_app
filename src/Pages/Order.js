@@ -195,25 +195,25 @@ export function Order(props) {
                             <div className="img-wrap">
                               <i
                                 className={`ico store-type ${
-                                  e?.store_type === 0
+                                  e?.store_sub_type === 0
                                     ? "house"
-                                    : e?.store_type === 1
+                                    : e?.store_sub_type === 1
                                     ? "building"
-                                    : e?.store_type === 2
+                                    : e?.store_sub_type === 2
                                     ? "rest-area"
-                                    : e?.store_type === 3
+                                    : e?.store_sub_type === 3
                                     ? "terminal"
-                                    : e?.store_type === 4
+                                    : e?.store_sub_type === 4
                                     ? "head-office"
-                                    : e?.store_type === 5
+                                    : e?.store_sub_type === 5
                                     ? "drive-thru"
-                                    : e?.store_type === 6
+                                    : e?.store_sub_type === 6
                                     ? "drive-thru"
-                                    : e?.store_type === 7
+                                    : e?.store_sub_type === 7
                                     ? "vivaldi-park"
-                                    : e?.store_type === 8
+                                    : e?.store_sub_type === 8
                                     ? "hospital"
-                                    : e?.store_type === 9
+                                    : e?.store_sub_type === 9
                                     ? "cinema"
                                     : ""
                                 }`}
@@ -239,17 +239,21 @@ export function Order(props) {
                                     <span>인터넷가능 매장</span>
                                   </i>
                                 </li>
-                                {/* <li>
-                                  <i className="ico parking">
-                                    <span>주차가능 매장</span>
-                                  </i>
-                                </li>
-                                <li>
-                                  <i className="ico smoking">
-                                    <span>흡연가능 매장</span>
-                                  </i>
-                                </li> */}
-                                {e?.store_is_smartorder && (
+                                {e?.store_is_park && (
+                                  <li>
+                                    <i className="ico parking">
+                                      <span>주차가능 매장</span>
+                                    </i>
+                                  </li>
+                                )}
+                                {e?.store_is_smoking && (
+                                  <li>
+                                    <i className="ico smoking">
+                                      <span>흡연가능 매장</span>
+                                    </i>
+                                  </li>
+                                )}
+                                {e?.store_is_kiosk && (
                                   <li>
                                     <i className="ico kiosk">
                                       <span>키오스크 매장</span>
@@ -322,25 +326,25 @@ export function Order(props) {
                             <div className="img-wrap">
                               <i
                                 className={`ico store-type ${
-                                  e?.store_type === 0
+                                  e?.store_sub_type === 0
                                     ? "house"
-                                    : e?.store_type === 1
+                                    : e?.store_sub_type === 1
                                     ? "building"
-                                    : e?.store_type === 2
+                                    : e?.store_sub_type === 2
                                     ? "rest-area"
-                                    : e?.store_type === 3
+                                    : e?.store_sub_type === 3
                                     ? "terminal"
-                                    : e?.store_type === 4
+                                    : e?.store_sub_type === 4
                                     ? "head-office"
-                                    : e?.store_type === 5
+                                    : e?.store_sub_type === 5
                                     ? "drive-thru"
-                                    : e?.store_type === 6
+                                    : e?.store_sub_type === 6
                                     ? "drive-thru"
-                                    : e?.store_type === 7
+                                    : e?.store_sub_type === 7
                                     ? "vivaldi-park"
-                                    : e?.store_type === 8
+                                    : e?.store_sub_type === 8
                                     ? "hospital"
-                                    : e?.store_type === 9
+                                    : e?.store_sub_type === 9
                                     ? "cinema"
                                     : ""
                                 }`}
@@ -354,17 +358,21 @@ export function Order(props) {
                                     <span>인터넷가능 매장</span>
                                   </i>
                                 </li>
-                                {/* <li>
-                                  <i className="ico parking">
-                                    <span>주차가능 매장</span>
-                                  </i>
-                                </li>
-                                <li>
-                                  <i className="ico smoking">
-                                    <span>흡연가능 매장</span>
-                                  </i>
-                                </li> */}
-                                {e?.store_is_smartorder && (
+                                {e?.store_is_park && (
+                                  <li>
+                                    <i className="ico parking">
+                                      <span>주차가능 매장</span>
+                                    </i>
+                                  </li>
+                                )}
+                                {e?.store_is_smoking && (
+                                  <li>
+                                    <i className="ico smoking">
+                                      <span>흡연가능 매장</span>
+                                    </i>
+                                  </li>
+                                )}
+                                {e?.store_is_kiosk && (
                                   <li>
                                     <i className="ico kiosk">
                                       <span>키오스크 매장</span>
@@ -404,25 +412,25 @@ export function Order(props) {
                             <div className="title-wrap flex-start">
                               <i
                                 className={`ico store-type small ${
-                                  storeData?.detailStore?.store_type === 0
+                                  storeData?.detailStore?.store_sub_type === 0
                                     ? "house"
-                                    : storeData?.detailStore?.store_type === 1
+                                    : storeData?.detailStore?.store_sub_type === 1
                                     ? "building"
-                                    : storeData?.detailStore?.store_type === 2
+                                    : storeData?.detailStore?.store_sub_type === 2
                                     ? "rest-area"
-                                    : storeData?.detailStore?.store_type === 3
+                                    : storeData?.detailStore?.store_sub_type === 3
                                     ? "terminal"
-                                    : storeData?.detailStore?.store_type === 4
+                                    : storeData?.detailStore?.store_sub_type === 4
                                     ? "head-office"
-                                    : storeData?.detailStore?.store_type === 5
+                                    : storeData?.detailStore?.store_sub_type === 5
                                     ? "drive-thru"
-                                    : storeData?.detailStore?.store_type === 6
+                                    : storeData?.detailStore?.store_sub_type === 6
                                     ? "drive-thru"
-                                    : storeData?.detailStore?.store_type === 7
+                                    : storeData?.detailStore?.store_sub_type === 7
                                     ? "vivaldi-park"
-                                    : storeData?.detailStore?.store_type === 8
+                                    : storeData?.detailStore?.store_sub_type === 8
                                     ? "hospital"
-                                    : storeData?.detailStore?.store_type === 9
+                                    : storeData?.detailStore?.store_sub_type === 9
                                     ? "cinema"
                                     : ""
                                 }`}
@@ -456,18 +464,20 @@ export function Order(props) {
                                     </i>
                                   </li>
                                 )}
-                                {storeData?.detailStore?.store_is_smartorder && (
+                                {storeData?.detailStore?.store_kiosk && (
                                   <li>
                                     <i className="ico kiosk">
                                       <span>키오스크 매장</span>
                                     </i>
                                   </li>
                                 )}
-                                {/* <li>
-                                  <i className="ico smoking">
-                                    <span>흡연가능 매장</span>
-                                  </i>
-                                </li> */}
+                                {storeData?.detailStore?.store_smoking && (
+                                  <li>
+                                    <i className="ico smoking">
+                                      <span>흡연가능 매장</span>
+                                    </i>
+                                  </li>
+                                )}
                               </ul>
                             </div>
                           </div>

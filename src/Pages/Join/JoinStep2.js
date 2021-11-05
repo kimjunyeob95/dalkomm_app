@@ -35,10 +35,10 @@ export default function JoinStep2() {
     },
   };
   useEffect(() => {
-    // if (location?.join_token === "" || !location?.join_token) {
-    //   alert("잘못된 접근입니다.");
-    //   history.push("/");
-    // }
+    if (location?.join_token === "" || !location?.join_token) {
+      alert("잘못된 접근입니다.");
+      history.push("/");
+    }
   }, []);
 
   const handleSubmit = (e) => {
