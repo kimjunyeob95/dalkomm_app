@@ -15,7 +15,7 @@ import { authContext } from "ContextApi/Context";
 import { SERVER_DALKOMM } from "Config/Server";
 import { checkMobile, fadeOut } from "Config/GlobalJs";
 
-export default function Menu() {
+export default function MyMembershipRecipt() {
   const [state, dispatch] = useContext(authContext);
   const [axioData, setData] = useState();
   useEffect(() => {

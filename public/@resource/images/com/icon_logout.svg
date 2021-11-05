@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="28" height="28" viewBox="0 0 28 28">
+    <defs>
+        <clipPath id="clip">
+            <use xlink:href="#fill"/>
+        </clipPath>
+        <style>
+            .cls-5{stroke:none}
+        </style>
+    </defs>
+    <g id="그룹_696" data-name="그룹 696" transform="translate(-21 -628)">
+        <g id="그룹_695" data-name="그룹 695" transform="translate(26.136 634.185)">
+            <path id="패스_395" data-name="패스 395" d="M0 0h8.685v16.709H0" transform="rotate(180 4.342 8.354)" style="stroke:#000;fill:none"/>
+            <g id="그룹_681" data-name="그룹 681" transform="rotate(180 9.175 6.32)">
+                <path id="사각형_29" data-name="사각형 29" transform="translate(1.062 3.954)" d="M0 0h8.77v.96H0z"/>
+                <g id="패스_19" data-name="패스 19" style="fill:#fff;stroke-linecap:square">
+                    <path class="cls-5" d="m0 0 6.123.021V.9L0 .879z" transform="rotate(45 -4.393 2.72)"/>
+                    <path d="m0 0 6.123.021V.9L0 .879V0z" style="fill:#000;stroke:none" transform="rotate(45 -4.393 2.72)"/>
+                </g>
+                <g id="사각형_31" data-name="사각형 31" transform="rotate(-45 5.198 1.599)" style="fill:#fff;stroke-linecap:square;stroke:#000">
+                    <path id="fill" class="cls-5" d="M0 0h5.861v.879H0z"/>
+                    <path d="M0 .379h5.861M5.361 0v.879m.5-.379H0m.5.379V0" style="clip-path:url(#clip);fill:none"/>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

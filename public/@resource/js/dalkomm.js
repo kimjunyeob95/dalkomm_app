@@ -4,7 +4,11 @@ function checkMobile() {
   if (varUA.indexOf("android") > -1) {
     //안드로이드
     return "android";
-  } else if (varUA.indexOf("iphone") > -1 || varUA.indexOf("ipad") > -1 || varUA.indexOf("ipod") > -1) {
+  } else if (
+    varUA.indexOf("iphone") > -1 ||
+    varUA.indexOf("ipad") > -1 ||
+    varUA.indexOf("ipod") > -1
+  ) {
     //IOS
     return "ios";
   } else {
@@ -198,6 +202,20 @@ function tabLink() {
   // });
 }
 
+jQuery(function () {
+  $(document).on("click", ".user-state-wrap .btn.help", function () {
+    $(this).parent(".guide-wrap").addClass("show");
+  });
+
+  $(document).on("mouseup", function (e) {
+    if ($(".guide-wrap").hasClass("show") == true) {
+      if (!$(".guide-wrap").has(e.target).length) {
+        $(".guide-wrap").removeClass("show");
+      }
+    }
+  });
+});
+
 //accordion
 function accordion(targetN) {
   $(".js-accordion-switche").click(function (e) {
@@ -227,7 +245,10 @@ function accordion(targetN) {
 
     function siblingsClose() {
       $(container).siblings().removeClass("active");
-      $(container).siblings().children(".js-accordion-content").removeClass("active");
+      $(container)
+        .siblings()
+        .children(".js-accordion-content")
+        .removeClass("active");
     }
   });
 }

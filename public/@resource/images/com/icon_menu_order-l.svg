@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28">
+    <defs>
+        <clipPath id="clip-path">
+            <path id="사각형_338" data-name="사각형 338" style="fill:#fff" d="M0 0h12.298v10.276H0z"/>
+        </clipPath>
+        <style>
+            .cls-2{fill:rgba(255,88,88,.65);opacity:0}.cls-7{stroke:#000;fill:none}
+        </style>
+    </defs>
+    <g id="icon_menu_01" transform="translate(-27 -273.5)">
+        <g id="그룹_349" data-name="그룹 349" transform="translate(31.375 280.5)">
+            <g id="레이어_2" data-name="레이어 2">
+                <g id="그룹_12" data-name="그룹 12">
+                    <path id="패스_16" data-name="패스 16" d="M432.186 185.2h1.777a1.518 1.518 0 0 0 1.479-1.554v-3.186a1.518 1.518 0 0 0-1.479-1.554h-1.777" transform="translate(-417.2 -177.065)" style="stroke-miterlimit:10;stroke:#000;fill:#fff"/>
+                    <path id="패스_15" data-name="패스 15" d="M330.758 167.045v5.935c0 4.027 3.412 6.922 7.621 6.922S346 177.007 346 172.98v-5.935z" transform="translate(-330.758 -167.045)" style="fill:none;stroke-miterlimit:10;stroke:#000"/>
+                </g>
+            </g>
+            <g id="마스크_그룹_16" data-name="마스크 그룹 16" transform="translate(8 3.514)" style="clip-path:url(#clip-path)">
+                <g id="그룹_73" data-name="그룹 73" transform="translate(-1.074)">
+                    <g id="그룹_190" data-name="그룹 190" transform="translate(2.591 1.823)">
+                        <g id="패스_131" data-name="패스 131" style="fill:#fff">
+                            <path d="M9.27 9.9H.5V.5h8.77v9.4z" style="stroke:none"/>
+                            <path d="M1 1v8.4h7.77V1H1M0 0h9.77v10.4H0V0z" style="fill:#000;stroke:none"/>
+                        </g>
+                        <path id="선_84" data-name="선 84" class="cls-7" transform="translate(2.586 2.774)" d="M0 0h4.597"/>
+                        <path id="선_85" data-name="선 85" class="cls-7" transform="translate(2.586 4.932)" d="M0 0h4.597"/>
+                        <path id="선_86" data-name="선 86" class="cls-7" transform="translate(2.586 7.089)" d="M0 0h4.597"/>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

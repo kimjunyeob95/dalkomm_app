@@ -37,7 +37,10 @@ export default function OrderSearch() {
         .all([
           axios.post(
             `${SERVER_DALKOMM}/app/api/v2/menu/search`,
-            { store_code: storeCode, is_smartorder: storeCode !== 0 ? true : false },
+            {
+              store_code: storeCode,
+              is_smartorder: storeCode !== 0 ? true : false,
+            },
             header_config
           ),
         ])
@@ -64,17 +67,25 @@ export default function OrderSearch() {
   const handleSearch = (e) => {
     let targetValue = $("#searchValue").val();
     if (targetValue !== "") {
-      axios.all([axios.post(`${SERVER_DALKOMM}/app/api/v2/menu/search`, { store_code: storeCode, q: targetValue }, header_config)]).then(
-        axios.spread((res1) => {
-          let all_menu = res1.data.data;
-          setData((origin) => {
-            return {
-              ...origin,
-              all_menu,
-            };
-          });
-        })
-      );
+      axios
+        .all([
+          axios.post(
+            `${SERVER_DALKOMM}/app/api/v2/menu/search`,
+            { store_code: storeCode, q: targetValue },
+            header_config
+          ),
+        ])
+        .then(
+          axios.spread((res1) => {
+            let all_menu = res1.data.data;
+            setData((origin) => {
+              return {
+                ...origin,
+                all_menu,
+              };
+            });
+          })
+        );
     }
   };
   const handleSubmit = (event) => {
@@ -91,8 +102,7 @@ export default function OrderSearch() {
         return false;
       }
     } else {
-      alert("매장을 선택 후 주문해 주세요");
-      history.push(`/order`);
+      history.push(`/order/infoDetail/${menuCode}`);
     }
   };
 
@@ -106,7 +116,11 @@ export default function OrderSearch() {
             {/* 사파리 이슈사항으로 강제이동시킴 */}
             <header id="header" className="header">
               <h1 className="page-title">메뉴검색</h1>
-              <button type="button" className="btn back" onClick={() => history.push(`/order/menu/${storeCode}`)}>
+              <button
+                type="button"
+                className="btn back"
+                onClick={() => history.push(`/order/menu/${storeCode}`)}
+              >
                 <i className="ico back">
                   <span className="blind">뒤로</span>
                 </i>
@@ -130,9 +144,19 @@ export default function OrderSearch() {
                     <legend className="blind">메뉴 검색</legend>
                     <div className="field">
                       <div className="search-box">
-                        <input id="searchValue" type="text" className="input-text medium" placeholder="메뉴명을 입력해 주세요." />
+                        <input
+                          id="searchValue"
+                          type="text"
+                          className="input-text medium"
+                          placeholder="메뉴명을 입력해 주세요."
+                        />
                         <button type="button" className="btn search">
-                          <i className="ico search-t" onClick={(event) => handleSearch(event.currentTarget)}>
+                          <i
+                            className="ico search-t"
+                            onClick={(event) =>
+                              handleSearch(event.currentTarget)
+                            }
+                          >
                             <span>검색하기</span>
                           </i>
                         </button>
@@ -140,7 +164,11 @@ export default function OrderSearch() {
                     </div>
                     {/* [D] 메뉴 검색 결과 텍스트 노출 */}
                     <p className="text">
-                      총 <span className="fc-orange">{axioData?.all_menu?.searched_menu_list?.length}개</span>의 메뉴가 검색되었습니다.
+                      총{" "}
+                      <span className="fc-orange">
+                        {axioData?.all_menu?.searched_menu_list?.length}개
+                      </span>
+                      의 메뉴가 검색되었습니다.
                     </p>
 
                     {/* // [D] 메뉴 검색 결과 텍스트 노출 */}
@@ -153,7 +181,12 @@ export default function OrderSearch() {
                   {axioData?.all_menu?.searched_menu_list?.map((e, i) => {
                     return (
                       <li key={i}>
-                        <a onClick={(event) => handleDetail(event, e?.code, e?.is_smartorder)} className="item menu">
+                        <a
+                          onClick={(event) =>
+                            handleDetail(event, e?.code, e?.is_smartorder)
+                          }
+                          className="item menu"
+                        >
                           {/* 메뉴 .bagde.round 타입 
                                     .bagde.round.new : NEW
                                     .bagde.round.pick : PICK
@@ -183,7 +216,11 @@ export default function OrderSearch() {
               </section>
               {/* //즐겨찾는 매장 */}
 
-              <button type="button" id="moveScrollTop" className="btn scroll-top">
+              <button
+                type="button"
+                id="moveScrollTop"
+                className="btn scroll-top"
+              >
                 <i className="ico arr-top"></i>
               </button>
             </div>
@@ -204,7 +241,11 @@ export default function OrderSearch() {
             {/* 사파리 이슈사항으로 강제이동시킴 */}
             <header id="header" className="header">
               <h1 className="page-title">메뉴검색</h1>
-              <button type="button" className="btn back" onClick={() => history.push(`/order/menu/${storeCode}`)}>
+              <button
+                type="button"
+                className="btn back"
+                onClick={() => history.push(`/order/menu/${storeCode}`)}
+              >
                 <i className="ico back">
                   <span className="blind">뒤로</span>
                 </i>

@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28.033" viewBox="0 0 28 28.033">
+    <defs>
+        <style>
+            .cls-1{fill:rgba(255,88,88,.65);opacity:0}
+        </style>
+    </defs>
+    <g id="icon_coupon" transform="translate(-.299 -.419)">
+        <g id="그룹_74" data-name="그룹 74" transform="translate(.299 .453)">
+            <g id="빼기_2" data-name="빼기 2" style="fill:#fff">
+                <path d="M21.568 15.289H1.5v-3.477c1.046-.796 1.662-2.054 1.662-3.419 0-1.364-.616-2.621-1.662-3.417V1.5h20.068v3.476c-1.045.796-1.661 2.054-1.661 3.417 0 1.364.616 2.622 1.661 3.418v3.478z" style="stroke:none" transform="translate(2.466 5.625)"/>
+                <path d="M21.068 14.789V12.05c-1.05-.893-1.661-2.223-1.661-3.657 0-1.433.612-2.762 1.661-3.656V2H2v2.737c1.05.893 1.662 2.223 1.662 3.656 0 1.434-.612 2.764-1.662 3.658v2.738h19.068m1 1H1v-4.235c1.041-.688 1.662-1.87 1.662-3.16 0-1.291-.621-2.472-1.662-3.16V1h21.068v4.234c-1.04.688-1.661 1.87-1.661 3.16s.62 2.471 1.661 3.16v4.235z" style="fill:#000;stroke:none" transform="translate(2.466 5.625)"/>
+            </g>
+            <g id="그룹_220" data-name="그룹 220" transform="translate(11.214 11.27)">
+                <path id="패스_143" data-name="패스 143" d="m-1.476-.861 2.949-5.394H.494L-2.461-.861z" transform="translate(3.502 6.255)"/>
+                <circle id="타원_36" data-name="타원 36" cx="1.041" cy="1.041" r="1.041"/>
+                <circle id="타원_37" data-name="타원 37" cx="1.041" cy="1.041" transform="translate(4.163 3.122)" r="1.041"/>
+            </g>
+        </g>
+    </g>
+</svg>

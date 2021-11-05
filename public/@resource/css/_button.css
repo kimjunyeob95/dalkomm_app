@@ -13,6 +13,8 @@ button.btn	{overflow:visible;margin:0;padding:0;background-color:transparent;}
 
 
 /* button size */
+/*24px*/
+.btn.xx-small{height: 6.4vw; line-height: 6.4vw; font-weight: 700; font-size: 2.933vw; padding: 0 2.267vw;}
 /*42px*/
 .btn.x-small{height: 11.2vw; line-height: 11.2vw; font-size: 3.467vw;}
 /*50px*/
@@ -29,10 +31,12 @@ button.btn	{overflow:visible;margin:0;padding:0;background-color:transparent;}
 .btn.normal{border: 0.267vw solid #000;color: #000;background-color: #fff;}
 .btn.light{background-color:#fcfcfc;color:#989898;border: 0.267vw solid #ebebeb;}
 .btn.light-g{background-color:#f6f6f6; color: #000;}
+.btn.gray {background-color: #fff; color: #a1a1a1; border: 0.267vw solid rgba(112,112,112,0.4);}
 .btn.dark{background-color: #000;color: #fff;}
 .btn.dark-g{background-color: #535353;color: #fff;}
 .btn.full{width: 100%;}
 .btn.bdr{border: 0.267vw solid #ebebeb;color: #000;background-color: #fff;}
+.btn.bdr-r{border-radius: 3.467vw;}
 
 .btn[disabled]{cursor: auto;}
 .btn.dark[disabled] {background-color: #bfbfbf;}
@@ -110,3 +114,6 @@ a.btn.text[target=_blank]::after {position: relative; top: 0; display: inline-bl
 /* .btn.tel */
 .btn.tel {position: relative;}
 .btn.tel::before {content: ''; display: inline-block; position: absolute; bottom: 0; left: 0; width: 100%; height: 0.267vw; background-color: #000;}
+
+/* .btn.help */
+/* .btn.help {position: relative;} */

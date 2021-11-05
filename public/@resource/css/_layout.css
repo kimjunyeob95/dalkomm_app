@@ -40,6 +40,7 @@ body {overflow-x: hidden;}
 #header.bg-transparent {height: 0; background-color: transparent;}
 #header.bg-transparent h1.page-title{border-bottom: 0;}
 #header.floating {position: absolute; top: 0; left: 0; background-color: transparent;}
+#header .open-search > .ico.order {width: 8vw; height: 8vw;}
 
 /* footer */
 nav#menu {position: fixed; display: -ms-flexbox; display: -webkit-flex; display: flex; 

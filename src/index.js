@@ -15,6 +15,7 @@ import Menu from "Pages/Menu";
 //order page
 import OrderMenu from "Pages/Order/OrderMenu";
 import OrderStoreSearch from "Pages/Order/OrderStoreSearch";
+import OrderInfoDetail from "Pages/Order/OrderInfoDetail";
 import OrderDetail from "Pages/Order/OrderDetail";
 import OrderSearch from "Pages/Order/OrderSearch";
 import OrderFinal from "Pages/Order/OrderFinal";
@@ -42,6 +43,8 @@ import MyStamp from "Pages/Mypage/MyStamp";
 import MyOrderRecipt from "Pages/Mypage/MyOrderRecipt";
 import MyModify from "Pages/Mypage/MyModify";
 import MyOption from "Pages/Mypage/MyOption";
+import MyMembershipPolicy from "Pages/Mypage/MyMembershipPolicy";
+import MyMembershipRecipt from "Pages/Mypage/MyMembershipRecipt";
 
 //story page
 import StoryList from "Pages/Story/StoryList";
@@ -76,9 +79,26 @@ ReactDOM.render(
         </PrivateRoute>
 
         <Route exact path="/order" component={() => <Order />} />
-        <Route exact path="/order/storeSearch" component={() => <OrderStoreSearch />} />
-        <Route exact path="/order/menu/:storeCode" component={() => <OrderMenu />} />
-        <Route exact path="/order/menuSearch/:storeCode" component={() => <OrderSearch />} />
+        <Route
+          exact
+          path="/order/storeSearch"
+          component={() => <OrderStoreSearch />}
+        />
+        <Route
+          exact
+          path="/order/menu/:storeCode"
+          component={() => <OrderMenu />}
+        />
+        <Route
+          exact
+          path="/order/menuSearch/:storeCode"
+          component={() => <OrderSearch />}
+        />
+        <Route
+          exact
+          path="/order/infoDetail/:menuCode"
+          component={() => <OrderInfoDetail />}
+        />
         <PrivateRoute path="/order/favorite/:storeCode">
           <OrderFavorite />
         </PrivateRoute>
@@ -134,6 +154,12 @@ ReactDOM.render(
         <PrivateRoute exact path="/mypage/option">
           <MyOption />
         </PrivateRoute>
+        <PrivateRoute exact path="/mypage/membershipRecipt">
+          <MyMembershipRecipt />
+        </PrivateRoute>
+        <PrivateRoute exact path="/mypage/membershipPolicy">
+          <MyMembershipPolicy />
+        </PrivateRoute>
 
         {/* <PrivateRoute exact path="/menu">
           <Menu />
@@ -147,8 +173,16 @@ ReactDOM.render(
           <StoryDetail />
         </PrivateRoute>
 
-        <Route exact path="/support/notice/list" component={() => <NoticeList />} />
-        <Route exact path="/support/notice/detail/:id" component={() => <NoticeDetail />} />
+        <Route
+          exact
+          path="/support/notice/list"
+          component={() => <NoticeList />}
+        />
+        <Route
+          exact
+          path="/support/notice/detail/:id"
+          component={() => <NoticeDetail />}
+        />
         <Route exact path="/support/faq" component={() => <Faq />} />
 
         <Route exact path="/login" component={() => <Login />} />

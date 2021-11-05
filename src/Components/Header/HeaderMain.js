@@ -11,7 +11,7 @@ export default function HeaderMain() {
           </Link>
         </h1>
         <Link to={`/order/menuSearch/0`} type="button" className="open-search">
-          <i className="ico search">
+          <i className="ico order">
             <span>검색하기</span>
           </i>
         </Link>

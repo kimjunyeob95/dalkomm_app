@@ -68,12 +68,15 @@
 
 /* AP001 (앱메뉴) */
 .app-menu .item.my-info {height: 20vw; margin-top: -1.067vw;}
+.app-menu .gnb-list {font-size: 0;}
 .app-menu .gnb-list > li + li {border-top: 0.267vw solid #f4f4f4;}
-.app-menu .gnb-list ul {margin: 2.667vw 0;}
-.app-menu .gnb-list ul > li {padding: 4.400vw 5.333vw;}
-.app-menu .gnb-list ul > li + li {border-top: 0.267vw solid #fcfcfc;}
+.app-menu .gnb-list ul:not(.service-list) {margin: 2.667vw 0;}
+.app-menu .gnb-list ul:not(.service-list) > li {padding: 4.400vw 5.333vw;}
+.app-menu .gnb-list ul:not(.service-list) > li + li {border-top: 0.267vw solid #fcfcfc;}
 .app-menu .gnb-list .ico.new {margin-left: 1.067vw; vertical-align: middle;}
-
+.app-menu .item + .service-list {margin-top: 5.333vw;}
+.app-menu .item + .service-list > li {padding-left: 0.533vw; box-sizing: border-box;}
+.app-menu .item + .service-list > li + li {margin-top: 1.600vw;}
 
 /* LD001_LP 접근권환 허용 팝업 */
 #popupServiceAccess {padding: 5.333vw;}
@@ -165,24 +168,91 @@
 
 /* 마이페이지 */
 /* ME001 */
-#content.mypage.main .user-info-wrap {padding: 9.6vw 5.333vw; color: #fff; background-color: #000; box-sizing: border-box;}
-#content.mypage.main .user-info-wrap .my-info {height: auto; padding: 0; background-color: #000; border-bottom: 0;}
-#content.mypage.main .user-info-wrap .my-info .user strong {font-weight: 700;}
+#content.mypage.main .user-info-wrap {padding: 3.2vw 5.333vw 8.267vw; box-sizing: border-box;}
+#content.mypage.main .user-info-wrap .my-info {height: auto; padding: 0; border-bottom: 0;}
+#content.mypage.main .user-info-wrap .my-info .user strong {font-weight: 700; color: #fc6c0f;}
 #content.mypage.main .user-info-wrap .my-info .grade {font-weight: 600; font-size: 3.733vw; letter-spacing: 0.373vw;}
 #content.mypage.main .user-info-wrap .my-info .grade + .btn {margin-left: 2.133vw;}
-#content.mypage.main .user-info-wrap .my-info .user {font-size: 4.8vw; letter-spacing: -0.096vw;}
-#content.mypage.main .user-info-wrap .data-list {margin-top: 4.533vw;}
-#content.mypage.main .user-info-wrap .data-list li {font-size: 3.2vw; opacity: 0.7;}
-#content.mypage.main .user-info-wrap .data-list li + li {margin-top: 1.467vw;}
-#content.mypage.main .user-state-wrap li {background-color: rgba(255,255,255,0.23); box-sizing: border-box;}
-#content.mypage.main .user-state-wrap li + li {border-left: 0.267vw solid #ebebeb;}
+#content.mypage.main .user-info-wrap .my-info .user {font-size: 5.333vw; letter-spacing: -0.107vw;}
+#content.mypage.main .user-info-wrap .data-list {margin-top: 2.667vw;}
+#content.mypage.main .user-info-wrap .data-list li {font-size: 3.2vw; color: #b9b9b9;}
+#content.mypage.main .user-info-wrap .data-list li + li {margin-top: 0.800vw;}
+#content.mypage.main .user-state-wrap {border-top: 0.267vw solid rgba(235,235,235,0.2);;}
+#content.mypage.main .user-state-wrap li {box-sizing: border-box; margin: 0;}
+#content.mypage.main .user-state-wrap li + li {border-left: 0.267vw solid rgba(235,235,235,0.2);}
+#content.mypage.main .user-state-wrap li.trophy {width: 44.533vw;}
+#content.mypage.main .user-state-wrap li.grade {width: calc(100% - 44.533vw);}
+#content.mypage.main .user-state-wrap li.trophy .title {-webkit-align-items: center; -ms-flex-align: center; align-items: center;}
+#content.mypage.main .user-state-wrap li.trophy .title > span + .guide-wrap {margin-left: 1.067vw;}
+#content.mypage.main .user-state-wrap .item.describe {-webkit-flex-direction: column; -ms-flex-direction: column; flex-direction: column; -webkit-align-items: flex-start; -ms-flex-align: start; align-items: flex-start; -webkit-justify-content: flex-start; -ms-flex-pack: start; justify-content: flex-start; height: 27.467vw; padding: 6.667vw 5.333vw 0; box-sizing: border-box;}
+#content.mypage.main .user-state-wrap .item.describe .title {width: 100%; height: 6.400vw; font-weight: 700; font-size: 3.733vw; color: rgba(0,0,0,0.4);}
+#content.mypage.main .user-state-wrap .item.describe .title + .text {margin-top: 3.733vw;}
+#content.mypage.main .user-state-wrap .item.describe .text {font-weight: 700; font-size: 4.267vw;}
+#content.mypage.main .user-state-wrap .item.describe .text .num {font-size: 5.333vw; vertical-align: middle;}
+#content.mypage.main .user-state-wrap .item.describe .text .en {font-size: 4.267vw;}
+#content.mypage.main .guide-wrap {position: relative;}
+#content.mypage.main .guide-wrap .speech-bubble {display: none; position: absolute; top: -16.800vw; left: 0; width: 63.467vw; background-color: rgba(0,0,0,0.6); font-weight: 400; font-size: 3.200vw; line-height: 4.267vw; letter-spacing: -0.064vw; padding: 2.933vw 2.4vw 2.400vw; z-index: 1;}
+#content.mypage.main .guide-wrap .speech-bubble::before {bottom: -1.6vw; border-left: 2.267vw solid rgba(0,0,0,0.6);border-bottom-width: 1.600vw;}
+#content.mypage.main .guide-wrap.show .speech-bubble {display: block;}
 #content.mypage.main .item.my-state {border-color: #ebebeb;}
 #content.mypage.main .item.my-state .state .new {display: inline-block; position: relative;}
 #content.mypage.main .item.my-state .state .new::after {display: inline-block; position: absolute; content: ''; top: -0.533vw; right: -1.867vw; width: 1.067vw; height: 1.067vw; border-radius: 50%; background-color: #ff592e;}
-#content.mypage.main .my-gnb-list {border-bottom: 0.267vw solid rgba(168,168,168,0.1);}
-#content.mypage.main .my-gnb-list li {font-size: 4.267vw; line-height: 16vw; opacity: 0.8;}
-#content.mypage.main .my-gnb-list li + li {border-top: 0.267vw solid rgba(235,235,235,0.2);}
-#content.mypage.main .my-gnb-list li a {display: block; padding: 0 5.333vw;}
+#content.mypage.main .my-gnb-list {font-size: 0;}
+#content.mypage.main .my-gnb-list li {line-height: 16vw; color: rgba(0,0,0,0.8); border-top: 0.267vw solid rgba(235,235,235,0.2);}
+#content.mypage.main .my-gnb-list li a {display: -ms-flexbox; display: -webkit-flex; display: flex; -webkit-justify-content: space-between; -ms-flex-pack: justify; justify-content: space-between;
+	-webkit-align-items: center; -ms-flex-align: center; align-items: center; padding: 0 5.333vw;}
+#content.mypage.main .my-gnb-list li .ico {width: 7.467vw; height: 7.467vw; vertical-align: middle;}
+#content.mypage.main .my-gnb-list li .ico + span {margin-left: 3.467vw;}
+#content.mypage.main .my-gnb-list li span {position: relative; font-size: 4.267vw; vertical-align: middle;}
+#content.mypage.main .my-gnb-list .state {font-size: 3.733vw;}
+#content.mypage.main .my-gnb-list .state.receipt {color: #fd592e;}
+#content.mypage.main .my-gnb-list .state.cancel {color: #7f7f7f;}
+#content.mypage.main .my-gnb-list .stamp {font-weight: 700; font-size: 0; color: #b4b4b4;}
+#content.mypage.main .my-gnb-list .stamp > * {font-size: 4vw;}
+#content.mypage.main .my-gnb-list .stamp > strong:not(.save) {letter-spacing: -0.08vw;}
+#content.mypage.main .my-gnb-list .stamp > strong.save {color: rgba(0,0,0,0.8);}
+#content.mypage.main .my-gnb-list .stamp > em {margin-left: 1.067vw; margin-right: 0.533vw;}
+#content.mypage.main .my-gnb-list li.active span::before{content: ''; display: inline-block; position: absolute; top: 0.267vw; right: -2.400vw; width: 1.067vw; height: 1.067vw; background-color: #ff592e; border-radius: 50%;}
+/* ME001_2 */
+#content.mypage.membership {padding-bottom: 10.667vw;}
+#content.mypage.membership .section + .section {margin-top: 0;}
+#content.mypage.membership .possess-wrap {padding-left:5.333vw; padding-right: 5.333vw;}
+#content.mypage.membership:not(.save) .possess-wrap {padding-top: 7.467vw; padding-bottom: 13.333vw;}
+#content.mypage.membership .possess-wrap > .flex-both + .trophy-bar {margin-top: 5.333vw;}
+#content.mypage.membership .possess-state {display: -ms-flexbox; display: -webkit-flex; display: flex; -webkit-box-align: center;-ms-flex-align: center;align-items: center; font-weight: 700; font-size: 3.733vw;}
+#content.mypage.membership .possess-state .ico {margin-right: 1.067vw;}
+#content.mypage.membership .possess-state .num{margin-top: -0.267vw;}
+#content.mypage.membership .possess-state .num,
+#content.mypage.membership .extinct .num {font-weight: 600; font-size: 4.267vw; color: #fc6c0f; margin-left: 1.6vw; vertical-align: middle;}
+
+#content.mypage.membership .possess-wrap + .benefit-wrap {border-top: 0.267vw solid rgba(235,235,235,0.3);}
+#content.mypage.membership .benefit-wrap .item.describe {-webkit-flex-direction: column; -ms-flex-direction: column; flex-direction: column; -webkit-align-items: flex-start; -ms-flex-align: start; align-items: flex-start; padding: 10.667vw 5.333vw;}
+#content.mypage.membership .benefit-wrap .item.describe .title {font-weight: 700; font-size: 4.267vw;}
+#content.mypage.membership .benefit-wrap .item.describe .title + .text {margin-top:3.733vw;}
+#content.mypage.membership .benefit-wrap .item.describe .text,
+#content.mypage.membership .benefit-wrap .item.describe .attention-list > li {font-size: 3.467vw; color: rgba(0,0,0,0.8); line-height: 5.333vw;}
+#content.mypage.membership .benefit-wrap .item.describe .text > p +.attention-list {margin-top: 4.800vw;}
+#content.mypage.membership .benefit-wrap .data-list > li {border-top: 0.267vw solid  rgba(235,235,235,0.2); padding: 5.333vw 5.333vw 8vw;}
+#content.mypage.membership .benefit-wrap .data-table th,
+#content.mypage.membership .benefit-wrap .data-table td {border: 0; border-bottom: 0.267vw solid rgba(112,112,112,0.2); color: rgba(0,0,0,0.8);}
+#content.mypage.membership .benefit-wrap .data-table th {border-top: 0.267vw solid #707070; font-size: 3.200vw; padding: 4.667vw 1.867vw; vertical-align: middle;}
+#content.mypage.membership .benefit-wrap .data-table th span {display: block; font-size: 2.667vw; margin-top: 1.333vw;}
+#content.mypage.membership .benefit-wrap .data-table td {font-size: 2.667vw; padding: 3.867vw 1.867vw;}
+#content.mypage.membership .benefit-wrap .data-table th:nth-child(1),
+#content.mypage.membership .benefit-wrap .data-table td:nth-child(1) {padding-left: 5.333vw; padding-right: 0; text-align: left;}
+#content.mypage.membership .benefit-wrap .data-table th:last-child,
+#content.mypage.membership .benefit-wrap .data-table td:last-child {padding-right: 5.333vw;}
+#content.mypage.membership .benefit-wrap > .attention-list {padding: 8vw 5.333vw 0;}
+#content.mypage.membership .benefit-wrap > .attention-list > li {font-size: 3.200vw; color: rgba(0,0,0,0.5);}
+/* ME001_3 */
+
+#content.mypage.membership.save .possess-state {width: 28.533vw;}
+#content.mypage.membership.save .possess-state,
+#content.mypage.membership.save .extinct {padding-top:7.467vw; padding-bottom: 7.467vw;}
+#content.mypage.membership.save .possess-state + .extinct {border-left: 1px solid rgba(235,235,235,0.3);}
+#content.mypage.membership.save .extinct {width: calc(100% - 28.533vw); font-weight: 700; font-size: 3.733vw; padding-left: 5.333vw; box-sizing: border-box;}
+#content.mypage.membership.save .extinct span.alert {display: block; padding-left: 0; color: rgba(0,0,0,0.5); margin-top: 2.133vw;}
+#content.mypage.membership.save  .data-list > li {border-top: 0.267vw solid rgba(235,235,235,0.2);}
 /* ME002 */
 #content.mypage.stamp .user-stamp-wrap {padding: 6.4vw 8vw 10.667vw; background-color: #f8f8f8;}
 #content.mypage.stamp .user-stamp-wrap .title-wrap .h3 {font-weight: 600; font-size: 4.267vw;}

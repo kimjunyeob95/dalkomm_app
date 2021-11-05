@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="27" height="27" viewBox="0 0 27 27">
+    <defs>
+        <style>
+            .cls-4{stroke:#000;fill:none;stroke-miterlimit:10}
+        </style>
+    </defs>
+    <g id="Icon_Order" transform="translate(-.5 -.5)">
+        <g id="레이어_2" data-name="레이어 2" transform="translate(3.933 6.948)">
+            <g id="그룹_12" data-name="그룹 12" transform="translate(.045 .052)">
+                <path id="패스_16" data-name="패스 16" class="cls-4" d="M432.186 185.666h1.948a1.645 1.645 0 0 0 1.622-1.666v-3.425a1.645 1.645 0 0 0-1.622-1.668h-1.948" transform="translate(-415.756 -176.931)"/>
+                <path id="패스_15" data-name="패스 15" class="cls-4" d="M330.758 167.045v6.37c0 4.322 3.741 7.429 8.355 7.429s8.355-3.107 8.355-7.429v-6.37z" transform="translate(-330.758 -167.045)"/>
+            </g>
+        </g>
+    </g>
+</svg>
