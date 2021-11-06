@@ -150,7 +150,7 @@ export default function OrderFinal() {
   };
   const handleMembership = (flag) => {
     if (flag === "불가능") {
-      alert("멤버십 할인이 불가능한 매장입니다.");
+      alert("KT 제휴 할인이 불가능한 매장입니다.");
     } else {
       history.push({
         pathname: `/order/membership/${smartOrderSeq}`,
