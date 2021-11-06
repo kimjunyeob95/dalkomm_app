@@ -116,7 +116,7 @@ const ContextStore = (props) => {
   // indexInitialState.longitude = 127.05642398540016;
   // indexInitialState.udid = "8280af29616a4ec1bb85a9ed17b9594e828e8140";
   //다운씨
-  // indexInitialState.loginFlag = true;
+  // indexInitialState.loginFlag = false;
   // indexInitialState.accessToken =
   //   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiOWx3bWYzRlRQL0htaWNOUlJNLzZGRTM4MnFrUVBGc2F4Rzl4dUsvRnVNYnAzeHY3cnIvUzNKemUwUzBPaHZ4ZiIsImF1ZCI6IkRBTEtPTU1fQVBQIiwidW5pb25fdXNlcl9pZCI6IkFKS1FNZnFNZmhodDJMVWwyTE1kNlcxbkhuVU9WaGVCa0Ewd3J2RC9VSEZnTm9lTEV2bE4wRk9WOGdmVTBJbnYiLCJpc3MiOiJEQUxLT01NIiwidXNlcl9sb2dpbl90eXBlIjoiRCIsImlhdCI6MTYzNTkxNDY5OX0.4Bmu0APqRj6SHAk3rkDEpy2NefVOPLEzNth_3IUkG6E";
   // indexInitialState.app_version = "3.0.0";

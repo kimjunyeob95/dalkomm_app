@@ -6,11 +6,7 @@ export function checkMobile() {
   if (varUA.indexOf("android") > -1) {
     //안드로이드
     return "android";
-  } else if (
-    varUA.indexOf("iphone") > -1 ||
-    varUA.indexOf("ipad") > -1 ||
-    varUA.indexOf("ipod") > -1
-  ) {
+  } else if (varUA.indexOf("iphone") > -1 || varUA.indexOf("ipad") > -1 || varUA.indexOf("ipod") > -1) {
     //IOS
     return "ios";
   } else {
@@ -20,14 +16,7 @@ export function checkMobile() {
 }
 
 export const fn_memberName = (level) => {
-  let result =
-    level === 0
-      ? "SILVER"
-      : level === 1
-      ? "GOLD"
-      : level === 2
-      ? "PLATINUM"
-      : "";
+  let result = level === 0 ? "SILVER" : level === 1 ? "GOLD" : level === 2 ? "PLATINUM" : "";
   return result;
 };
 
@@ -58,6 +47,18 @@ export const globalAppendScript = (scriptHtml) => {
   document.head.appendChild(script_tag);
 };
 
+export const handleLogin = (e) => {
+  try {
+    if (checkMobile() === "android") {
+      window.android.fn_login();
+    } else if (checkMobile() === "ios") {
+      window.webkit.messageHandlers.fn_login.postMessage("");
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export const globalRemoveScript = (scriptClass) => {
   $(scriptClass).remove();
 };
@@ -66,9 +67,7 @@ export function getParameter(name) {
   name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
   var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
     results = regex.exec(window.location.search);
-  return results === null
-    ? ""
-    : decodeURIComponent(results[1].replace(/\+/g, " "));
+  return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
 }
 
 export function fadeOut() {
@@ -79,18 +78,14 @@ export function fadeOut() {
 
 export function finalOrderHtml() {
   // 211019 마크업 수정
-  $(".smartorder-menu .list_cell").before(
-    '<h4 class="pay-title">주문 메뉴</div>'
-  );
+  $(".smartorder-menu .list_cell").before('<h4 class="pay-title">주문 메뉴</div>');
   $(".smartorder-menu .pay-title").after(
     '<ul class="order-list data-list"><li><div class="item order"><div class="img-wrap"><img src="/@resource/images/@temp/product_05.jpg" alt="카라멜마끼아또"></div></div></li></ul>'
   );
   $(".smartorder-menu .list_cell").appendTo(".item.order");
   $("#coupon-list").appendTo(".smartorder-menu .order-list > li");
   $(".pay_carrier .list_title").text("요청 사항");
-  $(".pay_carrier .list-chk.text-grey").text(
-    "빙수제품은 별도 포장을 제공하지 않습니다."
-  );
+  $(".pay_carrier .list-chk.text-grey").text("빙수제품은 별도 포장을 제공하지 않습니다.");
   $(".pay_carrier").appendTo(".smartorder-menu");
   $(".pay_way").appendTo(".smartorder-menu");
   $(".pay_carrier .list_title").after(
@@ -98,13 +93,9 @@ export function finalOrderHtml() {
   );
   $(".pay_way_content1").addClass("select-group col-3");
   $(".pay_sum").prepend('<h4 class="pay-title en">Total</div>');
-  $(".list.pay .text-red:not(#affiliate) h4 strong").append(
-    '<span class="coupon">[FREE 음료 쿠폰]</span>'
-  );
+  $(".list.pay .text-red:not(#affiliate) h4 strong").append('<span class="coupon">[FREE 음료 쿠폰]</span>');
   $(".list.pay .text-red#affiliate h4 strong").text("멤버십 할인");
-  $(".list.pay .text-red#affiliate h4 strong").append(
-    '<span class="coupon">[PLETINUM]</span>'
-  );
+  $(".list.pay .text-red#affiliate h4 strong").append('<span class="coupon">[PLETINUM]</span>');
   $(".list.pay_sum_b").before(
     '<div class="list pay"><ul class="list_cell text-red"><li><h4><strong>KT 멤버십 할인</strong></h4></li><li class="text-right"><a href="javascript:void(0);" class="btn verify">인증하기</a></li></ul></div>'
   );

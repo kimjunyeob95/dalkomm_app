@@ -21,7 +21,7 @@ import SwiperCore, { Scrollbar } from "swiper/core";
 
 import { SERVER_DALKOMM } from "Config/Server";
 import { authContext } from "ContextApi/Context";
-import { getCookieValue, fadeOut, checkMobile } from "Config/GlobalJs";
+import { getCookieValue, fadeOut, checkMobile, handleLogin } from "Config/GlobalJs";
 
 export function Order(props) {
   const [state, dispatch] = useContext(authContext);
@@ -85,30 +85,34 @@ export function Order(props) {
   }, [axioData]);
 
   const handleFavorite = (e, storeCode) => {
-    if ($(e).hasClass("active")) {
-      //즐겨찾기 삭제
-      if ($(e).prop("tagName") === "BUTTON") {
-        $("span.btn.bookmark").each(function (index, element) {
-          if ($(element).data("storecode") === storeCode) {
-            $(element).removeClass("active");
-          }
-        });
-      }
-      axios
-        .all([axios.post(`${SERVER_DALKOMM}/app/api/v2/favorite/store/delete`, { store_code: storeCode }, header_config)])
-        .then(axios.spread((res1) => {}));
+    if (!state.loginFlag) {
+      handleLogin();
     } else {
-      //즐겨찾기 추가
-      axios.all([axios.post(`${SERVER_DALKOMM}/app/api/v2/favorite/store/add`, { store_code: storeCode }, header_config)]).then(
-        axios.spread((res1) => {
-          if (res1.data.meta.code !== 20000) {
-            $("#resAlert").text(res1.data.meta.msg);
-            $(".overlay.popupExitJoin").addClass("active");
-            $("body").addClass("modal-opened");
-            $(e).removeClass("active");
-          }
-        })
-      );
+      if ($(e).hasClass("active")) {
+        //즐겨찾기 삭제
+        if ($(e).prop("tagName") === "BUTTON") {
+          $("span.btn.bookmark").each(function (index, element) {
+            if ($(element).data("storecode") === storeCode) {
+              $(element).removeClass("active");
+            }
+          });
+        }
+        axios
+          .all([axios.post(`${SERVER_DALKOMM}/app/api/v2/favorite/store/delete`, { store_code: storeCode }, header_config)])
+          .then(axios.spread((res1) => {}));
+      } else {
+        //즐겨찾기 추가
+        axios.all([axios.post(`${SERVER_DALKOMM}/app/api/v2/favorite/store/add`, { store_code: storeCode }, header_config)]).then(
+          axios.spread((res1) => {
+            if (res1.data.meta.code !== 20000) {
+              $("#resAlert").text(res1.data.meta.msg);
+              $(".overlay.popupExitJoin").addClass("active");
+              $("body").addClass("modal-opened");
+              $(e).removeClass("active");
+            }
+          })
+        );
+      }
     }
   };
 

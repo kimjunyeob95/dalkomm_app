@@ -12,8 +12,8 @@ import Nav from "Components/Nav/Nav";
 import GoContents from "Components/GoContents";
 import Popup_nomal from "Components/Popup/Popup_nomal";
 
-import { accordion, scrollDetail, popupOpen, contGap, moveScrollTop, fadeInOut } from "Jquery/Jquery";
-import { checkMobile, getCookieValue, fadeOut, fn_memberName } from "Config/GlobalJs";
+import { accordion, scrollDetail, popupOpen, contGap, moveScrollTop } from "Jquery/Jquery";
+import { checkMobile, getCookieValue, fadeOut, fn_memberName, handleLogin } from "Config/GlobalJs";
 import { SERVER_DALKOMM } from "Config/Server";
 import { Swiper, SwiperSlide } from "swiper/react";
 import SwiperCore, { Autoplay, Scrollbar } from "swiper/core";
@@ -52,8 +52,8 @@ export function Main(props) {
       axios
         .all([
           axios.post(`${SERVER_DALKOMM}/app/api/main`, body, header_config),
-          axios.post(`${SERVER_DALKOMM}/app/api/main/user`, body, header_config),
           axios.post(`${SERVER_DALKOMM}/app/api/v2/store/around`, location_body, header_config),
+          axios.post(`${SERVER_DALKOMM}/app/api/main/user`, body, header_config),
           axios.post(`${SERVER_DALKOMM}/app/api/v2/coupon/list`, body, header_config),
           axios.post(`${SERVER_DALKOMM}/app/api/v2/membership`, body, header_config),
           axios.post(`${SERVER_DALKOMM}/app/api/v2/smartorder/orderinfo/list`, { page: 1, duration: "w" }, header_config),
@@ -109,43 +109,35 @@ export function Main(props) {
     SwiperCore.use([Autoplay, Scrollbar]);
   }, [axioData]);
 
-  const handleLogin = (e) => {
-    try {
-      if (checkMobile() === "android") {
-        window.android.fn_login();
-      } else if (checkMobile() === "ios") {
-        window.webkit.messageHandlers.fn_login.postMessage("");
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   const handleFavorite = (e, storeCode) => {
-    if ($(e).hasClass("active")) {
-      //즐겨찾기 삭제
-      if ($(e).prop("tagName") === "BUTTON") {
-        $("span.btn.bookmark").each(function (index, element) {
-          if ($(element).data("storecode") === storeCode) {
-            $(element).removeClass("active");
-          }
-        });
-      }
-      axios
-        .all([axios.post(`${SERVER_DALKOMM}/app/api/v2/favorite/store/delete`, { store_code: storeCode }, header_config)])
-        .then(axios.spread((res1) => {}));
+    if (!state.loginFlag) {
+      handleLogin();
     } else {
-      //즐겨찾기 추가
-      axios.all([axios.post(`${SERVER_DALKOMM}/app/api/v2/favorite/store/add`, { store_code: storeCode }, header_config)]).then(
-        axios.spread((res1) => {
-          if (res1.data.meta.code !== 20000) {
-            $("#resAlert").text(res1.data.meta.msg);
-            $(".overlay.popupExitJoin").addClass("active");
-            $("body").addClass("modal-opened");
-            $(e).removeClass("active");
-          }
-        })
-      );
+      if ($(e).hasClass("active")) {
+        //즐겨찾기 삭제
+        if ($(e).prop("tagName") === "BUTTON") {
+          $("span.btn.bookmark").each(function (index, element) {
+            if ($(element).data("storecode") === storeCode) {
+              $(element).removeClass("active");
+            }
+          });
+        }
+        axios
+          .all([axios.post(`${SERVER_DALKOMM}/app/api/v2/favorite/store/delete`, { store_code: storeCode }, header_config)])
+          .then(axios.spread((res1) => {}));
+      } else {
+        //즐겨찾기 추가
+        axios.all([axios.post(`${SERVER_DALKOMM}/app/api/v2/favorite/store/add`, { store_code: storeCode }, header_config)]).then(
+          axios.spread((res1) => {
+            if (res1.data.meta.code !== 20000) {
+              $("#resAlert").text(res1.data.meta.msg);
+              $(".overlay.popupExitJoin").addClass("active");
+              $("body").addClass("modal-opened");
+              $(e).removeClass("active");
+            }
+          })
+        );
+      }
     }
   };
 
@@ -244,7 +236,7 @@ export function Main(props) {
               {state?.loginFlag ? (
                 <div className="item my-info">
                   <p className="user">
-                    <span className="fc-orange">{axioData?.res2_data?.user?.sub_user_list[0]?.sub_user_name}</span> 고객님
+                    <span className="fc-orange">{axioData?.res3_data?.user?.sub_user_list[0]?.sub_user_name}</span> 고객님
                   </p>
                   <button
                     type="button"
@@ -284,7 +276,7 @@ export function Main(props) {
                       <div className="data-wrap">
                         <p className="title">기프트 카드 잔액</p>
                         <p className="state">
-                          {state?.loginFlag ? axioData?.res2_data?.user?.charge_card_amount?.toLocaleString("ko-KR") + "원" : "-"}
+                          {state?.loginFlag ? axioData?.res3_data?.user?.charge_card_amount?.toLocaleString("ko-KR") + "원" : "-"}
                         </p>
                       </div>
                     </Link>
@@ -301,7 +293,7 @@ export function Main(props) {
                         <p className="state">
                           {state?.loginFlag ? (
                             <React.Fragment>
-                              {axioData?.res2_data?.user?.stamp_card?.complete_count} <em>/ 12</em>
+                              {axioData?.res3_data?.user?.stamp_card?.complete_count} <em>/ 12</em>
                             </React.Fragment>
                           ) : (
                             "-"
@@ -315,25 +307,25 @@ export function Main(props) {
                       <div className="img-wrap">
                         <i
                           className={`ico store-type small ${
-                            axioData?.res3_data?.store_list[0]?.store_sub_type === 0
+                            axioData?.res2_data?.store_list[0]?.store_sub_type === 0
                               ? "house"
-                              : axioData?.res3_data?.store_list[0]?.store_sub_type === 1
+                              : axioData?.res2_data?.store_list[0]?.store_sub_type === 1
                               ? "building"
-                              : axioData?.res3_data?.store_list[0]?.store_sub_type === 2
+                              : axioData?.res2_data?.store_list[0]?.store_sub_type === 2
                               ? "rest-area"
-                              : axioData?.res3_data?.store_list[0]?.store_sub_type === 3
+                              : axioData?.res2_data?.store_list[0]?.store_sub_type === 3
                               ? "terminal"
-                              : axioData?.res3_data?.store_list[0]?.store_sub_type === 4
+                              : axioData?.res2_data?.store_list[0]?.store_sub_type === 4
                               ? "head-office"
-                              : axioData?.res3_data?.store_list[0]?.store_sub_type === 5
+                              : axioData?.res2_data?.store_list[0]?.store_sub_type === 5
                               ? "drive-thru"
-                              : axioData?.res3_data?.store_list[0]?.store_sub_type === 6
+                              : axioData?.res2_data?.store_list[0]?.store_sub_type === 6
                               ? "drive-thru"
-                              : axioData?.res3_data?.store_list[0]?.store_sub_type === 7
+                              : axioData?.res2_data?.store_list[0]?.store_sub_type === 7
                               ? "vivaldi-park"
-                              : axioData?.res3_data?.store_list[0]?.store_sub_type === 8
+                              : axioData?.res2_data?.store_list[0]?.store_sub_type === 8
                               ? "hospital"
-                              : axioData?.res3_data?.store_list[0]?.store_sub_type === 9
+                              : axioData?.res2_data?.store_list[0]?.store_sub_type === 9
                               ? "cinema"
                               : ""
                           }`}
@@ -356,13 +348,7 @@ export function Main(props) {
                       </div>
                       <div className="data-wrap">
                         <p className="title">가까운 매장</p>
-                        <p className="state">
-                          {state?.loginFlag && state?.latitude ? (
-                            <React.Fragment>{axioData?.res3_data?.store_list[0]?.store_name}</React.Fragment>
-                          ) : (
-                            "-"
-                          )}
-                        </p>
+                        <p className="state">{axioData?.res2_data?.store_list[0]?.store_name}</p>
                       </div>
                     </Link>
                   </li>
@@ -371,37 +357,40 @@ export function Main(props) {
               {/* // myinfo-wrap */}
 
               {/* 나의 최근 주문 */}
-              <section className="section">
-                <div className="title-wrap w-inner flex-both">
-                  <h3 className="section-title">{state?.loginFlag ? "나의 최근 주문" : "달콤 추천 메뉴"}</h3>
-                  <Link to={`/mypage/orderRecipt`} className="btn text">
-                    <span>전체 메뉴</span>
-                    <i className="ico arr-r"></i>
-                  </Link>
-                </div>
+              {state?.loginFlag && (
+                <section className="section">
+                  <div className="title-wrap w-inner flex-both">
+                    <h3 className="section-title">나의 최근 주문</h3>
+                    <Link to={`/mypage/orderRecipt`} className="btn text">
+                      <span>전체 메뉴</span>
+                      <i className="ico arr-r"></i>
+                    </Link>
+                  </div>
 
-                <Swiper id="recentlyOrder" className="swiper-container section-slider menu-slider" slidesPerView={"auto"} freeMode={false}>
-                  <ul className="swiper-wrapper">
-                    {axioData?.res6_data?.result?.map((element, index) => (
-                      <SwiperSlide className="swiper-slide" key={index} onClick={() => history.push(`/order/info/${element?.smartorderinfo_id}`)}>
-                        <div className="item menu">
-                          <div className="img-wrap">
-                            <img
-                              src={element?.menu_with_type === "I" ? element?.menu_with_ice_img : element?.menu_with_hot_img}
-                              alt="아메리카노 ICE (R)"
-                            />
+                  <Swiper id="recentlyOrder" className="swiper-container section-slider menu-slider" slidesPerView={"auto"} freeMode={false}>
+                    <ul className="swiper-wrapper">
+                      {axioData?.res6_data?.result?.map((element, index) => (
+                        <SwiperSlide className="swiper-slide" key={index} onClick={() => history.push(`/order/info/${element?.smartorderinfo_id}`)}>
+                          <div className="item menu">
+                            <div className="img-wrap">
+                              <img
+                                src={element?.menu_with_type === "I" ? element?.menu_with_ice_img : element?.menu_with_hot_img}
+                                alt="아메리카노 ICE (R)"
+                              />
+                            </div>
+                            <div className="detail-wrap">
+                              <p className="title">
+                                {element?.menu_name_with_count} {element?.menu_with_type === "I" ? "ICE" : "HOT"} ({element?.menu_with_size})
+                              </p>
+                            </div>
                           </div>
-                          <div className="detail-wrap">
-                            <p className="title">
-                              {element?.menu_name_with_count} {element?.menu_with_type === "I" ? "ICE" : "HOT"} ({element?.menu_with_size})
-                            </p>
-                          </div>
-                        </div>
-                      </SwiperSlide>
-                    ))}
-                  </ul>
-                </Swiper>
-              </section>
+                        </SwiperSlide>
+                      ))}
+                    </ul>
+                  </Swiper>
+                </section>
+              )}
+
               {/* // 나의 최근 주문 */}
 
               {/* 나의 보유 쿠폰 */}
@@ -491,7 +480,7 @@ export function Main(props) {
 
                 <Swiper id="searchStore" className="swiper-container section-slider store-slider" slidesPerView={"auto"} freeMode={false}>
                   <ul className="swiper-wrapper data-list">
-                    {axioData?.res3_data?.store_list?.map((e, i) => {
+                    {axioData?.res2_data?.store_list?.map((e, i) => {
                       return (
                         <SwiperSlide className="swiper-slide" key={i}>
                           <a
