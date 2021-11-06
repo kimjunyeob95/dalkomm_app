@@ -186,7 +186,7 @@ export default function MyPage() {
 						</a>
 					</li> */}
                 <li>
-                  <a className="open-pop" data-href="#popupExitJoin" onClick={(e) => popupOpen(e.target)}>
+                  <a className="open-pop" data-href="#popupExitJoin" onClick={(e) => popupOpen(e.currentTarget)}>
                     <div className="title">
                       <i className="ico logout"></i>
                       <span>로그아웃</span>

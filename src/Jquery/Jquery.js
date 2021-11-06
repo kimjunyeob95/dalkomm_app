@@ -135,7 +135,6 @@ export function popupOpen(e, cardNumber) {
   var pTag = $(e).prop("tagName"),
     // eslint-disable-next-line no-unused-vars
     scroll = $(e).attr("modal-scroll");
-
   if (pTag === "A") {
     var target = $(e).data("href");
   } else if (pTag === "BUTTON" || pTag === "I") {
