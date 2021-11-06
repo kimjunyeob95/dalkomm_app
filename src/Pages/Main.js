@@ -6,7 +6,7 @@
 import axios from "axios";
 import $ from "jquery";
 import React, { useEffect, useContext, useState } from "react";
-import { useLocation, Link, useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import HeaderMain from "Components/Header/HeaderMain";
 import Nav from "Components/Nav/Nav";
 import GoContents from "Components/GoContents";
@@ -53,21 +53,19 @@ export function Main(props) {
         .all([
           axios.post(`${SERVER_DALKOMM}/app/api/main`, body, header_config),
           axios.post(`${SERVER_DALKOMM}/app/api/main/user`, body, header_config),
-          axios.post(`${SERVER_DALKOMM}/app/api/account/simple/profile`, body, header_config),
           axios.post(`${SERVER_DALKOMM}/app/api/v2/store/around`, location_body, header_config),
           axios.post(`${SERVER_DALKOMM}/app/api/v2/coupon/list`, body, header_config),
           axios.post(`${SERVER_DALKOMM}/app/api/v2/membership`, body, header_config),
           axios.post(`${SERVER_DALKOMM}/app/api/v2/smartorder/orderinfo/list`, { page: 1, duration: "w" }, header_config),
         ])
         .then(
-          axios.spread((res1, res2, res3, res4, res5, res6, res7) => {
+          axios.spread((res1, res2, res3, res4, res5, res6) => {
             let res1_data = res1.data.data;
             let res2_data = res2.data.data;
             let res3_data = res3.data.data;
             let res4_data = res4.data.data;
             let res5_data = res5.data.data;
             let res6_data = res6.data.data;
-            let res7_data = res7.data.data;
             setData((origin) => {
               return {
                 ...origin,
@@ -77,7 +75,6 @@ export function Main(props) {
                 res4_data,
                 res5_data,
                 res6_data,
-                res7_data,
               };
             });
           })
@@ -247,13 +244,13 @@ export function Main(props) {
               {state?.loginFlag ? (
                 <div className="item my-info">
                   <p className="user">
-                    <span className="fc-orange">{decodeURI(axioData?.res3_data?.name)}</span> 고객님
+                    <span className="fc-orange">{axioData?.res2_data?.user?.sub_user_list[0]?.sub_user_name}</span> 고객님
                   </p>
                   <button
                     type="button"
                     className="btn barcode open-pop"
                     pop-target="#zoomCardMembership"
-                    onClick={(e) => popupOpen(e.currentTarget, axioData?.res6_data?.stamp_card_number)}
+                    onClick={(e) => popupOpen(e.currentTarget, axioData?.res5_data?.stamp_card_number)}
                   >
                     <i className="ico barcode" pop-target="#zoomCardMembership">
                       <span>바코드</span>
@@ -318,25 +315,25 @@ export function Main(props) {
                       <div className="img-wrap">
                         <i
                           className={`ico store-type small ${
-                            axioData?.res4_data?.store_list[0]?.store_sub_type === 0
+                            axioData?.res3_data?.store_list[0]?.store_sub_type === 0
                               ? "house"
-                              : axioData?.res4_data?.store_list[0]?.store_sub_type === 1
+                              : axioData?.res3_data?.store_list[0]?.store_sub_type === 1
                               ? "building"
-                              : axioData?.res4_data?.store_list[0]?.store_sub_type === 2
+                              : axioData?.res3_data?.store_list[0]?.store_sub_type === 2
                               ? "rest-area"
-                              : axioData?.res4_data?.store_list[0]?.store_sub_type === 3
+                              : axioData?.res3_data?.store_list[0]?.store_sub_type === 3
                               ? "terminal"
-                              : axioData?.res4_data?.store_list[0]?.store_sub_type === 4
+                              : axioData?.res3_data?.store_list[0]?.store_sub_type === 4
                               ? "head-office"
-                              : axioData?.res4_data?.store_list[0]?.store_sub_type === 5
+                              : axioData?.res3_data?.store_list[0]?.store_sub_type === 5
                               ? "drive-thru"
-                              : axioData?.res4_data?.store_list[0]?.store_sub_type === 6
+                              : axioData?.res3_data?.store_list[0]?.store_sub_type === 6
                               ? "drive-thru"
-                              : axioData?.res4_data?.store_list[0]?.store_sub_type === 7
+                              : axioData?.res3_data?.store_list[0]?.store_sub_type === 7
                               ? "vivaldi-park"
-                              : axioData?.res4_data?.store_list[0]?.store_sub_type === 8
+                              : axioData?.res3_data?.store_list[0]?.store_sub_type === 8
                               ? "hospital"
-                              : axioData?.res4_data?.store_list[0]?.store_sub_type === 9
+                              : axioData?.res3_data?.store_list[0]?.store_sub_type === 9
                               ? "cinema"
                               : ""
                           }`}
@@ -361,7 +358,7 @@ export function Main(props) {
                         <p className="title">가까운 매장</p>
                         <p className="state">
                           {state?.loginFlag && state?.latitude ? (
-                            <React.Fragment>{axioData?.res4_data?.store_list[0]?.store_name}</React.Fragment>
+                            <React.Fragment>{axioData?.res3_data?.store_list[0]?.store_name}</React.Fragment>
                           ) : (
                             "-"
                           )}
@@ -385,7 +382,7 @@ export function Main(props) {
 
                 <Swiper id="recentlyOrder" className="swiper-container section-slider menu-slider" slidesPerView={"auto"} freeMode={false}>
                   <ul className="swiper-wrapper">
-                    {axioData?.res7_data?.result?.map((element, index) => (
+                    {axioData?.res6_data?.result?.map((element, index) => (
                       <SwiperSlide className="swiper-slide" key={index} onClick={() => history.push(`/order/info/${element?.smartorderinfo_id}`)}>
                         <div className="item menu">
                           <div className="img-wrap">
@@ -408,7 +405,7 @@ export function Main(props) {
               {/* // 나의 최근 주문 */}
 
               {/* 나의 보유 쿠폰 */}
-              {state?.loginFlag && axioData?.res5_data?.coupon_list?.length > 0 && (
+              {state?.loginFlag && axioData?.res4_data?.coupon_list?.length > 0 && (
                 <section className="section">
                   <div className="w-inner">
                     <div className="title-wrap flex-both">
@@ -419,7 +416,7 @@ export function Main(props) {
                       </Link>
                     </div>
                     <ul className="coupon-list data-list accordion">
-                      {axioData?.res5_data?.coupon_list
+                      {axioData?.res4_data?.coupon_list
                         ?.filter((e, i) => e.status === 0)
                         .map((e, i) => (
                           <li key={i}>
@@ -494,7 +491,7 @@ export function Main(props) {
 
                 <Swiper id="searchStore" className="swiper-container section-slider store-slider" slidesPerView={"auto"} freeMode={false}>
                   <ul className="swiper-wrapper data-list">
-                    {axioData?.res4_data?.store_list?.map((e, i) => {
+                    {axioData?.res3_data?.store_list?.map((e, i) => {
                       return (
                         <SwiperSlide className="swiper-slide" key={i}>
                           <a
@@ -969,7 +966,7 @@ export function Main(props) {
                 <div className="item card membership">
                   <div className="card-wrap">
                     <div>
-                      <p className="grade en">{fn_memberName(axioData?.res6_data?.membership_level)}</p>
+                      <p className="grade en">{fn_memberName(axioData?.res5_data?.membership_level)}</p>
                       <p className="sort en">
                         DAL.KOMM
                         <br />
@@ -984,7 +981,7 @@ export function Main(props) {
                         {/* <div className="img-wrap">
                           <img src="/@resource/images/com/barcode.svg" alt="바코드" />
                         </div> */}
-                        <p className="num">{axioData?.res6_data?.stamp_card_number}</p>
+                        <p className="num">{axioData?.res5_data?.stamp_card_number}</p>
                       </div>
                     </div>
                   </div>
