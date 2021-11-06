@@ -33,14 +33,14 @@ export default function MyCouponSend() {
     let validation = true;
     if ($(".giftid").hasClass("current")) {
       //아이디로 보내기
-      if ($("#giftName").val() === "" || $("#giftName").val() === undefined) {
+      if ($("#giftName2").val() === "" || $("#giftName2").val() === undefined) {
         $("#resAlert").text("아이디를 입력해 주세요");
         $(".overlay.popupExitJoin").addClass("active");
         $("body").addClass("modal-opened");
         validation = false;
         return false;
       }
-      postBody = { ...postBody, user_id: $("#giftName").val() };
+      postBody = { ...postBody, user_id: $("#giftName2").val() };
     } else {
       //휴대폰으로 보내기
       if ($("#giftPhone").val() === "" || $("#giftPhone").val() === undefined) {

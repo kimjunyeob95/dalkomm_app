@@ -32,7 +32,9 @@ export default function MyCouponRecipt() {
     axios.all([axios.post(`${SERVER_DALKOMM}/app/api/v2/coupon/present/history`, body, header_config)]).then(
       axios.spread((res1) => {
         let resultList = res1.data.data.present_history;
-        resultList = resultList
+        let getList = [];
+        let postList = [];
+        getList = resultList
           .sort((a, b) => {
             if (a.date > b.date) return -1;
             else if (a.date < b.date) return 1;
@@ -40,10 +42,30 @@ export default function MyCouponRecipt() {
           })
           .reduce((prev, curr, indexs) => {
             const idx = prev.findIndex((item) => item[0].date === curr.date);
-            if (idx === -1) {
-              prev.push([curr]);
-            } else {
-              prev[idx].push(curr);
+            if (curr.type === 2) {
+              if (idx === -1) {
+                prev.push([curr]);
+              } else {
+                prev[idx].push(curr);
+              }
+            }
+            return prev;
+          }, []);
+
+        postList = resultList
+          .sort((a, b) => {
+            if (a.date > b.date) return -1;
+            else if (a.date < b.date) return 1;
+            return 0;
+          })
+          .reduce((prev, curr, indexs) => {
+            const idx = prev.findIndex((item) => item[0].date === curr.date);
+            if (curr.type === 1) {
+              if (idx === -1) {
+                prev.push([curr]);
+              } else {
+                prev[idx].push(curr);
+              }
             }
             return prev;
           }, []);
@@ -51,7 +73,8 @@ export default function MyCouponRecipt() {
         setData((origin) => {
           return {
             ...origin,
-            resultList,
+            getList,
+            postList,
           };
         });
       })
@@ -74,20 +97,20 @@ export default function MyCouponRecipt() {
               <section className="section">
                 <ul className="tabs">
                   <li className="current">
-                    <Link to="#" data-href="#receiveCoupon" onClick={(e) => tabLink(e)}>
+                    <a data-href="#receiveCoupon" onClick={(e) => tabLink(e)}>
                       받은 쿠폰
-                    </Link>
+                    </a>
                   </li>
                   <li>
-                    <Link to="#" data-href="#sendCoupon" onClick={(e) => tabLink(e)}>
+                    <a data-href="#sendCoupon" onClick={(e) => tabLink(e)}>
                       보낸 쿠폰
-                    </Link>
+                    </a>
                   </li>
                 </ul>
 
                 <div id="receiveCoupon" className="tab-content active">
                   <ol className="data-list">
-                    {axioData?.resultList?.map((e, i) => (
+                    {axioData?.getList?.map((e, i) => (
                       <li key={i}>
                         <h3 className="history-header">{e[0]?.date}</h3>
                         <ul className="data-list coupon-list">
@@ -115,26 +138,23 @@ export default function MyCouponRecipt() {
 
                 <div id="sendCoupon" className="tab-content">
                   <ol className="data-list">
-                    {axioData?.resultList?.map((e, i) => (
+                    {axioData?.postList.map((e, i) => (
                       <li key={i}>
                         <h3 className="history-header">{e[0]?.date}</h3>
                         <ul className="data-list coupon-list">
-                          {e?.map(
-                            (element, index) =>
-                              element?.type === 2 && (
-                                <li key={index}>
-                                  <div className="item coupon">
-                                    <div className="data-wrap">
-                                      <div className="flex-both">
-                                        <p className="day num fc-orange">~21.07.28(기한 데이터필요)</p>
-                                        <p className="name">{element?.user_name}</p>
-                                      </div>
-                                      <p className="title">{element?.coupon_name}</p>
-                                    </div>
+                          {e?.map((element, index) => (
+                            <li key={index}>
+                              <div className="item coupon">
+                                <div className="data-wrap">
+                                  <div className="flex-both">
+                                    <p className="day num fc-orange">~21.07.28(기한 데이터필요)</p>
+                                    <p className="name">{element?.user_name}</p>
                                   </div>
-                                </li>
-                              )
-                          )}
+                                  <p className="title">{element?.coupon_name}</p>
+                                </div>
+                              </div>
+                            </li>
+                          ))}
                         </ul>
                       </li>
                     ))}

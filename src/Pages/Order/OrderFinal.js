@@ -423,6 +423,8 @@ export default function OrderFinal() {
   };
   let menu_count = -1;
   if (axioData) {
+    console.log(axioData);
+    console.log(frontData);
     return (
       <React.Fragment>
         <GoContents />
