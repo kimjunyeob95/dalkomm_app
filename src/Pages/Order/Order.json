@@ -1,116 +1,129 @@
+
 {
-	"data": {
-		"orderinfo_id": 1,
-		"store_is_smartorder": true,
-		"store": {
-			"store_code": "dalkomm000",
-			"store_name": "본사테스트점",
-			"store_address": "매장 주소",
-			"store_mobile": "매장 전화번호"
-		},
-		"order_user_name": "조혜원",
-		"order_user_mobile": "01029305269",
-		"smartorder_detail_list": [{
-			"available_discount": true,
-			"smartorder_menu_id": 1,
-			"price": 3000,
-			"option_price": 2000,
-			"user_coupon_detail_list": [{
-				"user_coupon_id": 1,
-				"coupon_name": "1+1쿠폰 1 5000",
-				"discount_price": 5000,
-				"is_one_plus_one": true
-			},
-			{
-				"user_coupon_id": 2,
-				"coupon_name": "1+1쿠폰 2 5000",
-				"discount_price": 5000,
-				"is_one_plus_one": true
-			},
-			{
-				"user_coupon_id": 3,
-				"coupon_name": "쿠폰 3 1000",
-				"discount_price": 1000,
-				"is_one_plus_one": false
-			}],
-			"menu_name_kor": "메뉴명",
-			"get_summary_option": [
-				"ICE",
-				"다회용 컵"
-			],
-			"quantity": 3
-		},
-		{
-			"available_discount": true,
-			"smartorder_menu_id": 2,
-			"price": 3000,
-			"option_price": 500,
-			"user_coupon_detail_list": [{
-				"user_coupon_id": 1,
-				"coupon_name": "1+1쿠폰 1 3500",
-				"discount_price": 3500,
-				"is_one_plus_one": true
-			},
-			{
-				"user_coupon_id": 2,
-				"coupon_name": "1+1쿠폰 2 3500",
-				"discount_price": 3500,
-				"is_one_plus_one": true
-			},
-			{
-				"user_coupon_id": 4,
-				"coupon_name": "쿠폰 4 1000",
-				"discount_price": 1000,
-				"is_one_plus_one": false
-			}],
-			"menu_name_kor": "메뉴명2",
-			"get_summary_option": [
-				"ICE",
-				"다회용 컵"
-			],
-			"quantity": 2
-		}],
-		"default_pay_method": "P",
-		"pay_methods": [{
-				"name": "카드결제",
-				"pay_method": "P"
-			},
-			{
-				"name": "휴대폰결제",
-				"pay_method": "T"
-			},
-			{
-				"img": "https://img.dalkomm.com/~~/paycoin.png",
-				"name": "페이코인 암호화폐 결제",
-				"pay_method": "O"
-			},
-			{
-				"img": "https://img.dalkomm.com/~~/kakao.png",
-				"pay_method": "A"
-			},
-			{
-				"name": "충전카드",
-				"pay_method": "C"
-			},
-			{
-				"img": "https://img.dalkomm.com/~~/payco.png",
-				"pay_method": "Y",
-				"desc": [
-					"PAYCO는 온/오프라인 쇼핑은 물론 송금, 멤버십 적립까지 가능한 통합 서비스입니다.",
-					"휴대폰과 카드 명의자가 동일해야 결제 가능하며, 결제금액 제한은 없습니다.",
-					"- 지원카드: 모든 국내 신용/체크카드"
-				]
-			}
-		],
-		"available_affiliate_discount": true,
-		"is_available_affiliate": true,
-		"affiliate_discount": {
-			"discount_amount": 500,
-			"fk_smartorder_menu_id": 1,
-			"card_type": "KT"
-		},
-		"total_order_count": 5,
-		"total_order_amount": 22000,
-		"basic_discount_rate_percent": 5
-	}
+
+	
+    "affiliate_discount": {
+		"discount_amount": 500,
+		"fk_smartorder_menu_id": 1,
+		"card_type": "KT"
+	},
+    "available_affiliate_discount": true,
+    "basic_discount_rate_percent": 5,
+    "default_pay_method": "C",
+    "is_available_affiliate": false,
+    "order_user_mobile": "01025466499",
+    "order_user_name": "준엽김",
+    "orderinfo_id": 27642,
+    "pay_methods": [
+        {
+            "desc": [],
+            "icon": "",
+            "name": "카드결제",
+            "pay_method": "P"
+        },
+        {
+            "desc": [],
+            "icon": "",
+            "name": "휴대폰결제",
+            "pay_method": "T"
+        },
+        {
+            "balance": 250960,
+            "desc": [],
+            "icon": "",
+            "name": "충전카드",
+            "pay_method": "C"
+        },
+        {
+            "desc": [],
+            "icon": "",
+            "name": "페이코인 암호화폐 결제",
+            "pay_method": "O"
+        }
+    ],
+    "smartorder_detail_list": [
+        {
+            "available_discount": true,
+            "get_summary_option": [
+                "ICE",
+                "코끼리",
+                "개인컵(-300원)",
+                "1샷 추가 잔당(+500원)",
+                "1바닐라시럽(+500원)",
+                "1헤이즐넛시럽(+500원)"
+            ],
+            "menu_name_kor": "아메리카노 다크퍼플",
+            "option_price": 1500,
+            "price": 4800,
+            "quantity": 2,
+            "smartorder_menu_id": 4055,
+            "smartorder_menu_img": "https://dev-image.dalkomm.com/app/static/images/menu/thumbnail/20211104175636_Americano.jpg",
+            "smartorder_menu_img_ice": "https://dev-image.dalkomm.com/app/static/images/menu/thumbnail/20211104175636_Americano_ice.jpg",
+            "user_coupon_detail_list": [
+                {
+                    "coupon_name": "무료 음료 쿠폰",
+                    "discount_price": 3800,
+                    "is_one_plus_one": false,
+                    "user_coupon_id": 136059
+                },
+                {
+                    "coupon_name": "생일 축하 아메리카노 쿠폰",
+                    "discount_price": 3800,
+                    "is_one_plus_one": false,
+                    "user_coupon_id": 136061
+                },
+                {
+                    "coupon_name": "생일 축하 아메리카노 쿠폰",
+                    "discount_price": 3800,
+                    "is_one_plus_one": false,
+                    "user_coupon_id": 136062
+                },
+                {
+                    "coupon_name": "생일 축하 아메리카노 쿠폰",
+                    "discount_price": 3800,
+                    "is_one_plus_one": false,
+                    "user_coupon_id": 136063
+                },
+                {
+                    "coupon_name": "가을 신메뉴 1+1 쿠폰",
+                    "discount_price": 6300,
+                    "is_one_plus_one": true,
+                    "user_coupon_id": 136064
+                },
+                {
+                    "coupon_name": "가을 신메뉴 1+1 쿠폰",
+                    "discount_price": 6300,
+                    "is_one_plus_one": true,
+                    "user_coupon_id": 136065
+                },
+                {
+                    "coupon_name": "가을 신메뉴 1+1 쿠폰",
+                    "discount_price": 6300,
+                    "is_one_plus_one": true,
+                    "user_coupon_id": 136066
+                },
+                {
+                    "coupon_name": "가을 신메뉴 1+1 쿠폰",
+                    "discount_price": 6300,
+                    "is_one_plus_one": true,
+                    "user_coupon_id": 136067
+                },
+                {
+                    "coupon_name": "가을 신메뉴 1+1 쿠폰",
+                    "discount_price": 6300,
+                    "is_one_plus_one": true,
+                    "user_coupon_id": 136068
+                }
+            ]
+        }
+    ],
+    "store": {
+        "store_address": "서울특별시 강남구 논현로 513 예지빌딩 1층 ",
+        "store_code": "dalkomm213",
+        "store_mobile": "02-568-5857",
+        "store_name": "달콤커피 역삼역점"
+    },
+    "store_is_smartorder": true,
+    "total_order_amount": 12600,
+    "total_order_count": 2
 }
