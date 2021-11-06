@@ -627,7 +627,7 @@ export function Main(props) {
                   <h3 className="section-title" onClick={() => fn_dev()}>
                     달콤 MD
                   </h3>
-                  <Link to="/order" target="_blank" className="btn text">
+                  <Link to="/story/list" className="btn text">
                     <span>더 보기</span>
                   </Link>
                 </div>
