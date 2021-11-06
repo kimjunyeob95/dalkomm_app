@@ -152,7 +152,7 @@ export function Order(props) {
 
             <div id="content" className="store list fade-in">
               {/* 즐겨찾는 매장 */}
-              {state?.accessToken !== "" && (
+              {state?.loginFlag && axioData?.res2_data?.favorite_store_list?.length > 0 && (
                 <section className="section">
                   <div className="title-wrap w-inner">
                     <h3 className="section-title" id="testtest">

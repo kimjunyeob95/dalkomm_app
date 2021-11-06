@@ -8,6 +8,7 @@ import React, { useEffect, useState, useContext } from "react";
 import HeaderSub from "Components/Header/HeaderSub";
 import GoContents from "Components/GoContents";
 import { authContext } from "ContextApi/Context";
+import { Link } from "react-router-dom";
 import { SERVER_DALKOMM } from "Config/Server";
 
 import { contGap, fadeInOut } from "Jquery/Jquery";
@@ -80,7 +81,9 @@ export default function MyStamp() {
 
               <div className="w-inner">
                 <div className="btn-area">
-                  <button className="btn light medium full">멤버십 등급 소개</button>
+                  <Link className="btn light medium full" to="/mypage/membershipPolicy">
+                    멤버십 등급 소개
+                  </Link>
                 </div>
 
                 <div className="item attention">

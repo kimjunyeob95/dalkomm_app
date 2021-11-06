@@ -29,29 +29,22 @@ export default function OrderInfoDetail() {
     },
   };
   useEffect(() => {
-    axios
-      .all([
-        axios.get(
-          `${SERVER_DALKOMM}/app/api/v2/menu/detail?code=${menuCode}&store_code=&is_smartorder=${0}`,
-          header_config
-        ),
-      ])
-      .then(
-        axios.spread((res1) => {
-          let res1_data = res1.data.data.menu;
-          setData((origin) => {
-            return {
-              ...origin,
-              res1_data,
-            };
-          });
-        })
-      );
+    axios.all([axios.get(`${SERVER_DALKOMM}/app/api/v2/menu/detail?code=${menuCode}&store_code=&is_smartorder=${0}`, header_config)]).then(
+      axios.spread((res1) => {
+        let res1_data = res1.data.data.menu;
+        setData((origin) => {
+          return {
+            ...origin,
+            res1_data,
+          };
+        });
+      })
+    );
   }, [state?.auth]);
 
   useEffect(() => {
     // 말풍선 스크롤시 hide/show
-    if (axioData) {
+    if (axioData?.res1_data) {
       contGap();
       fadeOut();
     }
@@ -68,24 +61,17 @@ export default function OrderInfoDetail() {
               <h1>
                 <span className="blind">메뉴상세</span>
               </h1>
-              <button
-                type="button"
-                className="btn back"
-                onClick={() => history.push(`/order/menuSearch/0`)}
-              >
+              <button type="button" className="btn back" onClick={() => history.push(`/order/menuSearch/0`)}>
                 <i className="ico back">
                   <span className="blind">뒤로</span>
                 </i>
               </button>
             </header>
-            <div id="content" className="drink detail">
+            <div id="content" className="drink detail fade-in">
               <section className="section">
                 <div className="item drink-info">
                   <div className="img-wrap">
-                    <img
-                      src={axioData?.res1_data?.detail_image}
-                      alt={axioData?.res1_data?.name_kor}
-                    />
+                    <img src={axioData?.res1_data?.detail_image} alt={axioData?.res1_data?.name_kor} />
                   </div>
                   <div className="detail-wrap">
                     <div className="text-box">
@@ -99,9 +85,7 @@ export default function OrderInfoDetail() {
                 ></div> */}
                       <p className="text">{axioData?.res1_data?.desc}</p>
                     </div>
-                    <p className="price">
-                      {axioData?.res1_data?.price?.toLocaleString("ko-KR")}원
-                    </p>
+                    <p className="price">{axioData?.res1_data?.price?.toLocaleString("ko-KR")}원</p>
                   </div>
                 </div>
 
@@ -111,14 +95,10 @@ export default function OrderInfoDetail() {
                       <div className="title-wrap toggle-switch">
                         <p className="title">영양 성분 정보</p>
                       </div>
-                      <div
-                        className="detail-wrap toggle-cont"
-                        style={{ display: "block" }}
-                      >
+                      <div className="detail-wrap toggle-cont" style={{ display: "block" }}>
                         <p className="text">
                           <span>
-                            1회 제공량 {axioData?.res1_data?.size} / 열량{" "}
-                            {axioData?.res1_data?.kcal} (Kcal)
+                            1회 제공량 {axioData?.res1_data?.size} / 열량 {axioData?.res1_data?.kcal} (Kcal)
                           </span>
                         </p>
                         <br />
@@ -133,11 +113,7 @@ export default function OrderInfoDetail() {
                 </ul>
               </section>
 
-              <button
-                type="button"
-                id="moveScrollTop"
-                className="btn scroll-top"
-              >
+              <button type="button" id="moveScrollTop" className="btn scroll-top">
                 <i className="ico arr-top"></i>
               </button>
             </div>
@@ -160,11 +136,7 @@ export default function OrderInfoDetail() {
               <h1>
                 <span className="blind">메뉴상세</span>
               </h1>
-              <button
-                type="button"
-                className="btn back"
-                onClick={() => history.push(`/order/menuSearch/0`)}
-              >
+              <button type="button" className="btn back" onClick={() => history.push(`/order/menuSearch/0`)}>
                 <i className="ico back">
                   <span className="blind">뒤로</span>
                 </i>

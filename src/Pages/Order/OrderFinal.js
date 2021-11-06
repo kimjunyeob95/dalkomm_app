@@ -60,20 +60,20 @@ export default function OrderFinal() {
               finalPrice += element?.price;
             }
           });
-          let discountType = "";
-          if (res1_data?.basic_discount_rate_percent > 0 && !res1_data?.affiliate_discount) {
+          let discountType = false;
+          if (res1_data?.basic_discount_rate_percent > 0) {
             //맴버십 할인이 포함될경우
             finalPrice = res1_data.total_order_amount - finalPrice * (res1_data?.basic_discount_rate_percent / 100);
-
             discountType = true;
+          } else {
+            //맴버십 할인 x
+            finalPrice = res1_data.total_order_amount;
           }
           if (res1_data?.affiliate_discount) {
             //제휴 할인이 적용되있을경우
             finalPrice -= 500;
           }
-
           finalPrice = finalPrice - (finalPrice % 10);
-          console.log(finalPrice);
           setFront((origin) => {
             let discountPrice = res1_data.total_order_amount - finalPrice;
 
@@ -90,7 +90,7 @@ export default function OrderFinal() {
                 ktPrice: res1_data?.affiliate_discount ? res1_data?.affiliate_discount?.discount_amount : 0,
                 couponFlag: false,
                 couponPrice: 0,
-                memberFlag: res1_data?.basic_discount_rate_percent > 0 && !res1_data?.affiliate_discount ? discountType : "",
+                memberFlag: discountType,
                 memberPrice: discountPrice,
               },
             };
@@ -218,7 +218,7 @@ export default function OrderFinal() {
 
   const handleCoupon = (defaultPrice, target, index, index2) => {
     let couponActive_count = 0;
-    let finalPrice = 0;
+    let finalPrice = axioData?.res1_data.total_order_amount;
     let MemberdiscountPrice = 0;
     $(target).attr("data-value", $(target).val());
 
@@ -238,7 +238,6 @@ export default function OrderFinal() {
     MemberdiscountPrice = axioData?.res1_data.total_order_amount - MemberdiscountPrice;
     MemberdiscountPrice = MemberdiscountPrice - (MemberdiscountPrice % 10);
     MemberdiscountPrice = axioData?.res1_data.total_order_amount - MemberdiscountPrice;
-
     $(".couponSelect option").each(function (index, e) {
       if (select_coponid.indexOf($(e).val()) > -1) {
         $(e).attr("disabled", true);
@@ -250,29 +249,24 @@ export default function OrderFinal() {
     $(".couponSelect").each(function (i, e) {
       let couponOneplus = $(e).children("option:selected").data("oneplus");
       let couponId = $(e).children("option:selected").val();
-
-      if ($(e).attr("data-value") && couponOneplus === false) {
-        //할인 쿠폰 선택시
-        discountPrice += Number($(e).children("option:selected").data("price"));
-      }
-      //1+1 쿠폰 선택 처리
+      let total_amout = axioData?.res1_data.total_order_amount;
       if ($(e).children("option:selected").attr("value") !== "" && couponOneplus === true) {
+        //1+1 쿠폰 선택 처리
         oneplusArray.push({
           idx: i,
           quantity: 2,
           type: "추가",
           couponId: couponId,
         });
-        discountPrice2 += Number($(e).attr("data-originprice"));
-        finalPrice = axioData?.res1_data.total_order_amount;
-      } else if ($(e).children("option:selected").attr("value") === "" || couponOneplus === false) {
-        console.log(2);
+      } else if ($(e).children("option:selected").attr("value") !== "" && couponOneplus === false) {
+        //할인 쿠폰 선택
         oneplusArray.push({ idx: i, quantity: 1, couponId: couponId });
-        finalPrice = axioData?.res1_data.total_order_amount - discountPrice;
+        discountPrice += Number($(e).attr("data-originprice"));
+        finalPrice = total_amout - discountPrice;
       } else if ($(e).children("option:selected").attr("value") === "" && couponOneplus === false) {
-        console.log(1);
+        //쿠폰 미선택
+        oneplusArray.push({ idx: i, quantity: 1 });
       }
-
       if ($(e).attr("data-value")) {
         couponActive_count++;
       }
@@ -296,9 +290,12 @@ export default function OrderFinal() {
         };
       });
     } else {
-      //멤버십 인경우
-      if (axioData?.res1_data?.basic_discount_rate_percent > 0 && !axioData?.res1_data?.affiliate_discount) {
-        finalPrice -= MemberdiscountPrice;
+      //멤버십인 경우
+      if (axioData?.res1_data?.basic_discount_rate_percent > 0) {
+        if (finalPrice - MemberdiscountPrice > 0) {
+          finalPrice -= MemberdiscountPrice;
+        }
+
         setFront((origin) => {
           return {
             ...origin,
@@ -314,11 +311,27 @@ export default function OrderFinal() {
             },
           };
         });
+      } else {
+        //멤버십 아닌 경우
+        setFront((origin) => {
+          return {
+            ...origin,
+            finalPrice: finalPrice,
+            menuQuantity: oneplusArray,
+            orderDiscountType: {
+              ktFlag: false,
+              ktPrice: 0,
+              couponFlag: true,
+              couponPrice: discountPrice,
+              memberFlag: false,
+              memberPrice: 0,
+            },
+          };
+        });
       }
     }
   };
   let menu_count = -1;
-  console.log(frontData);
   if (axioData) {
     return (
       <React.Fragment>

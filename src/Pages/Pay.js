@@ -7,7 +7,7 @@
 import axios from "axios";
 import $ from "jquery";
 import React, { useEffect, useContext, useState } from "react";
-import { Link, useHistory, useParams } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 
 import HeaderSub from "Components/Header/HeaderSub";
 import Nav from "Components/Nav/Nav";
@@ -21,7 +21,7 @@ import { SERVER_DALKOMM } from "Config/Server";
 
 import { Swiper, SwiperSlide } from "swiper/react";
 import SwiperCore, { Pagination } from "swiper/core";
-import { fadeOut } from "Config/GlobalJs";
+import { fadeOut, fn_memberName } from "Config/GlobalJs";
 
 export default function Pay() {
   const [state, dispatch] = useContext(authContext);
@@ -145,7 +145,7 @@ export default function Pay() {
                         backgroundImage: `url(${axioData?.res1_data?.charge_card_image_url})`,
                       }}
                     > */}
-                      <p className="grade en">{axioData?.res1_data?.membership_name}</p>
+                      <p className="grade en">{fn_memberName(axioData?.res1_data?.membership_level)}</p>
                       <p className="sort en">
                         DAL.KOMM
                         <br />
@@ -167,7 +167,9 @@ export default function Pay() {
                       </button>
                     </div>
                   </div>
-                  <button className="btn full medium light">멤버십 등급 소개</button>
+                  <button className="btn full medium light" onClick={() => history.push(`mypage/membershipPolicy`)}>
+                    멤버십 등급 소개
+                  </button>
                   <div className="item attention">
                     <dl>
                       <dt className="title">
@@ -288,7 +290,7 @@ export default function Pay() {
               <div className="item card membership">
                 <div className="card-wrap">
                   <div>
-                    <p className="grade en">{axioData?.res1_data?.membership_name}</p>
+                    <p className="grade en">{fn_memberName(axioData?.res1_data?.membership_level)}</p>
                     <p className="sort en">
                       DAL.KOMM
                       <br />

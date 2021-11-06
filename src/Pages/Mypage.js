@@ -10,7 +10,7 @@ import Nav from "Components/Nav/Nav";
 import GoContents from "Components/GoContents";
 import { contGap, popupOpen, fadeInOut } from "Jquery/Jquery";
 import Popup_logout from "Components/Popup/Popup_logout";
-import { fadeOut } from "Config/GlobalJs";
+import { fadeOut, fn_memberName } from "Config/GlobalJs";
 
 import { authContext } from "ContextApi/Context";
 import { SERVER_DALKOMM } from "Config/Server";
@@ -33,21 +33,9 @@ export default function MyPage() {
     axios
       .all([
         axios.post(`${SERVER_DALKOMM}/app/api/main/user`, body, header_config),
-        axios.post(
-          `${SERVER_DALKOMM}/app/api/account/simple/profile`,
-          body,
-          header_config
-        ),
-        axios.post(
-          `${SERVER_DALKOMM}/app/api/v2/coupon/list`,
-          body,
-          header_config
-        ),
-        axios.post(
-          `${SERVER_DALKOMM}/app/api/v2/membership`,
-          body,
-          header_config
-        ),
+        axios.post(`${SERVER_DALKOMM}/app/api/account/simple/profile`, body, header_config),
+        axios.post(`${SERVER_DALKOMM}/app/api/v2/coupon/list`, body, header_config),
+        axios.post(`${SERVER_DALKOMM}/app/api/v2/membership`, body, header_config),
         axios.post(`${SERVER_DALKOMM}/app/api/main/user`, body, header_config),
       ])
       .then(
@@ -89,14 +77,9 @@ export default function MyPage() {
                   type="button"
                   className="btn open-pop"
                   pop-target="#zoomCardMembership"
-                  onClick={(e) =>
-                    popupOpen(e.target, axioData?.res4_data?.stamp_card_number)
-                  }
+                  onClick={(e) => popupOpen(e.target, axioData?.res4_data?.stamp_card_number)}
                 >
-                  <i
-                    className="ico barcode-scan"
-                    pop-target="#zoomCardMembership"
-                  >
+                  <i className="ico barcode-scan" pop-target="#zoomCardMembership">
                     <span>바코드 스캔</span>
                   </i>
                 </button>
@@ -113,16 +96,11 @@ export default function MyPage() {
               <div className="user-info-wrap">
                 <div className="item my-info">
                   <p className="user">
-                    <strong>{decodeURI(axioData?.res2_data?.name)}</strong>{" "}
-                    고객님
+                    <strong>{decodeURI(axioData?.res2_data?.name)}</strong> 고객님
                   </p>
                 </div>
                 <ul className="data-list">
-                  <li className="en">
-                    {axioData?.res2_data?.birthday
-                      ?.replace(/(.{4})/, "$1-")
-                      .replace(/(.{7})/, "$1-")}
-                  </li>
+                  <li className="en">{axioData?.res2_data?.birthday?.replace(/(.{4})/, "$1-").replace(/(.{7})/, "$1-")}</li>
                   <li className="en">{axioData?.res2_data?.login_email}</li>
                 </ul>
               </div>
@@ -145,9 +123,7 @@ export default function MyPage() {
                         </div>
                       </dt>
                       <dd className="text">
-                        <strong className="num">
-                          {axioData?.res5_data?.user?.current_point}
-                        </strong>
+                        <strong className="num">{axioData?.res5_data?.user?.current_point}</strong>
                         &nbsp;
                         <span>개</span>
                       </dd>
@@ -157,17 +133,12 @@ export default function MyPage() {
                     <dl className="item describe">
                       <dt className="title flex-both">
                         멤버십 등급
-                        <Link
-                          to="/mypage/membershipPolicy"
-                          className="btn bdr-r xx-small gray"
-                        >
+                        <Link to="/mypage/membershipPolicy" className="btn bdr-r xx-small gray">
                           혜택보기
                         </Link>
                       </dt>
                       <dd className="text">
-                        <strong className="en">
-                          {axioData?.res4_data?.membership_name}
-                        </strong>
+                        <strong className="en">{fn_memberName(axioData?.res4_data?.membership_level)}</strong>
                       </dd>
                     </dl>
                   </li>
@@ -190,19 +161,14 @@ export default function MyPage() {
                       <span>적립 스탬프</span>
                     </div>
                     <span className="stamp">
-                      <strong className="save">
-                        {axioData?.res1_data?.user?.stamp_card?.complete_count}
-                      </strong>
+                      <strong className="save">{axioData?.res1_data?.user?.stamp_card?.complete_count}</strong>
                       <em>/</em>
                       <strong>12</strong>
                     </span>
                   </Link>
                 </li>
-                <li
-                  className={
-                    axioData?.res3_data?.coupon_list?.length > 0 && "active"
-                  }
-                >
+                {/* <li className={axioData?.res3_data?.coupon_list?.length > 0 && "active"}> */}
+                <li className={axioData?.res3_data?.coupon_list?.length > 0 && ""}>
                   <Link to="/mypage/coupon">
                     <div className="title">
                       <i className="ico coupon"></i>
@@ -220,11 +186,7 @@ export default function MyPage() {
 						</a>
 					</li> */}
                 <li>
-                  <a
-                    className="open-pop"
-                    data-href="#popupExitJoin"
-                    onClick={(e) => popupOpen(e.target)}
-                  >
+                  <a className="open-pop" data-href="#popupExitJoin" onClick={(e) => popupOpen(e.target)}>
                     <div className="title">
                       <i className="ico logout"></i>
                       <span>로그아웃</span>
@@ -251,9 +213,7 @@ export default function MyPage() {
               <div className="item card membership">
                 <div className="card-wrap">
                   <div>
-                    <p className="grade en">
-                      {axioData?.res4_data?.membership_name}
-                    </p>
+                    <p className="grade en">{fn_memberName(axioData?.res4_data?.membership_level)}</p>
                     <p className="sort en">
                       DAL.KOMM
                       <br />
@@ -268,9 +228,7 @@ export default function MyPage() {
                       {/* <div className="img-wrap">
                         <img src="../@resource/images/com/barcode.svg" alt="바코드" />
                       </div> */}
-                      <p className="num">
-                        {axioData?.res4_data?.stamp_card_number}
-                      </p>
+                      <p className="num">{axioData?.res4_data?.stamp_card_number}</p>
                     </div>
                   </div>
                 </div>

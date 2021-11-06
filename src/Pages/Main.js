@@ -12,15 +12,8 @@ import Nav from "Components/Nav/Nav";
 import GoContents from "Components/GoContents";
 import Popup_nomal from "Components/Popup/Popup_nomal";
 
-import {
-  accordion,
-  scrollDetail,
-  popupOpen,
-  contGap,
-  moveScrollTop,
-  fadeInOut,
-} from "Jquery/Jquery";
-import { checkMobile, getCookieValue, fadeOut } from "Config/GlobalJs";
+import { accordion, scrollDetail, popupOpen, contGap, moveScrollTop, fadeInOut } from "Jquery/Jquery";
+import { checkMobile, getCookieValue, fadeOut, fn_memberName } from "Config/GlobalJs";
 import { SERVER_DALKOMM } from "Config/Server";
 import { Swiper, SwiperSlide } from "swiper/react";
 import SwiperCore, { Autoplay, Scrollbar } from "swiper/core";
@@ -59,36 +52,12 @@ export function Main(props) {
       axios
         .all([
           axios.post(`${SERVER_DALKOMM}/app/api/main`, body, header_config),
-          axios.post(
-            `${SERVER_DALKOMM}/app/api/main/user`,
-            body,
-            header_config
-          ),
-          axios.post(
-            `${SERVER_DALKOMM}/app/api/account/simple/profile`,
-            body,
-            header_config
-          ),
-          axios.post(
-            `${SERVER_DALKOMM}/app/api/v2/store/around`,
-            location_body,
-            header_config
-          ),
-          axios.post(
-            `${SERVER_DALKOMM}/app/api/v2/coupon/list`,
-            body,
-            header_config
-          ),
-          axios.post(
-            `${SERVER_DALKOMM}/app/api/v2/membership`,
-            body,
-            header_config
-          ),
-          axios.post(
-            `${SERVER_DALKOMM}/app/api/v2/smartorder/orderinfo/list`,
-            { page: 1, duration: "w" },
-            header_config
-          ),
+          axios.post(`${SERVER_DALKOMM}/app/api/main/user`, body, header_config),
+          axios.post(`${SERVER_DALKOMM}/app/api/account/simple/profile`, body, header_config),
+          axios.post(`${SERVER_DALKOMM}/app/api/v2/store/around`, location_body, header_config),
+          axios.post(`${SERVER_DALKOMM}/app/api/v2/coupon/list`, body, header_config),
+          axios.post(`${SERVER_DALKOMM}/app/api/v2/membership`, body, header_config),
+          axios.post(`${SERVER_DALKOMM}/app/api/v2/smartorder/orderinfo/list`, { page: 1, duration: "w" }, header_config),
         ])
         .then(
           axios.spread((res1, res2, res3, res4, res5, res6, res7) => {
@@ -118,11 +87,7 @@ export function Main(props) {
       axios
         .all([
           axios.post(`${SERVER_DALKOMM}/app/api/main`, body, header_config),
-          axios.post(
-            `${SERVER_DALKOMM}/app/api/v2/store/around`,
-            location_body,
-            header_config
-          ),
+          axios.post(`${SERVER_DALKOMM}/app/api/v2/store/around`, location_body, header_config),
         ])
         .then(
           axios.spread((res1, res2) => {
@@ -170,57 +135,35 @@ export function Main(props) {
         });
       }
       axios
-        .all([
-          axios.post(
-            `${SERVER_DALKOMM}/app/api/v2/favorite/store/delete`,
-            { store_code: storeCode },
-            header_config
-          ),
-        ])
+        .all([axios.post(`${SERVER_DALKOMM}/app/api/v2/favorite/store/delete`, { store_code: storeCode }, header_config)])
         .then(axios.spread((res1) => {}));
     } else {
       //즐겨찾기 추가
-      axios
-        .all([
-          axios.post(
-            `${SERVER_DALKOMM}/app/api/v2/favorite/store/add`,
-            { store_code: storeCode },
-            header_config
-          ),
-        ])
-        .then(
-          axios.spread((res1) => {
-            if (res1.data.meta.code !== 20000) {
-              $("#resAlert").text(res1.data.meta.msg);
-              $(".overlay.popupExitJoin").addClass("active");
-              $("body").addClass("modal-opened");
-              $(e).removeClass("active");
-            }
-          })
-        );
+      axios.all([axios.post(`${SERVER_DALKOMM}/app/api/v2/favorite/store/add`, { store_code: storeCode }, header_config)]).then(
+        axios.spread((res1) => {
+          if (res1.data.meta.code !== 20000) {
+            $("#resAlert").text(res1.data.meta.msg);
+            $(".overlay.popupExitJoin").addClass("active");
+            $("body").addClass("modal-opened");
+            $(e).removeClass("active");
+          }
+        })
+      );
     }
   };
 
   const handleDetail = (e, storeCode) => {
-    axios
-      .all([
-        axios.post(
-          `${SERVER_DALKOMM}/app/api/v2/store/${storeCode}`,
-          {},
-          header_config
-        ),
-      ])
-      .then(
-        axios.spread((res1) => {
-          let detailStore = res1.data.data;
-          setStore((origin) => {
-            return {
-              ...origin,
-              detailStore,
-            };
-          });
-        })
-      );
+    axios.all([axios.post(`${SERVER_DALKOMM}/app/api/v2/store/${storeCode}`, {}, header_config)]).then(
+      axios.spread((res1) => {
+        let detailStore = res1.data.data;
+        setStore((origin) => {
+          return {
+            ...origin,
+            detailStore,
+          };
+        });
+      })
+    );
   };
   const handleCall = (number) => {
     let data = { phoneNum: number };
@@ -273,28 +216,17 @@ export function Main(props) {
               >
                 <ul className="swiper-wrapper">
                   {axioData?.res1_data?.main_banner_list?.map((e, i) => {
-                    let srcImg = "";
-                    if (i === 0) {
-                      srcImg = "/@resource/images/@temp/banner_main_02.jpg";
-                    } else if (i === 1) {
-                      srcImg = "/@resource/images/@temp/banner_main_03.jpg";
-                    } else if (i === 2) {
-                      srcImg = "/@resource/images/@temp/banner_main_01.jpg";
-                    }
                     return (
                       <SwiperSlide className="swiper-slide" key={i}>
                         <div className="banner-wrap main-top-banner">
                           <div className="img-wrap">
-                            {/* <img src={e?.image_url} alt="여름 스테디셀러" /> */}
-                            <img src={srcImg} alt="여름 스테디셀러" />
+                            <img src={e?.image_url} alt="여름 스테디셀러" />
                           </div>
                           <div className="content-wrap">
                             <div className="w-inner flex-end">
                               <p className="sub-copy en fc-orange">STORY</p>
                               <h2 className="main-copy">{e?.title}</h2>
-                              <p className="text">
-                                꾸준히 인기있는 여름 음료 추천전
-                              </p>
+                              <p className="text">꾸준히 인기있는 여름 음료 추천전</p>
                             </div>
                           </div>
                         </div>
@@ -315,21 +247,13 @@ export function Main(props) {
               {state?.loginFlag ? (
                 <div className="item my-info">
                   <p className="user">
-                    <span className="fc-orange">
-                      {decodeURI(axioData?.res3_data?.name)}
-                    </span>{" "}
-                    고객님
+                    <span className="fc-orange">{decodeURI(axioData?.res3_data?.name)}</span> 고객님
                   </p>
                   <button
                     type="button"
                     className="btn barcode open-pop"
                     pop-target="#zoomCardMembership"
-                    onClick={(e) =>
-                      popupOpen(
-                        e.currentTarget,
-                        axioData?.res6_data?.stamp_card_number
-                      )
-                    }
+                    onClick={(e) => popupOpen(e.currentTarget, axioData?.res6_data?.stamp_card_number)}
                   >
                     <i className="ico barcode" pop-target="#zoomCardMembership">
                       <span>바코드</span>
@@ -340,13 +264,9 @@ export function Main(props) {
                   </div>
                 </div>
               ) : (
-                <div
-                  className="item my-info"
-                  onClick={(e) => handleLogin(e.currentTarget)}
-                >
+                <div className="item my-info" onClick={(e) => handleLogin(e.currentTarget)}>
                   <p className="user">
-                    <span className="fc-orange">로그인</span> 하고 달콤한 혜택을
-                    누려보세요.
+                    <span className="fc-orange">로그인</span> 하고 달콤한 혜택을 누려보세요.
                   </p>
                   <Link to="#" className="btn barcode">
                     <i className="ico barcode">
@@ -367,11 +287,7 @@ export function Main(props) {
                       <div className="data-wrap">
                         <p className="title">기프트 카드 잔액</p>
                         <p className="state">
-                          {state?.loginFlag
-                            ? axioData?.res2_data?.user?.charge_card_amount?.toLocaleString(
-                                "ko-KR"
-                              ) + "원"
-                            : "-"}
+                          {state?.loginFlag ? axioData?.res2_data?.user?.charge_card_amount?.toLocaleString("ko-KR") + "원" : "-"}
                         </p>
                       </div>
                     </Link>
@@ -388,11 +304,7 @@ export function Main(props) {
                         <p className="state">
                           {state?.loginFlag ? (
                             <React.Fragment>
-                              {
-                                axioData?.res2_data?.user?.stamp_card
-                                  ?.complete_count
-                              }{" "}
-                              <em>/ 12</em>
+                              {axioData?.res2_data?.user?.stamp_card?.complete_count} <em>/ 12</em>
                             </React.Fragment>
                           ) : (
                             "-"
@@ -406,35 +318,25 @@ export function Main(props) {
                       <div className="img-wrap">
                         <i
                           className={`ico store-type small ${
-                            axioData?.res4_data?.store_list[0]
-                              ?.store_sub_type === 0
+                            axioData?.res4_data?.store_list[0]?.store_sub_type === 0
                               ? "house"
-                              : axioData?.res4_data?.store_list[0]
-                                  ?.store_sub_type === 1
+                              : axioData?.res4_data?.store_list[0]?.store_sub_type === 1
                               ? "building"
-                              : axioData?.res4_data?.store_list[0]
-                                  ?.store_sub_type === 2
+                              : axioData?.res4_data?.store_list[0]?.store_sub_type === 2
                               ? "rest-area"
-                              : axioData?.res4_data?.store_list[0]
-                                  ?.store_sub_type === 3
+                              : axioData?.res4_data?.store_list[0]?.store_sub_type === 3
                               ? "terminal"
-                              : axioData?.res4_data?.store_list[0]
-                                  ?.store_sub_type === 4
+                              : axioData?.res4_data?.store_list[0]?.store_sub_type === 4
                               ? "head-office"
-                              : axioData?.res4_data?.store_list[0]
-                                  ?.store_sub_type === 5
+                              : axioData?.res4_data?.store_list[0]?.store_sub_type === 5
                               ? "drive-thru"
-                              : axioData?.res4_data?.store_list[0]
-                                  ?.store_sub_type === 6
+                              : axioData?.res4_data?.store_list[0]?.store_sub_type === 6
                               ? "drive-thru"
-                              : axioData?.res4_data?.store_list[0]
-                                  ?.store_sub_type === 7
+                              : axioData?.res4_data?.store_list[0]?.store_sub_type === 7
                               ? "vivaldi-park"
-                              : axioData?.res4_data?.store_list[0]
-                                  ?.store_sub_type === 8
+                              : axioData?.res4_data?.store_list[0]?.store_sub_type === 8
                               ? "hospital"
-                              : axioData?.res4_data?.store_list[0]
-                                  ?.store_sub_type === 9
+                              : axioData?.res4_data?.store_list[0]?.store_sub_type === 9
                               ? "cinema"
                               : ""
                           }`}
@@ -459,9 +361,7 @@ export function Main(props) {
                         <p className="title">가까운 매장</p>
                         <p className="state">
                           {state?.loginFlag && state?.latitude ? (
-                            <React.Fragment>
-                              {axioData?.res4_data?.store_list[0]?.store_name}
-                            </React.Fragment>
+                            <React.Fragment>{axioData?.res4_data?.store_list[0]?.store_name}</React.Fragment>
                           ) : (
                             "-"
                           )}
@@ -476,48 +376,27 @@ export function Main(props) {
               {/* 나의 최근 주문 */}
               <section className="section">
                 <div className="title-wrap w-inner flex-both">
-                  <h3 className="section-title">
-                    {state?.loginFlag ? "나의 최근 주문" : "달콤 추천 메뉴"}
-                  </h3>
+                  <h3 className="section-title">{state?.loginFlag ? "나의 최근 주문" : "달콤 추천 메뉴"}</h3>
                   <Link to={`/mypage/orderRecipt`} className="btn text">
                     <span>전체 메뉴</span>
                     <i className="ico arr-r"></i>
                   </Link>
                 </div>
 
-                <Swiper
-                  id="recentlyOrder"
-                  className="swiper-container section-slider menu-slider"
-                  slidesPerView={"auto"}
-                  freeMode={false}
-                >
+                <Swiper id="recentlyOrder" className="swiper-container section-slider menu-slider" slidesPerView={"auto"} freeMode={false}>
                   <ul className="swiper-wrapper">
                     {axioData?.res7_data?.result?.map((element, index) => (
-                      <SwiperSlide
-                        className="swiper-slide"
-                        key={index}
-                        onClick={() =>
-                          history.push(
-                            `/order/info/${element?.smartorderinfo_id}`
-                          )
-                        }
-                      >
+                      <SwiperSlide className="swiper-slide" key={index} onClick={() => history.push(`/order/info/${element?.smartorderinfo_id}`)}>
                         <div className="item menu">
                           <div className="img-wrap">
                             <img
-                              src={
-                                element?.menu_with_type === "I"
-                                  ? element?.menu_with_ice_img
-                                  : element?.menu_with_hot_img
-                              }
+                              src={element?.menu_with_type === "I" ? element?.menu_with_ice_img : element?.menu_with_hot_img}
                               alt="아메리카노 ICE (R)"
                             />
                           </div>
                           <div className="detail-wrap">
                             <p className="title">
-                              {element?.menu_name_with_count}{" "}
-                              {element?.menu_with_type === "I" ? "ICE" : "HOT"}{" "}
-                              ({element?.menu_with_size})
+                              {element?.menu_name_with_count} {element?.menu_with_type === "I" ? "ICE" : "HOT"} ({element?.menu_with_size})
                             </p>
                           </div>
                         </div>
@@ -529,58 +408,50 @@ export function Main(props) {
               {/* // 나의 최근 주문 */}
 
               {/* 나의 보유 쿠폰 */}
-              {state?.loginFlag &&
-                axioData?.res5_data?.coupon_list?.length > 0 && (
-                  <section className="section">
-                    <div className="w-inner">
-                      <div className="title-wrap flex-both">
-                        <h3 className="section-title">나의 보유 쿠폰</h3>
-                        <Link to="/mypage/coupon" className="btn text">
-                          <span>더 보기</span>
-                          <i className="ico arr-r"></i>
-                        </Link>
-                      </div>
-                      <ul className="coupon-list data-list accordion">
-                        {axioData?.res5_data?.coupon_list
-                          ?.filter((e, i) => e.status === 0)
-                          .map((e, i) => (
-                            <li key={i}>
-                              <div
-                                className="item coupon js-accordion-switche"
-                                onClick={(e) => accordion(e.target, 0)}
-                              >
-                                <div className="data-wrap">
-                                  <p className="day num fc-orange">
-                                    {e?.due_date}
-                                  </p>
-                                  <p className="title">{e?.coupon_name}</p>
-                                </div>
-                                <div className="ico-wrap flex-center">
-                                  <i className="ico accordion-arr"></i>
-                                </div>
-                              </div>
-                              <div className="item attention js-accordion-content">
-                                <dl>
-                                  <dt className="title">
-                                    <i className="ico alert"></i>쿠폰 유의사항
-                                  </dt>
-                                  <dd className="text">
-                                    <ul className="attention-list">
-                                      {e?.detail_cautions
-                                        ?.split("\r\n")
-                                        .map((e, i) => (
-                                          <li key={i}>{e}</li>
-                                        ))}
-                                    </ul>
-                                  </dd>
-                                </dl>
-                              </div>
-                            </li>
-                          ))}
-                      </ul>
+              {state?.loginFlag && axioData?.res5_data?.coupon_list?.length > 0 && (
+                <section className="section">
+                  <div className="w-inner">
+                    <div className="title-wrap flex-both">
+                      <h3 className="section-title">나의 보유 쿠폰</h3>
+                      <Link to="/mypage/coupon" className="btn text">
+                        <span>더 보기</span>
+                        <i className="ico arr-r"></i>
+                      </Link>
                     </div>
-                  </section>
-                )}
+                    <ul className="coupon-list data-list accordion">
+                      {axioData?.res5_data?.coupon_list
+                        ?.filter((e, i) => e.status === 0)
+                        .map((e, i) => (
+                          <li key={i}>
+                            <div className="item coupon js-accordion-switche" onClick={(e) => accordion(e.target, 0)}>
+                              <div className="data-wrap">
+                                <p className="day num fc-orange">{e?.due_date}</p>
+                                <p className="title">{e?.coupon_name}</p>
+                              </div>
+                              <div className="ico-wrap flex-center">
+                                <i className="ico accordion-arr"></i>
+                              </div>
+                            </div>
+                            <div className="item attention js-accordion-content">
+                              <dl>
+                                <dt className="title">
+                                  <i className="ico alert"></i>쿠폰 유의사항
+                                </dt>
+                                <dd className="text">
+                                  <ul className="attention-list">
+                                    {e?.detail_cautions?.split("\r\n").map((e, i) => (
+                                      <li key={i}>{e}</li>
+                                    ))}
+                                  </ul>
+                                </dd>
+                              </dl>
+                            </div>
+                          </li>
+                        ))}
+                    </ul>
+                  </div>
+                </section>
+              )}
               {/* // 나의 보유 쿠폰 */}
 
               {/* 달콤 스토리 */}
@@ -599,16 +470,11 @@ export function Main(props) {
                       <span className="d-day num">D-30</span>
                     </div>
                     <div className="img-wrap">
-                      <img
-                        src="/@resource/images/@temp/thum_event_01.jpg"
-                        alt="{title}"
-                      />
+                      <img src="/@resource/images/@temp/thum_event_01.jpg" alt="{title}" />
                     </div>
                     <div className="data-wrap">
                       <p className="title">월요일은 페이코인 DAY!</p>
-                      <p className="text">
-                        페이코인 현장 결제 시, 아메리카노가 100원!
-                      </p>
+                      <p className="text">페이코인 현장 결제 시, 아메리카노가 100원!</p>
                       <p className="date">2021.06.14 </p>
                     </div>
                   </Link>
@@ -626,12 +492,7 @@ export function Main(props) {
                   </Link>
                 </div>
 
-                <Swiper
-                  id="searchStore"
-                  className="swiper-container section-slider store-slider"
-                  slidesPerView={"auto"}
-                  freeMode={false}
-                >
+                <Swiper id="searchStore" className="swiper-container section-slider store-slider" slidesPerView={"auto"} freeMode={false}>
                   <ul className="swiper-wrapper data-list">
                     {axioData?.res4_data?.store_list?.map((e, i) => {
                       return (
@@ -639,33 +500,18 @@ export function Main(props) {
                           <a
                             data-href="#tableOrderAble"
                             className="item store open-layer"
-                            onClick={(event) =>
-                              handleDetail(event.currentTarget, e.store_code)
-                            }
+                            onClick={(event) => handleDetail(event.currentTarget, e.store_code)}
                           >
                             <div className="flex-both">
                               <span
-                                className={`btn bookmark ${
-                                  e.store_is_favorite && "active"
-                                }`}
-                                onClick={(event) =>
-                                  handleFavorite(
-                                    event.currentTarget,
-                                    e.store_code
-                                  )
-                                }
+                                className={`btn bookmark ${e.store_is_favorite && "active"}`}
+                                onClick={(event) => handleFavorite(event.currentTarget, e.store_code)}
                               >
                                 <i className="ico heart">
                                   <span>즐겨찾기</span>
                                 </i>
                               </span>
-                              <span
-                                className={`table-order ${
-                                  e.store_is_smartorder === true
-                                    ? "possible"
-                                    : "impossible"
-                                }`}
-                              ></span>{" "}
+                              <span className={`table-order ${e.store_is_smartorder === true ? "possible" : "impossible"}`}></span>{" "}
                               {/* .table-order.possible : 테이블 오더 가능 매장 / .table-order.impossible : 테이블 오더 불가능 매장 */}
                             </div>
                             <div className="img-wrap">
@@ -743,10 +589,7 @@ export function Main(props) {
                                   </i>
                                 </li> */}
                               </ul>
-                              <p className="distance">
-                                {e.store_distance !== "-1" &&
-                                  e.store_distance + "km"}
-                              </p>
+                              <p className="distance">{e.store_distance !== "-1" && e.store_distance + "km"}</p>
                             </div>
                           </a>
                         </SwiperSlide>
@@ -789,20 +632,12 @@ export function Main(props) {
                   </Link>
                 </div>
 
-                <Swiper
-                  id="searchStore2"
-                  className="swiper-container section-slider md-slider"
-                  slidesPerView={"auto"}
-                  freeMode={false}
-                >
+                <Swiper id="searchStore2" className="swiper-container section-slider md-slider" slidesPerView={"auto"} freeMode={false}>
                   <ul className="swiper-wrapper data-list">
                     <SwiperSlide className="swiper-slide">
                       <div className="item md">
                         <div className="img-wrap">
-                          <img
-                            src="/@resource/images/@temp/md_01.jpg"
-                            alt="달콤 피크닉백"
-                          />
+                          <img src="/@resource/images/@temp/md_01.jpg" alt="달콤 피크닉백" />
                         </div>
                         <div className="data-wrap">
                           <p className="title">달콤 피크닉백</p>
@@ -817,10 +652,7 @@ export function Main(props) {
                     <SwiperSlide className="swiper-slide">
                       <div className="item md">
                         <div className="img-wrap">
-                          <img
-                            src="/@resource/images/@temp/md_02.jpg"
-                            alt="달콤 홈카페 세트"
-                          />
+                          <img src="/@resource/images/@temp/md_02.jpg" alt="달콤 홈카페 세트" />
                         </div>
                         <div className="data-wrap">
                           <p className="title">달콤 홈카페 세트</p>
@@ -835,10 +667,7 @@ export function Main(props) {
                     <SwiperSlide className="swiper-slide">
                       <div className="item md">
                         <div className="img-wrap">
-                          <img
-                            src="/@resource/images/@temp/md_01.jpg"
-                            alt="달콤 피크닉백"
-                          />
+                          <img src="/@resource/images/@temp/md_01.jpg" alt="달콤 피크닉백" />
                         </div>
                         <div className="data-wrap">
                           <p className="title">달콤 피크닉백</p>
@@ -853,10 +682,7 @@ export function Main(props) {
                     <SwiperSlide className="swiper-slide">
                       <div className="item md">
                         <div className="img-wrap">
-                          <img
-                            src="/@resource/images/@temp/md_02.jpg"
-                            alt="달콤 홈카페 세트"
-                          />
+                          <img src="/@resource/images/@temp/md_02.jpg" alt="달콤 홈카페 세트" />
                         </div>
                         <div className="data-wrap">
                           <p className="title">달콤 홈카페 세트</p>
@@ -873,10 +699,7 @@ export function Main(props) {
               {/* //달콤 MD */}
 
               {/* 테이블 오더 가능 매장 */}
-              <div
-                id="tableOrderAble"
-                className="fixed-con layer-pop store-pop"
-              >
+              <div id="tableOrderAble" className="fixed-con layer-pop store-pop">
                 <div className="popup">
                   <div className="popup-wrap">
                     <button type="button" className="btn btn-close">
@@ -903,9 +726,7 @@ export function Main(props) {
                                                     .ico.store-type.small.cinema : 영화관내 지점
                                                     .ico.store-type.small.theme-park : 놀이공원, 유원지, 테마파크 지점 (EX, 키자니아, 에버랜드, 유원지)
                                                 */}
-                              <p className="title">
-                                {storeData?.detailStore?.store_name}
-                              </p>
+                              <p className="title">{storeData?.detailStore?.store_name}</p>
                             </div>
                             <div className="data-wrap">
                               <ul className="provide-list">
@@ -943,9 +764,7 @@ export function Main(props) {
                               <i className="ico alert-c">
                                 <span>알림</span>
                               </i>
-                              <span>
-                                {storeData?.detailStore?.store_caution}
-                              </span>
+                              <span>{storeData?.detailStore?.store_caution}</span>
                             </p>
                           )}
                         </div>
@@ -965,45 +784,35 @@ export function Main(props) {
                             </div>
                             <div className="detail-wrap toggle-cont">
                               <ul>
-                                <li
-                                  onClick={() =>
-                                    handleCall(
-                                      storeData?.detailStore?.store_mobile
-                                    )
-                                  }
-                                >
+                                <li onClick={() => handleCall(storeData?.detailStore?.store_mobile)}>
                                   <i className="ico tel">
                                     <span>전화번호</span>
                                   </i>
                                   &nbsp;
-                                  <span>
-                                    {storeData?.detailStore?.store_mobile}
-                                  </span>
+                                  <span>{storeData?.detailStore?.store_mobile}</span>
                                 </li>
                                 <li>
                                   <i className="ico time">
                                     <span>영업시간</span>
                                   </i>
-                                  {storeData?.detailStore?.store_opening_hours?.map(
-                                    (element, index) => {
-                                      if (index % 2 === 0 && index !== 0) {
-                                        return (
-                                          <React.Fragment key={index}>
-                                            <br />
-                                            &nbsp;
-                                            <span>{element}</span>
-                                          </React.Fragment>
-                                        );
-                                      } else {
-                                        return (
-                                          <React.Fragment key={index}>
-                                            &nbsp;
-                                            <span>{element}</span>
-                                          </React.Fragment>
-                                        );
-                                      }
+                                  {storeData?.detailStore?.store_opening_hours?.map((element, index) => {
+                                    if (index % 2 === 0 && index !== 0) {
+                                      return (
+                                        <React.Fragment key={index}>
+                                          <br />
+                                          &nbsp;
+                                          <span>{element}</span>
+                                        </React.Fragment>
+                                      );
+                                    } else {
+                                      return (
+                                        <React.Fragment key={index}>
+                                          &nbsp;
+                                          <span>{element}</span>
+                                        </React.Fragment>
+                                      );
                                     }
-                                  )}
+                                  })}
                                 </li>
                               </ul>
                               <Swiper
@@ -1015,21 +824,13 @@ export function Main(props) {
                                 observeParents={true}
                               >
                                 <ul className="swiper-wrapper data-list">
-                                  {storeData?.detailStore?.store_image_list?.map(
-                                    (element, index) => {
-                                      return (
-                                        <SwiperSlide
-                                          className="swiper-slide"
-                                          key={index}
-                                        >
-                                          <img
-                                            src={element?.store_image_url}
-                                            alt="매장 이미지"
-                                          />
-                                        </SwiperSlide>
-                                      );
-                                    }
-                                  )}
+                                  {storeData?.detailStore?.store_image_list?.map((element, index) => {
+                                    return (
+                                      <SwiperSlide className="swiper-slide" key={index}>
+                                        <img src={element?.store_image_url} alt="매장 이미지" />
+                                      </SwiperSlide>
+                                    );
+                                  })}
                                 </ul>
                               </Swiper>
                             </div>
@@ -1047,23 +848,15 @@ export function Main(props) {
                             </div>
                             <div className="detail-wrap toggle-cont">
                               <div className="address-wrap flex-both">
-                                <p className="address">
-                                  {storeData?.detailStore?.store_addr}
-                                </p>
+                                <p className="address">{storeData?.detailStore?.store_addr}</p>
 
                                 <Clipboard
                                   component="i"
                                   className="ico copy"
-                                  data-clipboard-text={
-                                    storeData?.detailStore?.store_addr
-                                  }
+                                  data-clipboard-text={storeData?.detailStore?.store_addr}
                                   onSuccess={(e) => {
-                                    $("#resAlert").text(
-                                      "주소가 복사 되었습니다."
-                                    );
-                                    $(".overlay.popupExitJoin").addClass(
-                                      "active"
-                                    );
+                                    $("#resAlert").text("주소가 복사 되었습니다.");
+                                    $(".overlay.popupExitJoin").addClass("active");
                                     $("body").addClass("modal-opened");
                                   }}
                                 >
@@ -1078,29 +871,16 @@ export function Main(props) {
                                 </i> */}
                               </div>
                               <div className="map-wrap">
-                                {storeData?.detailStore?.store_map_latitude !==
-                                  undefined && (
+                                {storeData?.detailStore?.store_map_latitude !== undefined && (
                                   <Map
                                     google={props.google}
                                     center={{
-                                      lat: Number(
-                                        storeData?.detailStore
-                                          ?.store_map_latitude
-                                      ),
-                                      lng: Number(
-                                        storeData?.detailStore
-                                          ?.store_map_longitude
-                                      ),
+                                      lat: Number(storeData?.detailStore?.store_map_latitude),
+                                      lng: Number(storeData?.detailStore?.store_map_longitude),
                                     }}
                                     initialCenter={{
-                                      lat: Number(
-                                        storeData?.detailStore
-                                          ?.store_map_latitude
-                                      ),
-                                      lng: Number(
-                                        storeData?.detailStore
-                                          ?.store_map_longitude
-                                      ),
+                                      lat: Number(storeData?.detailStore?.store_map_latitude),
+                                      lng: Number(storeData?.detailStore?.store_map_longitude),
                                     }}
                                     containerStyle={{
                                       width: "100%",
@@ -1111,14 +891,8 @@ export function Main(props) {
                                   >
                                     <Marker
                                       position={{
-                                        lat: Number(
-                                          storeData?.detailStore
-                                            ?.store_map_latitude
-                                        ),
-                                        lng: Number(
-                                          storeData?.detailStore
-                                            ?.store_map_longitude
-                                        ),
+                                        lat: Number(storeData?.detailStore?.store_map_latitude),
+                                        lng: Number(storeData?.detailStore?.store_map_longitude),
                                       }}
                                     />
                                     {/* <AnyReactComponent
@@ -1136,24 +910,13 @@ export function Main(props) {
                     </div>
                     {storeData?.detailStore?.store_is_smartorder ? (
                       <div className="w-inner btn-area flex-both">
-                        <Link
-                          to={`/order/menu/${storeData?.detailStore?.store_code}`}
-                          className="btn full medium dark"
-                        >
+                        <Link to={`/order/menu/${storeData?.detailStore?.store_code}`} className="btn full medium dark">
                           주문하기
                         </Link>
                         <button
                           type="button"
-                          className={`btn light-g medium bookmark ${
-                            storeData?.detailStore?.store_is_favorite &&
-                            "active"
-                          }`}
-                          onClick={(event) =>
-                            handleFavorite(
-                              event.currentTarget,
-                              storeData?.detailStore?.store_code
-                            )
-                          }
+                          className={`btn light-g medium bookmark ${storeData?.detailStore?.store_is_favorite && "active"}`}
+                          onClick={(event) => handleFavorite(event.currentTarget, storeData?.detailStore?.store_code)}
                         >
                           <i className="ico heart">
                             <span>즐겨찾기</span>
@@ -1168,16 +931,8 @@ export function Main(props) {
                         </button>
                         <button
                           type="button"
-                          className={`btn light-g medium bookmark ${
-                            storeData?.detailStore?.store_is_favorite &&
-                            "active"
-                          }`}
-                          onClick={(event) =>
-                            handleFavorite(
-                              event.currentTarget,
-                              storeData?.detailStore?.store_code
-                            )
-                          }
+                          className={`btn light-g medium bookmark ${storeData?.detailStore?.store_is_favorite && "active"}`}
+                          onClick={(event) => handleFavorite(event.currentTarget, storeData?.detailStore?.store_code)}
                         >
                           <i className="ico heart">
                             <span>즐겨찾기</span>
@@ -1191,12 +946,7 @@ export function Main(props) {
               </div>
               {/* // 테이블 오더 가능 매장 */}
 
-              <button
-                type="button"
-                id="moveScrollTop"
-                className="btn scroll-top"
-                onClick={() => moveScrollTop()}
-              >
+              <button type="button" id="moveScrollTop" className="btn scroll-top" onClick={() => moveScrollTop()}>
                 <i className="ico arr-top"></i>
               </button>
             </div>
@@ -1219,9 +969,7 @@ export function Main(props) {
                 <div className="item card membership">
                   <div className="card-wrap">
                     <div>
-                      <p className="grade en">
-                        {axioData?.res6_data?.membership_name}
-                      </p>
+                      <p className="grade en">{fn_memberName(axioData?.res6_data?.membership_level)}</p>
                       <p className="sort en">
                         DAL.KOMM
                         <br />
@@ -1236,9 +984,7 @@ export function Main(props) {
                         {/* <div className="img-wrap">
                           <img src="/@resource/images/com/barcode.svg" alt="바코드" />
                         </div> */}
-                        <p className="num">
-                          {axioData?.res6_data?.stamp_card_number}
-                        </p>
+                        <p className="num">{axioData?.res6_data?.stamp_card_number}</p>
                       </div>
                     </div>
                   </div>

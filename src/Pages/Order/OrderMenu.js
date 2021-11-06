@@ -10,13 +10,14 @@ import { Link, useParams, useHistory } from "react-router-dom";
 import HeaderSub2 from "Components/Header/HeaderSub2";
 import Nav from "Components/Nav/Nav";
 import GoContents from "Components/GoContents";
-import { contGap, moveScrollTop, tabLink, fadeInOut } from "Jquery/Jquery";
+import { contGap, moveScrollTop, tabLink } from "Jquery/Jquery";
 
 import { Swiper } from "swiper/react";
 import { fadeOut } from "Config/GlobalJs";
 
 import { SERVER_DALKOMM } from "Config/Server";
 import { authContext } from "ContextApi/Context";
+import { FadeLoader } from "react-spinners";
 
 export default function OrderMenu() {
   const [state, dispatch] = useContext(authContext);
@@ -250,7 +251,19 @@ export default function OrderMenu() {
               location={`/order/menuSearch/${storeCode}`}
               location2={`/mypage/cart/${storeCode}`}
             />
-
+            <FadeLoader
+              loading={true}
+              size={50}
+              height={6}
+              color="red"
+              css={{
+                position: "absolute",
+                transform: "translate(-50%, -50%)",
+                top: "50%",
+                left: "56%",
+                height: "6px",
+              }}
+            />
             <Nav order={3} />
           </div>
         </div>

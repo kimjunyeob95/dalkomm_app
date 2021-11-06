@@ -31,21 +31,14 @@ export default function MyMembershipPolicy() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     axios
       .all([
-        axios.post(
-          `${SERVER_DALKOMM}/app/api/v2/membership`,
-          body,
-          header_config
-        ),
+        axios.post(`${SERVER_DALKOMM}/app/api/v2/membership`, body, header_config),
         axios.post(`${SERVER_DALKOMM}/app/api/main/user`, body, header_config),
       ])
       .then(
         axios.spread((res1, res2) => {
           let res1_data = res1.data.data;
           let res2_data = res2.data.data;
-          let percentage =
-            (res2_data?.user?.current_point / 31) * 100 > 100
-              ? 100
-              : (res2_data?.user?.current_point / 31) * 100;
+          let percentage = (res2_data?.user?.current_point / 31) * 100 > 100 ? 100 : (res2_data?.user?.current_point / 31) * 100;
           setData((origin) => {
             return {
               ...origin,
@@ -66,21 +59,14 @@ export default function MyMembershipPolicy() {
   const handleReflash = () => {
     axios
       .all([
-        axios.post(
-          `${SERVER_DALKOMM}/app/api/v2/membership`,
-          body,
-          header_config
-        ),
+        axios.post(`${SERVER_DALKOMM}/app/api/v2/membership`, body, header_config),
         axios.post(`${SERVER_DALKOMM}/app/api/main/user`, body, header_config),
       ])
       .then(
         axios.spread((res1, res2) => {
           let res1_data = res1.data.data;
           let res2_data = res2.data.data;
-          let percentage =
-            (res2_data?.user?.current_point / 31) * 100 > 100
-              ? 100
-              : (res2_data?.user?.current_point / 31) * 100;
+          let percentage = (res2_data?.user?.current_point / 31) * 100 > 100 ? 100 : (res2_data?.user?.current_point / 31) * 100;
           setData((origin) => {
             return {
               ...origin,
@@ -103,11 +89,7 @@ export default function MyMembershipPolicy() {
           <div id="container" className="container">
             <header id="header" className="header">
               <h1 className="page-title">달콤 멤버십</h1>
-              <button
-                type="button"
-                className="btn back"
-                onClick={() => history.goBack()}
-              >
+              <button type="button" className="btn back" onClick={() => history.goBack()}>
                 <i className="ico back">
                   <span className="blind">뒤로</span>
                 </i>
@@ -121,7 +103,7 @@ export default function MyMembershipPolicy() {
               </div>
             </header>
 
-            <div id="content" className="mypage membership">
+            <div id="content" className="mypage membership fade-in">
               <section className="section">
                 <div className="item membership">
                   <div
@@ -141,18 +123,10 @@ export default function MyMembershipPolicy() {
             .state.gold : GOLD /
             .state.platinum : PLATINUM /
         */}
-                    <p className="grade en">
-                      {fn_memberName(axioData?.res1_data?.membership_level)}{" "}
-                      MEMBER
-                    </p>
+                    <p className="grade en">{fn_memberName(axioData?.res1_data?.membership_level)} MEMBER</p>
                     {axioData?.res1_data?.remain_point > 0 && (
                       <p className="text">
-                        트로피 {axioData?.res1_data?.remain_point}개 더 모으면
-                        다음달은{" "}
-                        {fn_memberName(
-                          axioData?.res1_data?.membership_level + 1
-                        )}
-                        !
+                        트로피 {axioData?.res1_data?.remain_point}개 더 모으면 다음달은 {fn_memberName(axioData?.res1_data?.membership_level + 1)}!
                       </p>
                     )}
                   </div>
@@ -163,15 +137,9 @@ export default function MyMembershipPolicy() {
                 <div className="possess-wrap">
                   <div className="flex-both">
                     <div className="possess-state">
-                      <i className="ico trophy"></i> 보유 트로피{" "}
-                      <span className="num">
-                        {axioData?.res2_data?.user?.current_point}
-                      </span>
+                      <i className="ico trophy"></i> 보유 트로피 <span className="num">{axioData?.res2_data?.user?.current_point}</span>
                     </div>
-                    <Link
-                      to="/mypage/membershipRecipt"
-                      className="btn bdr-r xx-small gray"
-                    >
+                    <Link to="/mypage/membershipRecipt" className="btn bdr-r xx-small gray">
                       적립내역
                     </Link>
                   </div>
@@ -218,17 +186,13 @@ export default function MyMembershipPolicy() {
                     <dt className="title">멤버십 혜택</dt>
                     <dd className="text">
                       <p>
-                        테이블오더 또는 매장에서 직접 결제 / 주문 할 때마다
-                        적립되는
+                        테이블오더 또는 매장에서 직접 결제 / 주문 할 때마다 적립되는
                         <br />
                         트로피를 모아 멤버십 혜택을 받으실 수 있습니다.
                       </p>
                       <ul className="attention-list">
                         <li>기프트카드 10,000원 충전 시 트로피 1개 적립</li>
-                        <li>
-                          테이블오더 또는 매장에서 제조음료 결제시 마다 트로피
-                          1개 적립
-                        </li>
+                        <li>테이블오더 또는 매장에서 제조음료 결제시 마다 트로피 1개 적립</li>
                       </ul>
                     </dd>
                   </dl>
@@ -375,20 +339,13 @@ export default function MyMembershipPolicy() {
                   </div>
 
                   <ul className="attention-list">
-                    <li>
-                      신메뉴 출시 기념 할인쿠폰은 제조음료에 한하여 사용
-                      가능합니다.
-                    </li>
+                    <li>신메뉴 출시 기념 할인쿠폰은 제조음료에 한하여 사용 가능합니다.</li>
                     <li>생일 쿠폰은 생일 기준 15일 전에 자동 발급됩니다.</li>
                     <li>
                       테이블오더 5% 할인은 제조음료 주문 시에만 사용 가능하며,
-                      <br /> 세트, MD, 베이커리, 빙수류, 할인 및 프로모션 메뉴는
-                      제외됩니다.
+                      <br /> 세트, MD, 베이커리, 빙수류, 할인 및 프로모션 메뉴는 제외됩니다.
                     </li>
-                    <li>
-                      멤버십 혜택으로 인해 발급되는 쿠폰은 테이블오더 전용
-                      쿠폰입니다.
-                    </li>
+                    <li>멤버십 혜택으로 인해 발급되는 쿠폰은 테이블오더 전용 쿠폰입니다.</li>
                   </ul>
                 </div>
               </section>

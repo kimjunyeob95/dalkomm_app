@@ -5,7 +5,7 @@
 // eslint-disable-next-line no-unused-vars
 import axios from "axios";
 import React, { useEffect, useContext, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 
 import Nav from "Components/Nav/Nav";
 import GoContents from "Components/GoContents";
@@ -18,352 +18,179 @@ import { checkMobile, fadeOut } from "Config/GlobalJs";
 export default function MyMembershipRecipt() {
   const [state, dispatch] = useContext(authContext);
   const [axioData, setData] = useState();
+  const history = useHistory();
+
+  const body = {};
+  const header_config = {
+    headers: {
+      "X-dalkomm-access-token": state?.accessToken,
+      Authorization: state?.auth,
+    },
+  };
   useEffect(() => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
+    axios.all([axios.post(`${SERVER_DALKOMM}/app/api/main/user`, body, header_config)]).then(
+      axios.spread((res1) => {
+        let res1_data = res1.data.data;
+        setData((origin) => {
+          return {
+            ...origin,
+            res1_data,
+          };
+        });
+      })
+    );
+  }, []);
 
-    const body = {};
-    const header_config = {
-      headers: {
-        "X-dalkomm-access-token": state?.accessToken,
-        Authorization: state?.auth,
-      },
-    };
-    if (state?.loginFlag && state.accessToken) {
-      //로그인시
-      axios
-        .all([
-          axios.get(`${SERVER_DALKOMM}/app/api/notice/is-new`, {
-            headers: { Authorization: state?.auth },
-          }),
-          axios.post(
-            `${SERVER_DALKOMM}/app/api/v2/my_account/user_info`,
-            body,
-            header_config
-          ),
-          axios.post(
-            `${SERVER_DALKOMM}/app/api/v2/membership`,
-            body,
-            header_config
-          ),
-        ])
-        .then(
-          axios.spread((res1, res2, res3) => {
-            let res1_data = res1.data.data;
-            let res2_data = res2.data.data;
-            let res3_data = res3.data.data;
-            setData((origin) => {
-              return {
-                ...origin,
-                res1_data,
-                res2_data,
-                res3_data,
-              };
-            });
-          })
-        );
-    } else if (!state.loginFlag && state.auth) {
-      //비로그인시
-      axios
-        .all([
-          axios.get(`${SERVER_DALKOMM}/app/api/notice/is-new`, {
-            headers: { Authorization: state?.auth },
-          }),
-        ])
-        .then(
-          axios.spread((res1, res2) => {
-            let res1_data = res1.data.data;
-
-            setData((origin) => {
-              return {
-                ...origin,
-                res1_data,
-              };
-            });
-          })
-        );
-    }
-  }, [state?.loginFlag]);
-
-  const handleOutLink = () => {
-    let linkData = { data: "http://www.dalkomm.com/" };
-    linkData = JSON.stringify(linkData);
-    try {
-      if (checkMobile() === "android") {
-        window.android.fn_callUrl(linkData);
-      } else if (checkMobile() === "ios") {
-        window.webkit.messageHandlers.fn_callUrl.postMessage(linkData);
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
   useEffect(() => {
     contGap();
     fadeOut();
   }, [axioData]);
 
-  const handleCall = (number) => {
-    let data = { phoneNum: number };
-    data = JSON.stringify(data);
-    try {
-      if (checkMobile() === "android") {
-        window.android.fn_directCall(data);
-      } else if (checkMobile() === "ios") {
-        window.webkit.messageHandlers.fn_directCall.postMessage(data);
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
   if (axioData) {
-    // fadeInOut();
+    console.log(axioData);
     return (
       <React.Fragment>
         <GoContents />
 
         <div id="wrap" className="wrap">
           <div id="container" className="container">
-            <Nav order={5} />
+            <header id="header" className="header">
+              <h1 className="page-title">트로피 적립 내역</h1>
+              <button type="button" className="btn back" onClick={() => history.goBack()}>
+                <i className="ico back">
+                  <span className="blind">뒤로</span>
+                </i>
+              </button>
+            </header>
 
-            <div id="content" className="app-menu fade-in">
-              {state?.loginFlag && (
-                <div className="item my-info">
-                  <div className="user-wrap flex-center">
-                    <p className="user">
-                      <span className="fc-orange">
-                        {axioData?.res2_data?.sub_user_list[0]?.sub_user_name}
-                      </span>{" "}
-                      고객님
-                    </p>
-
-                    <button
-                      type="button"
-                      className="btn barcode open-pop"
-                      pop-target="#zoomCardMembership"
-                      onClick={(e) =>
-                        popupOpen(
-                          e.currentTarget,
-                          axioData?.res3_data?.stamp_card_number
-                        )
-                      }
-                    >
-                      <i
-                        className="ico barcode"
-                        pop-target="#zoomCardMembership"
-                      >
-                        <span>바코드</span>
-                      </i>
-                    </button>
-                  </div>
-                  <div className="btn-area flex-center">
-                    <Link to="/pay" className="btn">
-                      <i className="ico giftcard">
-                        <span>바코드</span>
-                      </i>
-                    </Link>
-                    <Link to="/mypage/stamp" className="btn">
-                      <i className="ico stamp">
-                        <span>바코드</span>
-                      </i>
-                    </Link>
+            <div id="content" className="mypage membership save fade-in">
+              <section className="section">
+                <div className="possess-wrap w-inner">
+                  <div className="flex-list">
+                    <div className="possess-state">
+                      보유 트로피 <span className="num">{axioData?.res1_data?.user?.current_point}</span>
+                    </div>
+                    <div className="extinct">
+                      <p className="state">
+                        15일 이내 소멸 예정 트로피 <span className="num">0</span>
+                      </p>
+                      <span className="alert">· 트로피 유효기간은 적립일로부터 1년입니다.</span>
+                    </div>
                   </div>
                 </div>
-              )}
 
-              <ul className="gnb-list">
-                <li>
-                  <ul>
-                    <li>
-                      <Link
-                        to="/mypage/orderRecipt"
-                        className="item depth-menu"
-                      >
-                        <i className="ico menu-order"></i>
-                        <span>주문내역</span>
-                      </Link>
-                    </li>
-                    <li>
-                      <Link to="/order/storeSearch" className="item depth-menu">
-                        <i className="ico menu-store"></i>
-                        <span>매장찾기</span>
-                      </Link>
-                    </li>
-                  </ul>
-                </li>
-                <li>
-                  <ul>
-                    <li className="new">
-                      {" "}
-                      {/* [D] 활성화 콘텐츠 메뉴 .new */}
-                      <Link to="/story/list" className="item depth-menu">
-                        <i className="ico menu-story"></i>
-                        <span>달콤스토리</span>
-                        <i className="ico new">N</i>{" "}
-                        {/* [D] 활성화 콘텐츠 메뉴일시 노출*/}
-                      </Link>
-                    </li>
-                    {/* [D] 211105 마크업 추가*/}
-                    <li>
-                      <Link
-                        to="/order/menuSearch/0"
-                        className="item depth-menu"
-                      >
-                        <i className="ico order"></i>
-                        <span>달콤 메뉴</span>
-                      </Link>
-                    </li>
-                    {/* // [D] 211105 마크업 추가*/}
-                    <li className="new">
-                      {" "}
-                      {/* [D] 활성화 콘텐츠 메뉴 .new */}
-                      <Link
-                        to="/support/notice/list"
-                        className="item depth-menu"
-                      >
-                        <i className="ico menu-notice"></i>
-                        <span>공지사항</span>
-                        {state?.loginFlag && axioData?.is_new && (
-                          <i className="ico new">N</i>
-                        )}
-                      </Link>
-                    </li>
-                    <li>
-                      <Link to="/support/faq" className="item depth-menu">
-                        <i className="ico menu-faq"></i>
-                        <span>FAQ</span>
-                      </Link>
-                    </li>
-                  </ul>
-                </li>
-                <li>
-                  <ul>
-                    <li>
-                      <Link to="/mypage/modify" className="item depth-menu">
-                        <i className="ico menu-my"></i>
-                        <span>내 정보 수정</span>
-                      </Link>
-                    </li>
-                    <li>
-                      <a
-                        onClick={() => handleOutLink()}
-                        className="item depth-menu outLink"
-                      >
-                        <i className="ico menu-website"></i>
-                        <span>달콤 웹사이트</span>
-                      </a>
-                    </li>
-                    <li>
-                      <Link to="/mypage/option" className="item depth-menu">
-                        <i className="ico menu-set"></i>
-                        <span>앱 환경설정</span>
-                      </Link>
-                    </li>
-                  </ul>
-                </li>
-                <li>
-                  <ul>
-                    <li>
-                      <Link to="#" className="item depth-menu">
-                        <i className="ico menu-business"></i>
-                        <span>사업자정보</span>
-                      </Link>
-                    </li>
-                    <li>
-                      <Link to="#" className="item depth-menu">
-                        <i className="ico menu-term"></i>
-                        <span>이용약관</span>
-                      </Link>
-                    </li>
-                    <li>
-                      <Link to="#" className="item depth-menu">
-                        <i className="ico menu-privacy"></i>
-                        <span>개인정보처리방침</span>
-                      </Link>
-                    </li>
-                  </ul>
-                </li>
-                <li>
-                  <ul>
-                    <li>
-                      <div className="item depth-menu">
-                        <i className="ico service-center"></i>
-                        <span>고객센터</span>
+                <ol className="data-list">
+                  <li>
+                    <div className="item save">
+                      <div className="flex-both">
+                        <div className="data-wrap">
+                          <p className="time">2021-07-10 16:57</p>
+                          <div className="data-info flex-list">
+                            <p className="title">광주쌍령 DT점 - 드라이브 스루드라이브 스루</p>
+                            <p>테이블오더</p>
+                          </div>
+                        </div>
+                        <div className="state saving">적립</div>
+                        {/* [D] 적립 상태 :
+                    .state.saving : 적립 ,
+                    .state.cancel : 적립취소
+                     */}
                       </div>
-                      <ul className="data-list service-list">
-                        <li>
-                          <div className="item contact">
-                            <i className="ico tel-g">
-                              <span>전화번호</span>
-                            </i>
-                            <span
-                              className="num"
-                              onClick={() => handleCall("1661-1399")}
-                            >
-                              1661-1399
-                            </span>
+                    </div>
+                  </li>
+                  <li>
+                    <div className="item save">
+                      <div className="flex-both">
+                        <div className="data-wrap">
+                          <p className="time">2021-07-10 16:57</p>
+                          <div className="data-info flex-list">
+                            <p className="title">역삼역점</p>
+                            <p>테이블오더</p>
                           </div>
-                        </li>
-                        <li>
-                          <div className="item contact">
-                            <i className="ico mail-g">
-                              <span>메일</span>
-                            </i>
-                            <span className="num">dalkomm_cs@dalkomm.com</span>
+                        </div>
+                        <div className="state saving">적립</div>
+                      </div>
+                    </div>
+                  </li>
+                  <li>
+                    <div className="item save">
+                      <div className="flex-both">
+                        <div className="data-wrap">
+                          <p className="time">2021-07-10 16:57</p>
+                          <div className="data-info flex-list">
+                            <p className="title">역삼역점</p>
+                            <p>주문 취소</p>
                           </div>
-                        </li>
-                      </ul>
-                    </li>
-                  </ul>
-                </li>
-              </ul>
+                        </div>
+                        <div className="state cancel">적립취소</div>
+                      </div>
+                    </div>
+                  </li>
+                  <li>
+                    <div className="item save">
+                      <div className="flex-both">
+                        <div className="data-wrap">
+                          <p className="time">2021-07-10 16:57</p>
+                          <div className="data-info flex-list">
+                            <p className="title">광주쌍령 DT점 - 드라이브 스루드라이브 스루</p>
+                            <p>주문 취소</p>
+                          </div>
+                        </div>
+                        <div className="state cancel">적립취소</div>
+                      </div>
+                    </div>
+                  </li>
+                  <li>
+                    <div className="item save">
+                      <div className="flex-both">
+                        <div className="data-wrap">
+                          <p className="time">2021-07-10 16:57</p>
+                          <div className="data-info flex-list">
+                            <p className="title">서지혜님의 충전카드</p>
+                            <p>충전카드 충전</p>
+                          </div>
+                        </div>
+                        <div className="state saving">적립</div>
+                      </div>
+                    </div>
+                  </li>
+                  <li>
+                    <div className="item save">
+                      <div className="flex-both">
+                        <div className="data-wrap">
+                          <p className="time">2021-07-10 16:57</p>
+                          <div className="data-info flex-list">
+                            <p className="title">역삼역점</p>
+                            <p>테이블오더</p>
+                          </div>
+                        </div>
+                        <div className="state saving">적립</div>
+                      </div>
+                    </div>
+                  </li>
+                  <li>
+                    <div className="item save">
+                      <div className="flex-both">
+                        <div className="data-wrap">
+                          <p className="time">2021-07-10 16:57</p>
+                          <div className="data-info flex-list">
+                            <p className="title">역삼역점</p>
+                            <p>주문 취소</p>
+                          </div>
+                        </div>
+                        <div className="state cancel">적립취소</div>
+                      </div>
+                    </div>
+                  </li>
+                </ol>
+              </section>
             </div>
             {/* // #content */}
           </div>
           {/* // #container */}
         </div>
         {/* // #wrap */}
-        {/* 멤버쉽 카드 확대 팝업 */}
-        {state?.loginFlag && (
-          <div id="zoomCardMembership" className="overlay zoom-card">
-            <div className="popup">
-              <div className="popup-header">
-                <h2 className="title">
-                  <span className="blind">카드 확대</span>
-                </h2>
-              </div>
-              <div className="popup-body">
-                <div className="item card membership">
-                  <div className="card-wrap">
-                    <div>
-                      <p className="grade en">
-                        {axioData?.res3_data?.membership_name}
-                      </p>
-                      <p className="sort en">
-                        DAL.KOMM
-                        <br />
-                        MEMBERSHIP CARD
-                      </p>
-                    </div>
-                  </div>
-                  <div className="barcode-wrap">
-                    <div>
-                      <div className="barcode">
-                        <div id="barcode" className="react-barcode"></div>
-                        {/* <div className="img-wrap">
-                          <img src="/@resource/images/com/barcode.svg" alt="바코드" />
-                        </div> */}
-                        <p className="num">
-                          {axioData?.res3_data?.stamp_card_number}
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
-        {/* // 멤버쉽 카드 확대 팝업 */}
       </React.Fragment>
     );
   } else
@@ -373,7 +200,14 @@ export default function MyMembershipRecipt() {
 
         <div id="wrap" className="wrap">
           <div id="container" className="container">
-            <Nav order={5} />
+            <header id="header" className="header">
+              <h1 className="page-title">트로피 적립 내역</h1>
+              <button type="button" className="btn back" onClick={() => history.goBack()}>
+                <i className="ico back">
+                  <span className="blind">뒤로</span>
+                </i>
+              </button>
+            </header>
           </div>
         </div>
       </React.Fragment>
