@@ -61,9 +61,10 @@ export function Main(props) {
           axios.post(`${SERVER_DALKOMM}/app/api/v2/smartorder/orderinfo/list`, { page: 1, duration: "w" }, header_config),
           axios.post(`${SERVER_DALKOMM_SUGAR}/api/getMd`),
           axios.post(`${SERVER_DALKOMM_SUGAR}/api/getMsg`),
+          axios.post(`${SERVER_DALKOMM_SUGAR}/api/contentList`),
         ])
         .then(
-          axios.spread((res1, res2, res3, res4, res5, res6, res7, res8) => {
+          axios.spread((res1, res2, res3, res4, res5, res6, res7, res8, res9) => {
             let res1_data = res1.data;
             let res2_data = res2.data.data;
             let res3_data = res3.data.data;
@@ -72,6 +73,7 @@ export function Main(props) {
             let res6_data = res6.data.data;
             let mdList = res7.data.list;
             let join_text = res8.data.msg;
+            let contentData = res9.data.list[0];
             setData((origin) => {
               return {
                 ...origin,
@@ -83,6 +85,7 @@ export function Main(props) {
                 res6_data,
                 mdList,
                 join_text,
+                contentData,
               };
             });
           })
@@ -94,18 +97,21 @@ export function Main(props) {
           axios.post(`${SERVER_DALKOMM_SUGAR}/api/getMainBanner`),
           axios.post(`${SERVER_DALKOMM}/app/api/v2/store/around`, location_body, header_config),
           axios.post(`${SERVER_DALKOMM_SUGAR}/api/getMd`),
+          axios.post(`${SERVER_DALKOMM_SUGAR}/api/contentList`),
         ])
         .then(
           axios.spread((res1, res2, res3) => {
             let res1_data = res1.data;
             let res2_data = res2.data.data;
             let mdList = res3.data.list;
+            let contentData = res3.data.list[0];
             setData((origin) => {
               return {
                 ...origin,
                 res1_data,
                 res2_data,
                 mdList,
+                contentData,
               };
             });
           })
@@ -297,7 +303,9 @@ export function Main(props) {
                     </i>
                   </button>
                   <div className="speech-wrap">
-                    <p className="speech-bubble ani">{axioData?.join_text}</p>
+                    <p className="speech-bubble ani">
+                      {axioData?.join_text?.replace(/%NAME%/g, axioData?.res3_data?.user?.sub_user_list[0]?.sub_user_name)}
+                    </p>
                   </div>
                 </div>
               ) : (
@@ -491,9 +499,19 @@ export function Main(props) {
               {/* 달콤 스토리 */}
               <section className="section">
                 <div className="w-inner">
-                  <Link to="/story/list" className="item dalkomm-story">
+                  <Link to={`/story/detail/${axioData?.contentData?.seq}`} className="item dalkomm-story">
                     <div className="badge-wrap">
-                      <span className="badge square event">EVENT</span>
+                      {axioData?.contentData?.cate === "STORY" ? (
+                        <span className="badge square story">STORY</span>
+                      ) : axioData?.contentData?.cate === "EVENT" ? (
+                        <span className="badge square event">EVENT</span>
+                      ) : axioData?.contentData?.cate === "NEW" ? (
+                        <span className="badge square new">NEW</span>
+                      ) : axioData?.contentData?.cate === "PICK" ? (
+                        <span className="badge square pick">PICK</span>
+                      ) : (
+                        ""
+                      )}
                       {/* 달콤스토리 .badge.square 타입
                                     .badge.square.story : 브랜드 스토리 콘텐츠
                                     .badge.square.event : 이벤트/프로모션
@@ -501,15 +519,15 @@ export function Main(props) {
                                     .badge.square.new   : 신메뉴 소개 
                                     .badge.square.pick  : 달콤 굿즈 소개
                                 */}
-                      <span className="d-day num">D-30</span>
+                      {/* <span className="d-day num">D-30</span> */}
                     </div>
                     <div className="img-wrap">
-                      <img src="/@resource/images/@temp/thum_event_01.jpg" alt="{title}" />
+                      <img src={axioData?.contentData?.thumb} alt="{title}" />
                     </div>
                     <div className="data-wrap">
-                      <p className="title">월요일은 페이코인 DAY!</p>
-                      <p className="text">페이코인 현장 결제 시, 아메리카노가 100원!</p>
-                      <p className="date">2021.06.14 </p>
+                      <p className="title">{axioData?.contentData?.title}</p>
+                      <p className="text">{axioData?.contentData?.sub_title}</p>
+                      <p className="date">{axioData?.contentData?.date}</p>
                     </div>
                   </Link>
                 </div>

@@ -1,5 +1,5 @@
 #content.fade-in {opacity: 0; }
-#content.fade-out {opacity: 1; transition: all 900ms ease-in-out;}
+#content.fade-out {opacity: 1; transition: all 600ms ease-in-out;}
 .item.depth-menu.outLink::after{content: ''; display: block; position: absolute; top: 50%; right: 0; width: 6.4vw; height: 6.4vw; background: url('../images/com/icon_external.svg') no-repeat 0 0; background-size: cover; -webkit-transform: translateY(-50%); -ms-transform: translateY(-50%); -o-transform: translateY(-50%); transform: translateY(-50%); vertical-align: middle;}
 .react-barcode {margin: 0 auto; max-width: 286px; overflow: hidden;}
 .react-barcode div:last-child {display: none;}

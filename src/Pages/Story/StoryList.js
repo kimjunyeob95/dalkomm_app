@@ -10,18 +10,13 @@ import GoContents from "Components/GoContents";
 import { fadeOut } from "Config/GlobalJs";
 
 export default function StoryList() {
-  const [axioData, setData] = useState({});
+  const [axioData, setData] = useState();
 
   useEffect(() => {
     // 말풍선 스크롤시 hide/show
     axios.post(`${SERVER_DALKOMM_SUGAR}/api/contentList`).then((res) => {
       let contentList = res.data.list;
-      setData((origin) => {
-        return {
-          ...origin,
-          contentList,
-        };
-      });
+      setData({ contentList });
     });
   }, []);
   useEffect(() => {
@@ -96,17 +91,19 @@ export default function StoryList() {
       </React.Fragment>
     );
   } else {
-    <div id="wrap" className="wrap">
-      <div id="container" className="container">
-        <header id="header" className="header">
-          <h1 className="page-title">달콤 스토리</h1>
-          <Link type="button" className="btn back" to={"/menu"}>
-            <i className="ico back">
-              <span className="blind">뒤로</span>
-            </i>
-          </Link>
-        </header>
+    return (
+      <div id="wrap" className="wrap">
+        <div id="container" className="container">
+          <header id="header" className="header">
+            <h1 className="page-title">달콤 스토리</h1>
+            <Link type="button" className="btn back" to={"/menu"}>
+              <i className="ico back">
+                <span className="blind">뒤로</span>
+              </i>
+            </Link>
+          </header>
+        </div>
       </div>
-    </div>;
+    );
   }
 }

@@ -17,7 +17,7 @@ import { fadeOut } from "Config/GlobalJs";
 
 export default function StoryDetail() {
   const history = useHistory();
-  const [axioData, setData] = useState({});
+  const [axioData, setData] = useState();
   const { id } = useParams();
 
   const sectionGap = () => {
@@ -50,7 +50,6 @@ export default function StoryDetail() {
           let contentDetail = res2.data;
           setData((origin) => {
             return {
-              ...origin,
               contentData,
               contentDetail,
             };
@@ -60,7 +59,6 @@ export default function StoryDetail() {
   };
   useEffect(() => {
     fn_api();
-
     return () => {
       $(window).off("scroll");
     };
@@ -203,26 +201,28 @@ export default function StoryDetail() {
       </React.Fragment>
     );
   } else {
-    <div id="wrap" className="wrap">
-      <div id="container" className="container">
-        <header id="header" className="header bg-transparent">
-          <h1 className="page-title">
-            <span className="blind">달콤스토리</span>
-          </h1>
-          <Link type="button" className="btn back" to={"/story/list"}>
-            <i className="ico back">
-              <span className="blind">뒤로</span>
-            </i>
-          </Link>
-          <div className="btn-area flex-center">
-            {/* <a href="javascript:void(0);" className="btn share">
+    return (
+      <div id="wrap" className="wrap">
+        <div id="container" className="container">
+          <header id="header" className="header bg-transparent">
+            <h1 className="page-title">
+              <span className="blind">달콤스토리</span>
+            </h1>
+            <Link type="button" className="btn back" to={"/story/list"}>
+              <i className="ico back">
+                <span className="blind">뒤로</span>
+              </i>
+            </Link>
+            <div className="btn-area flex-center">
+              {/* <a href="javascript:void(0);" className="btn share">
               <i className="ico share">
                 <span>공유하기</span>
               </i>
             </a> */}
-          </div>
-        </header>
+            </div>
+          </header>
+        </div>
       </div>
-    </div>;
+    );
   }
 }
