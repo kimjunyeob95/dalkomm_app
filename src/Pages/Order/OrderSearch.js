@@ -6,7 +6,7 @@
 import axios from "axios";
 import $ from "jquery";
 import React, { useEffect, useContext, useState } from "react";
-import { Link, useParams, useHistory } from "react-router-dom";
+import { Link, useParams, useHistory, useLocation } from "react-router-dom";
 
 import Nav from "Components/Nav/Nav";
 import GoContents from "Components/GoContents";
@@ -20,7 +20,8 @@ import { FadeLoader } from "react-spinners";
 export default function OrderSearch() {
   const [state, dispatch] = useContext(authContext);
   const [axioData, setData] = useState(false);
-  const { storeCode, searchValue } = useParams();
+  const { storeCode } = useParams();
+  const { scrollValue } = useLocation();
   const history = useHistory();
   const body = {};
   let header_config = {
@@ -62,6 +63,11 @@ export default function OrderSearch() {
   useEffect(() => {
     contGap();
     fadeOut();
+    scrollValue &&
+      window.scrollTo({
+        top: scrollValue,
+        behavior: "smooth",
+      });
   }, [axioData]);
 
   const handleSearch = (e) => {
@@ -88,13 +94,19 @@ export default function OrderSearch() {
   const handleDetail = (event, menuCode, type) => {
     if (storeCode !== "0") {
       if (type) {
-        history.push(`/order/detail/${storeCode}/${menuCode}`);
+        history.push({
+          pathname: `/order/detail/${storeCode}/${menuCode}`,
+          scrollValue: $(document).scrollTop(),
+        });
       } else {
         alert("테이블오더가 불가능한 메뉴입니다.");
         return false;
       }
     } else {
-      history.push(`/order/infoDetail/${menuCode}`);
+      history.push({
+        pathname: `/order/infoDetail/${menuCode}`,
+        scrollValue: $(document).scrollTop(),
+      });
     }
   };
 

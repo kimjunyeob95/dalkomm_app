@@ -5,7 +5,7 @@
 import axios from "axios";
 import $ from "jquery";
 import React, { useEffect, useContext, useState } from "react";
-import { Link, useParams, useHistory } from "react-router-dom";
+import { Link, useParams, useHistory, useLocation } from "react-router-dom";
 
 import HeaderSub2 from "Components/Header/HeaderSub2";
 import Nav from "Components/Nav/Nav";
@@ -24,6 +24,7 @@ export default function OrderMenu() {
   const [axioData, setData] = useState(false);
   const history = useHistory();
   const { storeCode } = useParams();
+  const { scrollValue } = useLocation();
   if (storeCode === "0") {
     history.push("/");
   }
@@ -68,6 +69,11 @@ export default function OrderMenu() {
   useEffect(() => {
     contGap();
     fadeOut();
+    scrollValue &&
+      window.scrollTo({
+        top: scrollValue,
+        behavior: "smooth",
+      });
   }, [axioData]);
   const jqueryTablink = (e) => {
     tabLink(e);
@@ -116,7 +122,10 @@ export default function OrderMenu() {
   };
   const handleDetail = (e, menucode, type) => {
     if (type) {
-      history.push(`/order/detail/${storeCode}/${menucode}`);
+      history.push({
+        pathname: `/order/detail/${storeCode}/${menucode}`,
+        scrollValue: $(document).scrollTop(),
+      });
     } else {
       alert("테이블오더가 불가능한 메뉴입니다.");
     }

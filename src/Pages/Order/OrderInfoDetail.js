@@ -7,7 +7,7 @@
 import axios from "axios";
 import $ from "jquery";
 import React, { useEffect, useContext, useState } from "react";
-import { Link, useHistory, useParams } from "react-router-dom";
+import { Link, useHistory, useParams, useLocation } from "react-router-dom";
 import GoContents from "Components/GoContents";
 import { contGap } from "Jquery/Jquery";
 
@@ -20,6 +20,7 @@ export default function OrderInfoDetail() {
   const [axioData, setData] = useState(false);
   const history = useHistory();
   const { menuCode } = useParams();
+  const { scrollValue } = useLocation();
 
   const body = {};
   let header_config = {
@@ -61,7 +62,16 @@ export default function OrderInfoDetail() {
               <h1>
                 <span className="blind">메뉴상세</span>
               </h1>
-              <button type="button" className="btn back" onClick={() => history.push(`/order/menuSearch/0`)}>
+              <button
+                type="button"
+                className="btn back"
+                onClick={() =>
+                  history.push({
+                    pathname: `/order/menuSearch/0`,
+                    scrollValue: scrollValue,
+                  })
+                }
+              >
                 <i className="ico back">
                   <span className="blind">뒤로</span>
                 </i>

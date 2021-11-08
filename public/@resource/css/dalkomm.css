@@ -628,7 +628,8 @@
 #content.pay .row-list {margin-top: 8vw;}
 #content.pay .row-list li:nth-child(1) {color: #616161; margin-left: -6.4vw;}
 #content.pay .row-list li:nth-child(2) {color: #a7a7a7;}
-#content.pay .row-list li + li::before {top: 0.800vw; height: 4.267vw; background-color: #d3d3d3; margin: 0 11.067vw;}
+#content.pay .row-list li + li {margin-left: 10.933vw; padding-left: 10.933vw;}
+#content.pay .row-list li + li::before {position: absolute; top: 0.533vw; left: 0; height: 4.267vw; background-color: #d3d3d3; }
 #content.pay .row-list > li > a:not(.open-pop) {display: -ms-flexbox; display: -webkit-flex; display: flex; -webkit-box-align: center;-ms-flex-align: center;align-items: center;}
 #content.pay .row-list li .ico {vertical-align: middle; opacity: 0.8; margin-right: 0.533vw;}
 #content.pay .section-title {margin-bottom: 4.267vw;}

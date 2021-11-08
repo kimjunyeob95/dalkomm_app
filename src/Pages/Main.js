@@ -14,7 +14,7 @@ import Popup_nomal from "Components/Popup/Popup_nomal";
 
 import { accordion, scrollDetail, popupOpen, contGap, moveScrollTop } from "Jquery/Jquery";
 import { checkMobile, getCookieValue, fadeOut, fn_memberName, handleLogin } from "Config/GlobalJs";
-import { SERVER_DALKOMM } from "Config/Server";
+import { SERVER_DALKOMM, SERVER_DALKOMM_SUGAR } from "Config/Server";
 import { Swiper, SwiperSlide } from "swiper/react";
 import SwiperCore, { Autoplay, Scrollbar } from "swiper/core";
 import { authContext } from "ContextApi/Context";
@@ -45,27 +45,33 @@ export function Main(props) {
       latitude: getCookieValue("latitude"),
       longitude: getCookieValue("longitude"),
     };
+    let contentData = new FormData();
+    contentData.append("page", 1);
     // let location_body = { latitude: 37.507232666015625, longitude: 127.05642398540016 };
     //최초 진입 시 실행
     if (state.loginFlag) {
       //로그인 시
       axios
         .all([
-          axios.post(`${SERVER_DALKOMM}/app/api/main`, body, header_config),
+          axios.post(`${SERVER_DALKOMM_SUGAR}/api/getMainBanner`),
           axios.post(`${SERVER_DALKOMM}/app/api/v2/store/around`, location_body, header_config),
           axios.post(`${SERVER_DALKOMM}/app/api/main/user`, body, header_config),
           axios.post(`${SERVER_DALKOMM}/app/api/v2/coupon/list`, body, header_config),
           axios.post(`${SERVER_DALKOMM}/app/api/v2/membership`, body, header_config),
           axios.post(`${SERVER_DALKOMM}/app/api/v2/smartorder/orderinfo/list`, { page: 1, duration: "w" }, header_config),
+          axios.post(`${SERVER_DALKOMM_SUGAR}/api/getMd`),
+          axios.post(`${SERVER_DALKOMM_SUGAR}/api/getMsg`),
         ])
         .then(
-          axios.spread((res1, res2, res3, res4, res5, res6) => {
-            let res1_data = res1.data.data;
+          axios.spread((res1, res2, res3, res4, res5, res6, res7, res8) => {
+            let res1_data = res1.data;
             let res2_data = res2.data.data;
             let res3_data = res3.data.data;
             let res4_data = res4.data.data;
             let res5_data = res5.data.data;
             let res6_data = res6.data.data;
+            let mdList = res7.data.list;
+            let join_text = res8.data.msg;
             setData((origin) => {
               return {
                 ...origin,
@@ -75,6 +81,8 @@ export function Main(props) {
                 res4_data,
                 res5_data,
                 res6_data,
+                mdList,
+                join_text,
               };
             });
           })
@@ -85,16 +93,19 @@ export function Main(props) {
         .all([
           axios.post(`${SERVER_DALKOMM}/app/api/main`, body, header_config),
           axios.post(`${SERVER_DALKOMM}/app/api/v2/store/around`, location_body, header_config),
+          axios.post(`${SERVER_DALKOMM_SUGAR}/api/getMd`),
         ])
         .then(
-          axios.spread((res1, res2) => {
-            let res1_data = res1.data.data;
+          axios.spread((res1, res2, res3) => {
+            let res1_data = res1.data;
             let res2_data = res2.data.data;
+            let mdList = res3.data.list;
             setData((origin) => {
               return {
                 ...origin,
                 res1_data,
                 res2_data,
+                mdList,
               };
             });
           })
@@ -168,6 +179,43 @@ export function Main(props) {
     }
   };
 
+  const handleGoDetail = () => {
+    let link_result = $(".swiper-slide-active").attr("link").split("|");
+    if (link_result[0] === "C") {
+      history.push(`/story/detail/${link_result[1]}`);
+    } else if (link_result[0] === "U") {
+      let data = { data: link_result[1] };
+      data = JSON.stringify(data);
+      try {
+        if (checkMobile() === "android") {
+          window.android.fn_callUrl(data);
+        } else if (checkMobile() === "ios") {
+          window.webkit.messageHandlers.fn_callUrl.postMessage(data);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
+  const handleMdDetail = (link) => {
+    let data = "";
+    if (link === "더보기") {
+      data = { data: "https://smartstore.naver.com/dalkommcoffee/" };
+    } else {
+      data = { data: link };
+    }
+    data = JSON.stringify(data);
+    try {
+      if (checkMobile() === "android") {
+        window.android.fn_callUrl(data);
+      } else if (checkMobile() === "ios") {
+        window.webkit.messageHandlers.fn_callUrl.postMessage(data);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const fn_dev = () => {
     dev_count++;
     if (dev_count === 5) {
@@ -204,18 +252,18 @@ export function Main(props) {
                 }}
               >
                 <ul className="swiper-wrapper">
-                  {axioData?.res1_data?.main_banner_list?.map((e, i) => {
+                  {axioData?.res1_data?.list?.map((e, i) => {
                     return (
-                      <SwiperSlide className="swiper-slide" key={i}>
+                      <SwiperSlide className="swiper-slide" key={i} link={e?.link}>
                         <div className="banner-wrap main-top-banner">
                           <div className="img-wrap">
-                            <img src={e?.image_url} alt="여름 스테디셀러" />
+                            <img src={e?.thumb} alt="여름 스테디셀러" />
                           </div>
                           <div className="content-wrap">
                             <div className="w-inner flex-end">
                               <p className="sub-copy en fc-orange">STORY</p>
                               <h2 className="main-copy">{e?.title}</h2>
-                              <p className="text">꾸준히 인기있는 여름 음료 추천전</p>
+                              <p className="text">{e?.subtitle}</p>
                             </div>
                           </div>
                         </div>
@@ -224,11 +272,11 @@ export function Main(props) {
                   })}
                 </ul>
                 <div className="swiper-scrollbar"></div>
-                <Link to="/story/list" className="btn view-page">
+                <button onClick={() => handleGoDetail()} className="btn view-page">
                   <i className="ico arr-r">
                     <span className="blind">스토리 바로가기</span>
                   </i>
-                </Link>
+                </button>
               </Swiper>
               {/* // main-visual */}
 
@@ -249,7 +297,7 @@ export function Main(props) {
                     </i>
                   </button>
                   <div className="speech-wrap">
-                    <p className="speech-bubble ani">오늘은 신메뉴 어떠세요?</p>
+                    <p className="speech-bubble ani">{axioData?.join_text}</p>
                   </div>
                 </div>
               ) : (
@@ -613,72 +661,30 @@ export function Main(props) {
                   <h3 className="section-title" onClick={() => fn_dev()}>
                     달콤 MD
                   </h3>
-                  <Link to="/story/list" className="btn text">
+                  <a onClick={() => handleMdDetail("더보기")} className="btn text">
                     <span>더 보기</span>
-                  </Link>
+                  </a>
                 </div>
 
                 <Swiper id="searchStore2" className="swiper-container section-slider md-slider" slidesPerView={"auto"} freeMode={false}>
                   <ul className="swiper-wrapper data-list">
-                    <SwiperSlide className="swiper-slide">
-                      <div className="item md">
-                        <div className="img-wrap">
-                          <img src="/@resource/images/@temp/md_01.jpg" alt="달콤 피크닉백" />
-                        </div>
-                        <div className="data-wrap">
-                          <p className="title">달콤 피크닉백</p>
-                          <p className="price-box">
-                            <span className="percent fc-orange">20%</span>
-                            <span className="price">23,900원</span>
-                          </p>
-                        </div>
-                      </div>
-                    </SwiperSlide>
+                    {axioData?.mdList?.map((e, i) => (
+                      <SwiperSlide className="swiper-slide" key={i} onClick={() => handleMdDetail(e?.link)}>
+                        <div className="item md">
+                          <div className="img-wrap">
+                            <img src={e?.thumb} alt="달콤 피크닉백" />
+                          </div>
+                          <div className="data-wrap">
+                            <p className="title">{e?.title}</p>
+                            <p className="price-box">
+                              {e?.percent !== "" && <span className="percent fc-orange">{e?.percent}%</span>}
 
-                    <SwiperSlide className="swiper-slide">
-                      <div className="item md">
-                        <div className="img-wrap">
-                          <img src="/@resource/images/@temp/md_02.jpg" alt="달콤 홈카페 세트" />
+                              <span className="price">{e?.price.toLocaleString("ko-KR")}원</span>
+                            </p>
+                          </div>
                         </div>
-                        <div className="data-wrap">
-                          <p className="title">달콤 홈카페 세트</p>
-                          <p className="price-box">
-                            <span className="percent fc-orange">20%</span>
-                            <span className="price">23,900원</span>
-                          </p>
-                        </div>
-                      </div>
-                    </SwiperSlide>
-
-                    <SwiperSlide className="swiper-slide">
-                      <div className="item md">
-                        <div className="img-wrap">
-                          <img src="/@resource/images/@temp/md_01.jpg" alt="달콤 피크닉백" />
-                        </div>
-                        <div className="data-wrap">
-                          <p className="title">달콤 피크닉백</p>
-                          <p className="price-box">
-                            <span className="percent fc-orange">20%</span>
-                            <span className="price">23,900원</span>
-                          </p>
-                        </div>
-                      </div>
-                    </SwiperSlide>
-
-                    <SwiperSlide className="swiper-slide">
-                      <div className="item md">
-                        <div className="img-wrap">
-                          <img src="/@resource/images/@temp/md_02.jpg" alt="달콤 홈카페 세트" />
-                        </div>
-                        <div className="data-wrap">
-                          <p className="title">달콤 홈카페 세트</p>
-                          <p className="price-box">
-                            <span className="percent fc-orange">20%</span>
-                            <span className="price">23,900원</span>
-                          </p>
-                        </div>
-                      </div>
-                    </SwiperSlide>
+                      </SwiperSlide>
+                    ))}
                   </ul>
                 </Swiper>
               </section>

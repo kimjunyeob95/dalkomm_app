@@ -580,6 +580,9 @@ a[target=_blank]::after {content: ''; display: block; position: absolute; top: 5
 .item.contact {display: -ms-flexbox; display: -webkit-flex; display: flex; -webkit-box-align: center;-ms-flex-align: center;align-items: center;}
 .item.contact .ico + span {margin-left: 4.533vw;}
 .item.contact span {font-size: 3.733vw; color:#8d8d8d;}
+/* .item.nodata */
+.item.nodata .title {font-weight: 700; font-size: 4.800vw; text-align: center; padding-top: 8vw;}
+.item.nodata .title + .btn-area {margin-top: 13.333vw;}
 
 /* attention list */
 .attention-list > li {position: relative; line-height: 4.800vw; word-break: keep-all; padding-left: 2.933vw;}

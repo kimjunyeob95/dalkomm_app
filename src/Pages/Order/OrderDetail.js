@@ -7,7 +7,7 @@
 import axios from "axios";
 import $ from "jquery";
 import React, { useEffect, useContext, useState } from "react";
-import { Link, useHistory, useParams } from "react-router-dom";
+import { Link, useHistory, useParams, useLocation } from "react-router-dom";
 import GoContents from "Components/GoContents";
 import { contGap } from "Jquery/Jquery";
 
@@ -23,7 +23,7 @@ export default function OrderDetail() {
   const history = useHistory();
   const { orderCode, storeCode } = useParams();
   const [frontData, setFront] = useState({ defaultPrice: 0 });
-
+  const { scrollValue } = useLocation();
   const flagFn = (element) => {
     if (element === 0 || element === null || element === "" || element === undefined || element === "0" || element === "None") {
       return false;
@@ -102,7 +102,7 @@ export default function OrderDetail() {
       .then(
         axios.spread((res1) => {
           if (res1.data.meta.code === 20000) {
-             history.push(`/order/final/${res1.data.data.smartorder_orderinfo_id}`);
+            history.push(`/order/final/${res1.data.data.smartorder_orderinfo_id}`);
           } else {
             alert(res1.data.meta.msg);
           }
@@ -596,7 +596,16 @@ export default function OrderDetail() {
               <h1>
                 <span className="blind">메뉴상세</span>
               </h1>
-              <button type="button" className="btn back" onClick={() => history.push(`/order/menu/${storeCode}`)}>
+              <button
+                type="button"
+                className="btn back"
+                onClick={() =>
+                  history.push({
+                    pathname: `/order/menu/${storeCode}`,
+                    scrollValue: scrollValue,
+                  })
+                }
+              >
                 <i className="ico back">
                   <span className="blind">뒤로</span>
                 </i>

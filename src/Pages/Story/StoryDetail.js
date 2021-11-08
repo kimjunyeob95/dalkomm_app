@@ -1,8 +1,12 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable no-unused-vars */
+/* eslint-disable jsx-a11y/anchor-is-valid */
+// eslint-disable-next-line no-unused-vars
+import axios from "axios";
 import $ from "jquery";
-import React, { useEffect } from "react";
-import { Link } from "react-router-dom";
-
-import HeaderSub from "Components/Header/HeaderSub";
+import React, { useEffect, useState, useContext } from "react";
+import { Link, useParams, useHistory } from "react-router-dom";
+import { SERVER_DALKOMM_SUGAR } from "Config/Server";
 import GoContents from "Components/GoContents";
 
 import { moveScrollTop } from "Jquery/Jquery";
@@ -10,16 +14,20 @@ import { moveScrollTop } from "Jquery/Jquery";
 import { Swiper, SwiperSlide } from "swiper/react";
 import SwiperCore, { Pagination } from "swiper/core";
 import { fadeOut } from "Config/GlobalJs";
+import { authContext } from "ContextApi/Context";
 
 export default function StoryDetail() {
-  SwiperCore.use([Pagination]);
-  useEffect(() => {
-    function sectionGap() {
-      var bannerH = $("#storyBanner").outerHeight();
+  const history = useHistory();
+  const [axioData, setData] = useState({});
+  const { id } = useParams();
 
-      $(".story-detail-wrap").css({ "margin-top": bannerH });
-    }
+  const sectionGap = () => {
+    var bannerH = $("#storyBanner").outerHeight();
 
+    $(".story-detail-wrap").css({ "margin-top": bannerH });
+  };
+
+  const fn_scroll = () => {
     $(window).on("scroll", function (e) {
       // eslint-disable-next-line no-unused-vars
       let objHeight = $("#storyBanner").outerHeight();
@@ -41,12 +49,46 @@ export default function StoryDetail() {
         }
       } catch (error) {}
     });
-    sectionGap();
-    fadeOut();
+  };
+
+  const fn_api = () => {
+    let contentData = new FormData();
+    contentData.append("seq", id);
+    axios
+      .all([axios.post(`${SERVER_DALKOMM_SUGAR}/api/contentView`, contentData), axios.post(`${SERVER_DALKOMM_SUGAR}/api/getHtml`, contentData)])
+      .then(
+        axios.spread((res1, res2) => {
+          let contentData = res1.data;
+          let contentDetail = res2.data;
+          setData((origin) => {
+            return {
+              ...origin,
+              contentData,
+              contentDetail,
+            };
+          });
+        })
+      );
+  };
+  useEffect(() => {
+    fn_api();
+
     return () => {
       $(window).off("scroll");
     };
   }, []);
+  useEffect(() => {
+    fn_api();
+  }, [id]);
+  useEffect(() => {
+    fadeOut();
+    fn_scroll();
+    sectionGap();
+    // SwiperCore.use([Pagination]);
+  }, [axioData]);
+  const handleLocation = (seq) => {
+    history.push(`/story/detail/${seq}`);
+  };
   return (
     <React.Fragment>
       <GoContents />
@@ -54,43 +96,37 @@ export default function StoryDetail() {
       <div id="wrap" className="wrap">
         <div id="container" className="container">
           {/* <HeaderSub title="달콤스토리" btnType="share" icon="share" blindClass={false} PathName="detail" /> */}
-          <HeaderSub title="달콤스토리" blindClass={false} PathName="detail" />
+          <header id="header" className="header">
+            <h1 className="page-title">
+              <span className="blind">달콤스토리</span>
+            </h1>
+            <Link type="button" className="btn back" to={"/story/list"}>
+              <i className="ico back">
+                <span className="blind">뒤로</span>
+              </i>
+            </Link>
+            <div className="btn-area flex-center">
+              {/* <a href="javascript:void(0);" className="btn share">
+						<i className="ico share">
+							<span>공유하기</span>
+						</i>
+					</a> */}
+            </div>
+          </header>
 
           <div id="content" className="story detail fade-in">
-            <Swiper
-              id="storyBanner"
-              className="swiper-container"
-              slidesPerView={"auto"}
-              pagination={{
-                el: ".swiper-pagination",
-                clickable: true,
-              }}
-            >
+            <div id="storyBanner" className="swiper-container">
               <ul className="swiper-wrapper data-list" slot="container-start">
-                <SwiperSlide className="swiper-slide">
+                <li className="swiper-slide">
                   <div className="banner-wrap">
                     <div className="img-wrap">
-                      <img src="/@resource/images/@temp/banner_stroy_01.jpg" alt="스토리 이미지" />
+                      <img src={axioData?.contentData?.data?.thumb} alt="스토리 이미지" />
                     </div>
                   </div>
-                </SwiperSlide>
-                <SwiperSlide className="swiper-slide">
-                  <div className="banner-wrap">
-                    <div className="img-wrap">
-                      <img src="/@resource/images/@temp/banner_stroy_02.jpg" alt="스토리 이미지" />
-                    </div>
-                  </div>
-                </SwiperSlide>
-                <SwiperSlide className="swiper-slide">
-                  <div className="banner-wrap">
-                    <div className="img-wrap">
-                      <img src="/@resource/images/@temp/banner_stroy_01.jpg" alt="스토리 이미지" />
-                    </div>
-                  </div>
-                </SwiperSlide>
+                </li>
               </ul>
-              <div className="swiper-pagination"></div>
-            </Swiper>
+            </div>
+            {/* <div className="swiper-pagination"></div> */}
 
             <div className="story-detail-wrap">
               <section className="section">
@@ -106,27 +142,13 @@ export default function StoryDetail() {
                                 */}
                   </div>
                   <div className="data-wrap">
-                    <h2 className="title">2021 여름 시즌 음료</h2>
-                    <p className="text">페이코인 현장 결제 시, 아메리카노가 100원!</p>
-                    <p className="date">2021.06.14 </p>
+                    <h2 className="title">{axioData?.contentData?.data?.title}</h2>
+                    <p className="text">{axioData?.contentData?.data?.sub_title}</p>
+                    <p className="date">{axioData?.contentData?.data?.date}</p>
                   </div>
                 </div>
                 <div className="item board">
-                  <p>
-                    커다란 자신과 그들의 천하를 설레는 그리하였는가? 것은 이것은 우리 것이 교향악이다. 위하여 소금이라 무엇이 크고 끓는 설산에서
-                    황금시대를 때문이다. 무엇을 얼마나 같이, 열매를 같지 쓸쓸하랴? 속잎나고, 오직 우리 안고, 남는 심장의 뜨고, 얼마나 때문이다.
-                  </p>
-                  <p>
-                    때까지 끝까지 풀이 오아이스도 어디 따뜻한 아니한 피가 위하여서. 시들어 꽃이 어디 할지니, 낙원을 능히 평화스러운 웅대한 것이다.
-                    우는 피부가 바로 이상의 그리하였는가? <br />
-                    그들을 주는 기쁘며, 같으며, 것이 가슴이 몸이 보이는 인생에 칼이다. 그림자는 노년에게서 그들의 원대하고, 청춘이 청춘의 얼마나
-                    칼이다.
-                  </p>
-                  <img src="/@resource/images/@temp/banner_stroy_02.jpg" alt="스토리 이미지" />
-                  <p>
-                    밥을 인도하겠다는 물방아 하는 있으랴? 이상의 속에서 예가 할지라도 부패를 목숨이 얼마나 귀는 위하여서. 뜨거운지라, 고행을 듣기만
-                    군영과 밥을 유소년에게서 방황하여도, 눈에 속에서 말이다. 이상의 보이는 모래뿐일 이것이다.
-                  </p>
+                  <div dangerouslySetInnerHTML={{ __html: axioData?.contentDetail }}></div>
                 </div>
               </section>
 
@@ -136,60 +158,26 @@ export default function StoryDetail() {
                     <span>이벤트 메뉴 바로가기</span>
                   </h3>
                   <ul className="data-list">
-                    <li>
-                      <Link to="#" className="item order">
-                        <div className="img-wrap">
-                          <img src="/@resource/images/@temp/product_09.jpg" alt="청포도 블렌디드" />
-                        </div>
-                        <div className="detail-wrap">
-                          <div className="order-info">
-                            <p className="title">
-                              청포도 블렌디드
-                              <span className="en">Green grape Blended</span>
-                            </p>
+                    {axioData?.contentData?.menu?.map((e, i) => (
+                      <li key={i}>
+                        <Link to={`/order/infoDetail/${e?.code}`} className="item order">
+                          <div className="img-wrap">
+                            <img src={e?.img} alt="청포도 블렌디드" />
                           </div>
-                          <div className="price-wrap">
-                            <p className="price">4,800원</p>
+                          <div className="detail-wrap">
+                            <div className="order-info">
+                              <p className="title">
+                                {e?.name}
+                                <span className="en">{e?.name_eng}</span>
+                              </p>
+                            </div>
+                            <div className="price-wrap">
+                              <p className="price">{Number(e?.price).toLocaleString("ko-KR")}원</p>
+                            </div>
                           </div>
-                        </div>
-                      </Link>
-                    </li>
-                    <li>
-                      <Link to="#" className="item order">
-                        <div className="img-wrap">
-                          <img src="/@resource/images/@temp/product_10.jpg" alt="자두 블렌디드" />
-                        </div>
-                        <div className="detail-wrap">
-                          <div className="order-info">
-                            <p className="title">
-                              자두 블렌디드
-                              <span className="en">Plum Blended</span>
-                            </p>
-                          </div>
-                          <div className="price-wrap">
-                            <p className="price">4,800원</p>
-                          </div>
-                        </div>
-                      </Link>
-                    </li>
-                    <li>
-                      <Link to="#" className="item order">
-                        <div className="img-wrap">
-                          <img src="/@resource/images/@temp/product_13.jpg" alt="수박 블렌디드" />
-                        </div>
-                        <div className="detail-wrap">
-                          <div className="order-info">
-                            <p className="title">
-                              수박 블렌디드
-                              <span className="en">Watermelon Blended</span>
-                            </p>
-                          </div>
-                          <div className="price-wrap">
-                            <p className="price">4,800원</p>
-                          </div>
-                        </div>
-                      </Link>
-                    </li>
+                        </Link>
+                      </li>
+                    ))}
                   </ul>
                 </div>
               </section>
@@ -198,15 +186,19 @@ export default function StoryDetail() {
             {/* 목록으로 버튼 영역 */}
             <div className="fixed-con active">
               <div className="btn-area">
-                <Link to="/story/detail/1" className="btn page prev">
-                  <span className="blind">이전</span>
-                </Link>
+                {axioData?.contentData?.prev && (
+                  <a onClick={() => handleLocation(axioData?.contentData?.prev)} className="btn page prev">
+                    <span className="blind">이전</span>
+                  </a>
+                )}
                 <Link to="/story/list" className="btn full x-large bdr">
                   <strong>목록으로</strong>
                 </Link>
-                <Link to="/story/detail/1" className="btn page next">
-                  <span className="blind">다음</span>
-                </Link>
+                {axioData?.contentData?.next && (
+                  <a onClick={() => handleLocation(axioData?.contentData?.next)} className="btn page next">
+                    <span className="blind">다음</span>
+                  </a>
+                )}
               </div>
             </div>
             {/* // 목록으로 버튼 영역 */}

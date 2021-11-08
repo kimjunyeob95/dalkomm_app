@@ -14,6 +14,8 @@ import Nav from "Components/Nav/Nav";
 import GoContents from "Components/GoContents";
 import { contGap, popupOpen, tabLink, fadeInOut } from "Jquery/Jquery";
 import Popup_removeCard from "Components/Popup/Popup_removeCard";
+import Popup_nomal from "Components/Popup/Popup_nomal";
+
 import { getParameter } from "Config/GlobalJs";
 
 import { authContext } from "ContextApi/Context";
@@ -37,8 +39,8 @@ export default function Pay() {
       Authorization: state?.auth,
     },
   };
-  useEffect(() => {
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
+  const firstApi = () => {
     axios
       .all([
         axios.post(`${SERVER_DALKOMM}/app/api/v2/membership`, body, header_config),
@@ -82,7 +84,11 @@ export default function Pay() {
           }
         })
       );
-  }, [state?.auth]);
+  };
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    firstApi();
+  }, []);
   useEffect(() => {
     contGap();
     fadeOut();
@@ -106,6 +112,23 @@ export default function Pay() {
   const handleGiftCharge = (event) => {
     let giftCode = $("#payGift .swiper-slide-active").data("cardnum");
     history.push(`/mypage/giftCharge/${giftCode}`);
+  };
+
+  const handleAddCard = () => {
+    axios.all([axios.post(`${SERVER_DALKOMM}/app/api/v2/chargecard/publish`, body, header_config)]).then(
+      axios.spread((res1) => {
+        if (res1.data.meta.code === 20000) {
+          $("#resAlert").text("충전카드가 발급되었습니다.");
+          $(".overlay.popupExitJoin").addClass("active");
+          $("body").addClass("modal-opened");
+          firstApi();
+        } else {
+          $("#resAlert").text(res1.data.meta.msg);
+          $(".overlay.popupExitJoin").addClass("active");
+          $("body").addClass("modal-opened");
+        }
+      })
+    );
   };
 
   if (axioData) {
@@ -189,17 +212,17 @@ export default function Pay() {
               </div>
               <div id="payGift" className="tab-content">
                 <div className="w-inner">
-                  <Swiper
-                    id="cardSlider"
-                    className="swiper-container"
-                    slidesPerView={1}
-                    pagination={{ clickable: true }}
-                    observer={true}
-                    observeParents={true}
-                  >
-                    <ul className="swiper-wrapper">
-                      {axioData?.res2_data?.charge_card_list?.length > 0 ? (
-                        axioData?.res2_data?.charge_card_list?.map((e, i) => (
+                  {axioData?.res2_data?.charge_card_list?.length > 0 ? (
+                    <Swiper
+                      id="cardSlider"
+                      className="swiper-container"
+                      slidesPerView={1}
+                      pagination={{ clickable: true }}
+                      observer={true}
+                      observeParents={true}
+                    >
+                      <ul className="swiper-wrapper">
+                        {axioData?.res2_data?.charge_card_list?.map((e, i) => (
                           <SwiperSlide className="swiper-slide" key={i} data-cardnum={e?.card_number} data-pin={e?.pin_number}>
                             <h2>{axioData?.res1_data?.user_name}님의 기프트카드</h2>
                             <div className="item card gift">
@@ -247,13 +270,22 @@ export default function Pay() {
                               </div>
                             </div>
                           </SwiperSlide>
-                        ))
-                      ) : (
-                        <React.Fragment></React.Fragment>
-                      )}
-                    </ul>
-                    <div className="swiper-pagination"></div>
-                  </Swiper>
+                        ))}
+                      </ul>
+                      <div className="swiper-pagination"></div>
+                    </Swiper>
+                  ) : (
+                    <div className="item nodata">
+                      <h2 className="title">발급된 기프트 카드가 없습니다.</h2>
+
+                      <div className="btn-area">
+                        <a onClick={() => handleAddCard()} className="btn dark full large">
+                          기프트 카드 발급하기
+                        </a>
+                      </div>
+                    </div>
+                  )}
+
                   {axioData?.res2_data?.charge_card_list?.length > 0 && (
                     <ul className="row-list flex-center">
                       <li>
@@ -276,6 +308,7 @@ export default function Pay() {
           {/* // #container */}
         </div>
         <Popup_removeCard />
+        <Popup_nomal />
         {/* // #wrap */}
 
         {/* 멤버쉽 카드 확대 팝업 */}

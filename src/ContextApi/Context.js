@@ -58,7 +58,6 @@ export const indexReducer = (state, action) => {
 };
 
 const ContextStore = (props) => {
-  const [loading, setLoding] = useState(false);
   useEffect(() => {
     let data = {
       callbackFunc: "nativeCallbackFcmToken",
