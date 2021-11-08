@@ -79,26 +79,10 @@ ReactDOM.render(
         </PrivateRoute>
 
         <Route exact path="/order" component={() => <Order />} />
-        <Route
-          exact
-          path="/order/storeSearch"
-          component={() => <OrderStoreSearch />}
-        />
-        <Route
-          exact
-          path="/order/menu/:storeCode"
-          component={() => <OrderMenu />}
-        />
-        <Route
-          exact
-          path="/order/menuSearch/:storeCode"
-          component={() => <OrderSearch />}
-        />
-        <Route
-          exact
-          path="/order/infoDetail/:menuCode"
-          component={() => <OrderInfoDetail />}
-        />
+        <Route exact path="/order/storeSearch" component={() => <OrderStoreSearch />} />
+        <Route exact path="/order/menu/:storeCode" component={() => <OrderMenu />} />
+        <Route exact path="/order/menuSearch/:storeCode" component={() => <OrderSearch />} />
+        <Route exact path="/order/infoDetail/:menuCode" component={() => <OrderInfoDetail />} />
         <PrivateRoute path="/order/favorite/:storeCode">
           <OrderFavorite />
         </PrivateRoute>
@@ -166,23 +150,11 @@ ReactDOM.render(
         </PrivateRoute> */}
         <Route exact path="/menu" component={() => <Menu />} />
 
-        <PrivateRoute exact path="/story/list">
-          <StoryList />
-        </PrivateRoute>
-        <PrivateRoute exact path="/story/detail/:id">
-          <StoryDetail />
-        </PrivateRoute>
+        <Route exact path="/story/list" component={() => <StoryList />} />
+        <Route exact path="/story/detail/:id" component={() => <StoryDetail />} />
 
-        <Route
-          exact
-          path="/support/notice/list"
-          component={() => <NoticeList />}
-        />
-        <Route
-          exact
-          path="/support/notice/detail/:id"
-          component={() => <NoticeDetail />}
-        />
+        <Route exact path="/support/notice/list" component={() => <NoticeList />} />
+        <Route exact path="/support/notice/detail/:id" component={() => <NoticeDetail />} />
         <Route exact path="/support/faq" component={() => <Faq />} />
 
         <Route exact path="/login" component={() => <Login />} />

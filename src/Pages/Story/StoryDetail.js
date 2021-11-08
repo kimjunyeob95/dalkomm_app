@@ -30,17 +30,6 @@ export default function StoryDetail() {
   const fn_scroll = () => {
     $(window).on("scroll", function (e) {
       // eslint-disable-next-line no-unused-vars
-      let objHeight = $("#storyBanner").outerHeight();
-      var winsc = $(this).scrollTop();
-
-      if (winsc === 0) {
-        $("#header").removeClass("fixed-header bg-transparent");
-      }
-      // eslint-disable-next-line no-unused-vars
-      let obj = $("#storyBanner").offset();
-      if ($("body").hasClass("scroll-has") === true) {
-        $("#header").addClass("fixed-header bg-transparent");
-      }
       try {
         if ($(this).scrollTop() > $(".story-detail-wrap").offset().top - $("#header .btn").outerHeight()) {
           $("#header .btn").addClass("bdr");
@@ -96,7 +85,7 @@ export default function StoryDetail() {
       <div id="wrap" className="wrap">
         <div id="container" className="container">
           {/* <HeaderSub title="달콤스토리" btnType="share" icon="share" blindClass={false} PathName="detail" /> */}
-          <header id="header" className="header">
+          <header id="header" className="header bg-transparent">
             <h1 className="page-title">
               <span className="blind">달콤스토리</span>
             </h1>

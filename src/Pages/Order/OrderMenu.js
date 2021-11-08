@@ -60,21 +60,21 @@ export default function OrderMenu() {
                 res2_data,
               };
             });
-            // fadeInOut();
+            scrollValue &&
+              window.scrollTo({
+                top: scrollValue,
+                behavior: "smooth",
+              });
           })
         );
     }
-  }, [state?.auth]);
+  }, []);
 
   useEffect(() => {
     contGap();
     fadeOut();
-    scrollValue &&
-      window.scrollTo({
-        top: scrollValue,
-        behavior: "smooth",
-      });
   }, [axioData]);
+
   const jqueryTablink = (e) => {
     tabLink(e);
     let data_category = $(e.target).data("category") === "" ? 0 : $(e.target).data("category");

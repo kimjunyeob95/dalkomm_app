@@ -91,7 +91,7 @@ export function Main(props) {
       //비로그인 시
       axios
         .all([
-          axios.post(`${SERVER_DALKOMM}/app/api/main`, body, header_config),
+          axios.post(`${SERVER_DALKOMM_SUGAR}/api/getMainBanner`),
           axios.post(`${SERVER_DALKOMM}/app/api/v2/store/around`, location_body, header_config),
           axios.post(`${SERVER_DALKOMM_SUGAR}/api/getMd`),
         ])

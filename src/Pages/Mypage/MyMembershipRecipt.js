@@ -48,7 +48,6 @@ export default function MyMembershipRecipt() {
   }, [axioData]);
 
   if (axioData) {
-    console.log(axioData);
     return (
       <React.Fragment>
         <GoContents />

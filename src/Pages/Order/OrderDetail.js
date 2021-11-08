@@ -24,6 +24,44 @@ export default function OrderDetail() {
   const { orderCode, storeCode } = useParams();
   const [frontData, setFront] = useState({ defaultPrice: 0 });
   const { scrollValue } = useLocation();
+  let hardCodingMenu = [
+    {
+      menuCode: "0925",
+      name_kor: "미트볼칠리치즈 샌드위치",
+      name_eng: "Meatball sandwich",
+      thum: "/@resource/images/hardcoding/0925.png",
+    },
+    {
+      menuCode: "0911",
+      name_kor: "마스카포네 티라미수",
+      name_eng: "Mascarpone tiramisu",
+      thum: "/@resource/images/hardcoding/0911.png",
+    },
+    // {
+    //   menuCode: "0084",
+    //   name_kor: "허니브레드",
+    //   name_eng: "Honey bread",
+    //   thum: "/@resource/images/hardcoding/0084.png",
+    // },
+    // {
+    //   menuCode: "0778",
+    //   name_kor: "리코타치즈베이글",
+    //   name_eng: "Plain ricootta cheese bagle",
+    //   thum: "/@resource/images/hardcoding/0778.png",
+    // },
+    // {
+    //   menuCode: "0091",
+    //   name_kor: "스위트쌀롤",
+    //   name_eng: "Sweet rice roll",
+    //   thum: "/@resource/images/hardcoding/0091.png",
+    // },
+    // {
+    //   menuCode: "0094",
+    //   name_kor: "바닐라 마카롱",
+    //   name_eng: "vanilla macaron",
+    //   thum: "/@resource/images/hardcoding/0094.png",
+    // },
+  ];
   const flagFn = (element) => {
     if (element === 0 || element === null || element === "" || element === undefined || element === "0" || element === "None") {
       return false;
@@ -39,7 +77,8 @@ export default function OrderDetail() {
       Authorization: state.auth,
     },
   };
-  useEffect(() => {
+
+  const fn_api = () => {
     axios
       .all([axios.get(`${SERVER_DALKOMM}/app/api/v2/menu/detail?code=${orderCode}&store_code=${storeCode}&is_smartorder=${1}`, header_config)])
       .then(
@@ -49,16 +88,22 @@ export default function OrderDetail() {
             alert("결품 상품입니다. 테이블 오더가 불가능 합니다.");
             history.goBack();
           }
+
           setData((origin) => {
             return {
               ...origin,
               res1_data,
+              hardCodingMenu,
             };
           });
         })
       );
-  }, [state?.auth]);
-
+  };
+  useEffect(() => {
+    fn_api();
+    $("#addCart").removeClass("active");
+    $("body").removeClass("modal-opened");
+  }, [orderCode]);
   useEffect(() => {
     // 말풍선 스크롤시 hide/show
     if (axioData) {
@@ -113,6 +158,7 @@ export default function OrderDetail() {
 
   const handleSubmitCart = (event) => {
     let add_obj = getMenuObj();
+
     axios
       .all([axios.post(`${SERVER_DALKOMM}/app/api/v2/smartorder/cart/add`, add_obj, header_config)])
       .then(axios.spread((res1) => {}))
@@ -1358,110 +1404,21 @@ export default function OrderDetail() {
                           observeParents={true}
                         >
                           <ul className="swiper-wrapper data-list" slot="container-start">
-                            <li className="swiper-slide">
-                              <div className="item menu">
-                                <div className="img-wrap">
-                                  <img src="/@resource/images/@temp/product_recommend_01.jpg" alt="크루아상" />
+                            {axioData?.hardCodingMenu?.map((e, i) => (
+                              <li className="swiper-slide" key={i} onClick={() => history.push(`/order/detail/${storeCode}/${e?.menuCode}`)}>
+                                <div className="item menu">
+                                  <div className="img-wrap">
+                                    <img src={e?.thum} alt="크루아상" />
+                                  </div>
+                                  <div className="detail-wrap">
+                                    <p className="title">
+                                      {e?.name_kor}
+                                      <span className="en">{e?.name_eng}</span>
+                                    </p>
+                                  </div>
                                 </div>
-                                <div className="detail-wrap">
-                                  <p className="title">
-                                    크루아상
-                                    <span className="en">Croissant</span>
-                                  </p>
-                                </div>
-                              </div>
-                            </li>
-                            <li className="swiper-slide">
-                              <div className="item menu">
-                                <div className="img-wrap">
-                                  <img src="/@resource/images/@temp/product_recommend_02.jpg" alt="클래식 스콘" />
-                                </div>
-                                <div className="detail-wrap">
-                                  <p className="title">
-                                    클래식 스콘
-                                    <span className="en">Classic Scone</span>
-                                  </p>
-                                </div>
-                              </div>
-                            </li>
-                            <li className="swiper-slide">
-                              <div className="item menu">
-                                <div className="img-wrap">
-                                  <img src="/@resource/images/@temp/product_recommend_03.jpg" alt="애플파이" />
-                                </div>
-                                <div className="detail-wrap">
-                                  <p className="title">
-                                    애플파이
-                                    <span className="en">Apple Pie</span>
-                                  </p>
-                                </div>
-                              </div>
-                            </li>
-                            <li className="swiper-slide">
-                              <div className="item menu">
-                                <div className="img-wrap">
-                                  <img src="/@resource/images/@temp/product_recommend_04.jpg" alt="고소한 단팥빵" />
-                                </div>
-                                <div className="detail-wrap">
-                                  <p className="title">
-                                    고소한 단팥빵
-                                    <span className="en">Sweet Red-bean</span>
-                                  </p>
-                                </div>
-                              </div>
-                            </li>
-                            <li className="swiper-slide">
-                              <div className="item menu">
-                                <div className="img-wrap">
-                                  <img src="/@resource/images/@temp/product_recommend_01.jpg" alt="크루아상" />
-                                </div>
-                                <div className="detail-wrap">
-                                  <p className="title">
-                                    크루아상
-                                    <span className="en">Croissant</span>
-                                  </p>
-                                </div>
-                              </div>
-                            </li>
-                            <li className="swiper-slide">
-                              <div className="item menu">
-                                <div className="img-wrap">
-                                  <img src="/@resource/images/@temp/product_recommend_02.jpg" alt="클래식 스콘" />
-                                </div>
-                                <div className="detail-wrap">
-                                  <p className="title">
-                                    클래식 스콘
-                                    <span className="en">Classic Scone</span>
-                                  </p>
-                                </div>
-                              </div>
-                            </li>
-                            <li className="swiper-slide">
-                              <div className="item menu">
-                                <div className="img-wrap">
-                                  <img src="/@resource/images/@temp/product_recommend_03.jpg" alt="애플파이" />
-                                </div>
-                                <div className="detail-wrap">
-                                  <p className="title">
-                                    애플파이
-                                    <span className="en">Apple Pie</span>
-                                  </p>
-                                </div>
-                              </div>
-                            </li>
-                            <li className="swiper-slide">
-                              <div className="item menu">
-                                <div className="img-wrap">
-                                  <img src="/@resource/images/@temp/product_recommend_04.jpg" alt="고소한 단팥빵" />
-                                </div>
-                                <div className="detail-wrap">
-                                  <p className="title">
-                                    고소한 단팥빵
-                                    <span className="en">Sweet Red-bean</span>
-                                  </p>
-                                </div>
-                              </div>
-                            </li>
+                              </li>
+                            ))}
                           </ul>
                         </Swiper>
                       </div>

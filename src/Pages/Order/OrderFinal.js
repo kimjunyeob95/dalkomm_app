@@ -765,7 +765,7 @@ export default function OrderFinal() {
                           <dl className="flex-both flex-center">
                             <dt className="title">KT 제휴 할인</dt>
                             <dd>
-                              {axioData?.res1_data?.is_available_affiliate ? (
+                              {axioData?.res1_data?.available_affiliate_discount ? (
                                 <a className="btn verify" onClick={() => handleMembership()}>
                                   인증하기
                                 </a>

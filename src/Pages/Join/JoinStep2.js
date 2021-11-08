@@ -43,10 +43,32 @@ export default function JoinStep2() {
 
   const handleSubmit = (e) => {
     let validation = true;
+    let agree_text = "";
+    let count = 0;
+    $(".chk-agree-not").each(function (i, e) {
+      if ($(e).is(":checked")) {
+        if (count === 0) {
+          agree_text += $(e).attr("data-value");
+        } else {
+          agree_text += "," + $(e).attr("data-value");
+        }
+        count++;
+      }
+    });
     $(".chk-validation").each(function (i, e) {
       if ($(e).val() === "") {
         validation = false;
         $("#resAlert").text("필수 정보는 모두 입력해 주세요.");
+        $(".overlay.popupExitJoin").addClass("active");
+        $("body").addClass("modal-opened");
+        return false;
+      }
+    });
+
+    $(".chk-agree").each(function (i, e) {
+      if (!$(e).is(":checked")) {
+        validation = false;
+        $("#resAlert").text("필수 약관을 모두 체크해 주세요.");
         $(".overlay.popupExitJoin").addClass("active");
         $("body").addClass("modal-opened");
         return false;
@@ -61,6 +83,7 @@ export default function JoinStep2() {
           password: $("#userPw").val(),
           name: $("#userName").val(),
           birthday: $("#datepicker").val().split("-").join(""),
+          policy: agree_text,
         };
 
         axios.all([axios.post(`${SERVER_DALKOMM}/app/api/account/simple/join`, body, header_config)]).then(
@@ -83,7 +106,15 @@ export default function JoinStep2() {
       }
     }
   };
-
+  const handleCheck = (type) => {
+    if (type === "all") {
+      if ($("#termsAll").prop("checked")) {
+        $("input[name=termsAgree]").prop("checked", true);
+      } else {
+        $("input[name=termsAgree]").prop("checked", false);
+      }
+    }
+  };
   return (
     <React.Fragment>
       <div className="skip-nav">
@@ -225,6 +256,86 @@ export default function JoinStep2() {
                       </div>
                     </div>
                   </fieldset>
+
+                  {/* [D] 211108 .fieldset.terms 추가 */}
+                  <fieldset className="fieldset terms">
+                    <div className="field">
+                      <div className="check-wrap">
+                        <input type="checkbox" className="checkbox" name="termsAll" id="termsAll" onClick={() => handleCheck("all")} />
+                        <label htmlFor="termsAll">전체 약관 동의</label>
+                      </div>
+                    </div>
+
+                    <div className="field">
+                      <div className="check-wrap">
+                        <input type="checkbox" className="checkbox chk-agree" name="termsAgree" id="termsAgree01" />
+                        <label htmlFor="termsAgree01">이용 약관 동의 (필수)</label>
+                      </div>
+                      {/* <div className="btn-area">
+                        <button type="button" pop-target="#popupTerms01" className="btn bdr-r xx-small gray open-pop">
+                          전문보기
+                        </button>
+                      </div> */}
+                    </div>
+
+                    <div className="field">
+                      <div className="check-wrap">
+                        <input type="checkbox" className="checkbox chk-agree" name="termsAgree" id="termsAgree02" />
+                        <label htmlFor="termsAgree02">위치정보 이용약관 동의 (필수)</label>
+                      </div>
+                      {/* <div className="btn-area">
+                        <button type="button" pop-target="#popupTerms02" className="btn bdr-r xx-small gray open-pop">
+                          전문보기
+                        </button>
+                      </div> */}
+                    </div>
+                    <div className="field">
+                      <div className="check-wrap">
+                        <input type="checkbox" className="checkbox chk-agree" name="termsAgree" id="termsAgree03" />
+                        <label htmlFor="termsAgree03">개인 정보 수집 및 이용 동의 (필수)</label>
+                      </div>
+                      {/* <div className="btn-area">
+                        <button type="button" pop-target="#popupTerms02" className="btn bdr-r xx-small gray open-pop">
+                          전문보기
+                        </button>
+                      </div> */}
+                    </div>
+                    <div className="field">
+                      <div className="check-wrap">
+                        <input type="checkbox" className="checkbox chk-agree" name="termsAgree" id="termsAgree04" />
+                        <label htmlFor="termsAgree04">개인 정보 제공 및 위탁 동의 (필수)</label>
+                      </div>
+                      {/* <div className="btn-area">
+                        <button type="button" pop-target="#popupTerms02" className="btn bdr-r xx-small gray open-pop">
+                          전문보기
+                        </button>
+                      </div> */}
+                    </div>
+                    <div className="field">
+                      <div className="check-wrap">
+                        <input type="checkbox" className="checkbox chk-agree-not" data-value="sel1" name="termsAgree" id="termsAgree05" />
+                        <label htmlFor="termsAgree05">마케팅활용 및 광고성 정보 전송을 위한 개인정보 수집 및 이용동의 (선택)</label>
+                      </div>
+                      {/* <div className="btn-area">
+                        <button type="button" pop-target="#popupTerms02" className="btn bdr-r xx-small gray open-pop">
+                          전문보기
+                        </button>
+                      </div> */}
+                    </div>
+                    <div className="field">
+                      <div className="check-wrap">
+                        <input type="checkbox" className="checkbox chk-agree-not" data-value="sel2" name="termsAgree" id="termsAgree06" />
+                        <label htmlFor="termsAgree06">마케팅활용 및 광고성 정보 전송을 위한 개인정보 위탁 동의 (선택)</label>
+                      </div>
+                      {/* <div className="btn-area">
+                        <button type="button" pop-target="#popupTerms02" className="btn bdr-r xx-small gray open-pop">
+                          전문보기
+                        </button>
+                      </div> */}
+                    </div>
+                  </fieldset>
+                  {/* // [D] 211108 .fieldset.terms 추가 */}
+
                   <div className="btn-area">
                     <button type="button" className="btn dark full large" onClick={(e) => handleSubmit(e.currentTarget)}>
                       회원 가입하기
