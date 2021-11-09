@@ -60,9 +60,9 @@ export default function MyMembershipRecipt() {
         axios.spread((res1) => {
           let stampList2 = res1.data.data.usage_list;
           let trop_data_length = stampList2.length;
-
-          if (stampList2.length > 0) {
+          if (trop_data_length > 0) {
             since_id = stampList2[trop_data_length - 1].usage_id;
+
             flag_api = true;
             setData((origin) => {
               return {
@@ -135,8 +135,13 @@ export default function MyMembershipRecipt() {
                               <p>{e?.channel}</p>
                             </div>
                           </div>
-                          <div className={`state ${e?.type === 1 ? "saving" : "cancel"}`}>
-                            {e?.type === 1 ? "적립" : e?.type === 2 ? "등급변경" : e?.type === 3 ? "취소" : e?.type === 4 ? "유효기간만료" : ""}
+                          <div className="state-wrap">
+                            <div className={`state ${e?.type === 1 ? "saving" : "cancel"}`}>
+                              <p className="text">
+                                {e?.type === 1 ? "적립" : e?.type === 2 ? "등급변경" : e?.type === 3 ? "취소" : e?.type === 4 ? "유효기간만료" : ""}
+                              </p>
+                              <p>&nbsp;{e?.point}</p>
+                            </div>
                           </div>
 
                           {/* [D] 적립 상태 :
