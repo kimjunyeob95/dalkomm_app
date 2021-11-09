@@ -58,7 +58,7 @@ a, a:link, a:visited, a:active, a:hover{text-decoration:none;color:inherit; -web
 .badge.order-state.complete {background-color: #262626;}
 .badge.order-state.cancel {background-color: #959595;}
 .badge-wrap .badge + .d-day {margin-top: 2.800vw;}
-.badge.inform {width: 5.867vw; height: 5.867vw; line-height: 6.133vw; background-color: #ff592e; font-weight: 700; font-size: 3.200vw;}
+.badge.inform {display: -ms-flexbox; display: -webkit-flex; display: inline-flex; -webkit-justify-content: center; -ms-flex-pack: center; justify-content: center;-webkit-align-items: center; -ms-flex-align: center; align-items: center; width: 5.867vw; height: 5.867vw; line-height: inherit; background-color: #ff592e; font-weight: 700; font-size: 3.200vw;}
 
 /* ico */
 .ico{display: inline-block; background-repeat: no-repeat; background-position:50% 50%; background-size: 100% 100%;}
@@ -569,16 +569,23 @@ a[target=_blank]::after {content: ''; display: block; position: absolute; top: 5
 .item.benefit .list > li .standard {display: block; font-size: 3.200vw; color: rgba(0,0,0,0.5); margin-top: 0.800vw;}
 /* .item.save */
 .item.save {padding: 6vw 5.333vw; box-sizing: border-box;}
-.item.save .data-wrap {width: calc(100% - 15.467vw);}
+.item.save > .flex-both {-webkit-align-items: flex-start; -ms-flex-align: start; align-items: flex-start;}
+.item.save .data-wrap {width: calc(100% - 21.333vw);}
 .item.save .data-wrap .time {font-size: 3.200vw; color: rgba(0, 0, 0, 0.5);}
 .item.save .data-wrap .time + .data-info {margin-top: 1.6vw;}
-.item.save .data-info p {position: relative; font-size: 3.733vw; line-height: 5.333vw; box-sizing: border-box;}
+.item.save .data-info {display: block; font-size: 0;}
+.item.save .data-info p {display: inline; position: relative; font-size: 3.733vw; line-height: 5.333vw; box-sizing: border-box; word-break: keep-all;}
 .item.save .data-info p + p {}
-.item.save .data-info .title::after {content: ''; display: inline-block; position: absolute; top: 0.720vw; right: -2.267vw; width: 0.267vw; height: 3.467vw; background-color: #d4d4d4;}
+.item.save .data-info .title::after {content: ''; display: inline-block; position: absolute; bottom: 0.720vw; right: -2.267vw; width: 0.267vw; height: 3.467vw; background-color: #d4d4d4;}
 .item.save .data-info .title {font-weight: 700; margin-right: 4.533vw;}
-.item.save .state {width: 15.467vw; font-size:3.733vw; text-align: center;}
+.item.save .state-wrap {width: 21.333vw; padding-top: 2.667vw; box-sizing: border-box;}
+.item.save .state {display: -ms-flexbox; display: -webkit-flex; display: flex; -webkit-box-align: center;-ms-flex-align: center;align-items: center; -webkit-justify-content: center; -ms-flex-pack: center; justify-content: center; font-size:3.733vw; text-align: center;}
 .item.save .state.saving {color: #fc6c0f;}
 .item.save .state.cancel {color: #7f7f7f;}
+.item.save .amount {position: relative;}
+.item.save .amount::before {content: ''; display: inline-block; position: relative; font-size:3.733vw; color: inherit; margin-left: 1.333vw;}
+.item.save .amount.increase::before {content: '+';}
+.item.save .amount.decrease::before {content: '-';}
 /* .item.contact */
 .item.contact {display: -ms-flexbox; display: -webkit-flex; display: flex; -webkit-box-align: center;-ms-flex-align: center;align-items: center;}
 .item.contact .ico + span {margin-left: 4.533vw;}

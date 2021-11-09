@@ -5,15 +5,15 @@
 // eslint-disable-next-line no-unused-vars
 import axios from "axios";
 import React, { useEffect, useContext, useState } from "react";
-import { Link, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
 import Nav from "Components/Nav/Nav";
 import GoContents from "Components/GoContents";
-import { contGap, popupOpen } from "Jquery/Jquery";
+import { contGap } from "Jquery/Jquery";
 
 import { authContext } from "ContextApi/Context";
 import { SERVER_DALKOMM } from "Config/Server";
-import { checkMobile, fadeOut } from "Config/GlobalJs";
+import { fadeOut } from "Config/GlobalJs";
 
 export default function MyMembershipRecipt() {
   const [state, dispatch] = useContext(authContext);
@@ -27,32 +27,70 @@ export default function MyMembershipRecipt() {
       Authorization: state?.auth,
     },
   };
+  let since_id = null;
+  let flag_array = [];
+  let flag_api = true;
   useEffect(() => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    axios
-      .all([
-        axios.post(`${SERVER_DALKOMM}/app/api/main/user`, body, header_config),
-        axios.post(`${SERVER_DALKOMM}/app/api/v2/reward/usage_list`, body, header_config),
-      ])
-      .then(
-        axios.spread((res1, res2, res3) => {
-          let res1_data = res1.data.data;
-          let rewardData = res2.data.data;
-          setData((origin) => {
-            return {
-              ...origin,
-              res1_data,
-              rewardData,
-            };
-          });
-        })
-      );
+    axios.all([axios.post(`${SERVER_DALKOMM}/app/api/v2/membership/usage`, { since_id: since_id }, header_config)]).then(
+      axios.spread((res1) => {
+        let trop_data = res1.data.data;
+        let trop_data_length = trop_data.usage_list.length;
+        flag_array.push(since_id);
+        since_id = trop_data.usage_list[trop_data_length - 1]?.usage_id;
+
+        setData((origin) => {
+          return {
+            ...origin,
+            trop_data,
+          };
+        });
+      })
+    );
+    window.addEventListener("scroll", handleScroll);
   }, []);
 
   useEffect(() => {
     contGap();
     fadeOut();
   }, [axioData]);
+  const fn_api = () => {
+    if (flag_array.indexOf(since_id) > 0) {
+      axios.all([axios.post(`${SERVER_DALKOMM}/app/api/v2/membership/usage`, { since_id: since_id }, header_config)]).then(
+        axios.spread((res1) => {
+          let stampList2 = res1.data.data.usage_list;
+          let trop_data_length = stampList2.length;
+
+          if (stampList2.length > 0) {
+            since_id = stampList2[trop_data_length - 1].usage_id;
+            flag_api = true;
+            setData((origin) => {
+              return {
+                ...origin,
+                trop_data: { ...origin.trop_data, usage_list: [...origin.trop_data.usage_list, ...stampList2] },
+              };
+            });
+          } else {
+            flag_api = false;
+          }
+        })
+      );
+    }
+  };
+  const handleScroll = () => {
+    let scrollHeight = document.documentElement.scrollHeight;
+    let scrollTop = document.documentElement.scrollTop;
+    let clientHeight = document.documentElement.clientHeight;
+    if (scrollTop + clientHeight >= scrollHeight * 0.95) {
+      if (flag_array.indexOf(since_id) < 0) {
+        if (flag_api) {
+          flag_array.push(since_id);
+          fn_api();
+        }
+      }
+    }
+  };
+
   if (axioData) {
     return (
       <React.Fragment>
@@ -74,11 +112,11 @@ export default function MyMembershipRecipt() {
                 <div className="possess-wrap w-inner">
                   <div className="flex-list">
                     <div className="possess-state">
-                      보유 트로피 <span className="num">{axioData?.res1_data?.user?.current_point}</span>
+                      보유 트로피 <span className="num">{axioData?.trop_data?.current_point}</span>
                     </div>
                     <div className="extinct">
                       <p className="state">
-                        15일 이내 소멸 예정 트로피 <span className="num">{axioData?.rewardData?.soon_delete_point}</span>
+                        15일 이내 소멸 예정 트로피 <span className="num">{axioData?.trop_data?.soon_delete_point}</span>
                       </p>
                       <span className="alert">· 트로피 유효기간은 적립일로부터 1년입니다.</span>
                     </div>
@@ -86,20 +124,19 @@ export default function MyMembershipRecipt() {
                 </div>
 
                 <ol className="data-list">
-                  {axioData?.rewardData?.usage_list?.map((e, i) => (
+                  {axioData?.trop_data?.usage_list?.map((e, i) => (
                     <li key={i}>
                       <div className="item save">
                         <div className="flex-both">
                           <div className="data-wrap">
                             <p className="time">{e?.date}</p>
                             <div className="data-info flex-list">
-                              <p className="title">{e?.store_name}</p>
+                              <p className="title">{e?.detail}</p>
                               <p>{e?.channel}</p>
-                              <div className="desc">· 트로피 유효기간은 적립일로부터 1년입니다.</div>
                             </div>
                           </div>
                           <div className={`state ${e?.type === 1 ? "saving" : "cancel"}`}>
-                            {e?.type === 1 ? "적립" : e?.type === 2 ? "사용" : e?.type === 3 ? "취소" : e?.type === 4 ? "소멸" : ""}
+                            {e?.type === 1 ? "적립" : e?.type === 2 ? "등급변경" : e?.type === 3 ? "취소" : e?.type === 4 ? "유효기간만료" : ""}
                           </div>
 
                           {/* [D] 적립 상태 :

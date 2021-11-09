@@ -162,7 +162,7 @@ export default function OrderMenu() {
                     <span>메뉴검색</span>
                   </i>
                 </a>
-                <a className="btn" onClick={() => handlePage(`/order/cart/${storeCode}`)}>
+                <a className="btn" onClick={() => handlePage(`/mypage/cart/${storeCode}`)}>
                   <i className="ico cart">
                     <span>장바구니</span>
                   </i>
@@ -286,7 +286,7 @@ export default function OrderMenu() {
                     <span>메뉴검색</span>
                   </i>
                 </a>
-                <a className="btn" onClick={() => handlePage(`/order/cart/${storeCode}`)}>
+                <a className="btn" onClick={() => handlePage(`/mypage/cart/${storeCode}`)}>
                   <i className="ico cart">
                     <span>장바구니</span>
                   </i>

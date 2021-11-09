@@ -5,10 +5,11 @@
 import React from "react";
 import $ from "jquery";
 
-export default function Popup_nomal() {
+export default function Popup_nomal({ fn_close }) {
   const handleClose = () => {
     $("body").removeClass("modal-opened");
     $(".overlay.popupExitJoin").removeClass("active");
+    fn_close && fn_close();
   };
   return (
     <div id="popupExitJoin" className="overlay popupExitJoin">

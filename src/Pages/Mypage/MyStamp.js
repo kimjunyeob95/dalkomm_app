@@ -4,45 +4,68 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 // eslint-disable-next-line no-unused-vars
 import axios from "axios";
+import $ from "jquery";
 import React, { useEffect, useState, useContext } from "react";
 import GoContents from "Components/GoContents";
 import { authContext } from "ContextApi/Context";
 import { Link, useHistory } from "react-router-dom";
 import { SERVER_DALKOMM } from "Config/Server";
-
-import { contGap, fadeInOut } from "Jquery/Jquery";
+import Popup_nomal from "Components/Popup/Popup_nomal";
+import { contGap } from "Jquery/Jquery";
 import { fadeOut } from "Config/GlobalJs";
 
 export default function MyStamp() {
   const [state, dispatch] = useContext(authContext);
   const [axioData, setData] = useState();
   const history = useHistory();
+  const body = {};
+  const header_config = {
+    headers: {
+      "X-dalkomm-access-token": state?.accessToken,
+      Authorization: state?.auth,
+    },
+  };
+  const fn_api = () => {
+    axios
+      .all([
+        axios.post(`${SERVER_DALKOMM}/app/api/main/user`, body, header_config),
+        axios.post(`${SERVER_DALKOMM}/app/api/v2/membership`, body, header_config),
+      ])
+      .then(
+        axios.spread((res1, res2) => {
+          let res1_data = res1.data.data;
+          let membershipData = res2.data.data;
+          setData((origin) => {
+            return {
+              ...origin,
+              res1_data,
+              membershipData,
+            };
+          });
+        })
+      );
+  };
   useEffect(() => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
-
-    const body = {};
-    const header_config = {
-      headers: {
-        "X-dalkomm-access-token": state?.accessToken,
-        Authorization: state?.auth,
-      },
-    };
-    axios.all([axios.post(`${SERVER_DALKOMM}/app/api/main/user`, body, header_config)]).then(
-      axios.spread((res1) => {
-        let res1_data = res1.data.data;
-        setData((origin) => {
-          return {
-            ...origin,
-            res1_data,
-          };
-        });
-      })
-    );
+    fn_api();
   }, []);
   useEffect(() => {
     contGap();
     fadeOut();
   }, [axioData]);
+
+  const handleAddCoupon = () => {
+    axios
+      .all([axios.post(`${SERVER_DALKOMM}/app/api/v2/stamp/complete`, { stamp_card_id: axioData?.membershipData?.stamp_card_number }, header_config)])
+      .then(
+        axios.spread((res1) => {
+          $("#resAlert").text(res1.data.meta.msg);
+          $(".overlay.popupExitJoin").addClass("active");
+          $("body").addClass("modal-opened");
+        })
+      );
+  };
+
   const handlePage = (link) => {
     history.push(link);
   };
@@ -126,11 +149,35 @@ export default function MyStamp() {
               </div>
             </div>
             {/* // #content */}
+            <Popup_nomal fn_close={() => fn_api()} />
           </div>
           {/* // #container */}
         </div>
         {/* // #wrap */}
       </React.Fragment>
     );
-  } else return <React.Fragment></React.Fragment>;
+  } else
+    return (
+      <React.Fragment>
+        <div id="wrap" className="wrap">
+          <div id="container" className="container">
+            <header id="header" className="header undefined">
+              <h1 className="page-title">적립 스탬프</h1>
+              <button type="button" className="btn back" onClick={() => handlePage("/mypage")}>
+                <i className="ico back">
+                  <span className="blind">뒤로</span>
+                </i>
+              </button>
+              <div className="btn-area flex-center">
+                <a className="btn" onClick={() => handlePage("/mypage/stampRecipt")}>
+                  <i className="ico recipt">
+                    <span>스탬프 적립내역</span>
+                  </i>
+                </a>
+              </div>
+            </header>
+          </div>
+        </div>
+      </React.Fragment>
+    );
 }

@@ -324,7 +324,6 @@ export default function Pay() {
                       </div>
                     </div>
                   )}
-
                   {axioData?.res2_data?.charge_card_list?.length > 0 && (
                     <ul className="row-list flex-center">
                       <li>
