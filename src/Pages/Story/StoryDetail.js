@@ -137,36 +137,37 @@ export default function StoryDetail() {
                     <div dangerouslySetInnerHTML={{ __html: axioData?.contentDetail }}></div>
                   </div>
                 </section>
-
-                <section className="section">
-                  <div className="w-inner">
-                    <h3 className="section-title">
-                      <span>이벤트 메뉴 바로가기</span>
-                    </h3>
-                    <ul className="data-list">
-                      {axioData?.contentData?.menu?.map((e, i) => (
-                        <li key={i}>
-                          <Link to={`/order/infoDetail/${e?.code}`} className="item order">
-                            <div className="img-wrap">
-                              <img src={e?.img} alt="청포도 블렌디드" />
-                            </div>
-                            <div className="detail-wrap">
-                              <div className="order-info">
-                                <p className="title">
-                                  {e?.name}
-                                  <span className="en">{e?.name_eng}</span>
-                                </p>
+                {axioData?.contentData?.menu?.length > 0 && (
+                  <section className="section">
+                    <div className="w-inner">
+                      <h3 className="section-title">
+                        <span>이벤트 메뉴 바로가기</span>
+                      </h3>
+                      <ul className="data-list">
+                        {axioData?.contentData?.menu?.map((e, i) => (
+                          <li key={i}>
+                            <Link to={`/order/infoDetail/${e?.code}`} className="item order">
+                              <div className="img-wrap">
+                                <img src={e?.img} alt="청포도 블렌디드" />
                               </div>
-                              <div className="price-wrap">
-                                <p className="price">{Number(e?.price).toLocaleString("ko-KR")}원</p>
+                              <div className="detail-wrap">
+                                <div className="order-info">
+                                  <p className="title">
+                                    {e?.name}
+                                    <span className="en">{e?.name_eng}</span>
+                                  </p>
+                                </div>
+                                <div className="price-wrap">
+                                  <p className="price">{Number(e?.price).toLocaleString("ko-KR")}원</p>
+                                </div>
                               </div>
-                            </div>
-                          </Link>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </section>
+                            </Link>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </section>
+                )}
               </div>
 
               {/* 목록으로 버튼 영역 */}

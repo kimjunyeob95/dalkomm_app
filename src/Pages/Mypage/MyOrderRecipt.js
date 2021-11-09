@@ -4,10 +4,8 @@
 import axios from "axios";
 import $ from "jquery";
 import React, { useEffect, useState, useContext } from "react";
-
+import { Link } from "react-router-dom";
 import { SERVER_DALKOMM } from "Config/Server";
-
-import HeaderSub from "Components/Header/HeaderSub";
 import GoContents from "Components/GoContents";
 import { contGap } from "Jquery/Jquery";
 import { useHistory } from "react-router";
@@ -66,81 +64,103 @@ export default function MyOrderRecipt() {
   const handleDetail = (smartorderinfo_id) => {
     history.push(`/order/info/${smartorderinfo_id}`);
   };
-  return (
-    <React.Fragment>
-      <GoContents />
+  if (axioData) {
+    return (
+      <React.Fragment>
+        <GoContents />
 
-      <div id="wrap" className="wrap">
-        <div id="container" className="container">
-          <HeaderSub title="주문내역" redirectBack={true} location={"/"} />
+        <div id="wrap" className="wrap">
+          <div id="container" className="container">
+            <header id="header" className="header undefined">
+              <h1 className="page-title">주문내역</h1>
+              <Link className="btn back" to="/mypage">
+                <i className="ico back">
+                  <span className="blind">뒤로</span>
+                </i>
+              </Link>
+            </header>
 
-          <div id="content" className="mypage order fade-in">
-            <div className="sorting-wrap w-inner flex-end">
-              <select className="select medium" name="" id="select-duration" onChange={() => handleDuration()}>
-                <option value="w">1주일 이내</option>
-                <option value="m">1개월 이내</option>
-                <option value="y">1년 이내</option>
-              </select>
-            </div>
+            <div id="content" className="mypage order fade-in">
+              <div className="sorting-wrap w-inner flex-end">
+                <select className="select medium" name="" id="select-duration" onChange={() => handleDuration()}>
+                  <option value="w">1주일 이내</option>
+                  <option value="m">1개월 이내</option>
+                  <option value="y">1년 이내</option>
+                </select>
+              </div>
 
-            <ul className="order-list data-list">
-              {axioData?.res1_data?.result?.map((e, i) => (
-                <li key={i} onClick={() => handleDetail(e?.smartorderinfo_id)}>
-                  <div
-                    className={`item order ${
-                      e?.orderinfo_status === 2
-                        ? "making"
-                        : e?.orderinfo_status === 3
-                        ? "making"
-                        : e?.orderinfo_status === 4
-                        ? "complete"
-                        : e?.orderinfo_status === 5
-                        ? "cancel"
-                        : ""
-                    }`}
-                  >
-                    {/*
-								.item.order.making  : 제조중
-								.item.order.complete: 제조완료
-								.item.order.cancel  : 취소
-							*/}
-                    <div className="img-wrap">
-                      <img src={e?.menu_with_type === "I" ? e?.menu_with_ice_img : e?.menu_with_hot_img} alt={e?.menu_name_with_count} />
-                    </div>
-                    <div className="detail-wrap">
-                      <div className="order-info">
-                        <div className="flex-both">
-                          <p className="title">{e?.menu_name_with_count}</p>
-                          <p className="location">{e?.orderinfo_store_name}</p>
+              <ul className="order-list data-list">
+                {axioData?.res1_data?.result?.map((e, i) => (
+                  <li key={i} onClick={() => handleDetail(e?.smartorderinfo_id)}>
+                    <div
+                      className={`item order ${
+                        e?.orderinfo_status === 2
+                          ? "making"
+                          : e?.orderinfo_status === 3
+                          ? "making"
+                          : e?.orderinfo_status === 4
+                          ? "complete"
+                          : e?.orderinfo_status === 5
+                          ? "cancel"
+                          : ""
+                      }`}
+                    >
+                      {/*
+                  .item.order.making  : 제조중
+                  .item.order.complete: 제조완료
+                  .item.order.cancel  : 취소
+                */}
+                      <div className="img-wrap">
+                        <img src={e?.menu_with_type === "I" ? e?.menu_with_ice_img : e?.menu_with_hot_img} alt={e?.menu_name_with_count} />
+                      </div>
+                      <div className="detail-wrap">
+                        <div className="order-info">
+                          <div className="flex-both">
+                            <p className="title">{e?.menu_name_with_count}</p>
+                            <p className="location">{e?.orderinfo_store_name}</p>
+                          </div>
+                          <p className="info">
+                            <span className="en">{e?.orderinfo_orderdate}</span>
+                          </p>
                         </div>
-                        <p className="info">
-                          <span className="en">{e?.orderinfo_orderdate}</span>
-                        </p>
-                      </div>
-                      <div className="status-info">
-                        <p className="status">
-                          {e?.orderinfo_status === 2
-                            ? "주문접수"
-                            : e?.orderinfo_status === 3
-                            ? "제조중"
-                            : e?.orderinfo_status === 4
-                            ? "제조완료"
-                            : e?.orderinfo_status === 5
-                            ? "취소"
-                            : ""}
-                        </p>
+                        <div className="status-info">
+                          <p className="status">
+                            {e?.orderinfo_status === 2
+                              ? "주문접수"
+                              : e?.orderinfo_status === 3
+                              ? "제조중"
+                              : e?.orderinfo_status === 4
+                              ? "제조완료"
+                              : e?.orderinfo_status === 5
+                              ? "취소"
+                              : ""}
+                          </p>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </li>
-              ))}
-            </ul>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            {/* // #content */}
           </div>
-          {/* // #content */}
+          {/* // #container */}
         </div>
-        {/* // #container */}
+        {/* // #wrap */}
+      </React.Fragment>
+    );
+  } else {
+    <div id="wrap" className="wrap">
+      <div id="container" className="container">
+        <header id="header" className="header undefined">
+          <h1 className="page-title">주문내역</h1>
+          <Link className="btn back" to="/mypage">
+            <i className="ico back">
+              <span className="blind">뒤로</span>
+            </i>
+          </Link>
+        </header>
       </div>
-      {/* // #wrap */}
-    </React.Fragment>
-  );
+    </div>;
+  }
 }

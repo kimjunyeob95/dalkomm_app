@@ -40,6 +40,7 @@ import MyGiftRecipt from "Pages/Mypage/MyGiftRecipt";
 import MyGiftCharge from "Pages/Mypage/GiftCharge";
 import MyCart from "Pages/Mypage/MyCart";
 import MyStamp from "Pages/Mypage/MyStamp";
+import MyStampRecipt from "Pages/Mypage/MyStampRecipt";
 import MyOrderRecipt from "Pages/Mypage/MyOrderRecipt";
 import MyModify from "Pages/Mypage/MyModify";
 import MyOption from "Pages/Mypage/MyOption";
@@ -119,6 +120,9 @@ ReactDOM.render(
         </PrivateRoute>
         <PrivateRoute exact path="/mypage/stamp">
           <MyStamp />
+        </PrivateRoute>
+        <PrivateRoute exact path="/mypage/stampRecipt">
+          <MyStampRecipt />
         </PrivateRoute>
         <PrivateRoute exact path="/mypage/giftSend">
           <MyGiftSend />

@@ -36,15 +36,13 @@ export default function MyPage() {
         axios.post(`${SERVER_DALKOMM}/app/api/account/simple/profile`, body, header_config),
         axios.post(`${SERVER_DALKOMM}/app/api/v2/coupon/list`, body, header_config),
         axios.post(`${SERVER_DALKOMM}/app/api/v2/membership`, body, header_config),
-        axios.post(`${SERVER_DALKOMM}/app/api/main/user`, body, header_config),
       ])
       .then(
-        axios.spread((res1, res2, res3, res4, res5) => {
+        axios.spread((res1, res2, res3, res4) => {
           let res1_data = res1.data.data;
           let res2_data = res2.data.data;
           let res3_data = res3.data.data;
           let res4_data = res4.data.data;
-          let res5_data = res5?.data?.data;
           setData((origin) => {
             return {
               ...origin,
@@ -52,7 +50,6 @@ export default function MyPage() {
               res2_data,
               res3_data,
               res4_data,
-              res5_data,
             };
           });
         })
@@ -123,7 +120,7 @@ export default function MyPage() {
                         </div>
                       </dt>
                       <dd className="text">
-                        <strong className="num">{axioData?.res5_data?.user?.current_point}</strong>
+                        <strong className="num">{axioData?.res1_data?.user?.current_point}</strong>
                         &nbsp;
                         <span>개</span>
                       </dd>
@@ -161,14 +158,13 @@ export default function MyPage() {
                       <span>적립 스탬프</span>
                     </div>
                     <span className="stamp">
-                      <strong className="save">{axioData?.res1_data?.user?.stamp_card?.complete_count}</strong>
+                      <strong className="save">{axioData?.res1_data?.user?.stamp_card?.point}</strong>
                       <em>/</em>
                       <strong>12</strong>
                     </span>
                   </Link>
                 </li>
-                {/* <li className={axioData?.res3_data?.coupon_list?.length > 0 && "active"}> */}
-                <li className={axioData?.res3_data?.coupon_list?.length > 0 && ""}>
+                <li className={axioData?.res3_data?.coupon_list?.length > 0 && "active"}>
                   <Link to="/mypage/coupon">
                     <div className="title">
                       <i className="ico coupon"></i>

@@ -6,7 +6,7 @@
 // eslint-disable-next-line no-unused-vars
 import axios from "axios";
 import React, { useEffect, useContext, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory, useLocation } from "react-router-dom";
 import HeaderSub from "Components/Header/HeaderSub";
 import GoContents from "Components/GoContents";
 
@@ -19,6 +19,9 @@ import { fadeOut } from "Config/GlobalJs";
 export default function MyGiftSendRecipt() {
   const [state, dispatch] = useContext(authContext);
   const [axioData, setData] = useState();
+  const history = useHistory();
+  const { activeHtml } = useLocation();
+
   useEffect(() => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
 
@@ -62,6 +65,20 @@ export default function MyGiftSendRecipt() {
     fadeOut();
   }, [axioData]);
 
+  const handlePage = () => {
+    if (activeHtml) {
+      history.push({
+        pathname: "/mypage/giftSend",
+        activeHtml: true,
+      });
+    } else {
+      history.push({
+        pathname: "/mypage/giftSend",
+        activeHtml: false,
+      });
+    }
+  };
+
   if (axioData) {
     return (
       <React.Fragment>
@@ -69,7 +86,14 @@ export default function MyGiftSendRecipt() {
 
         <div id="wrap" className="wrap">
           <div id="container" className="container">
-            <HeaderSub title="기프트카드 선물내역" />
+            <header id="header" className="header undefined">
+              <h1 className="page-title">기프트카드 선물내역</h1>
+              <button type="button" className="btn back" onClick={() => handlePage()}>
+                <i className="ico back">
+                  <span className="blind">뒤로</span>
+                </i>
+              </button>
+            </header>
             <div id="content" className={`pay gift history fade-in ${axioData?.resultList?.length < 1 && "charge"}`}>
               <section className="section">
                 <ol className="data-list">
@@ -109,5 +133,21 @@ export default function MyGiftSendRecipt() {
         {/* // #wrap */}
       </React.Fragment>
     );
-  } else return <React.Fragment></React.Fragment>;
+  } else
+    return (
+      <React.Fragment>
+        <div id="wrap" className="wrap">
+          <div id="container" className="container">
+            <header id="header" className="header undefined">
+              <h1 className="page-title">기프트카드 선물내역</h1>
+              <button type="button" className="btn back" onClick={() => handlePage()}>
+                <i className="ico back">
+                  <span className="blind">뒤로</span>
+                </i>
+              </button>
+            </header>
+          </div>
+        </div>
+      </React.Fragment>
+    );
 }

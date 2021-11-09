@@ -8,7 +8,6 @@ import $ from "jquery";
 import Clipboard from "react-clipboard.js";
 import React, { useEffect, useContext, useState } from "react";
 import { Link } from "react-router-dom";
-import HeaderSub from "Components/Header/HeaderSub";
 import Nav from "Components/Nav/Nav";
 import GoContents from "Components/GoContents";
 import { contGap, moveScrollTop } from "Jquery/Jquery";
@@ -150,13 +149,15 @@ export function Order(props) {
         <div id="wrap" className="wrap">
           <div id="container" className="container">
             {/* <HeaderSub title="매장선택" type="store" location="/mypage/cart" icon="cart" /> */}
-            <HeaderSub title="매장선택" />
+            <header id="header" className="header undefined">
+              <h1 className="page-title">매장선택</h1>
+            </header>
 
             <Nav order={3} />
 
             <div id="content" className="store list fade-in">
               {/* 즐겨찾는 매장 */}
-              {state?.loginFlag && axioData?.res2_data?.favorite_store_list?.length > 0 && (
+              {state?.loginFlag && axioData?.res2_data?.favorite_store_list?.length > 0 ? (
                 <section className="section">
                   <div className="title-wrap w-inner">
                     <h3 className="section-title" id="testtest">
@@ -280,6 +281,16 @@ export function Order(props) {
 
                     <div className="swiper-scrollbar"></div>
                   </Swiper>
+                </section>
+              ) : (
+                <section className="section">
+                  <div className="title-wrap w-inner">
+                    <h3 className="section-title">즐겨찾는 매장</h3>
+                  </div>
+
+                  <div className="item nodata">
+                    <p className="text">즐겨찾는 매장을 추가해보세요.</p>
+                  </div>
                 </section>
               )}
               {/* //즐겨찾는 매장 */}
@@ -684,7 +695,9 @@ export function Order(props) {
         <div id="wrap" className="wrap">
           <div id="container" className="container">
             {/* <HeaderSub title="매장선택" type="store" location="/mypage/cart" icon="cart" /> */}
-            <HeaderSub title="매장선택" />
+            <header id="header" className="header undefined">
+              <h1 className="page-title">매장선택</h1>
+            </header>
 
             <Nav order={3} />
           </div>

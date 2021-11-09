@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="44" height="40" viewBox="0 0 44 40">
+    <defs>
+        <style>
+            .cls-2{fill:#fff}.cls-5{fill:#020202}
+        </style>
+    </defs>
+    <g id="icon_store_info" transform="translate(-.258 -.426)">
+        <g id="그룹_95" data-name="그룹 95">
+            <g id="그룹_158" data-name="그룹 158" transform="translate(5.595 4.82)">
+                <path id="패스_95" data-name="패스 95" class="cls-2" d="M214.39 222.149h-29.106v-22.275l14.553-7.9 14.553 7.9z" transform="translate(-185.284 -191.974)"/>
+                <path id="패스_96" data-name="패스 96" d="M185.658 222.149v-22.275l14.553-7.9 14.553 7.9v22.275" transform="translate(-185.559 -191.974)" style="stroke:#020202;stroke-miterlimit:10;fill:none"/>
+                <path id="패스_97" data-name="패스 97" d="M231.518 265.426v-14.7h-10.462v14.7" transform="translate(-211.635 -235.251)" style="fill:#ff592e;stroke:#020202;stroke-miterlimit:10"/>
+                <path id="사각형_186" data-name="사각형 186" class="cls-2" transform="translate(12.237 17.854)" d="M0 0h4.83v4.83H0z"/>
+                <g id="그룹_129" data-name="그룹 129" transform="translate(3.748 9.608)">
+                    <path id="사각형_187" data-name="사각형 187" class="cls-5" d="M0 0h1.074v1.35H0z"/>
+                    <path id="사각형_188" data-name="사각형 188" class="cls-5" transform="translate(10.268)" d="M0 0h1.074v1.35H0z"/>
+                    <path id="사각형_189" data-name="사각형 189" class="cls-5" transform="translate(20.536)" d="M0 0h1.074v1.35H0z"/>
+                </g>
+                <path id="사각형_190" data-name="사각형 190" class="cls-5" transform="translate(3.851 18.919)" d="M0 0h1.074v1.35H0z"/>
+                <path id="사각형_191" data-name="사각형 191" class="cls-5" transform="translate(24.387 18.919)" d="M0 0h1.074v1.35H0z"/>
+            </g>
+        </g>
+        <g id="그룹_211" data-name="그룹 211" transform="translate(25.05 1.072)">
+            <g id="그룹_31" data-name="그룹 31" transform="translate(-.792 -.645)">
+                <circle id="타원_15" data-name="타원 15" cx="10" cy="10" r="10"/>
+            </g>
+        </g>
+        <g id="Icon_heart_a" transform="translate(29.68 6.746)">
+            <path id="패스_20" data-name="패스 20" class="cls-2" d="M964.439 1457.745a2.473 2.473 0 0 1-4.107 0 2.616 2.616 0 0 0-2.6 2.691c0 2.16 4.655 5.207 4.655 5.207s4.641-3.048 4.641-5.207a2.6 2.6 0 0 0-2.589-2.691z" transform="translate(-957.731 -1457.564)"/>
+        </g>
+    </g>
+</svg>

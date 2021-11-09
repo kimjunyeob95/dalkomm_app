@@ -7,7 +7,7 @@
 import axios from "axios";
 import $ from "jquery";
 import React, { useEffect, useContext, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { useParams, useLocation, useHistory } from "react-router-dom";
 
 import HeaderSub from "Components/Header/HeaderSub";
 import GoContents from "Components/GoContents";
@@ -23,6 +23,8 @@ import { SERVER_DALKOMM } from "Config/Server";
 export default function GiftCharge() {
   const [state, dispatch] = useContext(authContext);
   const [axioData, setData] = useState();
+  const history = useHistory();
+  const { activeHtml } = useLocation();
   const { giftnum } = useParams();
   const body = {};
   const header_config = {
@@ -92,6 +94,14 @@ export default function GiftCharge() {
     let amount = $(".swiper-slide-active").data("amount");
     $(".price.fc-orange").text((amount + price).toLocaleString("ko-KR") + "원");
   };
+  const handlePage = () => {
+    if (activeHtml) {
+      history.push("/pay?activeHtml=true");
+    } else {
+      history.push("/pay");
+    }
+  };
+
   if (axioData) {
     return (
       <React.Fragment>
@@ -99,7 +109,14 @@ export default function GiftCharge() {
 
         <div id="wrap" className="wrap">
           <div id="container" className="container">
-            <HeaderSub title="충전하기" />
+            <header id="header" className="header undefined">
+              <h1 className="page-title">충전하기</h1>
+              <button type="button" className="btn back" onClick={() => handlePage()}>
+                <i className="ico back">
+                  <span className="blind">뒤로</span>
+                </i>
+              </button>
+            </header>
 
             <div id="content" className="pay charge fade-in">
               <section className="section">
@@ -258,5 +275,21 @@ export default function GiftCharge() {
         {/* // #wrap */}
       </React.Fragment>
     );
-  } else return <React.Fragment></React.Fragment>;
+  } else
+    return (
+      <React.Fragment>
+        <div id="wrap" className="wrap">
+          <div id="container" className="container">
+            <header id="header" className="header undefined">
+              <h1 className="page-title">충전하기</h1>
+              <button type="button" className="btn back" onClick={() => handlePage()}>
+                <i className="ico back">
+                  <span className="blind">뒤로</span>
+                </i>
+              </button>
+            </header>
+          </div>
+        </div>
+      </React.Fragment>
+    );
 }

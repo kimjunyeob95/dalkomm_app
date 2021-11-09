@@ -125,7 +125,10 @@ const ContextStore = (props) => {
   // indexInitialState.latitude = 37.507232666015625;
   // indexInitialState.longitude = 127.05642398540016;
   // indexInitialState.udid = "8280af29616a4ec1bb85a9ed17b9594e828e8140";
-
+  //과장님
+  // indexInitialState.accessToken =
+  //   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoicTcvOWVvUzBHQ0VQaEpNd3RVdGV0eEFsb01yMU8ybWszMVJOYVVWTWw2K01SZC9EN0NWd2RoeWcvKzBIa3pmUyIsImF1ZCI6IkRBTEtPTU1fQVBQIiwidW5pb25fdXNlcl9pZCI6IlVCaHdLUXN4bEY0STkrd3h6UDJic081WklLSDd2NTlsYmExN2RaTldTdVZYZ25wRVNXNllQNG50OUNVY1haR0MiLCJpc3MiOiJEQUxLT01NIiwidXNlcl9sb2dpbl90eXBlIjoiRCIsImlhdCI6MTYzNjQzMzA2MX0.UQrIN1JkdpuTWWf8eUMUboLyuLsALOh_qIQpSPJQzps";
+  // indexInitialState.auth = "Basic ZGFsa29tbTpkYWxrb21tX2FwcDs4ZWI0YTAzOGI2ZmQ2Y2ZlNDMzOTQ2ODhmMDExOWFjMmQwYjg4ZTllOzIwMjExMTA5MTIzNzEx";
   return <authContext.Provider value={useReducer(indexReducer, indexInitialState)}>{props.children}</authContext.Provider>;
 };
 

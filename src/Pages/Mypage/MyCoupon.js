@@ -6,8 +6,7 @@
 import axios from "axios";
 import $ from "jquery";
 import React, { useEffect, useContext, useState } from "react";
-import { Link } from "react-router-dom";
-import HeaderSub from "Components/Header/HeaderSub";
+import { Link, useHistory } from "react-router-dom";
 import GoContents from "Components/GoContents";
 
 import { authContext } from "ContextApi/Context";
@@ -19,7 +18,7 @@ import { fadeOut } from "Config/GlobalJs";
 export default function MyCoupon() {
   const [state, dispatch] = useContext(authContext);
   const [axioData, setData] = useState();
-
+  const history = useHistory();
   const body = {};
   const header_config = {
     headers: {
@@ -78,20 +77,34 @@ export default function MyCoupon() {
 
         <div id="wrap" className="wrap">
           <div id="container" className="container">
-            <HeaderSub title="나의 쿠폰 리스트" location="/mypage/couponSend" type="flexCenter" icon="gift" />
+            <header id="header" className="header undefined">
+              <h1 className="page-title">나의 쿠폰 리스트</h1>
+              <button type="button" className="btn back" onClick={() => history.push("/mypage")}>
+                <i className="ico back">
+                  <span className="blind">뒤로</span>
+                </i>
+              </button>
+              <div className="btn-area flex-center">
+                <Link className="btn" to="/mypage/couponSend">
+                  <i className="ico gift">
+                    <span>나의 쿠폰 리스트</span>
+                  </i>
+                </Link>
+              </div>
+            </header>
 
             <div id="content" className="mypage coupon fade-in">
               <section className="section">
                 <ul className="tabs">
                   <li className="current">
-                    <Link to="#" data-href="#availCoupon" onClick={(e) => tabLink(e)}>
+                    <a data-href="#availCoupon" onClick={(e) => tabLink(e)}>
                       사용가능 쿠폰
-                    </Link>
+                    </a>
                   </li>
                   <li>
-                    <Link to="#" data-href="#expiredCoupon" onClick={(e) => tabLink(e)}>
+                    <a data-href="#expiredCoupon" onClick={(e) => tabLink(e)}>
                       지난 쿠폰
-                    </Link>
+                    </a>
                   </li>
                 </ul>
                 <div id="availCoupon" className="tab-content active">

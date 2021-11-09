@@ -6,7 +6,7 @@
 // eslint-disable-next-line no-unused-vars
 import axios from "axios";
 import React, { useEffect, useContext, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { useHistory, useParams, useLocation } from "react-router-dom";
 import HeaderSub from "Components/Header/HeaderSub";
 import GoContents from "Components/GoContents";
 import { BarLoader, FadeLoader } from "react-spinners";
@@ -24,6 +24,8 @@ export default function MyGiftRecipt() {
   const [state, dispatch] = useContext(authContext);
   const [axioData, setData] = useState();
   const { giftnum } = useParams();
+  const history = useHistory();
+  const { activeHtml } = useLocation();
 
   SwiperCore.use([Pagination]);
   useEffect(() => {
@@ -61,7 +63,13 @@ export default function MyGiftRecipt() {
     contGap();
     fadeOut();
   }, [axioData]);
-
+  const handlePage = () => {
+    if (activeHtml) {
+      history.push("/pay?activeHtml=true");
+    } else {
+      history.push("/pay");
+    }
+  };
   if (axioData) {
     return (
       <React.Fragment>
@@ -69,7 +77,14 @@ export default function MyGiftRecipt() {
 
         <div id="wrap" className="wrap">
           <div id="container" className="container">
-            <HeaderSub title="기프트카드 사용내역" />
+            <header id="header" className="header undefined">
+              <h1 className="page-title">기프트카드 사용내역</h1>
+              <button type="button" className="btn back" onClick={() => handlePage()}>
+                <i className="ico back">
+                  <span className="blind">뒤로</span>
+                </i>
+              </button>
+            </header>
             <div id="content" className="pay charge history fade-in">
               <section className="section">
                 {axioData?.res2_data?.usage_list?.length > 0 && (
@@ -165,7 +180,14 @@ export default function MyGiftRecipt() {
 
         <div id="wrap" className="wrap">
           <div id="container" className="container">
-            <HeaderSub title="기프트카드 사용내역" />
+            <header id="header" className="header undefined">
+              <h1 className="page-title">기프트카드 사용내역</h1>
+              <button type="button" className="btn back" onClick={() => handlePage()}>
+                <i className="ico back">
+                  <span className="blind">뒤로</span>
+                </i>
+              </button>
+            </header>
             <FadeLoader
               loading={true}
               size={50}

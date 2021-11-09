@@ -402,6 +402,9 @@
 #content.store.list .speech-wrap {opacity: 1; visibility: visible; -webkit-animation: speechBubbleHide 0.5s ease-in-out 3s 1 forwards; animation: speechBubbleHide 0.5s ease-in-out 3s 1 forwards;}
 #content.store.list .speech-bubble {position: absolute; top: -16vw; right:auto; left: 5.067vw; width: -webkit-max-content; width: -moz-max-content; width: max-content; text-align: left; padding: 3.200vw 2.667vw; z-index: 9;}
 #content.store.list .speech-bubble::before {left: 33.867vw;}
+#content.store.list .title-wrap + .item.nodata {padding: 6.667vw 0 8vw;}
+#content.store.list .item.nodata::before {content: ''; display: block; position: relative; width: 11.733vw; height: 10.667vw; background-image: url('../images/com/icon_store_info.svg'); background-repeat: no-repeat; background-position: center; background-size: cover; margin: 0 auto;}
+#content.store.list .item.nodata .text {color: rgba(0,0,0,0.5); letter-spacing: -0.075vw; margin-top: 1.067vw;}
 
 /* 매장정보 fixed-con */
 #content .fixed-con.store-pop .popup-wrap {padding-bottom: 8vw;}

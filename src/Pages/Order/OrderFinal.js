@@ -28,6 +28,8 @@ export default function OrderFinal() {
   const [frontData, setFront] = useState({});
   const location = useLocation();
 
+  let saveMethod = localStorage.getItem("saveMethod") ? localStorage.getItem("saveMethod") : "P";
+
   const body = {};
   let header_config = {
     headers: {
@@ -112,7 +114,7 @@ export default function OrderFinal() {
               ...origin,
               defaultPrice: res1_data.total_order_amount,
               finalPrice: finalPrice,
-              orderPayment: res1_data.default_pay_method,
+              orderPayment: saveMethod,
               orderRequest: 0,
               menuQuantity: menu_array,
               smartOrderSeq: smartOrderSeq,
@@ -194,6 +196,7 @@ export default function OrderFinal() {
     // });
   };
   const handleSubmit = () => {
+    localStorage.setItem("saveMethod", $('input[name="orderPayment"]:checked').val());
     let validation = true;
     let menu_coupon_array = [];
     let user_coupon_ids = [];

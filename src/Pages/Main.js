@@ -100,11 +100,11 @@ export function Main(props) {
           axios.post(`${SERVER_DALKOMM_SUGAR}/api/contentList`),
         ])
         .then(
-          axios.spread((res1, res2, res3) => {
+          axios.spread((res1, res2, res3, res4) => {
             let res1_data = res1.data;
             let res2_data = res2.data.data;
             let mdList = res3.data.list;
-            let contentData = res3.data.list[0];
+            let contentData = res4.data.list[0];
             setData((origin) => {
               return {
                 ...origin,
@@ -349,7 +349,7 @@ export function Main(props) {
                         <p className="state">
                           {state?.loginFlag ? (
                             <React.Fragment>
-                              {axioData?.res3_data?.user?.stamp_card?.complete_count} <em>/ 12</em>
+                              {axioData?.res3_data?.user?.stamp_card?.point} <em>/ 12</em>
                             </React.Fragment>
                           ) : (
                             "-"

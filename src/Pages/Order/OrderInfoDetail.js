@@ -20,7 +20,7 @@ export default function OrderInfoDetail() {
   const [axioData, setData] = useState(false);
   const history = useHistory();
   const { menuCode } = useParams();
-  const { scrollValue } = useLocation();
+  const { scrollValue, targetValue } = useLocation();
 
   const body = {};
   let header_config = {
@@ -69,6 +69,7 @@ export default function OrderInfoDetail() {
                   history.push({
                     pathname: `/order/menuSearch/0`,
                     scrollValue: scrollValue,
+                    targetValue: targetValue,
                   })
                 }
               >

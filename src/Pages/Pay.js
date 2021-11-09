@@ -29,9 +29,8 @@ export default function Pay() {
   const [state, dispatch] = useContext(authContext);
   const [axioData, setData] = useState();
   const [cardPopup, setCard] = useState(false);
-  const [activeHtml, setActive] = useState(getParameter("activeHtml") !== "" ? true : false);
   const history = useHistory();
-
+  const [activeHtml] = useState(getParameter("activeHtml") !== "" && history?.action === "PUSH" ? true : false);
   const body = {};
   const header_config = {
     headers: {
@@ -57,7 +56,6 @@ export default function Pay() {
               res2_data,
             };
           });
-          // fadeInOut();
           window.$("#barcode").barcode(res1_data?.stamp_card_number, "code128", {
             barWidth: 2,
             barHeight: 50,
@@ -106,12 +104,32 @@ export default function Pay() {
 
   const handleGiftDetail = (event) => {
     let giftCode = $("#payGift .swiper-slide-active").data("cardnum");
-    history.push(`/mypage/giftRecipt/${giftCode}`);
+    if ($("#liGift").hasClass("active")) {
+      history.push({
+        pathname: `/mypage/giftRecipt/${giftCode}`,
+        activeHtml: true,
+      });
+    } else {
+      history.push({
+        pathname: `/mypage/giftRecipt/${giftCode}`,
+        activeHtml: false,
+      });
+    }
   };
 
   const handleGiftCharge = (event) => {
     let giftCode = $("#payGift .swiper-slide-active").data("cardnum");
-    history.push(`/mypage/giftCharge/${giftCode}`);
+    if ($("#liGift").hasClass("active")) {
+      history.push({
+        pathname: `/mypage/giftCharge/${giftCode}`,
+        activeHtml: true,
+      });
+    } else {
+      history.push({
+        pathname: `/mypage/giftCharge/${giftCode}`,
+        activeHtml: false,
+      });
+    }
   };
 
   const handleAddCard = () => {
@@ -130,14 +148,35 @@ export default function Pay() {
       })
     );
   };
-
+  const handlePage = (link) => {
+    if ($("#liGift").hasClass("active")) {
+      history.push({
+        pathname: link,
+        activeHtml: true,
+      });
+    } else {
+      history.push({
+        pathname: link,
+        activeHtml: false,
+      });
+    }
+  };
   if (axioData) {
     return (
       <React.Fragment>
         <GoContents />
         <div id="wrap" className="wrap">
           <div id="container" className="container">
-            <HeaderSub type="flexCenter" title="페이" icon="gift" payHeader={true} location="/mypage/giftSend" />
+            <header id="header" className="header">
+              <h1 className="page-title">페이</h1>
+              <div className="btn-area flex-center">
+                <a onClick={() => handlePage("/mypage/giftSend")} className="btn">
+                  <i className="ico gift">
+                    <span>메뉴검색</span>
+                  </i>
+                </a>
+              </div>
+            </header>
 
             <Nav order={2} />
 
@@ -148,7 +187,7 @@ export default function Pay() {
                     멤버십 카드
                   </Link>
                 </li>
-                <li id="liGift">
+                <li id="liGift" className={activeHtml ? "active" : ""}>
                   <Link to="#" data-href="#payGift" onClick={(e) => tabLink(e)}>
                     기프트 카드
                   </Link>
@@ -190,7 +229,7 @@ export default function Pay() {
                       </button>
                     </div>
                   </div>
-                  <button className="btn full medium light" onClick={() => history.push(`mypage/membershipPolicy`)}>
+                  <button className="btn full medium light" onClick={() => handlePage("/mypage/membershipPolicy")}>
                     멤버십 등급 소개
                   </button>
                   <div className="item attention">
@@ -393,7 +432,16 @@ export default function Pay() {
         <GoContents />
         <div id="wrap" className="wrap">
           <div id="container" className="container">
-            <HeaderSub type="flexCenter" title="페이" icon="gift" payHeader={true} location="/mypage/giftSend" />
+            <header id="header" className="header">
+              <h1 className="page-title">페이</h1>
+              <div className="btn-area flex-center">
+                <a onClick={() => handlePage("/mypage/giftSend")} className="btn">
+                  <i className="ico gift">
+                    <span>메뉴검색</span>
+                  </i>
+                </a>
+              </div>
+            </header>
 
             <Nav order={2} />
           </div>

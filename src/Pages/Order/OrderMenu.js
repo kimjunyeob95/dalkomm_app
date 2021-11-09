@@ -24,7 +24,7 @@ export default function OrderMenu() {
   const [axioData, setData] = useState(false);
   const history = useHistory();
   const { storeCode } = useParams();
-  const { scrollValue } = useLocation();
+  const { scrollValue, cateType } = useLocation();
   if (storeCode === "0") {
     history.push("/");
   }
@@ -44,20 +44,27 @@ export default function OrderMenu() {
       axios
         .all([
           axios.post(`${SERVER_DALKOMM}/app/api/v2/menu/category_info`, body, header_config),
-          axios.post(`${SERVER_DALKOMM}/app/api/v2/menu/search`, { category_id: 0, store_code: storeCode, is_smartorder: true }, header_config),
+          axios.post(
+            `${SERVER_DALKOMM}/app/api/v2/menu/search`,
+            { category_id: cateType ? cateType : 0, store_code: storeCode, is_smartorder: true },
+            header_config
+          ),
           axios.post(`${SERVER_DALKOMM}/app/api/v2/store/${storeCode}`, {}, header_config),
+          axios.post(`${SERVER_DALKOMM}/app/api/v2/smartorder/cart/count`, { store_code: storeCode }, header_config),
         ])
         .then(
-          axios.spread((res1, res2, res3) => {
+          axios.spread((res1, res2, res3, res4) => {
             let res1_data = res1.data.data;
             let all_menu = res2.data.data;
             let res2_data = res3.data.data;
+            let cart_count = res4.data.data;
             setData((origin) => {
               return {
                 ...origin,
                 res1_data,
                 all_menu,
                 res2_data,
+                cart_count,
               };
             });
             scrollValue &&
@@ -122,15 +129,19 @@ export default function OrderMenu() {
   };
   const handleDetail = (e, menucode, type) => {
     if (type) {
+      let cateType = $(".swiper-slide-visible.active").attr("data-category") ? $(".swiper-slide-visible.active").attr("data-category") : 0;
       history.push({
         pathname: `/order/detail/${storeCode}/${menucode}`,
         scrollValue: $(document).scrollTop(),
+        cateType: Number(cateType),
       });
     } else {
       alert("테이블오더가 불가능한 메뉴입니다.");
     }
   };
-
+  const handlePage = (link) => {
+    history.push(link);
+  };
   if (axioData?.res1_data) {
     return (
       <React.Fragment>
@@ -138,15 +149,27 @@ export default function OrderMenu() {
 
         <div id="wrap" className="wrap">
           <div id="container" className="container">
-            <HeaderSub2
-              title="메뉴선택"
-              icon="search-s"
-              icon2="cart"
-              noBack={true}
-              directUrl={"/order"}
-              location={`/order/menuSearch/${storeCode}`}
-              location2={`/mypage/cart/${storeCode}`}
-            />
+            <header id="header" className="header">
+              <h1 className="page-title">메뉴선택</h1>
+              <button type="button" className="btn back" onClick={() => handlePage(`/order`)}>
+                <i className="ico back">
+                  <span className="blind">뒤로</span>
+                </i>
+              </button>
+              <div className="btn-area false">
+                <a className="btn" onClick={() => handlePage(`/order/menuSearch/${storeCode}`)}>
+                  <i className="ico search-s">
+                    <span>메뉴검색</span>
+                  </i>
+                </a>
+                <a className="btn" onClick={() => handlePage(`/order/cart/${storeCode}`)}>
+                  <i className="ico cart">
+                    <span>장바구니</span>
+                  </i>
+                  {axioData?.cart_count?.count > 0 && <span className="badge round inform">{axioData?.cart_count?.count}</span>}
+                </a>
+              </div>
+            </header>
 
             <Nav order={3} />
 
@@ -176,7 +199,7 @@ export default function OrderMenu() {
                 initialSlide={0}
               >
                 <ul className="swiper-wrapper tabs" slot="container-start">
-                  <li className="swiper-slide active">
+                  <li className={`swiper-slide ${!cateType || cateType === 0 ? "active" : ""}`}>
                     <Link to="#" onClick={(e) => jqueryTablink(e)} data-category="">
                       메뉴 전체
                     </Link>
@@ -184,7 +207,7 @@ export default function OrderMenu() {
                   {/* [D] 현재 탭 .active 활성화 */}
                   {axioData?.res1_data?.category_info_list?.map((e, i) => {
                     return (
-                      <li className="swiper-slide" key={i}>
+                      <li className={`swiper-slide ${cateType === e?.category_id && "active"}`} data-category={e?.category_id} key={i}>
                         <Link to="#" onClick={(e) => jqueryTablink(e)} data-category={e?.category_id}>
                           {e?.category_name}
                         </Link>
@@ -193,8 +216,6 @@ export default function OrderMenu() {
                   })}
                 </ul>
               </Swiper>
-
-              {/* 즐겨찾는 매장 */}
               <section className="section">
                 <ul className="data-list col-2">
                   {axioData?.all_menu?.searched_menu_list?.map((e, i) => {
@@ -233,7 +254,6 @@ export default function OrderMenu() {
                   </i>
                 </Link>
               </section>
-              {/* //즐겨찾는 매장 */}
 
               <button type="button" id="moveScrollTop" className="btn scroll-top" onClick={() => moveScrollTop()}>
                 <i className="ico arr-top"></i>
@@ -253,13 +273,27 @@ export default function OrderMenu() {
 
         <div id="wrap" className="wrap">
           <div id="container" className="container">
-            <HeaderSub2
-              title="메뉴선택"
-              icon="search-s"
-              icon2="cart"
-              location={`/order/menuSearch/${storeCode}`}
-              location2={`/mypage/cart/${storeCode}`}
-            />
+            <header id="header" className="header">
+              <h1 className="page-title">메뉴선택</h1>
+              <button type="button" className="btn back" onClick={() => handlePage(`/order`)}>
+                <i className="ico back">
+                  <span className="blind">뒤로</span>
+                </i>
+              </button>
+              <div className="btn-area false">
+                <a className="btn" onClick={() => handlePage(`/order/menuSearch/${storeCode}`)}>
+                  <i className="ico search-s">
+                    <span>메뉴검색</span>
+                  </i>
+                </a>
+                <a className="btn" onClick={() => handlePage(`/order/cart/${storeCode}`)}>
+                  <i className="ico cart">
+                    <span>장바구니</span>
+                  </i>
+                  {axioData?.cart_count?.count > 0 && <span className="badge round inform">{axioData?.cart_count?.count}</span>}
+                </a>
+              </div>
+            </header>
             <FadeLoader
               loading={true}
               size={50}

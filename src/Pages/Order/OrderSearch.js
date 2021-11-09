@@ -21,7 +21,7 @@ export default function OrderSearch() {
   const [state, dispatch] = useContext(authContext);
   const [axioData, setData] = useState(false);
   const { storeCode } = useParams();
-  const { scrollValue } = useLocation();
+  const { scrollValue, targetValue } = useLocation();
   const history = useHistory();
   const body = {};
   let header_config = {
@@ -41,6 +41,7 @@ export default function OrderSearch() {
             {
               store_code: storeCode,
               is_smartorder: storeCode !== 0 ? true : false,
+              q: targetValue ? targetValue : "",
             },
             header_config
           ),
@@ -54,37 +55,37 @@ export default function OrderSearch() {
                 all_menu,
               };
             });
-            fadeInOut();
+            scrollValue &&
+              window.scrollTo({
+                top: scrollValue,
+                behavior: "smooth",
+              });
+            if (targetValue) {
+              $("#searchValue").val(targetValue);
+            }
           })
         );
     }
-  }, [state?.auth]);
+  }, []);
 
   useEffect(() => {
     contGap();
     fadeOut();
-    scrollValue &&
-      window.scrollTo({
-        top: scrollValue,
-        behavior: "smooth",
-      });
   }, [axioData]);
 
   const handleSearch = (e) => {
     let targetValue = $("#searchValue").val();
-    if (targetValue !== "") {
-      axios.all([axios.post(`${SERVER_DALKOMM}/app/api/v2/menu/search`, { store_code: storeCode, q: targetValue }, header_config)]).then(
-        axios.spread((res1) => {
-          let all_menu = res1.data.data;
-          setData((origin) => {
-            return {
-              ...origin,
-              all_menu,
-            };
-          });
-        })
-      );
-    }
+    axios.all([axios.post(`${SERVER_DALKOMM}/app/api/v2/menu/search`, { store_code: storeCode, q: targetValue }, header_config)]).then(
+      axios.spread((res1) => {
+        let all_menu = res1.data.data;
+        setData((origin) => {
+          return {
+            ...origin,
+            all_menu,
+          };
+        });
+      })
+    );
   };
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -92,6 +93,7 @@ export default function OrderSearch() {
   };
 
   const handleDetail = (event, menuCode, type) => {
+    let targetValue = $("#searchValue").val();
     if (storeCode !== "0") {
       if (type) {
         history.push({
@@ -106,6 +108,7 @@ export default function OrderSearch() {
       history.push({
         pathname: `/order/infoDetail/${menuCode}`,
         scrollValue: $(document).scrollTop(),
+        targetValue: targetValue,
       });
     }
   };
@@ -145,8 +148,8 @@ export default function OrderSearch() {
                     <div className="field">
                       <div className="search-box">
                         <input id="searchValue" type="text" className="input-text medium" placeholder="메뉴명을 입력해 주세요." />
-                        <button type="button" className="btn search">
-                          <i className="ico search-t" onClick={(event) => handleSearch(event.currentTarget)}>
+                        <button type="button" className="btn search" onClick={(event) => handleSearch(event.currentTarget)}>
+                          <i className="ico search-t">
                             <span>검색하기</span>
                           </i>
                         </button>

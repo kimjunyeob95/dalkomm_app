@@ -12,3 +12,4 @@
 .item.store .data-wrap .place {word-break: break-all;}
 #content.drink.detail .item.info-detail .detail-wrap .text + .table-wrap p span {white-space: break-spaces !important;}
 #content.story.detail .swiper-container{width: 100%;}
+.flex-list .desc { position: absolute;font-size: 3.0vw;line-height: 5.333vw;box-sizing: border-box;top: 17vw;}

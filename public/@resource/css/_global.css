@@ -39,7 +39,7 @@ a, a:link, a:visited, a:active, a:hover{text-decoration:none;color:inherit; -web
 .badge-wrap {display: -ms-flexbox; display: -webkit-flex; display: inline-flex;
     -webkit-flex-direction: column; -ms-flex-direction: column; flex-direction: column;}
 .badge {display: inline-block; font-weight: 600; color: #fff; text-align: center;}
-.badge:not(.order-state) {font-family: 'Montserrat';}
+.badge:not(.order-state):not(.inform) {font-family: 'Montserrat';}
 /* badge shape */
 .badge.square {height: 5.333vw; line-height: 5.333vw; padding: 0 2.133vw; font-size: 3.200vw;}
 .badge.round {width: 10.667vw; height: 10.667vw; line-height: 10.667vw; border-radius: 50%; font-size: 2.667vw;}
@@ -58,6 +58,7 @@ a, a:link, a:visited, a:active, a:hover{text-decoration:none;color:inherit; -web
 .badge.order-state.complete {background-color: #262626;}
 .badge.order-state.cancel {background-color: #959595;}
 .badge-wrap .badge + .d-day {margin-top: 2.800vw;}
+.badge.inform {width: 5.867vw; height: 5.867vw; line-height: 6.133vw; background-color: #ff592e; font-weight: 700; font-size: 3.200vw;}
 
 /* ico */
 .ico{display: inline-block; background-repeat: no-repeat; background-position:50% 50%; background-size: 100% 100%;}
@@ -585,6 +586,7 @@ a[target=_blank]::after {content: ''; display: block; position: absolute; top: 5
 /* .item.nodata */
 .item.nodata .title {font-weight: 700; font-size: 4.800vw; text-align: center; padding-top: 8vw;}
 .item.nodata .title + .btn-area {margin-top: 13.333vw;}
+.item.nodata .text {font-size: 3.733vw; text-align: center;}
 
 /* attention list */
 .attention-list > li {position: relative; line-height: 4.800vw; word-break: keep-all; padding-left: 2.933vw;}

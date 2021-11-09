@@ -5,10 +5,9 @@
 // eslint-disable-next-line no-unused-vars
 import axios from "axios";
 import React, { useEffect, useState, useContext } from "react";
-import HeaderSub from "Components/Header/HeaderSub";
 import GoContents from "Components/GoContents";
 import { authContext } from "ContextApi/Context";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { SERVER_DALKOMM } from "Config/Server";
 
 import { contGap, fadeInOut } from "Jquery/Jquery";
@@ -17,6 +16,7 @@ import { fadeOut } from "Config/GlobalJs";
 export default function MyStamp() {
   const [state, dispatch] = useContext(authContext);
   const [axioData, setData] = useState();
+  const history = useHistory();
   useEffect(() => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
 
@@ -38,11 +38,14 @@ export default function MyStamp() {
         });
       })
     );
-  }, [state?.accessToken, state?.auth]);
+  }, []);
   useEffect(() => {
     contGap();
     fadeOut();
   }, [axioData]);
+  const handlePage = (link) => {
+    history.push(link);
+  };
   if (axioData) {
     return (
       <React.Fragment>
@@ -50,7 +53,21 @@ export default function MyStamp() {
 
         <div id="wrap" className="wrap">
           <div id="container" className="container">
-            <HeaderSub title="나의 적립 내역" type="flexCenter" />
+            <header id="header" className="header undefined">
+              <h1 className="page-title">적립 스탬프</h1>
+              <button type="button" className="btn back" onClick={() => handlePage("/mypage")}>
+                <i className="ico back">
+                  <span className="blind">뒤로</span>
+                </i>
+              </button>
+              <div className="btn-area flex-center">
+                <a className="btn" onClick={() => handlePage("/mypage/stampRecipt")}>
+                  <i className="ico recipt">
+                    <span>스탬프 적립내역</span>
+                  </i>
+                </a>
+              </div>
+            </header>
 
             <div id="content" className="mypage stamp fade-in">
               <div className="user-stamp-wrap">
@@ -60,7 +77,7 @@ export default function MyStamp() {
                     <h3 className="h3">적립 스탬프</h3>
                   </div>
                   <div className="count-wrap">
-                    <strong className="count">{axioData?.res1_data?.user?.stamp_card?.complete_count}</strong> / 12
+                    <strong className="count">{axioData?.res1_data?.user?.stamp_card?.point}</strong> / 12
                   </div>
                 </div>
 
@@ -69,7 +86,7 @@ export default function MyStamp() {
                     return (
                       <li key={i}>
                         {/* [D]: 스탬프 활성화: save 클래스 추가 */}
-                        <div className={`item stamp ${i < axioData?.res1_data?.user?.stamp_card?.complete_count ? "save" : "finish"}`}>
+                        <div className={`item stamp ${i < axioData?.res1_data?.user?.stamp_card?.point ? "save" : "finish"}`}>
                           <span className="num en">{i + 1}</span>
                           {i >= 11 && <p className="speech-bubble small en">FREE!</p>}
                         </div>

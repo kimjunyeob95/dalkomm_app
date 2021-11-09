@@ -7,7 +7,7 @@
 import axios from "axios";
 import $ from "jquery";
 import React, { useEffect, useContext, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory, useLocation } from "react-router-dom";
 import HeaderSub from "Components/Header/HeaderSub";
 import GoContents from "Components/GoContents";
 import { authContext } from "ContextApi/Context";
@@ -22,7 +22,8 @@ import { checkMobile, fadeOut } from "Config/GlobalJs";
 export default function MyGiftSend() {
   const [state, dispatch] = useContext(authContext);
   const [axioData, setData] = useState();
-
+  const history = useHistory();
+  const { activeHtml } = useLocation();
   const body = {};
   const header_config = {
     headers: {
@@ -117,6 +118,28 @@ export default function MyGiftSend() {
       console.log(error);
     }
   };
+
+  const handlePage = (link) => {
+    if (link === "뒤로가기") {
+      if (activeHtml) {
+        history.push("/pay?activeHtml=true");
+      } else {
+        history.push("/pay");
+      }
+    } else {
+      if (activeHtml) {
+        history.push({
+          pathname: link,
+          activeHtml: true,
+        });
+      } else {
+        history.push({
+          pathname: link,
+          activeHtml: false,
+        });
+      }
+    }
+  };
   if (axioData) {
     // fadeInOut();
     return (
@@ -125,7 +148,21 @@ export default function MyGiftSend() {
 
         <div id="wrap" className="wrap">
           <div id="container" className="container">
-            <HeaderSub title="기프트카드 선물하기" location="/mypage/giftSendRecipt" type="flexCenter" icon="recipt" />
+            <header id="header" className="header undefined">
+              <h1 className="page-title">기프트카드 선물하기</h1>
+              <button type="button" className="btn back" onClick={() => handlePage("뒤로가기")}>
+                <i className="ico back">
+                  <span className="blind">뒤로</span>
+                </i>
+              </button>
+              <div className="btn-area flex-center">
+                <a className="btn" onClick={() => handlePage("/mypage/giftSendRecipt")}>
+                  <i className="ico recipt">
+                    <span>기프트카드 선물하기</span>
+                  </i>
+                </a>
+              </div>
+            </header>
 
             <div id="content" className="pay gift fade-in">
               <section className="section">
@@ -259,5 +296,28 @@ export default function MyGiftSend() {
         {/* // #wrap */}
       </React.Fragment>
     );
-  } else return <React.Fragment></React.Fragment>;
+  } else
+    return (
+      <React.Fragment>
+        <div id="wrap" className="wrap">
+          <div id="container" className="container">
+            <header id="header" className="header undefined">
+              <h1 className="page-title">기프트카드 선물하기</h1>
+              <button type="button" className="btn back" onClick={() => handlePage("뒤로가기")}>
+                <i className="ico back">
+                  <span className="blind">뒤로</span>
+                </i>
+              </button>
+              <div className="btn-area flex-center">
+                <a className="btn" onClick={() => handlePage("/mypage/giftSendRecipt")}>
+                  <i className="ico recipt">
+                    <span>기프트카드 선물하기</span>
+                  </i>
+                </a>
+              </div>
+            </header>
+          </div>
+        </div>
+      </React.Fragment>
+    );
 }

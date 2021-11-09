@@ -36,6 +36,7 @@ body {overflow-x: hidden;}
 #header .btn-area {right: 5.333vw;}
 #header .btn-area .btn + .btn{margin-left: 2.133vw;}
 #header .btn-area .btn:not(.bdr) .ico {width: 8vw; height: 8vw;}
+#header .btn-area .inform {position: absolute; top: -1.067vw; right: -1.600vw;}
 #header.only-button-header {position: relative; padding-top: 0;}
 #header.bg-transparent {height: 0; background-color: transparent;}
 #header.bg-transparent h1.page-title{border-bottom: 0;}

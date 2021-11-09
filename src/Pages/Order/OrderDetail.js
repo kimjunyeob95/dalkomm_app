@@ -23,7 +23,7 @@ export default function OrderDetail() {
   const history = useHistory();
   const { orderCode, storeCode } = useParams();
   const [frontData, setFront] = useState({ defaultPrice: 0 });
-  const { scrollValue } = useLocation();
+  const { scrollValue, cateType } = useLocation();
   let hardCodingMenu = [
     {
       menuCode: "0925",
@@ -649,6 +649,7 @@ export default function OrderDetail() {
                   history.push({
                     pathname: `/order/menu/${storeCode}`,
                     scrollValue: scrollValue,
+                    cateType: cateType,
                   })
                 }
               >
