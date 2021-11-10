@@ -12,6 +12,10 @@ import { useHistory } from "react-router";
 import { authContext } from "ContextApi/Context";
 import { fadeOut } from "Config/GlobalJs";
 
+let since_id = 1;
+let flag_array = [];
+let flag_api = true;
+
 export default function MyOrderRecipt() {
   const [state] = useContext(authContext);
   const [axioData, setData] = useState({});
@@ -22,41 +26,59 @@ export default function MyOrderRecipt() {
       Authorization: state?.auth,
     },
   };
+
   useEffect(() => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    axios.all([axios.post(`${SERVER_DALKOMM}/app/api/v2/smartorder/orderinfo/list`, { page: 1, duration: "w" }, header_config)]).then(
+    axios.all([axios.post(`${SERVER_DALKOMM}/app/api/v2/smartorder/orderinfo/list`, { page: since_id, duration: "w" }, header_config)]).then(
       axios.spread((res1) => {
         let res1_data = res1.data.data;
-
-        setData((origin) => {
-          return {
-            ...origin,
-            res1_data,
-          };
-        });
+        flag_array.push(since_id);
+        since_id++;
+        setData(res1_data);
       })
     );
-
+    window.addEventListener("scroll", handleScroll);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [state?.auth]);
+  }, []);
 
   useEffect(() => {
     contGap();
     fadeOut();
   }, [axioData]);
-
+  const fn_api = () => {
+    let duration = $("#select-duration").val() ? $("#select-duration").val() : "w";
+    if (flag_array.indexOf(since_id) > 0) {
+      axios.all([axios.post(`${SERVER_DALKOMM}/app/api/v2/smartorder/orderinfo/list`, { page: since_id, duration: duration }, header_config)]).then(
+        axios.spread((res1) => {
+          let orderList = res1.data.data.result;
+          let order_length = orderList.length;
+          if (order_length > 0) {
+            since_id++;
+            flag_api = true;
+            setData((origin) => {
+              return {
+                ...origin,
+                result: [...origin.result, ...orderList],
+              };
+            });
+          } else {
+            flag_api = false;
+          }
+        })
+      );
+    }
+  };
   const handleDuration = () => {
+    flag_api = true;
+    since_id = 1;
+    flag_array = [];
     let duration = $("#select-duration").val();
-    axios.all([axios.post(`${SERVER_DALKOMM}/app/api/v2/smartorder/orderinfo/list`, { page: 1, duration: duration }, header_config)]).then(
+    axios.all([axios.post(`${SERVER_DALKOMM}/app/api/v2/smartorder/orderinfo/list`, { page: since_id, duration: duration }, header_config)]).then(
       axios.spread((res1) => {
         let res1_data = res1.data.data;
-
-        setData((origin) => {
-          return {
-            ...origin,
-            res1_data,
-          };
-        });
+        flag_array.push(since_id);
+        since_id++;
+        setData(res1_data);
       })
     );
   };
@@ -64,6 +86,22 @@ export default function MyOrderRecipt() {
   const handleDetail = (smartorderinfo_id) => {
     history.push(`/order/info/${smartorderinfo_id}`);
   };
+
+  const handleScroll = () => {
+    let scrollHeight = document.documentElement.scrollHeight;
+    let scrollTop = document.documentElement.scrollTop;
+    let clientHeight = document.documentElement.clientHeight;
+
+    if (scrollTop + clientHeight >= scrollHeight * 0.95) {
+      if (flag_array.indexOf(since_id) < 0) {
+        if (flag_api) {
+          flag_array.push(since_id);
+          fn_api();
+        }
+      }
+    }
+  };
+
   if (axioData) {
     return (
       <React.Fragment>
@@ -90,7 +128,7 @@ export default function MyOrderRecipt() {
               </div>
 
               <ul className="order-list data-list">
-                {axioData?.res1_data?.result?.map((e, i) => (
+                {axioData?.result?.map((e, i) => (
                   <li key={i} onClick={() => handleDetail(e?.smartorderinfo_id)}>
                     <div
                       className={`item order ${
@@ -150,17 +188,19 @@ export default function MyOrderRecipt() {
       </React.Fragment>
     );
   } else {
-    <div id="wrap" className="wrap">
-      <div id="container" className="container">
-        <header id="header" className="header undefined">
-          <h1 className="page-title">주문내역</h1>
-          <Link className="btn back" to="/mypage">
-            <i className="ico back">
-              <span className="blind">뒤로</span>
-            </i>
-          </Link>
-        </header>
+    return (
+      <div id="wrap" className="wrap">
+        <div id="container" className="container">
+          <header id="header" className="header undefined">
+            <h1 className="page-title">주문내역</h1>
+            <Link className="btn back" to="/mypage">
+              <i className="ico back">
+                <span className="blind">뒤로</span>
+              </i>
+            </Link>
+          </header>
+        </div>
       </div>
-    </div>;
+    );
   }
 }

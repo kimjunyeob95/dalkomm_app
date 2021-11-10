@@ -662,7 +662,7 @@ export default function OrderFinal() {
                             <i className="ico alert"></i>빙수제품은 별도 포장을 제공하지 않습니다.
                           </span>
                         </span>
-                        <div className="select-group col-2">
+                        <div className="select-group col-2 checking">
                           <input
                             type="radio"
                             id="orderRequest01"
@@ -688,7 +688,7 @@ export default function OrderFinal() {
 
                       <div className="field">
                         <span className="label">결제 수단</span>
-                        <div className="select-group col-3">
+                        <div className="select-group col-3 checking">
                           {axioData?.res1_data?.pay_methods?.map((e, i) => (
                             <React.Fragment key={i}>
                               <input

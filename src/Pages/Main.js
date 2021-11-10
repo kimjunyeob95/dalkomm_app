@@ -421,7 +421,7 @@ export function Main(props) {
                   <div className="title-wrap w-inner flex-both">
                     <h3 className="section-title">나의 최근 주문</h3>
                     <Link to={`/mypage/orderRecipt`} className="btn text">
-                      <span>전체 메뉴</span>
+                      <span>더 보기</span>
                       <i className="ico arr-r"></i>
                     </Link>
                   </div>
@@ -686,6 +686,7 @@ export function Main(props) {
                   </h3>
                   <a onClick={() => handleMdDetail("더보기")} className="btn text">
                     <span>더 보기</span>
+                    <i className="ico arr-r"></i>
                   </a>
                 </div>
 

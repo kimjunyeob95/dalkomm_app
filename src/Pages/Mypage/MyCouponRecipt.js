@@ -119,7 +119,7 @@ export default function MyCouponRecipt() {
                               <div className="item coupon">
                                 <div className="data-wrap">
                                   <div className="flex-both">
-                                    <p className="day num fc-orange">~21.07.28(기한 데이터필요)</p>
+                                    <p className="day num fc-orange">~{element?.due_date}</p>
                                     <p className="name">{element?.user_name}</p>
                                   </div>
                                   <p className="title">{element?.coupon_name}</p>
@@ -144,7 +144,7 @@ export default function MyCouponRecipt() {
                               <div className="item coupon">
                                 <div className="data-wrap">
                                   <div className="flex-both">
-                                    <p className="day num fc-orange">~21.07.28(기한 데이터필요)</p>
+                                    <p className="day num fc-orange">~{element?.due_date}</p>
                                     <p className="name">{element?.user_name}</p>
                                   </div>
                                   <p className="title">{element?.coupon_name}</p>

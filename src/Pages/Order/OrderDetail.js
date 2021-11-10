@@ -103,6 +103,7 @@ export default function OrderDetail() {
     fn_api();
     $("#addCart").removeClass("active");
     $("body").removeClass("modal-opened");
+    $("#orderCount").val(1);
   }, [orderCode]);
   useEffect(() => {
     // 말풍선 스크롤시 hide/show
@@ -691,7 +692,7 @@ export default function OrderDetail() {
                   <fieldset className="fieldset">
                     <div className="field">
                       {axioData?.res1_data?.menu?.type === "ICE" ? (
-                        <div className="select-group col-1">
+                        <div className="select-group col-1 checking">
                           <input
                             type="radio"
                             id="orderType01"
@@ -706,7 +707,7 @@ export default function OrderDetail() {
                           </label>
                         </div>
                       ) : axioData?.res1_data?.menu?.type === "HOT" ? (
-                        <div className="select-group col-1">
+                        <div className="select-group col-1 checking">
                           <input
                             type="radio"
                             id="orderType02"
@@ -722,7 +723,7 @@ export default function OrderDetail() {
                         </div>
                       ) : (
                         axioData?.res1_data?.menu?.type === "BOTH" && (
-                          <div className="select-group col-2">
+                          <div className="select-group col-2 checking">
                             <input
                               type="radio"
                               id="orderType02"
@@ -756,7 +757,7 @@ export default function OrderDetail() {
                         <div className="field">
                           <span className="label en">Size</span>
                           {frontData?.cupsize === "BOTH" ? (
-                            <div className="select-group col-2">
+                            <div className="select-group col-2 checking">
                               <input
                                 type="radio"
                                 id="orderSize01"
@@ -781,7 +782,7 @@ export default function OrderDetail() {
                               </label>
                             </div>
                           ) : frontData?.cupsize === "ALL" ? (
-                            <div className="select-group col-3">
+                            <div className="select-group col-3 checking">
                               <input
                                 type="radio"
                                 id="orderSize01"
@@ -813,7 +814,7 @@ export default function OrderDetail() {
                               </label>
                             </div>
                           ) : frontData?.cupsize === "LARGE" ? (
-                            <div className="select-group col-1">
+                            <div className="select-group col-1 checking">
                               <input
                                 type="radio"
                                 defaultChecked={true}
@@ -831,7 +832,7 @@ export default function OrderDetail() {
                               </label>
                             </div>
                           ) : frontData?.cupsize === "REGULAR" ? (
-                            <div className="select-group col-1">
+                            <div className="select-group col-1 checking">
                               <input
                                 type="radio"
                                 id="orderSize01"
@@ -850,7 +851,7 @@ export default function OrderDetail() {
                             </div>
                           ) : (
                             frontData?.cupsize === "BIG" && (
-                              <div className="select-group col-1">
+                              <div className="select-group col-1 checking">
                                 <input
                                   type="radio"
                                   id="orderSize03"
@@ -875,7 +876,7 @@ export default function OrderDetail() {
                         <div className="field">
                           <span className="label en">Cup</span>
                           {axioData?.res1_data?.menu?.cup === "ALL" ? (
-                            <div className="select-group col-3">
+                            <div className="select-group col-3 checking">
                               <input
                                 type="radio"
                                 id="orderCup01"
@@ -906,7 +907,7 @@ export default function OrderDetail() {
                               </label>
                             </div>
                           ) : axioData?.res1_data?.menu?.cup === "BOTH" ? (
-                            <div className="select-group col-2">
+                            <div className="select-group col-2 checking">
                               <input
                                 type="radio"
                                 id="orderCup01"
@@ -932,7 +933,7 @@ export default function OrderDetail() {
                               </label>
                             </div>
                           ) : axioData?.res1_data?.menu?.cup === "MUG" ? (
-                            <div className="select-group col-1">
+                            <div className="select-group col-1 checking">
                               <input
                                 type="radio"
                                 id="orderCup01"
@@ -947,7 +948,7 @@ export default function OrderDetail() {
                               </label>
                             </div>
                           ) : axioData?.res1_data?.menu?.cup === "INSTANT" ? (
-                            <div className="select-group col-1">
+                            <div className="select-group col-1 checking">
                               <input
                                 defaultChecked={true}
                                 type="radio"
@@ -962,7 +963,7 @@ export default function OrderDetail() {
                               </label>
                             </div>
                           ) : axioData?.res1_data?.menu?.cup === "PRIVATE" ? (
-                            <div className="select-group col-1">
+                            <div className="select-group col-1 checking">
                               {" "}
                               <input
                                 defaultChecked={true}

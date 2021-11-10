@@ -157,7 +157,7 @@ export default function GiftCharge() {
 
                       <div className="field">
                         <span className="label">충전 금액</span>
-                        <div className="select-group col-2">
+                        <div className="select-group col-2 checking">
                           <input
                             type="radio"
                             id="chargeMoney01"
@@ -224,7 +224,7 @@ export default function GiftCharge() {
 
                       <div className="field">
                         <span className="label">결제 수단</span>
-                        <div className="select-group col-3">
+                        <div className="select-group col-3 checking">
                           <input type="radio" id="payMethod01" name="payMethod" value="P" defaultChecked={true} />
                           <label htmlFor="payMethod01" className="btn bdr medium">
                             <strong>신용카드</strong>

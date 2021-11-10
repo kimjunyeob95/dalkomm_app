@@ -237,7 +237,7 @@ export default function MyGiftSend() {
                       </div>
                       <div className="field">
                         <span className="label">선물 금액</span>
-                        <div className="select-group col-2">
+                        <div className="select-group col-2 checking">
                           <input type="radio" id="giftMoney01" name="giftMoney" defaultChecked={true} value={10000} />
                           <label htmlFor="giftMoney01" className="btn bdr medium">
                             10,000원
@@ -266,7 +266,7 @@ export default function MyGiftSend() {
                       </div>
                       <div className="field">
                         <span className="label">결제 수단</span>
-                        <div className="select-group col-3">
+                        <div className="select-group col-3 checking">
                           <input type="radio" id="payMethod01" name="payMethod" defaultChecked={true} value="P" />
                           <label htmlFor="payMethod01" className="btn bdr medium">
                             <strong>신용카드</strong>

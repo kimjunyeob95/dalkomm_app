@@ -7,7 +7,7 @@ import axios from "axios";
 import $ from "jquery";
 import React, { useEffect, useContext, useState } from "react";
 import { getYear, getMonth } from "date-fns"; // getYear, getMonth
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import DatePicker, { registerLocale } from "react-datepicker"; // 한국어적용
 import ko from "date-fns/locale/ko"; // 한국어적용
 import "react-datepicker/dist/react-datepicker.css";
@@ -28,7 +28,7 @@ export default function MyModify() {
   const [startDate, setStartDate] = useState(new Date());
   const years = range.range(1940, getYear(new Date()) + 1, 1); // 수정
   const months = ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"];
-
+  const history = useHistory();
   const [state, dispatch] = useContext(authContext);
   const [axioData, setData] = useState();
   const header_config = {
@@ -109,10 +109,14 @@ export default function MyModify() {
         };
         axios.all([axios.post(`${SERVER_DALKOMM}/app/api/v2/my_account/update_profile`, body, header_config)]).then(
           axios.spread((res1) => {
-            fn_api();
-            $("#resAlert").text(res1.data.meta.msg);
-            $(".overlay.popupExitJoin").addClass("active");
-            $("body").addClass("modal-opened");
+            if (res1.data.meta.code === 20000) {
+              alert("기존 정보가 수정되었습니다.");
+              history.push("/mypage");
+            } else {
+              $("#resAlert").text(res1.data.meta.msg);
+              $(".overlay.popupExitJoin").addClass("active");
+              $("body").addClass("modal-opened");
+            }
           })
         );
       }
@@ -136,10 +140,14 @@ export default function MyModify() {
         };
         axios.all([axios.post(`${SERVER_DALKOMM}/app/api/account/simple/update/profile`, body, header_config)]).then(
           axios.spread((res1) => {
-            fn_api();
-            $("#resAlert").text(res1.data.meta.msg);
-            $(".overlay.popupExitJoin").addClass("active");
-            $("body").addClass("modal-opened");
+            if (res1.data.meta.code === 20000) {
+              alert("비밀번호가 수정되었습니다.");
+              history.push("/mypage");
+            } else {
+              $("#resAlert").text(res1.data.meta.msg);
+              $(".overlay.popupExitJoin").addClass("active");
+              $("body").addClass("modal-opened");
+            }
           })
         );
       }
@@ -184,11 +192,14 @@ export default function MyModify() {
                 };
                 axios.all([axios.post(`${SERVER_DALKOMM}/app/api/account/simple/update/profile`, body, header_config)]).then(
                   axios.spread((res1) => {
-                    $("#resAlert").text(res1.data.meta.msg);
-                    $(".overlay.popupExitJoin").addClass("active");
-                    $("body").addClass("modal-opened");
-                    fn_api();
-                    return false;
+                    if (res1.data.meta.code === 20000) {
+                      alert("휴대전화가 수정되었습니다.");
+                      history.push("/mypage");
+                    } else {
+                      $("#resAlert").text(res1.data.meta.msg);
+                      $(".overlay.popupExitJoin").addClass("active");
+                      $("body").addClass("modal-opened");
+                    }
                   })
                 );
               } else {

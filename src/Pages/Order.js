@@ -150,7 +150,6 @@ export function Order(props) {
     }
   };
   if (axioData) {
-    console.log(axioData);
     return (
       <React.Fragment>
         <GoContents />
@@ -209,25 +208,25 @@ export function Order(props) {
                             <div className="img-wrap">
                               <i
                                 className={`ico store-type ${
-                                  e?.store_type === 0
+                                  e?.store_sub_type === 0
                                     ? "house"
-                                    : e?.store_type === 1
+                                    : e?.store_sub_type === 1
                                     ? "building"
-                                    : e?.store_type === 2
+                                    : e?.store_sub_type === 2
                                     ? "rest-area"
-                                    : e?.store_type === 3
+                                    : e?.store_sub_type === 3
                                     ? "terminal"
-                                    : e?.store_type === 4
+                                    : e?.store_sub_type === 4
                                     ? "head-office"
-                                    : e?.store_type === 5
+                                    : e?.store_sub_type === 5
                                     ? "drive-thru"
-                                    : e?.store_type === 6
+                                    : e?.store_sub_type === 6
                                     ? "drive-thru"
-                                    : e?.store_type === 7
+                                    : e?.store_sub_type === 7
                                     ? "vivaldi-park"
-                                    : e?.store_type === 8
+                                    : e?.store_sub_type === 8
                                     ? "hospital"
-                                    : e?.store_type === 9
+                                    : e?.store_sub_type === 9
                                     ? "cinema"
                                     : ""
                                 }`}
