@@ -4,7 +4,7 @@
 .react-barcode {margin: 0 auto; max-width: 286px; overflow: hidden;}
 .react-barcode div:last-child {display: none;}
 #content.drink.detail .fixed-con .item.info-order .text > span::after{content: none;}
-.drink.detail input:disabled{background-color: rgb(255, 255, 255); color:rgb(0, 0, 0)}
+input[type="number"]:disabled{background-color: rgb(255, 255, 255); color:rgb(0, 0, 0); opacity:1;-webkit-text-fill-color: inherit}
 .btn-area.col-1 .btn {width: 100%;}
 #popupExitJoin .popup-footer.col-1 .btn {width: 100%}
 .overlay.active {z-index: 999;}
@@ -13,3 +13,6 @@
 #content.drink.detail .item.info-detail .detail-wrap .text + .table-wrap p span {white-space: break-spaces !important;}
 #content.story.detail .swiper-container{width: 100%;}
 .flex-list .desc { position: absolute;font-size: 3.0vw;line-height: 5.333vw;box-sizing: border-box;top: 17vw;}
+#content.drink.detail .fixed-con .data-list li.option .item.info-order{padding-top: 3.867vw;padding-bottom: 3.867vw;}
+#content.drink.detail .fixed-con .data-list .item.info-order {height: 15.067vw;line-height: 15.067vw; }
+.noDrag {-webkit-user-drag: none;-webkit-user-select: none;}

@@ -45,7 +45,7 @@ export function Order(props) {
       axios
         .all([
           axios.post(`${SERVER_DALKOMM}/app/api/v2/store/around`, location_body, header_config),
-          axios.post(`${SERVER_DALKOMM}/app/api/v2/favorite/store/list`, location_body, header_config),
+          axios.post(`${SERVER_DALKOMM}/app/api/v2/store/main`, location_body, header_config),
         ])
         .then(
           axios.spread((res1, res2) => {
@@ -63,7 +63,7 @@ export function Order(props) {
     } else {
       //비로그인 시
       axios.all([axios.post(`${SERVER_DALKOMM}/app/api/v2/store/around`, location_body, header_config)]).then(
-        axios.spread((res1, res2) => {
+        axios.spread((res1) => {
           let res1_data = res1.data.data;
           setData((origin) => {
             return {
@@ -115,7 +115,15 @@ export function Order(props) {
     }
   };
 
+  const handleClose = (e) => {
+    $(".toggle-wrap li.active .toggle-cont").css("display", "none");
+    $(".toggle-wrap li").removeClass("active");
+  };
+
   const handleDetail = (e, storeCode) => {
+    $(".toggle-wrap li.active .toggle-cont").css("display", "none");
+    $(".toggle-wrap li").removeClass("active");
+
     axios.all([axios.post(`${SERVER_DALKOMM}/app/api/v2/store/${storeCode}`, {}, header_config)]).then(
       axios.spread((res1) => {
         let detailStore = res1.data.data;
@@ -142,6 +150,7 @@ export function Order(props) {
     }
   };
   if (axioData) {
+    console.log(axioData);
     return (
       <React.Fragment>
         <GoContents />
@@ -195,30 +204,30 @@ export function Order(props) {
                                   <span>즐겨찾기</span>
                                 </i>
                               </span>
-                              {/* <span className={`table-order ${e?.store_is_smartorder ? "possible" : "impossible"}`}></span>{" "} */}
+                              <span className={`table-order ${e?.store_is_smartorder ? "possible" : "impossible"}`}></span>{" "}
                             </div>
                             <div className="img-wrap">
                               <i
                                 className={`ico store-type ${
-                                  e?.store_sub_type === 0
+                                  e?.store_type === 0
                                     ? "house"
-                                    : e?.store_sub_type === 1
+                                    : e?.store_type === 1
                                     ? "building"
-                                    : e?.store_sub_type === 2
+                                    : e?.store_type === 2
                                     ? "rest-area"
-                                    : e?.store_sub_type === 3
+                                    : e?.store_type === 3
                                     ? "terminal"
-                                    : e?.store_sub_type === 4
+                                    : e?.store_type === 4
                                     ? "head-office"
-                                    : e?.store_sub_type === 5
+                                    : e?.store_type === 5
                                     ? "drive-thru"
-                                    : e?.store_sub_type === 6
+                                    : e?.store_type === 6
                                     ? "drive-thru"
-                                    : e?.store_sub_type === 7
+                                    : e?.store_type === 7
                                     ? "vivaldi-park"
-                                    : e?.store_sub_type === 8
+                                    : e?.store_type === 8
                                     ? "hospital"
-                                    : e?.store_sub_type === 9
+                                    : e?.store_type === 9
                                     ? "cinema"
                                     : ""
                                 }`}
@@ -272,7 +281,7 @@ export function Order(props) {
                                   </i>
                                 </li> */}
                               </ul>
-                              {/* <p className="distance">{e.store_distance !== "-1" && e.store_distance + "km"}</p> */}
+                              <p className="distance">{e?.store_distance !== "-1" && e?.store_distance + "km"}</p>
                             </div>
                           </a>
                         </SwiperSlide>
@@ -415,7 +424,7 @@ export function Order(props) {
               <div id="tableOrderAble" className="fixed-con layer-pop store-pop">
                 <div className="popup">
                   <div className="popup-wrap">
-                    <button type="button" className="btn btn-close">
+                    <button type="button" className="btn btn-close" onClick={(e) => handleClose(e.currentTarget)}>
                       <i className="ico close">
                         <span>close</span>
                       </i>

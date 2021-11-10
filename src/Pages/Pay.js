@@ -235,14 +235,27 @@ export default function Pay() {
                   <div className="item attention">
                     <dl>
                       <dt className="title">
+                        <i className="ico alert"></i>멤버십이란?
+                      </dt>
+                      <dd className="text">
+                        <ul className="attention-list">
+                          <li>
+                            달콤을 이용해주시는 고객님께 다양한 혜택을 드리기 위한 달콤 고객 우대 제도이며 적립된 트로피 개수에 따라 등급이
+                            결정됩니다.
+                          </li>
+                        </ul>
+                      </dd>
+                    </dl>
+                    <dl style={{ marginTop: "8vw" }}>
+                      <dt className="title">
                         <i className="ico alert"></i>멤버십 적립 기준
                       </dt>
                       <dd className="text">
                         <ul className="attention-list">
-                          <li>충전카드 10,000원 충전 시 마다 1개 적립</li>
-                          <li>테이블오더 또는 오프라인 매장에서 4천원 결제 시 마다 1개 적립</li>
-                          <li>등급 조건이 충족되었을 경우, 익일 9시에 등급 변경이 진행됩니다.</li>
-                          <li>등급 변경으로 인해 사용된 트로피는 보유 트로피에서 차감됩니다.</li>
+                          <li>기프트카드 10,000원 충전할 때마다 트로피 1개 적립</li>
+                          <li>테이블오더 또는 매장에서 직접 결제 시 4,000원마다 트로피 1개 적립</li>
+                          <li>등급 조건이 충족되었을 경우, 익일 9시에 등급이 변경됩니다.</li>
+                          <li>등급 변경 시 사용된 트로피 개수만큼 보유 트로피에서 차감됩니다.</li>
                         </ul>
                       </dd>
                     </dl>

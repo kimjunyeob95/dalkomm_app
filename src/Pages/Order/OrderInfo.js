@@ -192,20 +192,25 @@ export default function OrderInfo() {
                                           }
                                         })}
                                       </span>
-                                      <span>
-                                        {element?.smart_order_menu?.get_summary_option
-                                          .filter((e, i) => {
-                                            let array = ["HOT", "ICE", "레귤러", "라지", "코끼리", "다회용 컵", "일회용 컵", "개인컵(-300원)"];
-                                            return array.indexOf(e) < 0;
-                                          })
-                                          .map((e, i) => {
-                                            if (i === 0) {
-                                              return <React.Fragment key={i}>{e}</React.Fragment>;
-                                            } else {
-                                              return <React.Fragment key={i}>, {e}</React.Fragment>;
-                                            }
-                                          })}
-                                      </span>
+                                      {element?.smart_order_menu?.get_summary_option.filter((e, i) => {
+                                        let array = ["HOT", "ICE", "레귤러", "라지", "코끼리", "다회용 컵", "일회용 컵", "개인컵(-300원)"];
+                                        return array.indexOf(e) < 0;
+                                      }).length > 0 && (
+                                        <span>
+                                          {element?.smart_order_menu?.get_summary_option
+                                            .filter((e, i) => {
+                                              let array = ["HOT", "ICE", "레귤러", "라지", "코끼리", "다회용 컵", "일회용 컵", "개인컵(-300원)"];
+                                              return array.indexOf(e) < 0;
+                                            })
+                                            .map((e, i) => {
+                                              if (i === 0) {
+                                                return <React.Fragment key={i}>{e}</React.Fragment>;
+                                              } else {
+                                                return <React.Fragment key={i}>, {e}</React.Fragment>;
+                                              }
+                                            })}
+                                        </span>
+                                      )}
                                     </p>
                                   </div>
                                   <div className="price-wrap flex-both">

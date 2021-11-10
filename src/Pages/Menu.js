@@ -12,7 +12,7 @@ import GoContents from "Components/GoContents";
 import { contGap, popupOpen } from "Jquery/Jquery";
 
 import { authContext } from "ContextApi/Context";
-import { SERVER_DALKOMM } from "Config/Server";
+import { SERVER_DALKOMM, SERVER_DALKOMM_SUGAR } from "Config/Server";
 import { checkMobile, fadeOut, fn_memberName } from "Config/GlobalJs";
 
 export default function Menu() {
@@ -32,21 +32,19 @@ export default function Menu() {
       //로그인시
       axios
         .all([
-          axios.get(`${SERVER_DALKOMM}/app/api/notice/is-new`, {
-            headers: { Authorization: state?.auth },
-          }),
+          axios.post(`${SERVER_DALKOMM_SUGAR}/api/getNew`),
           axios.post(`${SERVER_DALKOMM}/app/api/v2/my_account/user_info`, body, header_config),
           axios.post(`${SERVER_DALKOMM}/app/api/v2/membership`, body, header_config),
         ])
         .then(
           axios.spread((res1, res2, res3) => {
-            let res1_data = res1.data.data;
+            let newFlag = res1.data;
             let res2_data = res2.data.data;
             let res3_data = res3.data.data;
             setData((origin) => {
               return {
                 ...origin,
-                res1_data,
+                newFlag,
                 res2_data,
                 res3_data,
               };
@@ -55,24 +53,17 @@ export default function Menu() {
         );
     } else if (!state.loginFlag && state.auth) {
       //비로그인시
-      axios
-        .all([
-          axios.get(`${SERVER_DALKOMM}/app/api/notice/is-new`, {
-            headers: { Authorization: state?.auth },
-          }),
-        ])
-        .then(
-          axios.spread((res1, res2) => {
-            let res1_data = res1.data.data;
-
-            setData((origin) => {
-              return {
-                ...origin,
-                res1_data,
-              };
-            });
-          })
-        );
+      axios.all([axios.post(`${SERVER_DALKOMM_SUGAR}/api/getNew`)]).then(
+        axios.spread((res1, res2) => {
+          let newFlag = res1.data;
+          setData((origin) => {
+            return {
+              ...origin,
+              newFlag,
+            };
+          });
+        })
+      );
     }
   }, [state?.loginFlag]);
 
@@ -108,7 +99,6 @@ export default function Menu() {
     }
   };
   if (axioData) {
-    // fadeInOut();
     return (
       <React.Fragment>
         <GoContents />
@@ -122,7 +112,7 @@ export default function Menu() {
                 <div className="item my-info">
                   <div className="user-wrap flex-center">
                     <p className="user">
-                      <span className="fc-orange">{axioData?.res2_data?.sub_user_list[0]?.sub_user_name}</span> 고객님
+                      <span className="fc-orange">{decodeURI(axioData?.res2_data?.name)}</span> 고객님
                     </p>
 
                     <button
@@ -176,7 +166,8 @@ export default function Menu() {
                       <Link to="/story/list" className="item depth-menu">
                         <i className="ico menu-story"></i>
                         <span>달콤스토리</span>
-                        <i className="ico new">N</i> {/* [D] 활성화 콘텐츠 메뉴일시 노출*/}
+                        {axioData?.newFlag?.storyNew === "TRUE" && <i className="ico new">N</i>}
+                        {/* [D] 활성화 콘텐츠 메뉴일시 노출*/}
                       </Link>
                     </li>
                     {/* [D] 211105 마크업 추가*/}
@@ -193,7 +184,7 @@ export default function Menu() {
                       <Link to="/support/notice/list" className="item depth-menu">
                         <i className="ico menu-notice"></i>
                         <span>공지사항</span>
-                        {state?.loginFlag && axioData?.is_new && <i className="ico new">N</i>}
+                        {axioData?.newFlag?.noticeNew === "TRUE" && <i className="ico new">N</i>}
                       </Link>
                     </li>
                     <li>
@@ -256,22 +247,24 @@ export default function Menu() {
                         <span>고객센터</span>
                       </div>
                       <ul className="data-list service-list">
-                        <li>
+                        {/* <li>
                           <div className="item contact">
                             <i className="ico tel-g">
                               <span>전화번호</span>
                             </i>
-                            <span className="num" onClick={() => handleCall("1661-1399")}>
-                              1661-1399
-                            </span>
+
+                            <span className="num noDrag">1661-1399</span>
                           </div>
-                        </li>
+                        </li> */}
                         <li>
                           <div className="item contact">
                             <i className="ico mail-g">
                               <span>메일</span>
                             </i>
-                            <span className="num">dalkomm_cs@dalkomm.com</span>
+
+                            <span className="num">
+                              <a href="mailto:dalkomm_cs@dalkomm.com">dalkomm_cs@dalkomm.com </a>
+                            </span>
                           </div>
                         </li>
                       </ul>

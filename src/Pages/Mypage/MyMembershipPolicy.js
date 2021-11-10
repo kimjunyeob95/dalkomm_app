@@ -126,7 +126,8 @@ export default function MyMembershipPolicy() {
                     <p className="grade en">{fn_memberName(axioData?.res1_data?.membership_level)} MEMBER</p>
                     {axioData?.res1_data?.remain_point > 0 && (
                       <p className="text">
-                        트로피 {axioData?.res1_data?.remain_point}개 더 모으면 다음달은 {fn_memberName(axioData?.res1_data?.membership_level + 1)}!
+                        트로피 {axioData?.res1_data?.remain_point + 1}개 더 모으면 다음달은 {fn_memberName(axioData?.res1_data?.membership_level + 1)}
+                        !
                       </p>
                     )}
                   </div>
@@ -183,6 +184,13 @@ export default function MyMembershipPolicy() {
 
                 <div className="benefit-wrap">
                   <dl className="item describe">
+                    <dt className="title">멤버십 등급 소개</dt>
+                    <dd className="text">
+                      <p>달콤 멤버십 서비스 이용의 기준이 되는 등급으로, 트로피 개수에 따라 실버, 골드, 플래티넘으로 부여됩니다.</p>
+                    </dd>
+                  </dl>
+
+                  <dl className="item describe" style={{ paddingTop: 0 }}>
                     <dt className="title">멤버십 혜택</dt>
                     <dd className="text">
                       <p>

@@ -557,18 +557,20 @@ export default function OrderDetail() {
     let count;
     if (flag === "plus") {
       count = Number($(e).prev("input").val());
-      $(e)
-        .prev("input")
-        .val(count + 1);
-      if (type === "샷") {
-        $(e).parents("li").addClass("adding");
+      if (count < 10) {
         $(e)
-          .parent()
-          .siblings(".speech-bubble")
-          .text(`+ ${(count + 1) * 500} ₩`);
-      } else if (type === "헤이즐럿" || type === "바닐라") {
-        if (count < 1) {
+          .prev("input")
+          .val(count + 1);
+        if (type === "샷") {
           $(e).parents("li").addClass("adding");
+          $(e)
+            .parent()
+            .siblings(".speech-bubble")
+            .text(`+ ${(count + 1) * 500} ₩`);
+        } else if (type === "헤이즐럿" || type === "바닐라") {
+          if (count < 1) {
+            $(e).parents("li").addClass("adding");
+          }
         }
       }
     } else if (flag === "minus") {
@@ -981,7 +983,13 @@ export default function OrderDetail() {
                           )}
                         </div>
                       )}
-                      {axioData?.res1_data?.menu?.cup !== null && axioData?.res1_data?.menu?.size !== null && (
+                      {axioData?.res1_data?.menu?.available_add_espresso_shot ||
+                      axioData?.res1_data?.menu?.available_add_hazelnut_syrup ||
+                      axioData?.res1_data?.menu?.available_add_vanilla_syrup ||
+                      axioData?.res1_data?.menu?.available_add_whipping_cream ||
+                      axioData?.res1_data?.menu?.available_control_honey ||
+                      axioData?.res1_data?.menu?.available_remove_whipping_cream ||
+                      axioData?.res1_data?.menu?.available_select_coffee_bean ? (
                         <div className="field">
                           <span className="label en">Option</span>
                           <ul className="data-list option-list">
@@ -1184,17 +1192,19 @@ export default function OrderDetail() {
                             )}
                           </ul>
                         </div>
+                      ) : (
+                        ""
                       )}
                     </div>
                   </fieldset>
                 </form>
                 <ul className="data-list toggle-wrap">
-                  <li>
+                  <li className="active">
                     <div className="item info-detail">
                       <div className="title-wrap toggle-switch">
                         <p className="title">영양 성분 정보</p>
                       </div>
-                      <div className="detail-wrap toggle-cont" style={{ display: "block" }}>
+                      <div className="detail-wrap toggle-cont" style={{ display: "none" }}>
                         <p className="text">
                           <span>
                             1회 제공량 <em>{axioData?.res1_data?.menu?.detail_info_ice_regular_size}</em>

@@ -138,11 +138,12 @@ export default function MyStampRecipt() {
                           <div className="flex-both">
                             <div className="data-wrap">
                               <p className="time">{e?.date}</p>
-                              <div className="data-info flex-list" style={{ opacity: hide_flag }}>
-                                <p className="title">{e?.store_name}</p>
-                                <p>{e?.channel}</p>
+                              <div className="data-info flex-list" style={{ opacity: 100 }}>
+                                {e?.store_name && <p className="title">{e?.store_name}</p>}
+                                {e?.channel && <p>{e?.channel}</p>}
+
+                                <p className="text">{e?.detail}</p>
                               </div>
-                              <p className="text">{e?.detail}</p>
                             </div>
                             <div className="state-wrap">
                               <div className={`state ${e?.type === 1 ? "saving" : "cancel"}`}>

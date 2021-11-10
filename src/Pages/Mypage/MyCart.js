@@ -94,13 +94,15 @@ export default function MyCart() {
     let $thisCount = Number($(e).siblings("input").val());
     let $thisPrice = 0;
     if (type === "증가") {
-      $thisPrice = ($thisCount + 1) * Number($(e).siblings("input").data("price"));
-      $thisTarget.val($thisCount + 1);
-      $(e)
-        .parent()
-        .prev()
-        .attr("data-price", $thisPrice)
-        .text($thisPrice.toLocaleString("ko-KR") + "원");
+      if ($thisCount < 10) {
+        $thisPrice = ($thisCount + 1) * Number($(e).siblings("input").data("price"));
+        $thisTarget.val($thisCount + 1);
+        $(e)
+          .parent()
+          .prev()
+          .attr("data-price", $thisPrice)
+          .text($thisPrice.toLocaleString("ko-KR") + "원");
+      }
     } else if (type === "감소") {
       if ($thisCount < 2) {
         return false;
@@ -135,6 +137,7 @@ export default function MyCart() {
   };
 
   if (axioData) {
+    console.log(axioData);
     return (
       <React.Fragment>
         <GoContents />
@@ -174,10 +177,12 @@ export default function MyCart() {
                           <div className="order-info">
                             <p className="title">{element?.name_kor}</p>
                             <p className="info">
-                              <span className="en">{element?.type === "I" ? "Ice" : element?.type === "H" ? "Hot" : ""}</span>
-                              <span className="en">
-                                {element?.size === "L" ? "Large" : element?.size === "R" ? "Regular" : element?.size === "B" ? "Big" : ""}
-                              </span>
+                              {element?.type && <span className="en">{element?.type === "I" ? "Ice" : element?.type === "H" ? "Hot" : ""}</span>}
+                              {element?.size && (
+                                <span className="en">
+                                  {element?.size === "L" ? "Large" : element?.size === "R" ? "Regular" : element?.size === "B" ? "Big" : ""}
+                                </span>
+                              )}
                               <span>
                                 {" "}
                                 {element?.cup === "I" ? "일회용 컵" : element?.cup === "M" ? "매장용 컵" : element?.cup === "P" ? "개인컵" : ""}

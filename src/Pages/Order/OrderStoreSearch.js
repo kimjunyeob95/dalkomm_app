@@ -65,7 +65,13 @@ export function OrderStoreSearch(props) {
     fadeOut();
   }, [axioData]);
 
+  const handleClose = (e) => {
+    $(".toggle-wrap li.active .toggle-cont").css("display", "none");
+    $(".toggle-wrap li").removeClass("active");
+  };
   const handleDetail = (e, storeCode) => {
+    $(".toggle-wrap li.active .toggle-cont").css("display", "none");
+    $(".toggle-wrap li").removeClass("active");
     axios.all([axios.post(`${SERVER_DALKOMM}/app/api/v2/store/${storeCode}`, {}, header_config)]).then(
       axios.spread((res1) => {
         let detailStore = res1.data.data;
@@ -123,7 +129,11 @@ export function OrderStoreSearch(props) {
       })
     );
   };
-
+  const handleKeyPress = (e) => {
+    if (e.key === "Enter") {
+      handleSearch();
+    }
+  };
   const handleCall = (number) => {
     let data = { phoneNum: number };
     data = JSON.stringify(data);
@@ -166,7 +176,13 @@ export function OrderStoreSearch(props) {
                       <legend className="blind">매장 검색</legend>
                       <div className="field">
                         <div className="search-box">
-                          <input type="text" className="input-text medium" name="searchValue" placeholder="매장명을 입력해 주세요." />
+                          <input
+                            type="text"
+                            className="input-text medium"
+                            name="searchValue"
+                            placeholder="매장명을 입력해 주세요."
+                            onKeyPress={(e) => handleKeyPress(e)}
+                          />
                           <button type="button" className="btn search" onClick={(event) => handleSearch(event.currentTarget)}>
                             <i className="ico search-t">
                               <span>검색하기</span>
@@ -178,7 +194,7 @@ export function OrderStoreSearch(props) {
                         <div className="insert">
                           <div className="bundle">
                             <select className="select medium" name="city" onChange={() => handleCityChange()}>
-                              <option value="">지역</option>
+                              <option value="">시</option>
                               {axioData?.city_info?.map((element, index) => (
                                 <option key={index} value={element?.city}>
                                   {element?.city}
@@ -186,7 +202,7 @@ export function OrderStoreSearch(props) {
                               ))}
                             </select>
                             <select className="select medium" name="subCity">
-                              <option value="">시/구</option>
+                              <option value="">구</option>
                               {axioData?.sub_city?.map((element, index) => (
                                 <option key={index} value={element}>
                                   {element}
@@ -289,7 +305,7 @@ export function OrderStoreSearch(props) {
               <div id="tableOrderAble" className="fixed-con layer-pop store-pop">
                 <div className="popup">
                   <div className="popup-wrap">
-                    <button type="button" className="btn btn-close">
+                    <button type="button" className="btn btn-close" onClick={(e) => handleClose(e.currentTarget)}>
                       <i className="ico close">
                         <span>close</span>
                       </i>

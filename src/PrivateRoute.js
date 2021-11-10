@@ -4,6 +4,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 // eslint-disable-next-line no-unused-vars
 import React, { useEffect, useState, useContext } from "react";
+import $ from "jquery";
 import { Route } from "react-router-dom";
 import { authContext } from "./ContextApi/Context";
 // eslint-disable-next-line no-unused-vars
@@ -11,20 +12,19 @@ import { checkMobile, handleLogin } from "Config/GlobalJs";
 
 export default function PrivateRoute({ children, ...rest }) {
   const [state] = useContext(authContext);
-  const [loading, setLoading] = useState(false);
-  useEffect(() => {
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    setTimeout(() => {
-      setLoading(true);
-    }, 100);
+  // useEffect(() => {
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  //   setTimeout(() => {
+  //     setLoading(true);
+  //   }, 100);
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [state.loginFlag]);
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [state.loginFlag]);
 
-  if (loading && state?.loginFlag) {
+  if (state?.loginFlag) {
     //로그인시
     return <Route {...rest} render={({ location }) => children} />;
-  } else if (loading && !state?.loginFlag) {
+  } else if (!state?.loginFlag) {
     //비로그인시
     handleLogin();
     return null;

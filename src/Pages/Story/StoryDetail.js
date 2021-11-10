@@ -118,7 +118,20 @@ export default function StoryDetail() {
                 <section className="section">
                   <div className="item dalkomm-story">
                     <div className="badge-wrap">
-                      <span className="badge square new">NEW</span>
+                      {axioData?.contentData?.data?.cate === "STORY" ? (
+                        <span className="badge square story">STORY</span>
+                      ) : axioData?.contentData?.data?.cate === "EVENT" ? (
+                        <span className="badge square event">EVENT</span>
+                      ) : axioData?.contentData?.data?.cate === "STORE" ? (
+                        <span className="badge square store">STORE</span>
+                      ) : axioData?.contentData?.data?.cate === "NEW" ? (
+                        <span className="badge square new">NEW</span>
+                      ) : axioData?.contentData?.data?.cate === "PICK" ? (
+                        <span className="badge square pick">PICK</span>
+                      ) : (
+                        ""
+                      )}
+
                       {/* 달콤스토리 .badge.square 타입
                                       .badge.square.story : 브랜드 스토리 콘텐츠
                                       .badge.square.event : 이벤트/프로모션

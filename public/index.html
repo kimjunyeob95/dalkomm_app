@@ -36,7 +36,37 @@
     <link type="text/css" href="/@resource/css/dalkomm.css" rel="stylesheet" />
     <link type="text/css" href="/@resource/css/order.css" rel="stylesheet" />
     <link type="text/css" href="/@resource/css/dalkomm_react.css" rel="stylesheet" />
-    
+    <script>
+      function checkMobile() {
+        var varUA = navigator.userAgent.toLowerCase(); //userAgent 값 얻기
+
+        if (varUA.indexOf("android") > -1) {
+          //안드로이드
+          return "android";
+        } else if (varUA.indexOf("iphone") > -1 || varUA.indexOf("ipad") > -1 || varUA.indexOf("ipod") > -1) {
+          //IOS
+          return "ios";
+        } else {
+          //아이폰, 안드로이드 외
+          return "android";
+        }
+      } 
+      $(document).on('click','.window_open_a',function(){
+        let data = "";
+        let link = $(this).attr('data-href')
+        data = { data: link };
+        data = JSON.stringify(data);
+        try {
+          if (checkMobile() === "android") {
+            window.android.fn_callUrl(data);
+          } else if (checkMobile() === "ios") {
+            window.webkit.messageHandlers.fn_callUrl.postMessage(data);
+          }
+        } catch (error) {
+          console.log(error);
+        }
+      })
+    </script>
   </head>
   <body oncontextmenu="return false" ondragstart="return false" onselectstart="return false">
     <noscript>You need to enable JavaScript to run this app.</noscript>

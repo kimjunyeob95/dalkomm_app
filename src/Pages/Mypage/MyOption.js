@@ -6,8 +6,8 @@
 import $ from "jquery";
 import axios from "axios";
 import React, { useEffect, useState, useContext } from "react";
-import HeaderSub from "Components/Header/HeaderSub";
-import { Link, useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { fadeOut } from "Config/GlobalJs";
 import GoContents from "Components/GoContents";
 import Popup_logout from "Components/Popup/Popup_logout";
 import { contGap, popupOpen, fadeInOut } from "Jquery/Jquery";
@@ -52,6 +52,7 @@ export default function MyOption() {
   }, []);
   useEffect(() => {
     contGap();
+    fadeOut();
   }, [axioData]);
 
   const handleOption = (e) => {
@@ -62,16 +63,22 @@ export default function MyOption() {
     );
   };
   if (axioData) {
-    fadeInOut();
     return (
       <React.Fragment>
         <GoContents />
 
         <div id="wrap" className="wrap">
           <div id="container" className="container">
-            <HeaderSub title="앱 설정" />
+            <header id="header" className="header undefined">
+              <h1 className="page-title">앱 설정</h1>
+              <Link to="/menu" type="button" className="btn back">
+                <i className="ico back">
+                  <span className="blind">뒤로</span>
+                </i>
+              </Link>
+            </header>
 
-            <div id="content" className="settings">
+            <div id="content" className="settings fade-in">
               <ul className="setting-list">
                 <li>
                   <div className="flex-both">
@@ -119,5 +126,21 @@ export default function MyOption() {
         {/* // #wrap */}
       </React.Fragment>
     );
-  } else return null;
+  } else
+    return (
+      <React.Fragment>
+        <div id="wrap" className="wrap">
+          <div id="container" className="container">
+            <header id="header" className="header undefined">
+              <h1 className="page-title">앱 설정</h1>
+              <Link to="/menu" type="button" className="btn back">
+                <i className="ico back">
+                  <span className="blind">뒤로</span>
+                </i>
+              </Link>
+            </header>
+          </div>
+        </div>
+      </React.Fragment>
+    );
 }

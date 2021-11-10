@@ -132,7 +132,7 @@ export default function MyMembershipRecipt() {
                             <p className="time">{e?.date}</p>
                             <div className="data-info flex-list">
                               <p className="title">{e?.detail}</p>
-                              <p>{e?.channel}</p>
+                              {e?.channel && <p>{e?.channel}</p>}
                             </div>
                           </div>
                           <div className="state-wrap">

@@ -87,9 +87,13 @@ export default function OrderSearch() {
       })
     );
   };
+  const handleKeyPress = (e) => {
+    if (e.key === "Enter") {
+      handleSearch();
+    }
+  };
   const handleSubmit = (event) => {
     event.preventDefault();
-    // 추가 코드를 작성하여 DB를 제어하거나 state를 변경할 수 있습니다!
   };
 
   const handleDetail = (event, menuCode, type) => {
@@ -147,7 +151,13 @@ export default function OrderSearch() {
                     <legend className="blind">메뉴 검색</legend>
                     <div className="field">
                       <div className="search-box">
-                        <input id="searchValue" type="text" className="input-text medium" placeholder="메뉴명을 입력해 주세요." />
+                        <input
+                          id="searchValue"
+                          type="text"
+                          className="input-text medium"
+                          placeholder="메뉴명을 입력해 주세요."
+                          onKeyPress={(e) => handleKeyPress(e)}
+                        />
                         <button type="button" className="btn search" onClick={(event) => handleSearch(event.currentTarget)}>
                           <i className="ico search-t">
                             <span>검색하기</span>

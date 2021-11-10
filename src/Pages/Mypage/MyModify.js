@@ -12,8 +12,8 @@ import DatePicker, { registerLocale } from "react-datepicker"; // 한국어적�
 import ko from "date-fns/locale/ko"; // 한국어적용
 import "react-datepicker/dist/react-datepicker.css";
 import Popup_removeUser from "Components/Popup/Popup_removeUser";
+import Popup_nomal from "Components/Popup/Popup_nomal";
 
-import HeaderSub from "Components/Header/HeaderSub";
 import GoContents from "Components/GoContents";
 import { fadeOut } from "Config/GlobalJs";
 
@@ -37,12 +37,8 @@ export default function MyModify() {
       Authorization: state?.auth,
     },
   };
-
-  useEffect(() => {
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    contGap();
-
-    const body = {};
+  const body = {};
+  const fn_api = () => {
     axios
       .all([
         axios.post(`${SERVER_DALKOMM}/app/api/main/user`, body, header_config),
@@ -79,9 +75,15 @@ export default function MyModify() {
           }
         })
       );
+  };
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+
+    fn_api();
   }, []);
 
   useEffect(() => {
+    contGap();
     fadeOut();
   }, [axioData]);
 
@@ -93,8 +95,9 @@ export default function MyModify() {
         if ($(e).val() === "") {
           if ($(e).attr("type") !== "password") {
             validation = false;
-            alert($(e).attr("title") + "(을)를 입력해주세요.");
-            $(e).focus();
+            $("#resAlert").text($(e).attr("title") + "(을)를 입력해주세요.");
+            $(".overlay.popupExitJoin").addClass("active");
+            $("body").addClass("modal-opened");
             return false;
           }
         }
@@ -106,8 +109,10 @@ export default function MyModify() {
         };
         axios.all([axios.post(`${SERVER_DALKOMM}/app/api/v2/my_account/update_profile`, body, header_config)]).then(
           axios.spread((res1) => {
-            alert(res1.data.meta.msg);
-            window.location.reload();
+            fn_api();
+            $("#resAlert").text(res1.data.meta.msg);
+            $(".overlay.popupExitJoin").addClass("active");
+            $("body").addClass("modal-opened");
           })
         );
       }
@@ -115,8 +120,9 @@ export default function MyModify() {
       $(".chk-validation").each(function (i, e) {
         if ($(e).val() === "") {
           validation = false;
-          alert($(e).attr("title") + "(을)를 입력해주세요.");
-          $(e).focus();
+          $("#resAlert").text($(e).attr("title") + "(을)를 입력해주세요.");
+          $(".overlay.popupExitJoin").addClass("active");
+          $("body").addClass("modal-opened");
           return false;
         }
       });
@@ -130,8 +136,10 @@ export default function MyModify() {
         };
         axios.all([axios.post(`${SERVER_DALKOMM}/app/api/account/simple/update/profile`, body, header_config)]).then(
           axios.spread((res1) => {
-            alert(res1.data.meta.msg);
-            window.location.reload();
+            fn_api();
+            $("#resAlert").text(res1.data.meta.msg);
+            $(".overlay.popupExitJoin").addClass("active");
+            $("body").addClass("modal-opened");
           })
         );
       }
@@ -140,8 +148,9 @@ export default function MyModify() {
         if ($(e).val() === "") {
           if ($(e).attr("type") !== "password") {
             validation = false;
-            alert($(e).attr("title") + "(을)를 입력해주세요.");
-            $(e).focus();
+            $("#resAlert").text($(e).attr("title") + "(을)를 입력해주세요.");
+            $(".overlay.popupExitJoin").addClass("active");
+            $("body").addClass("modal-opened");
             return false;
           }
         }
@@ -150,7 +159,10 @@ export default function MyModify() {
         let phoneValue = $("#userPhone").val();
 
         if (phoneValue === "") {
-          return alert("인증받을 번호를 입력해주세요.");
+          $("#resAlert").text("인증받을 번호를 입력해주세요.");
+          $(".overlay.popupExitJoin").addClass("active");
+          $("body").addClass("modal-opened");
+          return false;
         } else {
           body = {
             request_type: "update_profile",
@@ -172,17 +184,26 @@ export default function MyModify() {
                 };
                 axios.all([axios.post(`${SERVER_DALKOMM}/app/api/account/simple/update/profile`, body, header_config)]).then(
                   axios.spread((res1) => {
-                    alert(res1.data.meta.msg);
-                    window.location.reload();
+                    $("#resAlert").text(res1.data.meta.msg);
+                    $(".overlay.popupExitJoin").addClass("active");
+                    $("body").addClass("modal-opened");
+                    fn_api();
+                    return false;
                   })
                 );
               } else {
-                return alert(res1.data.meta.msg);
+                $("#resAlert").text(res1.data.meta.msg);
+                $(".overlay.popupExitJoin").addClass("active");
+                $("body").addClass("modal-opened");
+                return false;
               }
             })
           );
         } else {
-          return alert("인증번호를 제대로 입력해주세요.");
+          $("#resAlert").text("인증번호를 제대로 입력해주세요.");
+          $(".overlay.popupExitJoin").addClass("active");
+          $("body").addClass("modal-opened");
+          return false;
         }
       }
     }
@@ -191,7 +212,10 @@ export default function MyModify() {
   const handleCheck = (e) => {
     let phoneValue = $("#userPhone").val();
     if (phoneValue === "") {
-      return alert("인증받을 번호를 입력해주세요.");
+      $("#resAlert").text("인증받을 번호를 입력해주세요.");
+      $(".overlay.popupExitJoin").addClass("active");
+      $("body").addClass("modal-opened");
+      return false;
     } else {
       let body = {
         request_type: "update_profile",
@@ -202,16 +226,20 @@ export default function MyModify() {
       axios.all([axios.post(`${SERVER_DALKOMM}/app/api/account/simple/cert/create_number`, body, header_config)]).then(
         axios.spread((res1) => {
           if (res1.data.meta.code === 20000 && res1.data.meta.message === "SUCCESS") {
-            alert("인증번호를 전송했습니다.");
+            $("#resAlert").text("인증번호를 전송했습니다.");
+            $(".overlay.popupExitJoin").addClass("active");
+            $("body").addClass("modal-opened");
+            return false;
           } else {
-            alert("잘못된 번호입니다.");
+            $("#resAlert").text("잘못된 번호입니다.");
+            $(".overlay.popupExitJoin").addClass("active");
+            $("body").addClass("modal-opened");
+            return false;
           }
         })
       );
     }
   };
-
-  $("#userName").change(function () {});
   if (axioData) {
     return (
       <React.Fragment>
@@ -219,7 +247,14 @@ export default function MyModify() {
 
         <div id="wrap" className="wrap">
           <div id="container" className="container">
-            <HeaderSub title="내 정보 수정" />
+            <header id="header" className="header undefined">
+              <h1 className="page-title">내 정보 수정</h1>
+              <Link type="button" className="btn back" to="/mypage">
+                <i className="ico back">
+                  <span className="blind">뒤로</span>
+                </i>
+              </Link>
+            </header>
 
             <div id="content" className="mypage modify fade-in">
               <div className="form-wrap">
@@ -255,6 +290,7 @@ export default function MyModify() {
                           id="userName"
                           title="이름 (닉네임)"
                           name="user_name"
+                          maxLength={8}
                           defaultValue={
                             axioData?.res2_data?.is_email_user && axioData?.res2_data?.name
                               ? decodeURI(axioData?.res2_data?.name)
@@ -338,7 +374,7 @@ export default function MyModify() {
                         <input
                           type="password"
                           className="input-text medium chk-validation"
-                          titie="기존 비밀번호"
+                          title="기존 비밀번호"
                           id="userPw"
                           placeholder="기존 비밀번호를 입력해 주세요."
                         />
@@ -353,7 +389,7 @@ export default function MyModify() {
                         <input
                           type="password"
                           className="input-text medium chk-validation"
-                          titie="신규 비밀번호"
+                          title="신규 비밀번호"
                           id="userNewPw"
                           placeholder="신규 비밀번호를 입력해 주세요."
                         />
@@ -368,7 +404,7 @@ export default function MyModify() {
                         <input
                           type="password"
                           className="input-text medium chk-validation"
-                          titie="신규 비밀번호 확인"
+                          title="신규 비밀번호 확인"
                           id="userNewPwChk"
                           placeholder="신규 비밀번호를 한번 더 입력해 주세요."
                         />
@@ -440,6 +476,7 @@ export default function MyModify() {
               </div>
             </div>
             {/* // #content */}
+            <Popup_nomal />
           </div>
           {/* // #container */}
         </div>
@@ -447,5 +484,21 @@ export default function MyModify() {
         {/* // #wrap */}
       </React.Fragment>
     );
-  } else return <React.Fragment></React.Fragment>;
+  } else
+    return (
+      <React.Fragment>
+        <div id="wrap" className="wrap">
+          <div id="container" className="container">
+            <header id="header" className="header undefined">
+              <h1 className="page-title">내 정보 수정</h1>
+              <Link type="button" className="btn back" to="/mypage">
+                <i className="ico back">
+                  <span className="blind">뒤로</span>
+                </i>
+              </Link>
+            </header>
+          </div>
+        </div>
+      </React.Fragment>
+    );
 }

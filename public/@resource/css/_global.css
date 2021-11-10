@@ -425,7 +425,7 @@ a[target=_blank]::after {content: ''; display: block; position: absolute; top: 5
 	-webkit-justify-content: space-between; -ms-flex-pack: justify; justify-content: space-between;
 	-webkit-flex-direction: column; -ms-flex-direction: column; flex-direction: column;
 	width: calc(100% - 26.667vw); padding-left: 3.733vw; box-sizing: border-box;}
-.item.order .title {font-weight: 700;}
+.item.order .title {font-weight: 700; word-break: keep-all;}
 .item.order .title > .en {display: block; font-weight: 400; font-size: 3.200vw; color: #989898;;}
 .item.order .title,
 .item.order .price {font-size: 3.733vw;}
@@ -444,9 +444,9 @@ a[target=_blank]::after {content: ''; display: block; position: absolute; top: 5
 .item.order .detail-wrap .info > span + span::before {content: ''; display: inline-block; position: relative; top: 0.267vw; width: 0.267vw; height: 2.667vw; background-color: #d4d4d4; margin: 0 2vw 0 1.6vw;}
 .item.order.making .status-info .status {color: #ff592e;}
 .item.order.making .order-info > .flex-both {-webkit-align-items: flex-start; -ms-flex-align: start; align-items: flex-start;}
-.item.order.making .order-info > .flex-both .title ,
-.item.order.making .order-info > .flex-both .location {-webkit-box-flex: 1;-ms-flex: 1;flex: 1;}
-.item.order.making .order-info > .flex-both .location {text-align: right;}
+.item.order .order-info > .flex-both .title {width: 58%;}
+.item.order .order-info > .flex-both .title + .location {padding-left: 2.667vw; box-sizing: border-box;}
+.item.order .order-info > .flex-both .location {width: 42%; text-align: right; word-break: keep-all;}
 
 /* .item.card */
 .item.card {border: 0.267vw solid #ebebeb; border-radius: 1.600vw;}
@@ -563,22 +563,25 @@ a[target=_blank]::after {content: ''; display: block; position: absolute; top: 5
 .item.benefit .grade .title + .text {margin-top: 1.333vw;}
 .item.benefit .grade .text {font-size: 3.200vw; color: rgba(0,0,0,0.5);}
 .item.benefit .list {width: calc(100% - 31.467vw);}
-.item.benefit .list > li {position: relative; font-size: 3.733vw;  word-break: keep-all; padding-left: 2.667vw;}
+.item.benefit .list > li {position: relative; font-size: 3.733vw; letter-spacing: -0.019vw; word-break: keep-all; padding-left: 2.667vw;}
 .item.benefit .list > li::before {content: ''; display: inline-block; position: absolute; top: 1.867vw; left: 0.267vw; width: 0.533vw; height: 0.533vw; background-color: rgba(0,0,0,0.8);}
 .item.benefit .list > li + li {margin-top: 2.133vw;}
 .item.benefit .list > li .standard {display: block; font-size: 3.200vw; color: rgba(0,0,0,0.5); margin-top: 0.800vw;}
 /* .item.save */
-.item.save {padding: 6vw 5.333vw; box-sizing: border-box;}
-.item.save > .flex-both {-webkit-align-items: flex-start; -ms-flex-align: start; align-items: flex-start;}
-.item.save .data-wrap {width: calc(100% - 21.333vw);}
+.item.save {padding: 5vw 5.333vw; box-sizing: border-box;}
+.item.save > .flex-both {-webkit-align-items: flex-start; -ms-flex-align: start; align-items: flex-start; -webkit-box-align: stretch;-ms-flex-align: stretch;align-items: stretch;}
+.item.save .data-wrap {display: -ms-flexbox; display: -webkit-flex; display: flex; -webkit-flex-direction: column; -ms-flex-direction: column; flex-direction: column; width: calc(100% - 21.333vw);}
 .item.save .data-wrap .time {font-size: 3.200vw; color: rgba(0, 0, 0, 0.5);}
 .item.save .data-wrap .time + .data-info {margin-top: 1.6vw;}
 .item.save .data-info {display: block; font-size: 0;}
 .item.save .data-info p {display: inline; position: relative; font-size: 3.733vw; line-height: 5.333vw; box-sizing: border-box; word-break: keep-all;}
 .item.save .data-info p + p {}
-.item.save .data-info .title::after {content: ''; display: inline-block; position: absolute; bottom: 0.720vw; right: -2.267vw; width: 0.267vw; height: 3.467vw; background-color: #d4d4d4;}
-.item.save .data-info .title {font-weight: 700; margin-right: 4.533vw;}
-.item.save .state-wrap {width: 21.333vw; padding-top: 2.667vw; box-sizing: border-box;}
+.item.save .data-info .title {font-weight: 700;}
+.item.save .data-info .title + p {margin-left: 4.533vw;}
+.item.save .data-info .title + p::after {content: ''; display: inline-block; position: absolute; bottom: 0.720vw; left: -2.267vw; width: 0.267vw; height: 3.467vw; background-color: #d4d4d4;}
+.item.save .data-info .text {display: block;}
+.item.save .data-info p + .text {margin-top: 0.533vw;}
+.item.save .state-wrap {display: -ms-flexbox; display: -webkit-flex; display: flex; -webkit-justify-content: center; -ms-flex-pack: center; justify-content: center; width: 21.333vw;}
 .item.save .state {display: -ms-flexbox; display: -webkit-flex; display: flex; -webkit-box-align: center;-ms-flex-align: center;align-items: center; -webkit-justify-content: center; -ms-flex-pack: center; justify-content: center; font-size:3.733vw; text-align: center;}
 .item.save .state.saving {color: #fc6c0f;}
 .item.save .state.cancel {color: #7f7f7f;}

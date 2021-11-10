@@ -238,6 +238,7 @@
 #content.mypage.membership .benefit-wrap .item.describe {-webkit-flex-direction: column; -ms-flex-direction: column; flex-direction: column; -webkit-align-items: flex-start; -ms-flex-align: start; align-items: flex-start; padding: 10.667vw 5.333vw;}
 #content.mypage.membership .benefit-wrap .item.describe .title {font-weight: 700; font-size: 4.267vw;}
 #content.mypage.membership .benefit-wrap .item.describe .title + .text {margin-top:3.733vw;}
+#content.mypage.membership .benefit-wrap .item.describe .text > p {line-height: 5.333vw;}
 #content.mypage.membership .benefit-wrap .item.describe .text,
 #content.mypage.membership .benefit-wrap .item.describe .attention-list > li {font-size: 3.467vw; color: rgba(0,0,0,0.8); line-height: 5.333vw;}
 #content.mypage.membership .benefit-wrap .item.describe .text > p +.attention-list {margin-top: 4.800vw;}
@@ -252,9 +253,9 @@
 #content.mypage.membership .benefit-wrap .data-table th:last-child,
 #content.mypage.membership .benefit-wrap .data-table td:last-child {padding-right: 5.333vw;}
 #content.mypage.membership .benefit-wrap > .attention-list {padding: 8vw 5.333vw 0;}
-#content.mypage.membership .benefit-wrap > .attention-list > li {font-size: 3.200vw; color: rgba(0,0,0,0.5);}
+#content.mypage.membership .benefit-wrap > .attention-list > li {font-size: 3.200vw; letter-spacing: -0.042vw; color: rgba(0,0,0,0.5);}
+#content.mypage.membership .benefit-wrap > .attention-list > li + li {margin-top: 1.067vw;}
 /* ME001_3 */
-
 #content.mypage.membership.save .possess-state {width: 28.533vw;}
 #content.mypage.membership.save .possess-state,
 #content.mypage.membership.save .extinct {padding-top:7.467vw; padding-bottom: 7.467vw;}
@@ -298,7 +299,7 @@
 #content.mypage.order .order-list li {padding: 4.267vw 5.333vw;}
 #content.mypage.order:not(.bookmark) .item.order .img-wrap {width: 21.333vw; height: 21.333vw;}
 #content.mypage.order:not(.bookmark) .item.order .detail-wrap {width: calc(100% - 21.333vw); padding-top: 2.133vw; padding-bottom: 2.133vw;}
-#content.mypage.order:not(.bookmark) .item.order .detail-wrap .location {-ms-flex-negative: 0;flex-shrink: 0; padding-left: 2.667vw; font-size: 3.2vw; color: #999; box-sizing: border-box;}
+#content.mypage.order:not(.bookmark) .item.order .detail-wrap .location {-ms-flex-negative: 0;flex-shrink: 0;  font-size: 3.2vw; color: #999; box-sizing: border-box;}
 #content.mypage.order:not(.bookmark) .item.order .detail-wrap .info {margin-top: 0.8vw; margin-bottom: 0; font-size: 3.2vw;}
 #content.mypage.order:not(.bookmark) .item.order .detail-wrap .status-info {font-size: 3.733vw;}
 /* ME004_1 */

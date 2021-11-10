@@ -36,7 +36,7 @@ button.btn	{overflow:visible;margin:0;padding:0;background-color:transparent;}
 .btn.dark-g{background-color: #535353;color: #fff;}
 .btn.full{width: 100%;}
 .btn.bdr{border: 0.267vw solid #ebebeb;color: #000;background-color: #fff;}
-.btn.bdr-r{border-radius: 3.467vw;}
+.btn.bdr-r{display: -ms-flexbox; display: -webkit-flex; display: flex; -webkit-justify-content: center; -ms-flex-pack: center; justify-content: center;	-webkit-align-items: center; -ms-flex-align: center; align-items: center; border-radius: 3.467vw;}
 
 .btn[disabled]{cursor: auto;}
 .btn.dark[disabled] {background-color: #bfbfbf;}

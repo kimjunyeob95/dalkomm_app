@@ -156,9 +156,11 @@ export default function OrderFavorite() {
                           <div className="order-info">
                             <p className="title">{e?.name_kor}</p>
                             <p className="info">
-                              <span className="en">{e?.type === "I" ? "ICE" : "HOT"}</span>
-                              <span className="en">{e?.size === "R" ? "Regular" : e?.size === "L" ? "Large" : e?.size === "B" ? "Big" : ""}</span>
-                              <span>{e?.cup === "I" ? "일회용 컵" : e?.cup === "M" ? "매장용 컵" : e?.cup === "P" ? "개인컵" : ""}</span>
+                              {e?.type && <span className="en">{e?.type === "I" ? "ICE" : "HOT"}</span>}
+                              {e?.size && (
+                                <span className="en">{e?.size === "R" ? "Regular" : e?.size === "L" ? "Large" : e?.size === "B" ? "Big" : ""}</span>
+                              )}
+                              {e?.cup && <span>{e?.cup === "I" ? "일회용 컵" : e?.cup === "M" ? "매장용 컵" : e?.cup === "P" ? "개인컵" : ""}</span>}
                             </p>
                             <p className="option flex-both">
                               {/* <span>

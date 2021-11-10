@@ -159,6 +159,8 @@ export function Main(props) {
   };
 
   const handleDetail = (e, storeCode) => {
+    $(".toggle-wrap li.active .toggle-cont").css("display", "none");
+    $(".toggle-wrap li").removeClass("active");
     axios.all([axios.post(`${SERVER_DALKOMM}/app/api/v2/store/${storeCode}`, {}, header_config)]).then(
       axios.spread((res1) => {
         let detailStore = res1.data.data;
@@ -221,7 +223,10 @@ export function Main(props) {
       console.log(error);
     }
   };
-
+  const handleClose = (e) => {
+    $(".toggle-wrap li.active .toggle-cont").css("display", "none");
+    $(".toggle-wrap li").removeClass("active");
+  };
   const fn_dev = () => {
     dev_count++;
     if (dev_count === 5) {
@@ -267,7 +272,7 @@ export function Main(props) {
                           </div>
                           <div className="content-wrap">
                             <div className="w-inner flex-end">
-                              <p className="sub-copy en fc-orange">STORY</p>
+                              <p className="sub-copy en fc-orange">{e?.cate}</p>
                               <h2 className="main-copy">{e?.title}</h2>
                               <p className="text">{e?.subtitle}</p>
                             </div>
@@ -290,7 +295,7 @@ export function Main(props) {
               {state?.loginFlag ? (
                 <div className="item my-info">
                   <p className="user">
-                    <span className="fc-orange">{axioData?.res3_data?.user?.sub_user_list[0]?.sub_user_name}</span> 고객님
+                    <span className="fc-orange">{decodeURI(axioData?.res3_data?.user?.user_name)}</span> 고객님
                   </p>
                   <button
                     type="button"
@@ -303,9 +308,7 @@ export function Main(props) {
                     </i>
                   </button>
                   <div className="speech-wrap">
-                    <p className="speech-bubble ani">
-                      {axioData?.join_text?.replace(/%NAME%/g, axioData?.res3_data?.user?.sub_user_list[0]?.sub_user_name)}
-                    </p>
+                    <p className="speech-bubble ani">{axioData?.join_text?.replace(/%NAME%/g, decodeURI(axioData?.res3_data?.user?.user_name))}</p>
                   </div>
                 </div>
               ) : (
@@ -323,7 +326,7 @@ export function Main(props) {
               <div className="myinfo-wrap">
                 <ul className="data-list col-3">
                   <li>
-                    <Link to="/pay" className="item my-state">
+                    <Link to="/pay?activeHtml=true" className="item my-state">
                       <div className="img-wrap">
                         <i className="ico pay-c">
                           <span>기프트 카드</span>
@@ -509,6 +512,8 @@ export function Main(props) {
                         <span className="badge square new">NEW</span>
                       ) : axioData?.contentData?.cate === "PICK" ? (
                         <span className="badge square pick">PICK</span>
+                      ) : axioData?.contentData?.cate === "STORE" ? (
+                        <span className="badge square store">STORE</span>
                       ) : (
                         ""
                       )}
@@ -676,8 +681,8 @@ export function Main(props) {
               {/* 달콤 MD */}
               <section className="section">
                 <div className="title-wrap w-inner flex-both">
-                  <h3 className="section-title" onClick={() => fn_dev()}>
-                    달콤 MD
+                  <h3 className="section-title en" onClick={() => fn_dev()}>
+                    MD's PICK
                   </h3>
                   <a onClick={() => handleMdDetail("더보기")} className="btn text">
                     <span>더 보기</span>
@@ -712,7 +717,7 @@ export function Main(props) {
               <div id="tableOrderAble" className="fixed-con layer-pop store-pop">
                 <div className="popup">
                   <div className="popup-wrap">
-                    <button type="button" className="btn btn-close">
+                    <button type="button" className="btn btn-close" onClick={(e) => handleClose(e.currentTarget)}>
                       <i className="ico close">
                         <span>close</span>
                       </i>

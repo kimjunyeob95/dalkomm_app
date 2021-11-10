@@ -114,22 +114,19 @@ export default function MyCouponRecipt() {
                       <li key={i}>
                         <h3 className="history-header">{e[0]?.date}</h3>
                         <ul className="data-list coupon-list">
-                          {e?.map(
-                            (element, index) =>
-                              element?.type === 1 && (
-                                <li key={index}>
-                                  <div className="item coupon">
-                                    <div className="data-wrap">
-                                      <div className="flex-both">
-                                        <p className="day num fc-orange">~21.07.28(기한 데이터필요)</p>
-                                        <p className="name">{element?.user_name}</p>
-                                      </div>
-                                      <p className="title">{element?.coupon_name}</p>
-                                    </div>
+                          {e?.map((element, index) => (
+                            <li key={index}>
+                              <div className="item coupon">
+                                <div className="data-wrap">
+                                  <div className="flex-both">
+                                    <p className="day num fc-orange">~21.07.28(기한 데이터필요)</p>
+                                    <p className="name">{element?.user_name}</p>
                                   </div>
-                                </li>
-                              )
-                          )}
+                                  <p className="title">{element?.coupon_name}</p>
+                                </div>
+                              </div>
+                            </li>
+                          ))}
                         </ul>
                       </li>
                     ))}

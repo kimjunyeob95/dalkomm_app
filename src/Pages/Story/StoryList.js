@@ -55,6 +55,8 @@ export default function StoryList() {
                               <span className="badge square new">NEW</span>
                             ) : e?.cate === "PICK" ? (
                               <span className="badge square pick">PICK</span>
+                            ) : e?.cate === "STORE" ? (
+                              <span className="badge square store">STORE</span>
                             ) : (
                               ""
                             )}
