@@ -35,7 +35,7 @@ export default function OrderFinal() {
     headers: {
       "X-dalkomm-access-token": state.accessToken,
       Authorization: state.auth,
-      // "X-DALKOMM-STORE": state.udid,
+      "X-DALKOMM-STORE": state.udid,
     },
   };
 
@@ -232,22 +232,25 @@ export default function OrderFinal() {
       pay_method: frontData?.orderPayment,
       order_menu_coupon: menu_coupon_array,
     };
-    let result = {
-      type: "post",
-      link: `${SERVER_DALKOMM}/app/web/smartorder/order/to/pay/v2`,
-      value: target_value,
-      title: "메뉴 결제",
-    };
-    result = JSON.stringify(result);
-    try {
-      if (checkMobile() === "android") {
-        window.android.fn_winOpen(result);
-      } else if (checkMobile() === "ios") {
-        window.webkit.messageHandlers.fn_winOpen.postMessage(result);
-      }
-    } catch (error) {
-      console.log(error);
-    }
+    target_value = JSON.stringify(target_value);
+    $("#formValue").val(target_value);
+    $("#interFrom").submit();
+    // let result = {
+    //   type: "post",
+    //   link: `${SERVER_DALKOMM}/app/web/smartorder/order/to/pay/v2`,
+    //   value: target_value,
+    //   title: "메뉴 결제",
+    // };
+    // result = JSON.stringify(result);
+    // try {
+    //   if (checkMobile() === "android") {
+    //     window.android.fn_winOpen(result);
+    //   } else if (checkMobile() === "ios") {
+    //     window.webkit.messageHandlers.fn_winOpen.postMessage(result);
+    //   }
+    // } catch (error) {
+    //   console.log(error);
+    // }
   };
 
   const handleCoupon = (defaultPrice, target, index, index2) => {
@@ -426,11 +429,12 @@ export default function OrderFinal() {
   };
   let menu_count = -1;
   if (axioData) {
-    console.log(axioData);
-    console.log(frontData);
     return (
       <React.Fragment>
         <GoContents />
+        <form id="interFrom" action={`${SERVER_DALKOMM}/app/web/smartorder/order/to/pay/v2`} style={{ display: "none" }}>
+          <input id="formValue" type="hidden" name="value" value="" />
+        </form>
         <div id="wrap" className="wrap">
           <div id="container" className="container">
             <HeaderSub title="주문하기" redirectBack={true} location={`/order/menu/${axioData?.res1_data?.store?.store_code}`} />

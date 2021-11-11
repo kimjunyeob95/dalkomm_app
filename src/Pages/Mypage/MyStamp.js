@@ -14,6 +14,9 @@ import Popup_nomal from "Components/Popup/Popup_nomal";
 import { contGap } from "Jquery/Jquery";
 import { fadeOut } from "Config/GlobalJs";
 
+import { Swiper, SwiperSlide } from "swiper/react";
+import SwiperCore, { Pagination } from "swiper/core";
+
 export default function MyStamp() {
   const [state, dispatch] = useContext(authContext);
   const [axioData, setData] = useState();
@@ -52,22 +55,25 @@ export default function MyStamp() {
   useEffect(() => {
     contGap();
     fadeOut();
+    SwiperCore.use([Pagination]);
   }, [axioData]);
 
-  const handleAddCoupon = () => {
+  const handlePage = (link) => {
+    history.push(link);
+  };
+
+  const handleGetCoupon = () => {
     axios
       .all([axios.post(`${SERVER_DALKOMM}/app/api/v2/stamp/complete`, { stamp_card_id: axioData?.membershipData?.stamp_card_number }, header_config)])
       .then(
         axios.spread((res1) => {
+          let call_back = true;
+          fn_api();
           $("#resAlert").text(res1.data.meta.msg);
           $(".overlay.popupExitJoin").addClass("active");
           $("body").addClass("modal-opened");
         })
       );
-  };
-
-  const handlePage = (link) => {
-    history.push(link);
   };
   if (axioData) {
     return (
@@ -117,7 +123,45 @@ export default function MyStamp() {
                     );
                   })}
                 </ol>
+
+                {/* 적립카드 무료 음료 쿠폰 발급 */}
+                {axioData?.res1_data?.user?.stamp_card?.complete_count > 0 && (
+                  <div className="free-coupon-wrap">
+                    <Swiper id="freeCouponSlider" className="swiper-container" slidesPerView={1} pagination={{ clickable: true }}>
+                      <ul className="swiper-wrapper">
+                        {[...Array(axioData?.res1_data?.user?.stamp_card?.complete_count)]?.map((e, i) => (
+                          <SwiperSlide className="swiper-slide" key={i}>
+                            <div className="item free-coupon">
+                              <div className="coupon-body">
+                                <div className="title-wrap">
+                                  <h3 className="title">적립카드 무료 음료 쿠폰 발급</h3>
+                                </div>
+                                <div className="data-wrap">
+                                  <div className="title">
+                                    <span className="en fc-orange">FREE COUPON</span>
+                                    무료 음료 쿠폰
+                                  </div>
+                                  <p className="expiry">유효기간 : 발급일로부터 30일</p>
+                                </div>
+                              </div>
+                              <div className="btn-area">
+                                <button type="button" className="btn x-large full dark" onClick={(e) => handleGetCoupon(e.currentTarget)}>
+                                  <i className="ico download">
+                                    <span>쿠폰 다운받기</span>
+                                  </i>
+                                  <strong>쿠폰 다운받기</strong>
+                                </button>
+                              </div>
+                            </div>
+                          </SwiperSlide>
+                        ))}
+                      </ul>
+                      <div className="swiper-pagination"></div>
+                    </Swiper>
+                  </div>
+                )}
               </div>
+              {/* // 적립카드 무료 음료 쿠폰 발급 */}
 
               <div className="w-inner">
                 <div className="btn-area">

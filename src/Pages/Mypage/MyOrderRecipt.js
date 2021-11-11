@@ -1,10 +1,11 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 // eslint-disable-next-line no-unused-vars
 import axios from "axios";
 import $ from "jquery";
 import React, { useEffect, useState, useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { SERVER_DALKOMM } from "Config/Server";
 import GoContents from "Components/GoContents";
 import { contGap } from "Jquery/Jquery";
@@ -12,14 +13,16 @@ import { useHistory } from "react-router";
 import { authContext } from "ContextApi/Context";
 import { fadeOut } from "Config/GlobalJs";
 
-let since_id = 1;
-let flag_array = [];
-let flag_api = true;
-
 export default function MyOrderRecipt() {
   const [state] = useContext(authContext);
   const [axioData, setData] = useState({});
   const history = useHistory();
+  const { duration } = useLocation();
+
+  let pageCount = 1;
+  let page_array = [];
+  let page_flag = true;
+
   const header_config = {
     headers: {
       "X-dalkomm-access-token": state?.accessToken,
@@ -29,16 +32,21 @@ export default function MyOrderRecipt() {
 
   useEffect(() => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    axios.all([axios.post(`${SERVER_DALKOMM}/app/api/v2/smartorder/orderinfo/list`, { page: since_id, duration: "w" }, header_config)]).then(
-      axios.spread((res1) => {
-        let res1_data = res1.data.data;
-        flag_array.push(since_id);
-        since_id++;
-        setData(res1_data);
-      })
-    );
-    window.addEventListener("scroll", handleScroll);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    axios
+      .all([
+        axios.post(`${SERVER_DALKOMM}/app/api/v2/smartorder/orderinfo/list`, { page: pageCount, duration: duration ? duration : "w" }, header_config),
+      ])
+      .then(
+        axios.spread((res1) => {
+          let res1_data = res1.data.data;
+          page_array.push(pageCount);
+          pageCount++;
+          setData(res1_data);
+        })
+      );
+    handleScroll();
+    handleSelect();
+    // window.addEventListener("scroll", handleScroll);
   }, []);
 
   useEffect(() => {
@@ -47,14 +55,14 @@ export default function MyOrderRecipt() {
   }, [axioData]);
   const fn_api = () => {
     let duration = $("#select-duration").val() ? $("#select-duration").val() : "w";
-    if (flag_array.indexOf(since_id) > 0) {
-      axios.all([axios.post(`${SERVER_DALKOMM}/app/api/v2/smartorder/orderinfo/list`, { page: since_id, duration: duration }, header_config)]).then(
+    if (page_array.indexOf(pageCount) > 0) {
+      axios.all([axios.post(`${SERVER_DALKOMM}/app/api/v2/smartorder/orderinfo/list`, { page: pageCount, duration: duration }, header_config)]).then(
         axios.spread((res1) => {
           let orderList = res1.data.data.result;
           let order_length = orderList.length;
           if (order_length > 0) {
-            since_id++;
-            flag_api = true;
+            pageCount++;
+            page_flag = true;
             setData((origin) => {
               return {
                 ...origin,
@@ -62,44 +70,52 @@ export default function MyOrderRecipt() {
               };
             });
           } else {
-            flag_api = false;
+            page_flag = false;
           }
         })
       );
     }
   };
-  const handleDuration = () => {
-    flag_api = true;
-    since_id = 1;
-    flag_array = [];
-    let duration = $("#select-duration").val();
-    axios.all([axios.post(`${SERVER_DALKOMM}/app/api/v2/smartorder/orderinfo/list`, { page: since_id, duration: duration }, header_config)]).then(
-      axios.spread((res1) => {
-        let res1_data = res1.data.data;
-        flag_array.push(since_id);
-        since_id++;
-        setData(res1_data);
-      })
-    );
-  };
 
   const handleDetail = (smartorderinfo_id) => {
-    history.push(`/order/info/${smartorderinfo_id}`);
+    let duration = $("#select-duration").val();
+    history.push({
+      pathname: `/order/info/${smartorderinfo_id}`,
+      duration: duration,
+    });
   };
+  const handleSelect = () => {
+    $("#select-duration").change(function () {
+      pageCount = 1;
+      page_array = [];
+      page_flag = true;
+      let duration = $("#select-duration").val();
+      axios.all([axios.post(`${SERVER_DALKOMM}/app/api/v2/smartorder/orderinfo/list`, { page: pageCount, duration: duration }, header_config)]).then(
+        axios.spread((res1) => {
+          let res1_data = res1.data.data;
 
+          page_array.push(pageCount);
+          pageCount = 2;
+
+          setData(res1_data);
+        })
+      );
+    });
+  };
   const handleScroll = () => {
-    let scrollHeight = document.documentElement.scrollHeight;
-    let scrollTop = document.documentElement.scrollTop;
-    let clientHeight = document.documentElement.clientHeight;
-
-    if (scrollTop + clientHeight >= scrollHeight * 0.95) {
-      if (flag_array.indexOf(since_id) < 0) {
-        if (flag_api) {
-          flag_array.push(since_id);
-          fn_api();
+    $(document).scroll(function () {
+      let scrollHeight = document.documentElement.scrollHeight;
+      let scrollTop = document.documentElement.scrollTop;
+      let clientHeight = document.documentElement.clientHeight;
+      if (scrollTop + clientHeight >= scrollHeight * 0.95) {
+        if (page_array.indexOf(pageCount) < 0) {
+          if (page_flag) {
+            page_array.push(pageCount);
+            fn_api();
+          }
         }
       }
-    }
+    });
   };
 
   if (axioData) {
@@ -120,7 +136,7 @@ export default function MyOrderRecipt() {
 
             <div id="content" className="mypage order fade-in">
               <div className="sorting-wrap w-inner flex-end">
-                <select className="select medium" name="" id="select-duration" onChange={() => handleDuration()}>
+                <select className="select medium" name="" id="select-duration" defaultValue={duration ? duration : "w"}>
                   <option value="w">1주일 이내</option>
                   <option value="m">1개월 이내</option>
                   <option value="y">1년 이내</option>

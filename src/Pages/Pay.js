@@ -234,22 +234,16 @@ export default function Pay() {
                   </button>
                   <div className="item attention">
                     <dl>
-                      <dt className="title">
-                        <i className="ico alert"></i>멤버십이란?
-                      </dt>
+                      <dt className="title">멤버십이란?</dt>
                       <dd className="text">
-                        <ul className="attention-list">
-                          <li>
-                            달콤을 이용해주시는 고객님께 다양한 혜택을 드리기 위한 달콤 고객 우대 제도이며 적립된 트로피 개수에 따라 등급이
-                            결정됩니다.
-                          </li>
-                        </ul>
+                        달콤을 이용해주시는 고객님께 다양한 혜택을 드리기 위한
+                        <br /> 달콤 고객 우대 제도이며 적립된 트로피 개수에 따라 등급이 결정됩니다
                       </dd>
                     </dl>
-                    <dl style={{ marginTop: "8vw" }}>
-                      <dt className="title">
-                        <i className="ico alert"></i>멤버십 적립 기준
-                      </dt>
+                  </div>
+                  <div className="item attention">
+                    <dl>
+                      <dt className="title">멤버십 적립 기준</dt>
                       <dd className="text">
                         <ul className="attention-list">
                           <li>기프트카드 10,000원 충전할 때마다 트로피 1개 적립</li>

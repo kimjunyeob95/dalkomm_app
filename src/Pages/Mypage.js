@@ -164,6 +164,14 @@ export default function MyPage() {
                     </span>
                   </Link>
                 </li>
+                <li>
+                  <Link to="/mypage/membershipRecipt">
+                    <div className="title">
+                      <i className="ico trophy-l"></i>
+                      <span>트로피 적립 내역</span>
+                    </div>
+                  </Link>
+                </li>
                 <li className={axioData?.res3_data?.coupon_list?.length > 0 && "active"}>
                   <Link to="/mypage/coupon">
                     <div className="title">

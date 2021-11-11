@@ -28,6 +28,7 @@ export function Main(props) {
   const [state, dispatch] = useContext(authContext);
   const [axioData, setData] = useState(false);
   const [storeData, setStore] = useState(false);
+  const [swierFlag, setFlag] = useState(false);
   const history = useHistory();
 
   const body = {};
@@ -159,6 +160,7 @@ export function Main(props) {
   };
 
   const handleDetail = (e, storeCode) => {
+    setFlag(false);
     $(".toggle-wrap li.active .toggle-cont").css("display", "none");
     $(".toggle-wrap li").removeClass("active");
     axios.all([axios.post(`${SERVER_DALKOMM}/app/api/v2/store/${storeCode}`, {}, header_config)]).then(
@@ -170,6 +172,7 @@ export function Main(props) {
             detailStore,
           };
         });
+        setFlag(true);
       })
     );
   };
@@ -223,9 +226,11 @@ export function Main(props) {
       console.log(error);
     }
   };
-  const handleClose = (e) => {
-    $(".toggle-wrap li.active .toggle-cont").css("display", "none");
-    $(".toggle-wrap li").removeClass("active");
+  const handleClose = (e, type) => {
+    if (type === "창닫기") {
+      $(".toggle-wrap li.active .toggle-cont").css("display", "none");
+      $(".toggle-wrap li").removeClass("active");
+    }
   };
   const fn_dev = () => {
     dev_count++;
@@ -379,13 +384,13 @@ export function Main(props) {
                               : axioData?.res2_data?.store_list[0]?.store_sub_type === 5
                               ? "drive-thru"
                               : axioData?.res2_data?.store_list[0]?.store_sub_type === 6
-                              ? "drive-thru"
-                              : axioData?.res2_data?.store_list[0]?.store_sub_type === 7
                               ? "vivaldi-park"
-                              : axioData?.res2_data?.store_list[0]?.store_sub_type === 8
+                              : axioData?.res2_data?.store_list[0]?.store_sub_type === 7
                               ? "hospital"
-                              : axioData?.res2_data?.store_list[0]?.store_sub_type === 9
+                              : axioData?.res2_data?.store_list[0]?.store_sub_type === 8
                               ? "cinema"
+                              : axioData?.res2_data?.store_list[0]?.store_sub_type === 9
+                              ? "theme-park"
                               : ""
                           }`}
                         >
@@ -428,23 +433,28 @@ export function Main(props) {
 
                   <Swiper id="recentlyOrder" className="swiper-container section-slider menu-slider" slidesPerView={"auto"} freeMode={false}>
                     <ul className="swiper-wrapper">
-                      {axioData?.res6_data?.result?.map((element, index) => (
-                        <SwiperSlide className="swiper-slide" key={index} onClick={() => history.push(`/order/info/${element?.smartorderinfo_id}`)}>
-                          <div className="item menu">
-                            <div className="img-wrap">
-                              <img
-                                src={element?.menu_with_type === "I" ? element?.menu_with_ice_img : element?.menu_with_hot_img}
-                                alt="아메리카노 ICE (R)"
-                              />
+                      {axioData?.res6_data?.result?.map((element, index) => {
+                        let name_array = element?.menu_name_with_count?.split(" 외 ");
+                        return (
+                          <SwiperSlide className="swiper-slide" key={index} onClick={() => history.push(`/order/info/${element?.smartorderinfo_id}`)}>
+                            <div className="item menu">
+                              <div className="img-wrap">
+                                <img
+                                  src={element?.menu_with_type === "I" ? element?.menu_with_ice_img : element?.menu_with_hot_img}
+                                  alt="아메리카노 ICE (R)"
+                                />
+                              </div>
+                              <div className="detail-wrap">
+                                <p className="title">
+                                  {name_array[0]} {element?.menu_with_type === "I" ? "ICE" : element?.menu_with_type === "H" ? "HOT" : ""}{" "}
+                                  {element?.menu_with_size && "(" + element?.menu_with_size + ")"}
+                                  {name_array[1] && " 외 " + name_array[1]}{" "}
+                                </p>
+                              </div>
                             </div>
-                            <div className="detail-wrap">
-                              <p className="title">
-                                {element?.menu_name_with_count} {element?.menu_with_type === "I" ? "ICE" : "HOT"} ({element?.menu_with_size})
-                              </p>
-                            </div>
-                          </div>
-                        </SwiperSlide>
-                      ))}
+                          </SwiperSlide>
+                        );
+                      })}
                     </ul>
                   </Swiper>
                 </section>
@@ -549,7 +559,7 @@ export function Main(props) {
                   </Link>
                 </div>
 
-                <Swiper id="searchStore" className="swiper-container section-slider store-slider" slidesPerView={"auto"} freeMode={false}>
+                <Swiper id="searchStore" className="swiper-container section-slider store-slider" slidesPerView={"auto"} freeMode={true}>
                   <ul className="swiper-wrapper data-list">
                     {axioData?.res2_data?.store_list?.map((e, i) => {
                       return (
@@ -587,13 +597,13 @@ export function Main(props) {
                                     : e?.store_sub_type === 5
                                     ? "drive-thru"
                                     : e?.store_sub_type === 6
-                                    ? "drive-thru"
-                                    : e?.store_sub_type === 7
                                     ? "vivaldi-park"
-                                    : e?.store_sub_type === 8
+                                    : e?.store_sub_type === 7
                                     ? "hospital"
-                                    : e?.store_sub_type === 9
+                                    : e?.store_sub_type === 8
                                     ? "cinema"
+                                    : e?.store_sub_type === 9
+                                    ? "theme-park"
                                     : ""
                                 }`}
                               ></i>{" "}
@@ -718,7 +728,7 @@ export function Main(props) {
               <div id="tableOrderAble" className="fixed-con layer-pop store-pop">
                 <div className="popup">
                   <div className="popup-wrap">
-                    <button type="button" className="btn btn-close" onClick={(e) => handleClose(e.currentTarget)}>
+                    <button type="button" className="btn btn-close" onClick={(e) => handleClose(e.currentTarget, "창닫기")}>
                       <i className="ico close">
                         <span>close</span>
                       </i>
@@ -831,24 +841,26 @@ export function Main(props) {
                                   })}
                                 </li>
                               </ul>
-                              <Swiper
-                                id="storeGallery"
-                                className="swiper-container section-slider"
-                                slidesPerView={"auto"}
-                                freeMode={false}
-                                observer={true}
-                                observeParents={true}
-                              >
-                                <ul className="swiper-wrapper data-list">
-                                  {storeData?.detailStore?.store_image_list?.map((element, index) => {
-                                    return (
-                                      <SwiperSlide className="swiper-slide" key={index}>
-                                        <img src={element?.store_image_url} alt="매장 이미지" />
-                                      </SwiperSlide>
-                                    );
-                                  })}
-                                </ul>
-                              </Swiper>
+                              {swierFlag && (
+                                <Swiper
+                                  id="storeGallery"
+                                  className="swiper-container section-slider"
+                                  slidesPerView={"auto"}
+                                  freeMode={false}
+                                  observer={true}
+                                  observeParents={true}
+                                >
+                                  <ul className="swiper-wrapper data-list">
+                                    {storeData?.detailStore?.store_image_list?.map((element, index) => {
+                                      return (
+                                        <SwiperSlide className="swiper-slide" key={index}>
+                                          <img src={element?.store_image_url} alt="매장 이미지" />
+                                        </SwiperSlide>
+                                      );
+                                    })}
+                                  </ul>
+                                </Swiper>
+                              )}
                             </div>
                           </div>
                         </li>

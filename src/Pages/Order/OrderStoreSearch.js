@@ -8,7 +8,7 @@ import axios from "axios";
 import $ from "jquery";
 import Clipboard from "react-clipboard.js";
 import React, { useEffect, useContext, useState } from "react";
-import { Link, useParams, useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 
 import HeaderSub from "Components/Header/HeaderSub";
 import Nav from "Components/Nav/Nav";
@@ -27,6 +27,7 @@ export function OrderStoreSearch(props) {
   const [state, dispatch] = useContext(authContext);
   const [axioData, setData] = useState(false);
   const [storeData, setStore] = useState(false);
+  const [swierFlag, setFlag] = useState(false);
   const history = useHistory();
   const body = {};
   let header_config = {
@@ -39,39 +40,38 @@ export function OrderStoreSearch(props) {
     // 말풍선 스크롤시 hide/show
     // eslint-disable-next-line react-hooks/exhaustive-deps
 
-    if (state.auth !== "") {
-      axios.all([axios.post(`${SERVER_DALKOMM}/app/api/v2/store/city_info `, body, header_config)]).then(
-        axios.spread((res1) => {
-          let city_info = res1.data.data.city_info;
-          axios.all([axios.post(`${SERVER_DALKOMM}/app/api/v2/store/search `, { city: "", sub_city: "", q: "" }, header_config)]).then(
-            axios.spread((res1) => {
-              let store_list = res1.data.data.store_list;
-              setData((origin) => {
-                return {
-                  ...origin,
-                  city_info,
-                  store_list,
-                };
-              });
-            })
-          );
-        })
-      );
-    }
-  }, [state?.auth]);
+    axios.all([axios.post(`${SERVER_DALKOMM}/app/api/v2/store/city_info `, body, header_config)]).then(
+      axios.spread((res1) => {
+        let city_info = res1.data.data.city_info;
+        axios.all([axios.post(`${SERVER_DALKOMM}/app/api/v2/store/search `, { city: "", sub_city: "", q: "" }, header_config)]).then(
+          axios.spread((res1) => {
+            let store_list = res1.data.data.store_list;
+            setData((origin) => {
+              return {
+                ...origin,
+                city_info,
+                store_list,
+              };
+            });
+          })
+        );
+      })
+    );
+  }, []);
 
   useEffect(() => {
     contGap();
     fadeOut();
   }, [axioData]);
 
-  const handleClose = (e) => {
-    $(".toggle-wrap li.active .toggle-cont").css("display", "none");
-    $(".toggle-wrap li").removeClass("active");
+  const handleClose = (e, type) => {
+    if (type === "창닫기") {
+      $(".toggle-wrap li.active .toggle-cont").css("display", "none");
+      $(".toggle-wrap li").removeClass("active");
+    }
   };
   const handleDetail = (e, storeCode) => {
-    $(".toggle-wrap li.active .toggle-cont").css("display", "none");
-    $(".toggle-wrap li").removeClass("active");
+    setFlag(false);
     axios.all([axios.post(`${SERVER_DALKOMM}/app/api/v2/store/${storeCode}`, {}, header_config)]).then(
       axios.spread((res1) => {
         let detailStore = res1.data.data;
@@ -81,6 +81,7 @@ export function OrderStoreSearch(props) {
             detailStore,
           };
         });
+        setFlag(true);
       })
     );
   };
@@ -148,14 +149,22 @@ export function OrderStoreSearch(props) {
     }
   };
   const handleCityChange = () => {
-    let value = $('select[name="city"]').val();
-    let result = axioData?.city_info?.filter((e, i) => e.city === value);
-    setData((origin) => {
-      return {
-        ...origin,
-        sub_city: result[0]?.sub_city,
-      };
-    });
+    let city = $('select[name="city"]').val();
+    let sub_city = $('select[name="subCity"]').val();
+    let q = $('input[name="searchValue"]').val();
+    let result = axioData?.city_info?.filter((e, i) => e.city === city);
+    axios.all([axios.post(`${SERVER_DALKOMM}/app/api/v2/store/search `, { city: city, sub_city: sub_city, q: q }, header_config)]).then(
+      axios.spread((res1) => {
+        let store_list = res1.data.data.store_list;
+        setData((origin) => {
+          return {
+            ...origin,
+            sub_city: result[0]?.sub_city,
+            store_list,
+          };
+        });
+      })
+    );
   };
   if (axioData) {
     return (
@@ -194,15 +203,15 @@ export function OrderStoreSearch(props) {
                         <div className="insert">
                           <div className="bundle">
                             <select className="select medium" name="city" onChange={() => handleCityChange()}>
-                              <option value="">시</option>
+                              <option value="">시/도</option>
                               {axioData?.city_info?.map((element, index) => (
                                 <option key={index} value={element?.city}>
                                   {element?.city}
                                 </option>
                               ))}
                             </select>
-                            <select className="select medium" name="subCity">
-                              <option value="">구</option>
+                            <select className="select medium" name="subCity" onChange={() => handleCityChange()}>
+                              <option value="">시/군/구</option>
                               {axioData?.sub_city?.map((element, index) => (
                                 <option key={index} value={element}>
                                   {element}
@@ -251,13 +260,13 @@ export function OrderStoreSearch(props) {
                                   : e?.store_sub_type === 5
                                   ? "drive-thru"
                                   : e?.store_sub_type === 6
-                                  ? "drive-thru"
-                                  : e?.store_sub_type === 7
                                   ? "vivaldi-park"
-                                  : e?.store_sub_type === 8
+                                  : e?.store_sub_type === 7
                                   ? "hospital"
-                                  : e?.store_sub_type === 9
+                                  : e?.store_sub_type === 8
                                   ? "cinema"
+                                  : e?.store_sub_type === 9
+                                  ? "theme-park"
                                   : ""
                               }`}
                             ></i>
@@ -305,7 +314,7 @@ export function OrderStoreSearch(props) {
               <div id="tableOrderAble" className="fixed-con layer-pop store-pop">
                 <div className="popup">
                   <div className="popup-wrap">
-                    <button type="button" className="btn btn-close" onClick={(e) => handleClose(e.currentTarget)}>
+                    <button type="button" className="btn btn-close" onClick={(e) => handleClose(e.currentTarget, "창닫기")}>
                       <i className="ico close">
                         <span>close</span>
                       </i>
@@ -330,13 +339,13 @@ export function OrderStoreSearch(props) {
                                     : storeData?.detailStore?.store_sub_type === 5
                                     ? "drive-thru"
                                     : storeData?.detailStore?.store_sub_type === 6
-                                    ? "drive-thru"
-                                    : storeData?.detailStore?.store_sub_type === 7
                                     ? "vivaldi-park"
-                                    : storeData?.detailStore?.store_sub_type === 8
+                                    : storeData?.detailStore?.store_sub_type === 7
                                     ? "hospital"
-                                    : storeData?.detailStore?.store_sub_type === 9
+                                    : storeData?.detailStore?.store_sub_type === 8
                                     ? "cinema"
+                                    : storeData?.detailStore?.store_sub_type === 9
+                                    ? "theme-park"
                                     : ""
                                 }`}
                               ></i>{" "}
@@ -401,7 +410,7 @@ export function OrderStoreSearch(props) {
                       <ul className="toggle-wrap">
                         <li>
                           <div className="item info-detail">
-                            <div className="title-wrap toggle-switch">
+                            <div className="title-wrap toggle-switch" onClick={(e) => handleClose(e.currentTarget)}>
                               <p className="title">
                                 <i className="ico time">
                                   <span>매장 정보</span>
@@ -442,24 +451,26 @@ export function OrderStoreSearch(props) {
                                   })}
                                 </li>
                               </ul>
-                              <Swiper
-                                id="storeGallery"
-                                className="swiper-container section-slider"
-                                slidesPerView={"auto"}
-                                freeMode={false}
-                                observer={true}
-                                observeParents={true}
-                              >
-                                <ul className="swiper-wrapper data-list">
-                                  {storeData?.detailStore?.store_image_list?.map((element, index) => {
-                                    return (
-                                      <SwiperSlide className="swiper-slide" key={index}>
-                                        <img src={element?.store_image_url} alt="매장 이미지" />
-                                      </SwiperSlide>
-                                    );
-                                  })}
-                                </ul>
-                              </Swiper>
+                              {swierFlag && (
+                                <Swiper
+                                  id="storeGallery"
+                                  className="swiper-container section-slider"
+                                  slidesPerView={"auto"}
+                                  freeMode={true}
+                                  observer={true}
+                                  observeParents={true}
+                                >
+                                  <ul className="swiper-wrapper data-list">
+                                    {storeData?.detailStore?.store_image_list?.map((element, index) => {
+                                      return (
+                                        <SwiperSlide className="swiper-slide" key={index}>
+                                          <img src={element?.store_image_url} alt="매장 이미지" />
+                                        </SwiperSlide>
+                                      );
+                                    })}
+                                  </ul>
+                                </Swiper>
+                              )}
                             </div>
                           </div>
                         </li>

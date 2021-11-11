@@ -7,7 +7,7 @@ import axios from "axios";
 import $ from "jquery";
 import Clipboard from "react-clipboard.js";
 import React, { useEffect, useContext, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import Nav from "Components/Nav/Nav";
 import GoContents from "Components/GoContents";
 import { contGap, moveScrollTop } from "Jquery/Jquery";
@@ -18,7 +18,7 @@ import { Map, GoogleApiWrapper, Marker } from "google-maps-react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import SwiperCore, { Scrollbar } from "swiper/core";
 
-import { SERVER_DALKOMM } from "Config/Server";
+import { SERVER_DALKOMM, FRONT_SERVER } from "Config/Server";
 import { authContext } from "ContextApi/Context";
 import { getCookieValue, fadeOut, checkMobile, handleLogin } from "Config/GlobalJs";
 
@@ -26,7 +26,8 @@ export function Order(props) {
   const [state, dispatch] = useContext(authContext);
   const [axioData, setData] = useState(false);
   const [storeData, setStore] = useState(false);
-
+  const [swierFlag, setFlag] = useState(false);
+  const history = useHistory();
   let header_config = {
     headers: {
       "X-dalkomm-access-token": state.accessToken,
@@ -115,14 +116,15 @@ export function Order(props) {
     }
   };
 
-  const handleClose = (e) => {
-    $(".toggle-wrap li.active .toggle-cont").css("display", "none");
-    $(".toggle-wrap li").removeClass("active");
+  const handleClose = (e, type) => {
+    if (type === "창닫기") {
+      $(".toggle-wrap li.active .toggle-cont").css("display", "none");
+      $(".toggle-wrap li").removeClass("active");
+    }
   };
 
   const handleDetail = (e, storeCode) => {
-    $(".toggle-wrap li.active .toggle-cont").css("display", "none");
-    $(".toggle-wrap li").removeClass("active");
+    setFlag(false);
 
     axios.all([axios.post(`${SERVER_DALKOMM}/app/api/v2/store/${storeCode}`, {}, header_config)]).then(
       axios.spread((res1) => {
@@ -133,6 +135,7 @@ export function Order(props) {
             detailStore,
           };
         });
+        setFlag(true);
       })
     );
   };
@@ -144,6 +147,20 @@ export function Order(props) {
         window.android.fn_directCall(data);
       } else if (checkMobile() === "ios") {
         window.webkit.messageHandlers.fn_directCall.postMessage(data);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const handleGoPage = (e, link) => {
+    // history.push(link);
+    let result = { link: FRONT_SERVER + link, title: "메뉴선택" };
+    result = JSON.stringify(result);
+    try {
+      if (checkMobile() === "android") {
+        window.android.fn_winOpen(result);
+      } else if (checkMobile() === "ios") {
+        window.webkit.messageHandlers.fn_winOpen.postMessage(result);
       }
     } catch (error) {
       console.log(error);
@@ -221,13 +238,13 @@ export function Order(props) {
                                     : e?.store_sub_type === 5
                                     ? "drive-thru"
                                     : e?.store_sub_type === 6
-                                    ? "drive-thru"
-                                    : e?.store_sub_type === 7
                                     ? "vivaldi-park"
-                                    : e?.store_sub_type === 8
+                                    : e?.store_sub_type === 7
                                     ? "hospital"
-                                    : e?.store_sub_type === 9
+                                    : e?.store_sub_type === 8
                                     ? "cinema"
+                                    : e?.store_sub_type === 9
+                                    ? "theme-park"
                                     : ""
                                 }`}
                               ></i>
@@ -362,13 +379,13 @@ export function Order(props) {
                                     : e?.store_sub_type === 5
                                     ? "drive-thru"
                                     : e?.store_sub_type === 6
-                                    ? "drive-thru"
-                                    : e?.store_sub_type === 7
                                     ? "vivaldi-park"
-                                    : e?.store_sub_type === 8
+                                    : e?.store_sub_type === 7
                                     ? "hospital"
-                                    : e?.store_sub_type === 9
+                                    : e?.store_sub_type === 8
                                     ? "cinema"
+                                    : e?.store_sub_type === 9
+                                    ? "theme-park"
                                     : ""
                                 }`}
                               ></i>
@@ -423,7 +440,7 @@ export function Order(props) {
               <div id="tableOrderAble" className="fixed-con layer-pop store-pop">
                 <div className="popup">
                   <div className="popup-wrap">
-                    <button type="button" className="btn btn-close" onClick={(e) => handleClose(e.currentTarget)}>
+                    <button type="button" className="btn btn-close" onClick={(e) => handleClose(e.currentTarget, "창닫기")}>
                       <i className="ico close">
                         <span>close</span>
                       </i>
@@ -448,13 +465,13 @@ export function Order(props) {
                                     : storeData?.detailStore?.store_sub_type === 5
                                     ? "drive-thru"
                                     : storeData?.detailStore?.store_sub_type === 6
-                                    ? "drive-thru"
-                                    : storeData?.detailStore?.store_sub_type === 7
                                     ? "vivaldi-park"
-                                    : storeData?.detailStore?.store_sub_type === 8
+                                    : storeData?.detailStore?.store_sub_type === 7
                                     ? "hospital"
-                                    : storeData?.detailStore?.store_sub_type === 9
+                                    : storeData?.detailStore?.store_sub_type === 8
                                     ? "cinema"
+                                    : storeData?.detailStore?.store_sub_type === 9
+                                    ? "theme-park"
                                     : ""
                                 }`}
                               ></i>{" "}
@@ -560,24 +577,26 @@ export function Order(props) {
                                   })}
                                 </li>
                               </ul>
-                              <Swiper
-                                id="storeGallery"
-                                className="swiper-container section-slider"
-                                slidesPerView={"auto"}
-                                freeMode={false}
-                                observer={true}
-                                observeParents={true}
-                              >
-                                <ul className="swiper-wrapper data-list">
-                                  {storeData?.detailStore?.store_image_list?.map((element, index) => {
-                                    return (
-                                      <SwiperSlide className="swiper-slide" key={index}>
-                                        <img src={element?.store_image_url} alt="매장 이미지" />
-                                      </SwiperSlide>
-                                    );
-                                  })}
-                                </ul>
-                              </Swiper>
+                              {swierFlag && (
+                                <Swiper
+                                  id="storeGallery"
+                                  className="swiper-container section-slider"
+                                  slidesPerView={"auto"}
+                                  freeMode={true}
+                                  observer={true}
+                                  observeParents={true}
+                                >
+                                  <ul className="swiper-wrapper data-list">
+                                    {storeData?.detailStore?.store_image_list?.map((element, index) => {
+                                      return (
+                                        <SwiperSlide className="swiper-slide" key={index}>
+                                          <img src={element?.store_image_url} alt="매장 이미지" />
+                                        </SwiperSlide>
+                                      );
+                                    })}
+                                  </ul>
+                                </Swiper>
+                              )}
                             </div>
                           </div>
                         </li>
@@ -648,9 +667,12 @@ export function Order(props) {
                     </div>
                     {storeData?.detailStore?.store_is_smartorder ? (
                       <div className="w-inner btn-area flex-both">
-                        <Link to={`/order/menu/${storeData?.detailStore?.store_code}`} className="btn full medium dark">
+                        <button
+                          className="btn full medium dark"
+                          onClick={(e) => handleGoPage(e.currentTarget, `/order/menu/${storeData?.detailStore?.store_code}`)}
+                        >
                           주문하기
-                        </Link>
+                        </button>
                         <button
                           type="button"
                           className={`btn light-g medium bookmark ${storeData?.detailStore?.store_is_favorite && "active"}`}

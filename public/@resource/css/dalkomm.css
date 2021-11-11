@@ -204,7 +204,7 @@
 #content.mypage.main .item.my-state {border-color: #ebebeb;}
 #content.mypage.main .item.my-state .state .new {display: inline-block; position: relative;}
 #content.mypage.main .item.my-state .state .new::after {display: inline-block; position: absolute; content: ''; top: -0.533vw; right: -1.867vw; width: 1.067vw; height: 1.067vw; border-radius: 50%; background-color: #ff592e;}
-#content.mypage.main .my-gnb-list {font-size: 0;}
+#content.mypage.main .my-gnb-list {font-size: 0; padding-bottom: 18.667vw;}
 #content.mypage.main .my-gnb-list li {line-height: 16vw; color: rgba(0,0,0,0.8); border-top: 0.267vw solid rgba(235,235,235,0.2);}
 #content.mypage.main .my-gnb-list li a {display: -ms-flexbox; display: -webkit-flex; display: flex; -webkit-justify-content: space-between; -ms-flex-pack: justify; justify-content: space-between;
 	-webkit-align-items: center; -ms-flex-align: center; align-items: center; padding: 0 5.333vw;}
@@ -236,6 +236,7 @@
 
 #content.mypage.membership .possess-wrap + .benefit-wrap {border-top: 0.267vw solid rgba(235,235,235,0.3);}
 #content.mypage.membership .benefit-wrap .item.describe {-webkit-flex-direction: column; -ms-flex-direction: column; flex-direction: column; -webkit-align-items: flex-start; -ms-flex-align: start; align-items: flex-start; padding: 10.667vw 5.333vw;}
+#content.mypage.membership .benefit-wrap .item.describe + .item.describe {padding-top: 0;}
 #content.mypage.membership .benefit-wrap .item.describe .title {font-weight: 700; font-size: 4.267vw;}
 #content.mypage.membership .benefit-wrap .item.describe .title + .text {margin-top:3.733vw;}
 #content.mypage.membership .benefit-wrap .item.describe .text > p {line-height: 5.333vw;}
@@ -264,7 +265,8 @@
 #content.mypage.membership.save .extinct span.alert {display: block; padding-left: 0; color: rgba(0,0,0,0.5); margin-top: 2.133vw;}
 #content.mypage.membership.save  .data-list > li {border-top: 0.267vw solid rgba(235,235,235,0.2);}
 /* ME002 */
-#content.mypage.stamp .user-stamp-wrap {padding: 6.4vw 8vw 10.667vw; background-color: #f8f8f8;}
+#content.mypage.stamp {overflow: hidden;}
+#content.mypage.stamp .user-stamp-wrap {position: relative; padding: 6.4vw 8vw 10.667vw; background-color: #f8f8f8;}
 #content.mypage.stamp .user-stamp-wrap .title-wrap .h3 {font-weight: 600; font-size: 4.267vw;}
 #content.mypage.stamp .user-stamp-wrap .title-wrap .ico {margin-right: 1.333vw;}
 #content.mypage.stamp .user-stamp-wrap .count-wrap {font-weight: 600; font-size: 5.6vw; color: #C6C6C6; letter-spacing: -0.112vw;}
@@ -273,15 +275,22 @@
 #content.mypage.stamp .user-stamp-wrap .data-list li {margin-right: calc( ( 100% - 57.6vw ) / 3 );}
 #content.mypage.stamp .user-stamp-wrap .data-list li:nth-child(4n) {margin-right: 0;}
 #content.mypage.stamp .user-stamp-wrap .data-list li:nth-child(n+5) {margin-top: 6.133vw;}
-#content.mypage.stamp .btn-area {margin-top: 8vw;}
+#content.mypage.stamp .btn-area {margin-top: 13.867vw;}
 #content.mypage.stamp .item.attention {margin-top: 8vw; padding: 0; background-color: transparent; border-bottom: 0;}
 #content.mypage.stamp .item.attention .text {padding-left: 0;}
 #content.mypage.stamp .item.attention .title {color: #7F7F7F;}
-#content.mypage.stamp .item.attention .attention-list li {line-height: 1.45;}
+#content.mypage.stamp .item.attention .attention-list li {line-height: 1.45; letter-spacing: -0.043vw;}
 #content.mypage.stamp .item.attention .attention-list li + li {margin-top: 1.067vw;}
 #content.mypage.stamp .item.stamp.finish .speech-bubble.small {position: absolute; top: -2.800vw; border-radius: 0.267vw; font-size: 2.933vw; line-height: 5.867vw; letter-spacing: -0.059vw;}
 #content.mypage.stamp .item.stamp.finish .speech-bubble.small::before {bottom: -0.800vw;}
 #content.mypage.stamp .btn.full {font-size: 3.733vw;}
+#content.mypage.stamp .free-coupon-wrap {position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.6);}
+#content.mypage.stamp .free-coupon-wrap > div:not(.item.free-coupon) {width: 100%; height: 100%;}
+#content.mypage.stamp .free-coupon-wrap .swiper-container {overflow: visible;}
+#content.mypage.stamp .free-coupon-wrap .swiper-pagination {bottom: -5.867vw;}
+#content.mypage.stamp .free-coupon-wrap .item.free-coupon {position: absolute; top: 50%; left: 50%; width: calc(100% - (5.333vw * 2)); transform: translate(-50%,-50%);}
+#content.mypage.stamp .free-coupon-wrap .btn-area {margin-top: 0;}
+#content.mypage.stamp .free-coupon-wrap .btn-area .ico {margin-right: 1.600vw;}
 /* ME003 */
 #content.mypage.modify .form-wrap {padding: 8vw 5.333vw;}
 #content.mypage.modify .form-wrap + .form-wrap {border-top: 0.267vw solid rgba(112,112,112,0.1);}
@@ -364,7 +373,7 @@
 #content.faq .faq-list .toggle-switch::after {display: none;}
 #content.faq .faq-list .toggle-switch .h3 {font-weight: 500; font-size: 3.733vw;}
 #content.faq .faq-list .toggle-cont {padding-bottom: 8vw; border-top: 0.267vw solid #f4f4f4; background-color: #fcfcfc;}
-#content.faq .faq-list .flex-start {-webkit-box-align: start;-ms-flex-align: start;align-items: flex-start;}
+#content.faq .faq-list .flex-start {-webkit-box-align: start;-ms-flex-align: start;align-items: flex-start; word-break: keep-all;}
 #content.faq .faq-list .type {width: 5.333vw; -ms-flex-negative: 0;flex-shrink: 0; font-weight: 700;}
 /* NO001 */
 #content.notice.list {padding-bottom: 13.333vw;}
@@ -411,7 +420,8 @@
 #content .fixed-con.store-pop .popup-wrap {padding-bottom: 8vw;}
 #content .fixed-con.store-pop .btn-area .btn.bookmark {width: 13.333vw;}
 #content .fixed-con.store-pop .popup-body + .btn-area {margin-top:5.333vw;}
-#content .fixed-con.store-pop .item.info-detail .title-wrap .title {font-weight: 600;}
+#content .fixed-con.store-pop .item.info-detail .title-wrap .title {display: -ms-flexbox; display: -webkit-flex; display: flex; -webkit-align-items: center; -ms-flex-align: center; align-items: center; font-weight: 600;}
+#content .fixed-con.store-pop .item.info-detail .title-wrap .title .ico.time {margin-top: -0.533vw;}
 #content .fixed-con.store-pop .btn-area .btn.full {width: calc(100% - 13.333vw);}
 #content .fixed-con.store-pop .item.info-detail .detail-wrap > ul li {position: relative; padding-left: 6.400vw;}
 #content .fixed-con.store-pop .item.info-detail .detail-wrap > ul li .ico {position: absolute; top: 0; left: 0;}
@@ -632,11 +642,14 @@
 /* #content.pay {padding-bottom: 13.867vw;} */
 #content.pay .tab-content,
 #content.pay:not(.main):not(.pay.gift.history) {padding-top: 6.667vw}
+#content.pay > .w-inner h2,
 #content.pay #cardSlider h2{font-weight: 700; text-align: center;}
+#content.pay > .w-inner h2 + .item.card,
 #content.pay #cardSlider h2 + .item.card {margin-top: 3.733vw;}
 #content.pay .item.attention {background-color: #fff; border-bottom: 0; padding: 0;}
-#content.pay .item.attention .title {color: #9c9c9c;}
-#content.pay .item.attention .text {padding-left: 0; color: #545454; opacity: 0.8;}
+#content.pay .item.attention + .item.attention {margin-top: 5.333vw;}
+#content.pay .item.attention .title {color: rgba(0,0,0,0.5);}
+#content.pay .item.attention .text {padding-left: 0; color: #545454; opacity: 0.8; line-height: 4.800vw; margin-top: 2.133vw;}
 #content.pay .item.card + .btn {font-size: 3.733vw; margin-top: 2.133vw;}
 #content.pay .btn + .item.attention {margin-top: 8vw;}
 #content.pay:not(.history) #cardSlider {padding-bottom: 5.867vw;}
@@ -662,12 +675,15 @@
 #content.pay.charge p.hold {font-weight: 700; text-align: center; }
 #content.pay.charge p.hold > span {display: inline-block; letter-spacing:-0.107vw; margin-left: 0.533vw;}
 #content.pay.charge .field {margin-top: 10.667vw;}
-#content.pay.charge:not(.history):not(.recharge) #cardSlider {padding-bottom: 14.933vw;}
+#content.pay.charge:not(.history):not(.recharge) #cardSlider {padding-bottom: 5.333vw}
+#content.pay.charge:not(.history):not(.recharge) #cardSlider.swiper-container {padding-bottom: 14.933vw;}
 #content.pay.charge:not(.history) #cardSlider::after {content: ''; display: block; position: absolute; bottom: 0; left: 0; width: calc(100% + 10.667vw); height: 0.267vw; background-color: #fdfdfd; margin-left: -5.333vw;}
 #content.pay.charge:not(.history) #cardSlider .swiper-pagination-bullets{bottom: 5.333vw;}
 #content.pay.charge .fixed-con .item.info-order {padding-top: 5.333vw;padding-bottom: 6vw;}
 /* CA003 */
-#content.pay.charge.history .data-list {margin-top: 17.600vw;}
+#content.pay.charge.history {padding-bottom: 9.333vw;}
+#content.pay.charge.history .data-list {margin-top: 8vw;}
+#content.pay.charge.history .swiper-slide .data-list {margin-top: 17.600vw;}
 #content.pay.charge.history .data-list li + li {border-top: 0.267vw solid #ebebeb;}
 #content.pay.charge.history .item.history {height: 16vw; line-height: 16vw; background-color: #fcfcfc;padding-left: 5.333vw; padding-right: 5.333vw;}
 #content.pay.charge.history #cardSlider .swiper-pagination-bullets{margin-top: 8vw;}

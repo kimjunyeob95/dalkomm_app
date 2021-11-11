@@ -183,14 +183,20 @@ export default function MyMembershipPolicy() {
                 </div>
 
                 <div className="benefit-wrap">
+                  {/* [D] 211111 .item.describe 마크업 추가 */}
                   <dl className="item describe">
                     <dt className="title">멤버십 등급 소개</dt>
                     <dd className="text">
-                      <p>달콤 멤버십 서비스 이용의 기준이 되는 등급으로, 트로피 개수에 따라 실버, 골드, 플래티넘으로 부여됩니다.</p>
+                      <p>
+                        달콤 멤버십 서비스 이용의 기준이 되는 등급으로,
+                        <br />
+                        트로피 개수에 따라 실버, 골드, 플래티넘으로 부여됩니다.
+                      </p>
                     </dd>
                   </dl>
+                  {/* // [D] 211111 .item.describe 마크업 추가 */}
 
-                  <dl className="item describe" style={{ paddingTop: 0 }}>
+                  <dl className="item describe">
                     <dt className="title">멤버십 혜택</dt>
                     <dd className="text">
                       <p>

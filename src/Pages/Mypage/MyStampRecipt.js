@@ -142,7 +142,7 @@ export default function MyStampRecipt() {
                                 {e?.store_name && <p className="title">{e?.store_name}</p>}
                                 {e?.channel && <p>{e?.channel}</p>}
 
-                                <p className="text">{e?.detail}</p>
+                                {e?.detail && <p className="text">{e?.detail}</p>}
                               </div>
                             </div>
                             <div className="state-wrap">

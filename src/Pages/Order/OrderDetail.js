@@ -174,7 +174,19 @@ export default function OrderDetail() {
     $("body").removeClass("modal-opened");
     history.push(`/order/menu/${storeCode}`);
   };
-
+  const fn_select_size = (axioData) => {
+    let return_result = "R";
+    if (axioData.menu.size === "REGULAR") {
+      return_result = "R";
+    } else if (axioData.menu.size === "LARGE") {
+      return_result = "L";
+    } else if (axioData.menu.size === "BIG") {
+      return_result = "B";
+    } else {
+      return_result = "R";
+    }
+    return return_result;
+  };
   const handleResultText = (type, trigger) => {
     handleFrontSize(axioData?.res1_data?.menu, type, trigger);
     handleDefaultPrice(trigger);
@@ -284,6 +296,7 @@ export default function OrderDetail() {
       }
     } else if (start === "처음" && res1_data?.type === null) {
       //베이커리 분기
+
       if (
         flagFn(res1_data?.detail_info_hot_big_price) &&
         flagFn(res1_data?.detail_info_hot_large_price) &&
@@ -362,6 +375,7 @@ export default function OrderDetail() {
       ) {
         cupsize = "BIG";
       }
+
       if (option_size === "L") {
         option_price = res1_data.detail_info_hot_large_price;
       } else if (option_size === "R") {
@@ -405,7 +419,6 @@ export default function OrderDetail() {
       ) {
         cupsize = "BIG";
       }
-
       if (option_size === "L") {
         option_price = res1_data.detail_info_ice_large_price;
       } else if (option_size === "R") {
@@ -420,7 +433,8 @@ export default function OrderDetail() {
     }
   };
   const handleDefaultPrice = (trigger) => {
-    let menu_size = $('input[name="orderSize"]:checked').val() === undefined ? "R" : $('input[name="orderSize"]:checked').val();
+    let menu_size =
+      $('input[name="orderSize"]:checked').val() === undefined ? fn_select_size(axioData?.res1_data) : $('input[name="orderSize"]:checked').val();
     let type = $('input[name="orderType"]:checked').val();
     if (trigger === "타입선택") {
       menu_size = "R";
@@ -489,6 +503,7 @@ export default function OrderDetail() {
     let menu_size = "";
     if (type === "처음") {
       menu_size = axioData?.res1_data?.menu?.size;
+
       if (axioData?.res1_data?.menu?.size === "ALL" || axioData?.res1_data?.menu?.size === "BOTH" || axioData?.res1_data?.menu?.size === "REGULAR") {
         menu_size = "Regular";
       } else if (axioData?.res1_data?.menu?.size === "LARGE") {
@@ -1320,7 +1335,7 @@ export default function OrderDetail() {
                         className="btn x-large dark"
                         onClick={() => submitOrder()}
                       >
-                        <span>{frontData.defaultPrice?.toLocaleString("ko-KR")}원</span>
+                        <span>{frontData?.defaultPrice?.toLocaleString("ko-KR")}원</span>
                         &nbsp;주문하기
                       </button>
                     </div>

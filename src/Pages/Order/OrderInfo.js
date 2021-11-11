@@ -7,10 +7,10 @@
 import axios from "axios";
 import $ from "jquery";
 import React, { useEffect, useContext, useState } from "react";
-import { Link, useParams, useHistory } from "react-router-dom";
+import { useParams, useHistory, useLocation } from "react-router-dom";
 
 import GoContents from "Components/GoContents";
-import { contGap, moveScrollTop, tabLink, fadeInOut } from "Jquery/Jquery";
+import { contGap } from "Jquery/Jquery";
 import Popup_nomal from "Components/Popup/Popup_nomal";
 
 import { fadeOut, checkMobile } from "Config/GlobalJs";
@@ -23,6 +23,7 @@ export default function OrderInfo() {
   const [axioData, setData] = useState(false);
   const history = useHistory();
   const { orderCode } = useParams();
+  const { duration } = useLocation();
   const body = {};
   let header_config = {
     headers: {
@@ -90,7 +91,7 @@ export default function OrderInfo() {
       console.log(error);
     }
   };
-  console.log(axioData);
+
   if (axioData) {
     return (
       <React.Fragment>
@@ -100,7 +101,7 @@ export default function OrderInfo() {
           <div id="container" className="container">
             <header id="header" className="header">
               <h1 className="page-title">주문 정보 상세</h1>
-              <button type="button" className="btn back" onClick={() => history.push("/mypage/orderRecipt")}>
+              <button type="button" className="btn back" onClick={() => history.push({ pathname: "/mypage/orderRecipt", duration: duration })}>
                 <i className="ico back">
                   <span className="blind">뒤로</span>
                 </i>
@@ -168,30 +169,35 @@ export default function OrderInfo() {
                                   <div className="order-info">
                                     <p className="title">{element?.menu_name_kor}</p>
                                     <p className="info">
-                                      <span className="en">
-                                        {element?.smart_order_menu?.get_summary_option?.filter((e, i) => {
-                                          let array = ["HOT", "ICE"];
-                                          if (array.indexOf(e) > -1) {
-                                            return e;
-                                          }
-                                        })}
-                                      </span>
-                                      <span className="en">
-                                        {element?.smart_order_menu?.get_summary_option.filter((e, i) => {
-                                          let array = ["레귤러", "라지", "코끼리"];
-                                          if (array.indexOf(e) > -1) {
-                                            return e;
-                                          }
-                                        })}
-                                      </span>
-                                      <span>
-                                        {element?.smart_order_menu?.get_summary_option.filter((e, i) => {
-                                          let array = ["다회용 컵", "일회용 컵", "개인컵(-300원)"];
-                                          if (array.indexOf(e) > -1) {
-                                            return e;
-                                          }
-                                        })}
-                                      </span>
+                                      {element?.smart_order_menu?.get_summary_option?.map((e, i) => {
+                                        let array = ["HOT", "ICE"];
+                                        if (array.indexOf(e) > -1) {
+                                          return (
+                                            <span className="en" key={i}>
+                                              {e}
+                                            </span>
+                                          );
+                                        }
+                                      })}
+
+                                      {element?.smart_order_menu?.get_summary_option.map((e, i) => {
+                                        let array = ["레귤러", "라지", "코끼리"];
+                                        if (array.indexOf(e) > -1) {
+                                          return (
+                                            <span className="en" key={i}>
+                                              {e}
+                                            </span>
+                                          );
+                                        }
+                                      })}
+
+                                      {element?.smart_order_menu?.get_summary_option.map((e, i) => {
+                                        let array = ["다회용 컵", "일회용 컵", "개인컵(-300원)"];
+                                        if (array.indexOf(e) > -1) {
+                                          return <span key={i}>{e}</span>;
+                                        }
+                                      })}
+
                                       {element?.smart_order_menu?.get_summary_option.filter((e, i) => {
                                         let array = ["HOT", "ICE", "레귤러", "라지", "코끼리", "다회용 컵", "일회용 컵", "개인컵(-300원)"];
                                         return array.indexOf(e) < 0;
@@ -366,5 +372,28 @@ export default function OrderInfo() {
         {/* // #wrap */}
       </React.Fragment>
     );
-  } else return <React.Fragment></React.Fragment>;
+  } else
+    return (
+      <React.Fragment>
+        <div id="wrap" className="wrap">
+          <div id="container" className="container">
+            <header id="header" className="header">
+              <h1 className="page-title">주문 정보 상세</h1>
+              <button type="button" className="btn back" onClick={() => history.push({ pathname: "/mypage/orderRecipt", duration: duration })}>
+                <i className="ico back">
+                  <span className="blind">뒤로</span>
+                </i>
+              </button>
+              <div className="btn-area flex-center">
+                <button type="button" className="btn" onClick={() => handleF5()}>
+                  <i className="ico refresh">
+                    <span>새로고침</span>
+                  </i>
+                </button>
+              </div>
+            </header>
+          </div>
+        </div>
+      </React.Fragment>
+    );
 }

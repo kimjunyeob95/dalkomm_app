@@ -3,6 +3,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 // eslint-disable-next-line no-unused-vars
 import axios from "axios";
+import $ from "jquery";
 import React, { useEffect, useReducer, useState } from "react";
 import { getCookieValue, checkMobile } from "Config/GlobalJs";
 import { SERVER_DALKOMM } from "Config/Server";
