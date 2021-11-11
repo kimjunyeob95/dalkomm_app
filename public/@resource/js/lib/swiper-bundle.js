@@ -8268,7 +8268,7 @@
         loadOnTransitionStart: false,
         scrollingElement: "",
         elementClass: "swiper-lazy",
-        loadingClass: "swiper-lazy-loading",
+        loadingClass: "",
         loadedClass: "swiper-lazy-loaded",
         preloaderClass: "swiper-lazy-preloader",
       },

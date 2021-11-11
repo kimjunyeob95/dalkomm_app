@@ -14,7 +14,7 @@ import Popup_nomal from "Components/Popup/Popup_nomal";
 
 import { accordion, scrollDetail, popupOpen, contGap, moveScrollTop } from "Jquery/Jquery";
 import { checkMobile, getCookieValue, fadeOut, fn_memberName, handleLogin } from "Config/GlobalJs";
-import { SERVER_DALKOMM, SERVER_DALKOMM_SUGAR } from "Config/Server";
+import { SERVER_DALKOMM, SERVER_DALKOMM_SUGAR, FRONT_SERVER } from "Config/Server";
 import { Swiper, SwiperSlide } from "swiper/react";
 import SwiperCore, { Autoplay, Scrollbar } from "swiper/core";
 import { authContext } from "ContextApi/Context";
@@ -232,6 +232,22 @@ export function Main(props) {
       $(".toggle-wrap li").removeClass("active");
     }
   };
+
+  const handleGoPage = (e, link) => {
+    // history.push(link);
+    let result = { link: FRONT_SERVER + link, category: "webviewCall" };
+    result = JSON.stringify(result);
+    try {
+      if (checkMobile() === "android") {
+        window.android.fn_winOpen(result);
+      } else if (checkMobile() === "ios") {
+        window.webkit.messageHandlers.fn_winOpen.postMessage(result);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const fn_dev = () => {
     dev_count++;
     if (dev_count === 5) {
@@ -938,9 +954,12 @@ export function Main(props) {
                     </div>
                     {storeData?.detailStore?.store_is_smartorder ? (
                       <div className="w-inner btn-area flex-both">
-                        <Link to={`/order/menu/${storeData?.detailStore?.store_code}`} className="btn full medium dark">
+                        <button
+                          onClick={(e) => handleGoPage(e.currentTarget, `/order/menu/${storeData?.detailStore?.store_code}`)}
+                          className="btn full medium dark"
+                        >
                           주문하기
-                        </Link>
+                        </button>
                         <button
                           type="button"
                           className={`btn light-g medium bookmark ${storeData?.detailStore?.store_is_favorite && "active"}`}

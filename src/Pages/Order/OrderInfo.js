@@ -15,7 +15,7 @@ import Popup_nomal from "Components/Popup/Popup_nomal";
 
 import { fadeOut, checkMobile } from "Config/GlobalJs";
 
-import { SERVER_DALKOMM } from "Config/Server";
+import { SERVER_DALKOMM, FRONT_SERVER } from "Config/Server";
 import { authContext } from "ContextApi/Context";
 
 export default function OrderInfo() {
@@ -65,10 +65,22 @@ export default function OrderInfo() {
   const handleReorder = (order_id) => {
     let form = new FormData();
     form.append("orderinfo_id", order_id);
+
     axios.all([axios.post(`${SERVER_DALKOMM}/app/api/v2/smartorder/reorder`, form, header_config)]).then(
       axios.spread((res1) => {
         if (res1.data.meta.code === 20000) {
-          history.push(`/order/final/${res1.data.data.orderinfo_id}`);
+          let result = { link: FRONT_SERVER + `/order/final/${res1.data.data.orderinfo_id}`, category: "webviewCall" };
+          result = JSON.stringify(result);
+          try {
+            if (checkMobile() === "android") {
+              window.android.fn_winOpen(result);
+            } else if (checkMobile() === "ios") {
+              window.webkit.messageHandlers.fn_winOpen.postMessage(result);
+            }
+          } catch (error) {
+            console.log(error);
+          }
+          // history.push(`/order/final/${res1.data.data.orderinfo_id}`);
         } else {
           $("#resAlert").text("시스템 관리자에 문의 바랍니다.");
           $(".overlay.popupExitJoin").addClass("active");

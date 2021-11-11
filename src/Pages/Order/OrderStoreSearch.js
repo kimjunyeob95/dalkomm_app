@@ -20,7 +20,7 @@ import { Map, GoogleApiWrapper, Marker } from "google-maps-react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { fadeOut, checkMobile } from "Config/GlobalJs";
 
-import { SERVER_DALKOMM } from "Config/Server";
+import { SERVER_DALKOMM, FRONT_SERVER } from "Config/Server";
 import { authContext } from "ContextApi/Context";
 
 export function OrderStoreSearch(props) {
@@ -63,7 +63,20 @@ export function OrderStoreSearch(props) {
     contGap();
     fadeOut();
   }, [axioData]);
-
+  const handleGoPage = (e, link) => {
+    // history.push(link);
+    let result = { link: FRONT_SERVER + link };
+    result = JSON.stringify(result);
+    try {
+      if (checkMobile() === "android") {
+        window.android.fn_winOpen(result);
+      } else if (checkMobile() === "ios") {
+        window.webkit.messageHandlers.fn_winOpen.postMessage(result);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
   const handleClose = (e, type) => {
     if (type === "창닫기") {
       $(".toggle-wrap li.active .toggle-cont").css("display", "none");
@@ -537,9 +550,12 @@ export function OrderStoreSearch(props) {
                     </div>
                     {storeData?.detailStore?.store_is_smartorder ? (
                       <div className="w-inner btn-area flex-both">
-                        <Link to={`/order/menu/${storeData?.detailStore?.store_code}`} className="btn full medium dark">
+                        <button
+                          onClick={(e) => handleGoPage(e.currentTarget, `/order/menu/${storeData?.detailStore?.store_code}`)}
+                          className="btn full medium dark"
+                        >
                           주문하기
-                        </Link>
+                        </button>
                         <button
                           type="button"
                           className={`btn light-g medium bookmark ${storeData?.detailStore?.store_is_favorite && "active"}`}

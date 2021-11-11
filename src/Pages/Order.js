@@ -154,7 +154,7 @@ export function Order(props) {
   };
   const handleGoPage = (e, link) => {
     // history.push(link);
-    let result = { link: FRONT_SERVER + link, title: "메뉴선택" };
+    let result = { link: FRONT_SERVER + link };
     result = JSON.stringify(result);
     try {
       if (checkMobile() === "android") {

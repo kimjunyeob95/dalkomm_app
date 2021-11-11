@@ -15,7 +15,7 @@ import GoContents from "Components/GoContents";
 import { contGap } from "Jquery/Jquery";
 import { checkMobile, fadeOut } from "Config/GlobalJs";
 
-import { SERVER_DALKOMM } from "Config/Server";
+import { SERVER_DALKOMM, FRONT_SERVER } from "Config/Server";
 import { authContext } from "ContextApi/Context";
 
 import orderjson from "Pages/Order/Order";
@@ -35,7 +35,6 @@ export default function OrderFinal() {
     headers: {
       "X-dalkomm-access-token": state.accessToken,
       Authorization: state.auth,
-      "X-DALKOMM-STORE": state.udid,
     },
   };
 
@@ -234,7 +233,7 @@ export default function OrderFinal() {
     };
     target_value = JSON.stringify(target_value);
     $("#formValue").val(target_value);
-    $("#interFrom").submit();
+    $("#interForm").submit();
     // let result = {
     //   type: "post",
     //   link: `${SERVER_DALKOMM}/app/web/smartorder/order/to/pay/v2`,
@@ -432,7 +431,13 @@ export default function OrderFinal() {
     return (
       <React.Fragment>
         <GoContents />
-        <form id="interFrom" action={`${SERVER_DALKOMM}/app/web/smartorder/order/to/pay/v2`} style={{ display: "none" }}>
+        <form
+          id="interForm"
+          action={`${SERVER_DALKOMM}/app/web/smartorder/order/to/pay/v2`}
+          style={{ display: "none" }}
+          method="post"
+          encType="multipart/form-data"
+        >
           <input id="formValue" type="hidden" name="value" value="" />
         </form>
         <div id="wrap" className="wrap">
