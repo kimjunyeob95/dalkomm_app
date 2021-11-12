@@ -26,7 +26,7 @@ export const indexInitialState = {
   app_version: getCookieValue("app_version"),
   os: getCookieValue("os"),
   isApp: getCookieValue("isApp"),
-  auth: getCookieValue("auth"),
+  auth: getCookieValue("auth") ? getCookieValue("auth") : "",
   latitude: getCookieValue("latitude"),
   longitude: getCookieValue("longitude"),
   udid: getCookieValue("udid"),
