@@ -75,28 +75,29 @@ export function fadeOut() {
     $("#content").removeClass("fade-in").addClass("fade-out");
   }, 100);
 }
+export function setCookie(name, value, options = {}) {
+  options = {
+    path: "/",
+    // 필요한 경우, 옵션 기본값을 설정할 수도 있습니다.
+    ...options,
+  };
+  if (options.expires instanceof Date) {
+    options.expires = options.expires.toUTCString();
+  }
 
-export function finalOrderHtml() {
-  // 211019 마크업 수정
-  $(".smartorder-menu .list_cell").before('<h4 class="pay-title">주문 메뉴</div>');
-  $(".smartorder-menu .pay-title").after(
-    '<ul class="order-list data-list"><li><div class="item order"><div class="img-wrap"><img src="/@resource/images/@temp/product_05.jpg" alt="카라멜마끼아또"></div></div></li></ul>'
-  );
-  $(".smartorder-menu .list_cell").appendTo(".item.order");
-  $("#coupon-list").appendTo(".smartorder-menu .order-list > li");
-  $(".pay_carrier .list_title").text("요청 사항");
-  $(".pay_carrier .list-chk.text-grey").text("빙수제품은 별도 포장을 제공하지 않습니다.");
-  $(".pay_carrier").appendTo(".smartorder-menu");
-  $(".pay_way").appendTo(".smartorder-menu");
-  $(".pay_carrier .list_title").after(
-    ' <div class="select-group col-2"><input type="radio" id="orderRequest01" name="orderRequest"><label for="orderRequest01" class="btn bdr medium"><strong>캐리어 포장</strong></label><input type="radio" id="orderRequest02" name="orderRequest"><label for="orderRequest02" class="btn bdr medium"><strong>없음</strong></label></div> '
-  );
-  $(".pay_way_content1").addClass("select-group col-3");
-  $(".pay_sum").prepend('<h4 class="pay-title en">Total</div>');
-  $(".list.pay .text-red:not(#affiliate) h4 strong").append('<span class="coupon">[FREE 음료 쿠폰]</span>');
-  $(".list.pay .text-red#affiliate h4 strong").text("멤버십 할인");
-  $(".list.pay .text-red#affiliate h4 strong").append('<span class="coupon">[PLETINUM]</span>');
-  $(".list.pay_sum_b").before(
-    '<div class="list pay"><ul class="list_cell text-red"><li><h4><strong>KT 멤버십 할인</strong></h4></li><li class="text-right"><a href="javascript:void(0);" class="btn verify">인증하기</a></li></ul></div>'
-  );
+  let updatedCookie = "";
+  if (name === "Authorization" || name === "auth") {
+    updatedCookie = encodeURIComponent(name) + "=" + encodeURIComponent(value).replace(/%20/gi, " ");
+  } else {
+    updatedCookie = encodeURIComponent(name) + "=" + encodeURIComponent(value);
+  }
+
+  for (let optionKey in options) {
+    updatedCookie += "; " + optionKey;
+    let optionValue = options[optionKey];
+    if (optionValue !== true) {
+      updatedCookie += "=" + optionValue;
+    }
+  }
+  window.document.cookie = updatedCookie + ";";
 }

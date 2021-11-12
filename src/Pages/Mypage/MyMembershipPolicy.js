@@ -38,7 +38,14 @@ export default function MyMembershipPolicy() {
         axios.spread((res1, res2) => {
           let res1_data = res1.data.data;
           let res2_data = res2.data.data;
-          let percentage = (res2_data?.user?.current_point / 31) * 100 > 100 ? 100 : (res2_data?.user?.current_point / 31) * 100;
+          let percentage =
+            res2_data?.user?.current_point < 11
+              ? "33.33333%"
+              : res2_data?.user?.current_point > 11 && res2_data?.user?.current_point < 31
+              ? "66.66666%"
+              : res2_data?.user?.current_point > 30
+              ? "100%"
+              : "";
           setData((origin) => {
             return {
               ...origin,
@@ -66,7 +73,14 @@ export default function MyMembershipPolicy() {
         axios.spread((res1, res2) => {
           let res1_data = res1.data.data;
           let res2_data = res2.data.data;
-          let percentage = (res2_data?.user?.current_point / 31) * 100 > 100 ? 100 : (res2_data?.user?.current_point / 31) * 100;
+          let percentage =
+            res2_data?.user?.current_point < 11
+              ? "33.33333%"
+              : res2_data?.user?.current_point > 11 && res2_data?.user?.current_point < 31
+              ? "66.66666%"
+              : res2_data?.user?.current_point > 30
+              ? "100%"
+              : "";
           setData((origin) => {
             return {
               ...origin,
@@ -158,7 +172,7 @@ export default function MyMembershipPolicy() {
                               : ""
                           }`}
                           style={{
-                            width: axioData?.percentage + "%",
+                            width: axioData?.percentage,
                           }}
                         ></span>{" "}
                         {/* .bar-state 상태
@@ -199,11 +213,7 @@ export default function MyMembershipPolicy() {
                   <dl className="item describe">
                     <dt className="title">멤버십 혜택</dt>
                     <dd className="text">
-                      <p>
-                        테이블오더 또는 매장에서 직접 결제 / 주문 할 때마다 적립되는
-                        <br />
-                        트로피를 모아 멤버십 혜택을 받으실 수 있습니다.
-                      </p>
+                      <p>테이블오더 또는 매장에서 직접 결제 / 주문 할 때마다 적립되는 트로피를 모아 멤버십 혜택을 받으실 수 있습니다.</p>
                       <ul className="attention-list">
                         <li>기프트카드 10,000원 충전 시 트로피 1개 적립</li>
                         <li>테이블오더 또는 매장에서 제조음료 결제시 마다 트로피 1개 적립</li>
@@ -223,7 +233,7 @@ export default function MyMembershipPolicy() {
                         </div>
                         <ul className="list">
                           <li>온라인 이벤트 참여</li>
-                          <li>달콤 멤버십카드 발급 및 스탬프 적립</li>
+                          <li>멤버십카드 발급 및 스탬프 적립</li>
                         </ul>
                       </div>
                     </li>
@@ -238,7 +248,7 @@ export default function MyMembershipPolicy() {
                         </div>
                         <ul className="list">
                           <li>온라인 이벤트 참여</li>
-                          <li>달콤 멤버십카드 발급 및 스탬프 적립</li>
+                          <li>멤버십카드 발급 및 스탬프 적립</li>
                           <li>생일 축하 아메리카노 쿠폰 </li>
                           <li>신메뉴 30%할인 쿠폰</li>
                         </ul>
@@ -255,7 +265,7 @@ export default function MyMembershipPolicy() {
                         </div>
                         <ul className="list">
                           <li>온라인 이벤트 참여</li>
-                          <li>달콤 멤버십카드 발급 및 스탬프 적립</li>
+                          <li>멤버십카드 발급 및 스탬프 적립</li>
                           <li>생일 축하 아메리카노 쿠폰 </li>
                           <li>신메뉴 30%할인 쿠폰</li>
                           <li>

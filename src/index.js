@@ -55,6 +55,9 @@ import StoryDetail from "Pages/Story/StoryDetail";
 import NoticeList from "Pages/Support/NoticeList";
 import NoticeDetail from "Pages/Support/NoticeDetail";
 import Faq from "Pages/Support/Faq";
+import PrivacyPolicy from "Pages/Support/PrivacyPolicy";
+import Terms from "Pages/Support/Terms";
+import Company from "Pages/Support/Company";
 
 import PrivateRoute from "PrivateRoute";
 import reportWebVitals from "./reportWebVitals";
@@ -160,6 +163,9 @@ ReactDOM.render(
         <Route exact path="/support/notice/list" component={() => <NoticeList />} />
         <Route exact path="/support/notice/detail/:id" component={() => <NoticeDetail />} />
         <Route exact path="/support/faq" component={() => <Faq />} />
+        <Route exact path="/support/terms" component={() => <Terms />} />
+        <Route exact path="/support/policy" component={() => <PrivacyPolicy />} />
+        <Route exact path="/support/company" component={() => <Company />} />
 
         <Route exact path="/login" component={() => <Login />} />
       </Switch>

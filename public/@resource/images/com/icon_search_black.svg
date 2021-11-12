@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30">
+    <defs>
+        <style>
+            .cls-4{fill:none;stroke:#000;stroke-miterlimit:10;stroke-width:1.2px}
+        </style>
+    </defs>
+    <g id="icon_search" transform="translate(-108 -116)">
+        <g id="그룹_21" data-name="그룹 21" transform="translate(108 116)">
+            <g id="레이어_2" data-name="레이어 2" transform="translate(4.375 4.502)">
+                <circle id="타원_4" data-name="타원 4" class="cls-4" cx="7.944" cy="7.944" r="7.944" transform="translate(1 1)"/>
+                <path id="선_9" data-name="선 9" class="cls-4" transform="translate(14.452 14.452)" d="m0 0 5.604 5.543"/>
+            </g>
+        </g>
+    </g>
+</svg>

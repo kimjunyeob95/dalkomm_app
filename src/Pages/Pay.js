@@ -20,7 +20,7 @@ import { getParameter } from "Config/GlobalJs";
 
 import { authContext } from "ContextApi/Context";
 import { SERVER_DALKOMM } from "Config/Server";
-
+import Loading from "Components/Loading";
 import { Swiper, SwiperSlide } from "swiper/react";
 import SwiperCore, { Pagination } from "swiper/core";
 import { fadeOut, fn_memberName } from "Config/GlobalJs";
@@ -448,7 +448,7 @@ export default function Pay() {
                 </a>
               </div>
             </header>
-
+            <Loading />
             <Nav order={2} />
           </div>
         </div>

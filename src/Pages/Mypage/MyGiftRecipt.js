@@ -7,9 +7,9 @@
 import axios from "axios";
 import React, { useEffect, useContext, useState } from "react";
 import { useHistory, useParams, useLocation } from "react-router-dom";
-import HeaderSub from "Components/Header/HeaderSub";
+
 import GoContents from "Components/GoContents";
-import { BarLoader, FadeLoader } from "react-spinners";
+import Loading from "Components/Loading";
 
 import { authContext } from "ContextApi/Context";
 import { SERVER_DALKOMM } from "Config/Server";
@@ -17,7 +17,7 @@ import { SERVER_DALKOMM } from "Config/Server";
 import { Swiper, SwiperSlide } from "swiper/react";
 import SwiperCore, { Pagination } from "swiper/core";
 
-import { tabLink, moveScrollTop, contGap, fadeInOut } from "Jquery/Jquery";
+import { contGap } from "Jquery/Jquery";
 import { fadeOut } from "Config/GlobalJs";
 
 export default function MyGiftRecipt() {
@@ -188,13 +188,7 @@ export default function MyGiftRecipt() {
                 </i>
               </button>
             </header>
-            <FadeLoader
-              loading={true}
-              size={50}
-              height={6}
-              color="red"
-              css={{ position: "absolute", transform: "translate(-50%, -50%)", top: "50%", left: "56%", height: "6px" }}
-            />
+            <Loading />
           </div>
         </div>
       </React.Fragment>

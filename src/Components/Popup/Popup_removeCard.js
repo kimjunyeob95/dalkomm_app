@@ -36,6 +36,10 @@ export default function Popup_removeCard() {
           if (response.data.meta.code === 20000) {
             alert("해당 충전카드가 삭제되었습니다.");
             window.location.reload();
+          } else if (response.data.meta.code === 20025) {
+            alert("충전카드 잔액이 0원일 때 삭제하실 수 있습니다.");
+            $("body").removeClass("modal-opened");
+            $("#popupExitJoin").removeClass("active");
           } else {
             alert(response.data.meta.msg);
             $("body").removeClass("modal-opened");

@@ -220,19 +220,19 @@ export default function Menu() {
                 <li>
                   <ul>
                     <li>
-                      <Link to="#" className="item depth-menu">
+                      <Link to="/support/company" className="item depth-menu">
                         <i className="ico menu-business"></i>
                         <span>사업자정보</span>
                       </Link>
                     </li>
                     <li>
-                      <Link to="#" className="item depth-menu">
+                      <Link to="/support/terms" className="item depth-menu">
                         <i className="ico menu-term"></i>
                         <span>이용약관</span>
                       </Link>
                     </li>
                     <li>
-                      <Link to="#" className="item depth-menu">
+                      <Link to="/support/policy" className="item depth-menu">
                         <i className="ico menu-privacy"></i>
                         <span>개인정보처리방침</span>
                       </Link>

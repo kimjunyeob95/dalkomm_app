@@ -10,12 +10,12 @@ import { Link, useParams, useHistory, useLocation } from "react-router-dom";
 
 import Nav from "Components/Nav/Nav";
 import GoContents from "Components/GoContents";
-import { contGap, fadeInOut } from "Jquery/Jquery";
+import { contGap } from "Jquery/Jquery";
 import { fadeOut } from "Config/GlobalJs";
 
 import { SERVER_DALKOMM } from "Config/Server";
 import { authContext } from "ContextApi/Context";
-import { FadeLoader } from "react-spinners";
+import Loading from "Components/Loading";
 
 export default function OrderSearch() {
   const [state, dispatch] = useContext(authContext);
@@ -246,19 +246,7 @@ export default function OrderSearch() {
                 </div>
               )}
             </header>
-            <FadeLoader
-              loading={true}
-              size={50}
-              height={6}
-              color="red"
-              css={{
-                position: "absolute",
-                transform: "translate(-50%, -50%)",
-                top: "50%",
-                left: "56%",
-                height: "6px",
-              }}
-            />
+            <Loading />
             <Nav order={3} />
           </div>
         </div>

@@ -21,7 +21,7 @@ import { authContext } from "ContextApi/Context";
 
 import { Map, GoogleApiWrapper, Marker } from "google-maps-react";
 import Clipboard from "react-clipboard.js";
-import { FadeLoader } from "react-spinners";
+import Loading from "Components/Loading";
 
 export function Main(props) {
   let dev_count = 1;
@@ -263,7 +263,6 @@ export function Main(props) {
         <div id="wrap" className="wrap">
           <div id="container" className="container">
             <HeaderMain />
-
             <Nav order={1} />
 
             <div id="content" className="main home fade-in">
@@ -294,7 +293,7 @@ export function Main(props) {
                           <div className="content-wrap">
                             <div className="w-inner flex-end">
                               <p className="sub-copy en fc-orange">{e?.cate}</p>
-                              <h2 className="main-copy">{e?.title}</h2>
+                              <h2 className={`main-copy ${e?.color === "B" ? "black" : e?.color === "W" ? "white" : ""}`}>{e?.title}</h2>
                               <p className="text">{e?.subtitle}</p>
                             </div>
                           </div>
@@ -1050,19 +1049,7 @@ export function Main(props) {
         <div id="wrap" className="wrap">
           <div id="container" className="container">
             <HeaderMain />
-            <FadeLoader
-              loading={true}
-              size={50}
-              height={6}
-              color="red"
-              css={{
-                position: "absolute",
-                transform: "translate(-50%, -50%)",
-                top: "50%",
-                left: "56%",
-                height: "6px",
-              }}
-            />
+            <Loading />
             <Nav order={1} />
           </div>
         </div>

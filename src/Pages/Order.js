@@ -728,7 +728,6 @@ export function Order(props) {
             <header id="header" className="header undefined">
               <h1 className="page-title">매장선택</h1>
             </header>
-
             <Nav order={3} />
           </div>
         </div>

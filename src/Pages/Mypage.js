@@ -8,13 +8,13 @@ import React, { useEffect, useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import Nav from "Components/Nav/Nav";
 import GoContents from "Components/GoContents";
-import { contGap, popupOpen, fadeInOut } from "Jquery/Jquery";
+import { contGap, popupOpen } from "Jquery/Jquery";
 import Popup_logout from "Components/Popup/Popup_logout";
 import { fadeOut, fn_memberName } from "Config/GlobalJs";
+import Loading from "Components/Loading";
 
 import { authContext } from "ContextApi/Context";
 import { SERVER_DALKOMM } from "Config/Server";
-import { FadeLoader } from "react-spinners";
 
 export default function MyPage() {
   const [state, dispatch] = useContext(authContext);
@@ -249,19 +249,7 @@ export default function MyPage() {
         <GoContents />
         <div id="wrap" className="wrap">
           <div id="container" className="container">
-            <FadeLoader
-              loading={true}
-              size={50}
-              height={6}
-              color="red"
-              css={{
-                position: "absolute",
-                transform: "translate(-50%, -50%)",
-                top: "50%",
-                left: "56%",
-                height: "6px",
-              }}
-            />
+            <Loading />
             <Nav order={4} />
           </div>
         </div>

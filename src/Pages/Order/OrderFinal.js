@@ -234,6 +234,7 @@ export default function OrderFinal() {
     target_value = JSON.stringify(target_value);
     $("#formValue").val(target_value);
     $("#interForm").submit();
+
     // let result = {
     //   type: "post",
     //   link: `${SERVER_DALKOMM}/app/web/smartorder/order/to/pay/v2`,

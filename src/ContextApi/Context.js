@@ -3,11 +3,22 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 // eslint-disable-next-line no-unused-vars
 import axios from "axios";
-import React, { useEffect, useReducer, useState } from "react";
-import { getCookieValue, checkMobile } from "Config/GlobalJs";
+import React, { useEffect, useReducer } from "react";
+import { getCookieValue, checkMobile, setCookie } from "Config/GlobalJs";
 import { SERVER_DALKOMM } from "Config/Server";
 
 export const authContext = React.createContext();
+
+// setCookie(
+//   "accessToken",
+//   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiVTFTb0I4TXhTUWxMREc0YmtWUjBmRFB0UkxnaTRtd05pK0wwQjJMb1Q2Z3lUallKQlRHcnhkeElmYVZEZHRwQSIsImF1ZCI6IkRBTEtPTU1fQVBQIiwidW5pb25fdXNlcl9pZCI6InE3bEU3SHFKdUdWbEhjNDhld21FOThyRUhaQ1lXU09tcVpXZFFtUEZlUTdJTkNZbXBmaFJxckZjcXNjdDRPRngiLCJpc3MiOiJEQUxLT01NIiwidXNlcl9sb2dpbl90eXBlIjoiRCIsImlhdCI6MTYzMzQ4NDQxMn0.ZdVygbo7m5kIL4HQXeyUM0UplkyveQtV6ZjUGg4r61Q"
+// );
+// setCookie("app_version", "3.0.0");
+// setCookie("auth", "Basic ZGFsa29tbTpkYWxrb21tX2FwcDs3NWEzMjRkMTNkY2FjYjM1ZjhkODc0MjZjZDRjYjAyODExZTBkYTM1OzIwMjExMDA2MTEzOTU0");
+// setCookie("latitude", 37.507232666015625);
+// setCookie("longitude", 127.05642398540016);
+// setCookie("udid", "8280af29616a4ec1bb85a9ed17b9594e828e8140");
+// setCookie("app_type", "I");
 
 export const indexInitialState = {
   loginFlag: getCookieValue("accessToken") !== "" ? true : false,
@@ -59,9 +70,19 @@ export const indexReducer = (state, action) => {
 
 const ContextStore = (props) => {
   useEffect(() => {
+    //최초 쿠키 실행
+    // setCookie("X-DALKOMM-AUTH-TOKEN", "DALKOMM_APP", { domain: "dalkomm.com" });
+    // // setCookie("Authorization", getCookieValue("auth"), { domain: "dalkomm.com" });
+    // setCookie("X-DALKOMM-ACCESS-TOKEN", getCookieValue("accessToken"), { domain: "dalkomm.com" });
+    // setCookie("X-DALKOMM-APP-VERSION", getCookieValue("app_version"), { domain: "dalkomm.com" });
+    // setCookie("X-DALKOMM-CHANNEL", getCookieValue("app_type"), { domain: "dalkomm.com" });
+    // setCookie("X-DALKOMM-STORE", getCookieValue("udid"), { domain: "dalkomm.com" });
+    // setCookie("X-DALKOMM-APP-TYPE", getCookieValue("app_type"), { domain: "dalkomm.com" });
+
     let data = {
       callbackFunc: "nativeCallbackFcmToken",
     };
+    getCookieValue("app_type");
     data = JSON.stringify(data);
 
     let header_config = {
@@ -103,7 +124,6 @@ const ContextStore = (props) => {
       }
     }, 500);
   }, []);
-
   // indexInitialState.loginFlag = true;
   // indexInitialState.accessToken =
   //   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiVTFTb0I4TXhTUWxMREc0YmtWUjBmRFB0UkxnaTRtd05pK0wwQjJMb1Q2Z3lUallKQlRHcnhkeElmYVZEZHRwQSIsImF1ZCI6IkRBTEtPTU1fQVBQIiwidW5pb25fdXNlcl9pZCI6InE3bEU3SHFKdUdWbEhjNDhld21FOThyRUhaQ1lXU09tcVpXZFFtUEZlUTdJTkNZbXBmaFJxckZjcXNjdDRPRngiLCJpc3MiOiJEQUxLT01NIiwidXNlcl9sb2dpbl90eXBlIjoiRCIsImlhdCI6MTYzMzQ4NDQxMn0.ZdVygbo7m5kIL4HQXeyUM0UplkyveQtV6ZjUGg4r61Q";

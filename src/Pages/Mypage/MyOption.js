@@ -109,7 +109,7 @@ export default function MyOption() {
                   </div>
                 </li>
                 <li>
-                  <Link to="#">사업자 정보 확인</Link>
+                  <Link to="/support/company">사업자 정보 확인</Link>
                 </li>
                 <li>
                   <a className="open-pop" data-href="#popupExitJoin" onClick={(e) => popupOpen(e.target)}>
