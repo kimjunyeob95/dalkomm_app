@@ -133,6 +133,7 @@ export default function Pay() {
   };
 
   const handleAddCard = () => {
+    $(".item.nodata").hide();
     axios.all([axios.post(`${SERVER_DALKOMM}/app/api/v2/chargecard/publish`, body, header_config)]).then(
       axios.spread((res1) => {
         if (res1.data.meta.code === 20000) {

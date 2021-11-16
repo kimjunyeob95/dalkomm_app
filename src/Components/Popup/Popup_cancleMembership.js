@@ -50,7 +50,7 @@ export default function Popup_cancleMembership({ FrontData, header_config }) {
     <div id="popupExitJoin" className="overlay popupExitJoin">
       <div className="popup">
         <div className=" popup-body">
-          <p className="info">적용된 멤버십 제휴할은을 취소할까요?</p>
+          <p className="info">적용된 멤버십 제휴할인을 취소할까요?</p>
         </div>
         <div className="popup-footer">
           <button className="btn normal large btn-close">아니요</button>

@@ -39,7 +39,10 @@ export default function OrderMembership() {
   };
   useEffect(() => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [state?.auth]);
+    axios
+      .all([axios.get(`${SERVER_DALKOMM}/app/web/smartorder/order/${Number(frontValue?.smartOrderSeq)}/kt`, header_config)])
+      .then(axios.spread((res1) => {}));
+  }, []);
   useEffect(() => {
     contGap();
   }, [axioData]);
@@ -94,26 +97,32 @@ export default function OrderMembership() {
     $("body").removeClass("modal-opened");
     $("#popupMembership").removeClass("active");
   };
-  console.log(FrontData);
+
   const handleSubmit = () => {
-    let data = FrontData;
-    let couponList = [];
-    data?.menuQuantity?.map((e, i) => {
-      couponList.push({ idx: e.idx, quantity: e.quantity });
+    let coupon_array = [];
+    FrontData?.menuQuantity?.map((element, index) => {
+      coupon_array.push({ quantity: 1, couponId: "" });
     });
-    data = {
-      ...FrontData,
-      menuQuantity: couponList,
-      finalPrice: data.defaultPrice - 500,
-      orderDiscountType: {
-        type: "ktmembership",
-        price: 500,
-      },
+    // return console.log(FrontData?.menuQuantity);
+    let body = {
+      card_no: String($("#membershipCard").val()),
+      birth_day: String($("#birthday").val()),
+      is_save: $("#membershipSave").is(":checked"),
     };
-    history.push({
-      pathname: `/order/final/${frontValue?.smartOrderSeq}`,
-      frontValue: data,
-    });
+
+    axios.all([axios.post(`${SERVER_DALKOMM}/app/api/v2/smartorder/order/${FrontData?.smartOrderSeq}/kt`, body, header_config)]).then(
+      axios.spread((res1) => {
+        console.log(res1);
+        if (res1.data.meta.code === 20000) {
+          history.push({
+            pathname: `/order/final/${FrontData?.smartOrderSeq}`,
+            frontValue: { ...FrontData, menuQuantity: coupon_array },
+          });
+        } else {
+          alert(res1.data.meta.msg);
+        }
+      })
+    );
   };
 
   const handleCancle = () => {
@@ -145,6 +154,7 @@ export default function OrderMembership() {
                             maxLength="6"
                             inputMode="numeric"
                             placeholder="생년월일 6자리를 입력해주세요."
+                            defaultValue={651016}
                           />
                         </div>
                         <div className="insert">
@@ -154,6 +164,7 @@ export default function OrderMembership() {
                             className="input-text medium"
                             maxLength="16"
                             placeholder="멤버십 카드번호 16자리를 입력해주세요."
+                            defaultValue={2917101586506325}
                           />
                         </div>
                       </div>

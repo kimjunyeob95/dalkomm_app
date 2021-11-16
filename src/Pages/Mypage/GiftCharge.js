@@ -9,7 +9,6 @@ import $ from "jquery";
 import React, { useEffect, useContext, useState } from "react";
 import { useParams, useLocation, useHistory } from "react-router-dom";
 
-import HeaderSub from "Components/Header/HeaderSub";
 import GoContents from "Components/GoContents";
 import { contGap } from "Jquery/Jquery";
 
@@ -17,7 +16,7 @@ import { Swiper } from "swiper/react";
 import SwiperCore, { Pagination } from "swiper/core";
 
 import { authContext } from "ContextApi/Context";
-import { fadeOut } from "Config/GlobalJs";
+import { fadeOut, checkMobile } from "Config/GlobalJs";
 import { SERVER_DALKOMM } from "Config/Server";
 
 export default function GiftCharge() {
@@ -77,10 +76,26 @@ export default function GiftCharge() {
     axios.all([axios.post(`${SERVER_DALKOMM}/app/api/v2/chargecard/charge/auth`, body, header_config)]).then(
       axios.spread((res1) => {
         let charge_token = res1.data.data.charge_token;
-        // window.open(`${SERVER_DALKOMM}/app/web/chargecard/charge?charge_token=${charge_token}`, header_config);
-        window.open(
-          `app://openPopupWebView?title=기프트카드 충전하기&link=${SERVER_DALKOMM}/app/web/chargecard/charge?charge_token=${charge_token}&type=charge&redirectUrl=/pay?activeHtml=true`
-        );
+        let result = {
+          type: "get",
+          link: `${SERVER_DALKOMM}/app/web/chargecard/charge?charge_token=${charge_token}`,
+          title: "기프트카드 충전하기",
+          redirectUrl: "/pay?activeHtml=true",
+        };
+        result = JSON.stringify(result);
+
+        try {
+          if (checkMobile() === "android") {
+            window.android.fn_winOpen(result);
+          } else if (checkMobile() === "ios") {
+            window.webkit.messageHandlers.fn_winOpen.postMessage(result);
+          }
+        } catch (error) {
+          console.log(error);
+        }
+        // window.open(
+        //   `app://openPopupWebView?title=기프트카드 충전하기&link=${SERVER_DALKOMM}/app/web/chargecard/charge?charge_token=${charge_token}&type=charge&redirectUrl=/pay?activeHtml=true`
+        // );
       })
     );
   };

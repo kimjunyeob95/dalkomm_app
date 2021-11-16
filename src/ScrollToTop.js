@@ -3,8 +3,9 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 // eslint-disable-next-line no-unused-vars
 import React, { useEffect, useContext } from "react";
+import $ from "jquery";
 import { useLocation } from "react-router-dom";
-import { checkMobile, getCookieValue } from "Config/GlobalJs";
+import { checkMobile } from "Config/GlobalJs";
 import { authContext } from "ContextApi/Context";
 
 const ScrollToTop = () => {
@@ -25,6 +26,8 @@ const ScrollToTop = () => {
       }
       dispatch({ type: "changeLocation" });
     }
+    //모달창 닫기
+    $("body").removeClass("modal-opened");
   }, [pathname]);
   return null;
 };

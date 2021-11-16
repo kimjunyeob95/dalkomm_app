@@ -234,18 +234,18 @@ export function Main(props) {
   };
 
   const handleGoPage = (e, link) => {
-    // history.push(link);
-    let result = { link: FRONT_SERVER + link, category: "webviewCall" };
-    result = JSON.stringify(result);
-    try {
-      if (checkMobile() === "android") {
-        window.android.fn_winOpen(result);
-      } else if (checkMobile() === "ios") {
-        window.webkit.messageHandlers.fn_winOpen.postMessage(result);
-      }
-    } catch (error) {
-      console.log(error);
-    }
+    history.push(link);
+    // let result = { link: FRONT_SERVER + link, category: "webviewCall" };
+    // result = JSON.stringify(result);
+    // try {
+    //   if (checkMobile() === "android") {
+    //     window.android.fn_winOpen(result);
+    //   } else if (checkMobile() === "ios") {
+    //     window.webkit.messageHandlers.fn_winOpen.postMessage(result);
+    //   }
+    // } catch (error) {
+    //   console.log(error);
+    // }
   };
 
   const fn_dev = () => {
@@ -264,7 +264,6 @@ export function Main(props) {
           <div id="container" className="container">
             <HeaderMain />
             <Nav order={1} />
-
             <div id="content" className="main home fade-in">
               {/* main-visual */}
               <Swiper

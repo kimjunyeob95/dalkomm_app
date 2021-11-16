@@ -65,6 +65,7 @@
 .main.home .item.drink .detail-wrap .title {font-size: 3.733vw; color: #747474;}
 .main.home .speech-wrap {-webkit-animation: speechBubbleHide 0.5s ease-in-out 3s 1 forwards; animation: speechBubbleHide 0.5s ease-in-out 3s 1 forwards}
 .main.home .speech-bubble {padding-top: 2.560vw; padding-bottom: 2.240vw; text-align: center;}
+.main.home .item.menu .detail-wrap .title {font-size: 3.467vw; color: rgba(0,0,0,0.8);}
 
 /* AP001 (앱메뉴) */
 .app-menu .item.my-info {height: 20vw; margin-top: -1.067vw;}

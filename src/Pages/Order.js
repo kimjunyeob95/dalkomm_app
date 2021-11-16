@@ -153,18 +153,18 @@ export function Order(props) {
     }
   };
   const handleGoPage = (e, link) => {
-    // history.push(link);
-    let result = { link: FRONT_SERVER + link };
-    result = JSON.stringify(result);
-    try {
-      if (checkMobile() === "android") {
-        window.android.fn_winOpen(result);
-      } else if (checkMobile() === "ios") {
-        window.webkit.messageHandlers.fn_winOpen.postMessage(result);
-      }
-    } catch (error) {
-      console.log(error);
-    }
+    history.push(link);
+    // let result = { link: FRONT_SERVER + link };
+    // result = JSON.stringify(result);
+    // try {
+    //   if (checkMobile() === "android") {
+    //     window.android.fn_winOpen(result);
+    //   } else if (checkMobile() === "ios") {
+    //     window.webkit.messageHandlers.fn_winOpen.postMessage(result);
+    //   }
+    // } catch (error) {
+    //   console.log(error);
+    // }
   };
   if (axioData) {
     return (

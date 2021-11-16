@@ -35,10 +35,10 @@ export default function JoinStep2() {
     },
   };
   useEffect(() => {
-    if (location?.join_token === "" || !location?.join_token) {
-      alert("잘못된 접근입니다.");
-      history.push("/");
-    }
+    // if (location?.join_token === "" || !location?.join_token) {
+    //   alert("잘못된 접근입니다.");
+    //   history.push("/");
+    // }
   }, []);
 
   const handleSubmit = (e) => {
@@ -167,6 +167,7 @@ export default function JoinStep2() {
                             id="userName"
                             maxLength={8}
                             placeholder="이름(닉네임)을 입력해 주세요."
+                            style={{ imeMode: "active" }}
                           />
                         </div>
                         <p className="guide-txt">2자 이상 8자 이하, 한글 또는 영문만 입력 가능합니다.</p>
@@ -250,7 +251,7 @@ export default function JoinStep2() {
                             maxDate={new Date()}
                             dateFormatCalendar="yyyy년 MM월"
                             popperPlacement="auto" // 화면 중앙에 팝업이 뜨도록
-                            dateFormat="yyyy-MM-dd"
+                            dateFormat="yyyyMMdd"
                           />
                         </div>
                       </div>

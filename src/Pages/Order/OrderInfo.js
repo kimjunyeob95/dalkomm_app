@@ -69,18 +69,18 @@ export default function OrderInfo() {
     axios.all([axios.post(`${SERVER_DALKOMM}/app/api/v2/smartorder/reorder`, form, header_config)]).then(
       axios.spread((res1) => {
         if (res1.data.meta.code === 20000) {
-          let result = { link: FRONT_SERVER + `/order/final/${res1.data.data.orderinfo_id}`, category: "webviewCall" };
-          result = JSON.stringify(result);
-          try {
-            if (checkMobile() === "android") {
-              window.android.fn_winOpen(result);
-            } else if (checkMobile() === "ios") {
-              window.webkit.messageHandlers.fn_winOpen.postMessage(result);
-            }
-          } catch (error) {
-            console.log(error);
-          }
-          // history.push(`/order/final/${res1.data.data.orderinfo_id}`);
+          history.push(`/order/final/${res1.data.data.orderinfo_id}`);
+          // let result = { link: FRONT_SERVER + `/order/final/${res1.data.data.orderinfo_id}`, category: "webviewCall" };
+          // result = JSON.stringify(result);
+          // try {
+          //   if (checkMobile() === "android") {
+          //     window.android.fn_winOpen(result);
+          //   } else if (checkMobile() === "ios") {
+          //     window.webkit.messageHandlers.fn_winOpen.postMessage(result);
+          //   }
+          // } catch (error) {
+          //   console.log(error);
+          // }
         } else {
           $("#resAlert").text("시스템 관리자에 문의 바랍니다.");
           $(".overlay.popupExitJoin").addClass("active");
@@ -206,7 +206,11 @@ export default function OrderInfo() {
                                       {element?.smart_order_menu?.get_summary_option.map((e, i) => {
                                         let array = ["다회용 컵", "일회용 컵", "개인컵(-300원)"];
                                         if (array.indexOf(e) > -1) {
-                                          return <span key={i}>{e}</span>;
+                                          if (e === "다회용 컵") {
+                                            return <span key={i}>매장용 컵</span>;
+                                          } else {
+                                            return <span key={i}>{e}</span>;
+                                          }
                                         }
                                       })}
 

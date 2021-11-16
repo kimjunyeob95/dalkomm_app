@@ -232,6 +232,10 @@ export default function OrderMenu() {
                           ) : (
                             ""
                           )}
+                          {/* <span class="badge round coffee-bean dark"></span>{" "} */}
+                          {/* 아메리카노 원두 타입 
+.badge.round.coffee-bean.dark : 다크퍼플 /
+.badge.round.coffee-bean.mild : 마일드 */}
                           <div className="img-wrap">
                             <img src={e.thumbnail_image_url} alt={e.name_kor} />
                           </div>

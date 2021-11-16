@@ -17,7 +17,7 @@ import Popup_nomal from "Components/Popup/Popup_nomal";
 import GoContents from "Components/GoContents";
 import { fadeOut } from "Config/GlobalJs";
 
-import { contGap, fadeInOut, fn_pw_check, name_check, popupOpen } from "Jquery/Jquery";
+import { contGap, fn_pw_check, name_check, popupOpen } from "Jquery/Jquery";
 import { SERVER_DALKOMM } from "Config/Server";
 
 import { authContext } from "ContextApi/Context";
@@ -251,6 +251,7 @@ export default function MyModify() {
       );
     }
   };
+
   if (axioData) {
     return (
       <React.Fragment>
@@ -353,11 +354,10 @@ export default function MyModify() {
                           // filterDate={(date) => date.getDay() !== 6 && date.getDay() !== 0}
                           // calendarClassName="" // 캘린더 클래스부여
                           // portalId="" //캘린더 최상단 ID부여
-
                           maxDate={new Date()}
                           dateFormatCalendar="yyyy년 MM월"
                           popperPlacement="auto" // 화면 중앙에 팝업이 뜨도록
-                          dateFormat="yyyy-MM-dd"
+                          dateFormat="yyyyMMdd"
                         />
                       </div>
                     </div>
@@ -481,17 +481,18 @@ export default function MyModify() {
               </div>
 
               <div className="withdrawal-btn">
-                <a className="open-pop" data-href="#popupExitJoin" onClick={(e) => popupOpen(e.target)}>
+                <a className="open-pop" data-href="#popupExitJoin2" onClick={(e) => popupOpen(e.target)}>
                   회원 탈퇴하기
                 </a>
               </div>
             </div>
             {/* // #content */}
             <Popup_nomal />
+            <Popup_removeUser />
           </div>
           {/* // #container */}
         </div>
-        <Popup_removeUser />
+
         {/* // #wrap */}
       </React.Fragment>
     );

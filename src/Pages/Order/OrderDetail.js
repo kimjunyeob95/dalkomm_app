@@ -148,18 +148,7 @@ export default function OrderDetail() {
       .then(
         axios.spread((res1) => {
           if (res1.data.meta.code === 20000) {
-            let result = { link: `/order/final/${res1.data.data.smartorder_orderinfo_id}` };
-            result = JSON.stringify(result);
-            try {
-              if (checkMobile() === "android") {
-                window.android.fn_winOpen(result);
-              } else if (checkMobile() === "ios") {
-                window.webkit.messageHandlers.fn_winOpen.postMessage(result);
-              }
-            } catch (error) {
-              console.log(error);
-            }
-            // history.push(`/order/final/${res1.data.data.smartorder_orderinfo_id}`);
+            history.push(`/order/final/${res1.data.data.smartorder_orderinfo_id}`);
           } else {
             alert(res1.data.meta.msg);
           }

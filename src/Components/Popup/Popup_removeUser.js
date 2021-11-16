@@ -47,7 +47,7 @@ export default function Popup_removeUser() {
     }
   };
   return (
-    <div id="popupExitJoin" className="overlay">
+    <div id="popupExitJoin2" className="overlay">
       <div className="popup">
         <div className=" popup-body">
           <p className="info">회원을 탈퇴하시겠습니까?</p>
