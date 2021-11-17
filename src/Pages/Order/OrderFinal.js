@@ -37,74 +37,109 @@ export default function OrderFinal() {
       Authorization: state.auth,
     },
   };
+  let menu_array = [];
+  let discountFlag = false;
+  let finalPrice = 0;
+  let discountType = false;
+  let notOption_price = 0;
 
+  const fn_discount_type = (res1_data, type) => {
+    if (type === "all") {
+      let flag_count = 0;
+      res1_data.smartorder_detail_list?.map((element, index) => {
+        if (element?.available_discount) {
+          flag_count += 1;
+        }
+      });
+      if (flag_count > 1) {
+        res1_data.smartorder_detail_list?.map((element, index) => {
+          let quantity = element?.price * element?.quantity;
+          if (element?.quantity > 1) {
+            if (element?.available_discount) {
+              notOption_price += quantity * (res1_data?.basic_discount_rate_percent / 100);
+            }
+          } else {
+            if (element?.available_discount) {
+              notOption_price += quantity * (res1_data?.basic_discount_rate_percent / 100);
+            }
+          }
+        });
+      }
+      finalPrice = res1_data?.total_order_amount - notOption_price;
+    } else if ("membership") {
+      res1_data.smartorder_detail_list?.map((element, index) => {
+        let quantity = element?.price * element?.quantity;
+        if (element?.quantity > 1) {
+          if (element?.available_discount) {
+            notOption_price += quantity * (res1_data?.basic_discount_rate_percent / 100);
+          }
+        } else {
+          if (element?.available_discount) {
+            notOption_price += quantity * (res1_data?.basic_discount_rate_percent / 100);
+          }
+        }
+      });
+      finalPrice = res1_data?.total_order_amount - notOption_price;
+    }
+  };
+  const fn_discount = (res1_data) => {
+    if (res1_data?.total_order_count > 1) {
+      //2개 이상 메뉴선택 시
+      if (res1_data?.affiliate_discount && res1_data?.basic_discount_rate_percent > 0) {
+        //kt 제휴할인 && 멤버십 할인 적용
+        fn_discount_type(res1_data, "all");
+        // finalPrice = res1_data?.total_order_amount - (finalPrice / res1_data?.total_order_count) * (res1_data?.basic_discount_rate_percent / 100);
+        discountFlag = true;
+        discountType = true;
+      } else if (!res1_data?.affiliate_discount && res1_data?.basic_discount_rate_percent > 0) {
+        //멤버십 할인만 적용
+        fn_discount_type(res1_data, "membership");
+
+        discountType = true;
+      } else if (res1_data?.affiliate_discount && res1_data?.basic_discount_rate_percent !== 5) {
+        //kt 제휴할인만 적용
+        finalPrice = res1_data?.total_order_amount - 500;
+        discountType = false;
+      } else if (!res1_data?.affiliate_discount && res1_data?.basic_discount_rate_percent !== 5) {
+        //아무 것도 할인 x
+        finalPrice = res1_data?.total_order_amount;
+      }
+    } else if (res1_data?.total_order_count === 1) {
+      //1개 메뉴 선택 시
+      if (res1_data?.affiliate_discount && res1_data?.basic_discount_rate_percent > 0) {
+        //kt 제휴할인 && 멤버십 할인이 같이 있을 땐 KT 제휴할인 우선권
+        finalPrice = res1_data?.total_order_amount - 500;
+        discountType = false;
+      } else if (!res1_data?.affiliate_discount && res1_data?.basic_discount_rate_percent > 0) {
+        //멤버십 할인만 적용
+        fn_discount_type(res1_data, "membership");
+        discountType = true;
+      } else if (res1_data?.affiliate_discount && res1_data?.basic_discount_rate_percent !== 5) {
+        //kt 제휴할인만 적용
+        finalPrice = res1_data?.total_order_amount - 500;
+        discountType = false;
+      } else if (!res1_data?.affiliate_discount && res1_data?.basic_discount_rate_percent !== 5) {
+        //아무 것도 할인 x
+        finalPrice = res1_data?.total_order_amount;
+      }
+    }
+    finalPrice = finalPrice - (finalPrice % 10);
+  };
   useEffect(() => {
     axios.all([axios.get(`${SERVER_DALKOMM}/app/api/v2/smartorder/order?orderinfo_id=${smartOrderSeq}`, header_config)]).then(
       axios.spread((res1) => {
         let res1_data = res1.data.data;
-        let menu_array = [];
-        let discountFlag = false;
-        let finalPrice = 0;
-        let discountType = false;
-        // res1_data = orderjson;
 
+        // res1_data = orderjson;
         [...new Array(res1_data?.total_order_count)]?.map((element, index) => {
           menu_array.push({ quantity: 1, couponId: "" });
         });
 
-        res1_data.smartorder_detail_list?.map((element, index) => {
-          if (element?.quantity > 1) {
-            finalPrice = element?.price * element?.quantity;
-          } else {
-            finalPrice += element?.price;
-          }
-        });
         if (location?.frontValue) {
           //kt 제휴할인페이지에서 접근시
-          if (res1_data?.total_order_count > 1) {
-            //2개 이상 메뉴선택 시
-            if (res1_data?.affiliate_discount && res1_data?.basic_discount_rate_percent > 0) {
-              //kt 제휴할인 && 멤버십 할인 적용
-              finalPrice =
-                res1_data?.total_order_amount - (finalPrice / res1_data?.total_order_count) * (res1_data?.basic_discount_rate_percent / 100);
-              discountFlag = true;
-              discountType = true;
-            } else if (!res1_data?.affiliate_discount && res1_data?.basic_discount_rate_percent > 0) {
-              //멤버십 할인만 적용
-              finalPrice = res1_data?.total_order_amount - finalPrice * (res1_data?.basic_discount_rate_percent / 100);
-              discountType = true;
-            } else if (res1_data?.affiliate_discount && res1_data?.basic_discount_rate_percent !== 5) {
-              //kt 제휴할인만 적용
-              finalPrice = res1_data?.total_order_amount - 500;
-              discountType = false;
-            } else if (!res1_data?.affiliate_discount && res1_data?.basic_discount_rate_percent !== 5) {
-              //아무 것도 할인 x
-              finalPrice = res1_data?.total_order_amount;
-            }
-          } else if (res1_data?.total_order_count === 1) {
-            //1개 메뉴 선택 시
-            if (res1_data?.affiliate_discount && res1_data?.basic_discount_rate_percent > 0) {
-              //kt 제휴할인 && 멤버십 할인이 같이 있을 땐 KT 제휴할인 우선권
-              finalPrice = res1_data?.total_order_amount - 500;
-              discountType = false;
-            } else if (!res1_data?.affiliate_discount && res1_data?.basic_discount_rate_percent > 0) {
-              //멤버십 할인만 적용
-              finalPrice = res1_data?.total_order_amount - finalPrice * (res1_data?.basic_discount_rate_percent / 100);
-              discountType = true;
-            } else if (res1_data?.affiliate_discount && res1_data?.basic_discount_rate_percent !== 5) {
-              //kt 제휴할인만 적용
-              finalPrice = res1_data?.total_order_amount - 500;
-              discountType = false;
-            } else if (!res1_data?.affiliate_discount && res1_data?.basic_discount_rate_percent !== 5) {
-              //아무 것도 할인 x
-              finalPrice = res1_data?.total_order_amount;
-            }
-          }
-          finalPrice = finalPrice - (finalPrice % 10);
-
+          fn_discount(res1_data);
           setFront((origin) => {
             let discountPrice = res1_data?.total_order_amount - finalPrice;
-
             discountFlag ? (finalPrice -= 500) : finalPrice; //제휴할인+멤버십할인 같이 적용시
             return {
               ...location?.frontValue,
@@ -121,52 +156,11 @@ export default function OrderFinal() {
               },
             };
           });
-          // setFront(location?.frontValue);
         } else {
-          if (res1_data?.total_order_count > 1) {
-            //2개 이상 메뉴선택 시
-            if (res1_data?.affiliate_discount && res1_data?.basic_discount_rate_percent > 0) {
-              //kt 제휴할인 && 멤버십 할인 적용
-
-              finalPrice =
-                res1_data?.total_order_amount - (finalPrice / res1_data?.total_order_count) * (res1_data?.basic_discount_rate_percent / 100);
-              discountFlag = true;
-              discountType = true;
-            } else if (!res1_data?.affiliate_discount && res1_data?.basic_discount_rate_percent > 0) {
-              //멤버십 할인만 적용
-              finalPrice = res1_data?.total_order_amount - finalPrice * (res1_data?.basic_discount_rate_percent / 100);
-              discountType = true;
-            } else if (res1_data?.affiliate_discount && res1_data?.basic_discount_rate_percent !== 5) {
-              //kt 제휴할인만 적용
-              finalPrice = res1_data?.total_order_amount - 500;
-              discountType = false;
-            } else if (!res1_data?.affiliate_discount && res1_data?.basic_discount_rate_percent !== 5) {
-              //아무 것도 할인 x
-              finalPrice = res1_data?.total_order_amount;
-            }
-          } else if (res1_data?.total_order_count === 1) {
-            //1개 메뉴 선택 시
-            if (res1_data?.affiliate_discount && res1_data?.basic_discount_rate_percent > 0) {
-              //kt 제휴할인 && 멤버십 할인이 같이 있을 땐 KT 제휴할인 우선권
-              finalPrice = res1_data?.total_order_amount - 500;
-              discountType = false;
-            } else if (!res1_data?.affiliate_discount && res1_data?.basic_discount_rate_percent > 0) {
-              //멤버십 할인만 적용
-              finalPrice = res1_data?.total_order_amount - finalPrice * (res1_data?.basic_discount_rate_percent / 100);
-              discountType = true;
-            } else if (res1_data?.affiliate_discount && res1_data?.basic_discount_rate_percent !== 5) {
-              //kt 제휴할인만 적용
-              finalPrice = res1_data?.total_order_amount - 500;
-              discountType = false;
-            } else if (!res1_data?.affiliate_discount && res1_data?.basic_discount_rate_percent !== 5) {
-              //아무 것도 할인 x
-              finalPrice = res1_data?.total_order_amount;
-            }
-          }
-
-          finalPrice = finalPrice - (finalPrice % 10);
+          fn_discount(res1_data);
           setFront((origin) => {
             let discountPrice = res1_data?.total_order_amount - finalPrice;
+
             discountFlag ? (finalPrice -= 500) : finalPrice; //제휴할인+멤버십할인 같이 적용시
             return {
               ...origin,
@@ -187,7 +181,6 @@ export default function OrderFinal() {
             };
           });
         }
-
         setData((origin) => {
           return {
             ...origin,
@@ -330,15 +323,19 @@ export default function OrderFinal() {
         if (axioData?.res1_data?.total_order_count > 1) {
           if (axioData?.res1_data?.basic_discount_rate_percent > 0 && !axioData?.res1_data?.affiliate_discount) {
             //멤버십이면서 kt할인이 미적용일떄
-            axioData?.res1_data?.basic_discount_rate_percent > 0
-              ? (MemberdiscountPrice += Number($(e).data("originprice")) * 0.05)
-              : MemberdiscountPrice;
+            if (axioData?.res1_data?.basic_discount_rate_percent > 0) {
+              if ($(this).attr("data-available_discount") === "true") {
+                MemberdiscountPrice += Number($(e).data("originprice")) * 0.05;
+              }
+            }
           } else if (axioData?.res1_data?.affiliate_discount && i === 0) {
             return null;
           } else if (axioData?.res1_data?.affiliate_discount && i !== 0) {
-            axioData?.res1_data?.basic_discount_rate_percent > 0
-              ? (MemberdiscountPrice += Number($(e).data("originprice")) * 0.05)
-              : MemberdiscountPrice;
+            if (axioData?.res1_data?.basic_discount_rate_percent > 0) {
+              if ($(this).attr("data-available_discount") === "true") {
+                MemberdiscountPrice += Number($(e).data("originprice")) * 0.05;
+              }
+            }
           }
         } else if (axioData?.res1_data?.total_order_count === 1) {
           if (axioData?.res1_data?.basic_discount_rate_percent > 0 && !axioData?.res1_data?.affiliate_discount) {
@@ -353,7 +350,6 @@ export default function OrderFinal() {
     MemberdiscountPrice = axioData?.res1_data?.total_order_amount - MemberdiscountPrice;
     MemberdiscountPrice = MemberdiscountPrice - (MemberdiscountPrice % 10);
     MemberdiscountPrice = axioData?.res1_data?.total_order_amount - MemberdiscountPrice;
-    console.log(MemberdiscountPrice);
     $(".couponSelect option").each(function (index, e) {
       if (select_coponid.indexOf($(e).val()) > -1) {
         $(e).attr("disabled", true);
@@ -608,7 +604,7 @@ export default function OrderFinal() {
                                               if (e === "레귤러") {
                                                 return (
                                                   <span className="en" key={i}>
-                                                    Legular
+                                                    Regular
                                                   </span>
                                                 );
                                               } else if (e === "라지") {
@@ -672,7 +668,7 @@ export default function OrderFinal() {
                                   </div>
                                   <select
                                     className={`select medium ${
-                                      axioData?.res1_data?.affiliate_discount && index2 !== 0
+                                      axioData?.res1_data?.affiliate_discount && index !== 0
                                         ? `couponSelect couponSelect-${axioData?.res1_data?.smartorder_detail_list[index]?.smartorder_menu_id}`
                                         : !axioData?.res1_data?.affiliate_discount
                                         ? `couponSelect couponSelect-${axioData?.res1_data?.smartorder_detail_list[index]?.smartorder_menu_id}`
@@ -683,6 +679,7 @@ export default function OrderFinal() {
                                     data-index={index}
                                     data-originprice={axioData?.res1_data?.smartorder_detail_list[index]?.price}
                                     data-optionprice={axioData?.res1_data?.smartorder_detail_list[index]?.option_price}
+                                    data-available_discount={axioData?.res1_data?.smartorder_detail_list[index]?.available_discount}
                                     onChange={(e) =>
                                       handleCoupon(
                                         (axioData?.res1_data?.smartorder_detail_list[index]?.price +
@@ -695,7 +692,7 @@ export default function OrderFinal() {
                                     }
                                     value={selectOption(menu_count)}
                                   >
-                                    {axioData?.res1_data?.affiliate_discount && index2 === 0 ? (
+                                    {axioData?.res1_data?.affiliate_discount && index === 0 ? (
                                       <option
                                         value=""
                                         data-originprice={axioData?.res1_data?.smartorder_detail_list[index]?.price}
@@ -712,7 +709,7 @@ export default function OrderFinal() {
                                         쿠폰을 선택해 주세요.
                                       </option>
                                     )}
-                                    {axioData?.res1_data?.affiliate_discount && index2 !== 0
+                                    {axioData?.res1_data?.affiliate_discount && index !== 0
                                       ? axioData?.res1_data?.smartorder_detail_list[index]?.user_coupon_detail_list?.map((e, i) => (
                                           <option
                                             key={i}

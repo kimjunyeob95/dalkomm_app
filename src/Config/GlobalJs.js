@@ -81,8 +81,10 @@ export function setCookie(name, value, options = {}) {
     // 필요한 경우, 옵션 기본값을 설정할 수도 있습니다.
     ...options,
   };
-  if (options.expires instanceof Date) {
-    options.expires = options.expires.toUTCString();
+  if (options.expires) {
+    var date = new Date();
+    date.setDate(date.getDate() + options.expires);
+    options.expires = date.toGMTString();
   }
 
   let updatedCookie = "";

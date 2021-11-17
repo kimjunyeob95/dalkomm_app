@@ -42,7 +42,7 @@ export default function Terms() {
               {/* 주문하기 */}
               <section className="section">
                 <div className="w-inner">
-                  <div dangerouslySetInnerHTML={{ __html: axioData?.markup }}></div>
+                  <div className="contentView" dangerouslySetInnerHTML={{ __html: axioData?.markup }}></div>
                 </div>
               </section>
               {/* // 주문하기 */}

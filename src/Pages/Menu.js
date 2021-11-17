@@ -126,38 +126,10 @@ export default function Menu() {
                       </i>
                     </button>
                   </div>
-                  <div className="btn-area flex-center">
-                    <Link to="/pay" className="btn">
-                      <i className="ico giftcard">
-                        <span>바코드</span>
-                      </i>
-                    </Link>
-                    <Link to="/mypage/stamp" className="btn">
-                      <i className="ico stamp">
-                        <span>바코드</span>
-                      </i>
-                    </Link>
-                  </div>
                 </div>
               )}
 
               <ul className="gnb-list">
-                <li>
-                  <ul>
-                    <li>
-                      <Link to="/mypage/orderRecipt" className="item depth-menu">
-                        <i className="ico menu-order"></i>
-                        <span>주문내역</span>
-                      </Link>
-                    </li>
-                    <li>
-                      <Link to="/order/storeSearch" className="item depth-menu">
-                        <i className="ico menu-store"></i>
-                        <span>매장찾기</span>
-                      </Link>
-                    </li>
-                  </ul>
-                </li>
                 <li>
                   <ul>
                     <li className="new">
@@ -178,6 +150,14 @@ export default function Menu() {
                       </Link>
                     </li>
                     {/* // [D] 211105 마크업 추가*/}
+                    {state?.loginFlag && (
+                      <li>
+                        <Link to="/order/storeSearch" className="item depth-menu">
+                          <i className="ico menu-store"></i>
+                          <span>매장찾기</span>
+                        </Link>
+                      </li>
+                    )}
                     <li className="new">
                       {" "}
                       {/* [D] 활성화 콘텐츠 메뉴 .new */}
@@ -198,23 +178,19 @@ export default function Menu() {
                 <li>
                   <ul>
                     <li>
-                      <Link to="/mypage/modify" className="item depth-menu">
-                        <i className="ico menu-my"></i>
-                        <span>내 정보 수정</span>
-                      </Link>
-                    </li>
-                    <li>
                       <a onClick={() => handleOutLink()} className="item depth-menu outLink">
                         <i className="ico menu-website"></i>
                         <span>달콤 웹사이트</span>
                       </a>
                     </li>
-                    <li>
-                      <Link to="/mypage/option" className="item depth-menu">
-                        <i className="ico menu-set"></i>
-                        <span>앱 환경설정</span>
-                      </Link>
-                    </li>
+                    {state?.loginFlag && (
+                      <li>
+                        <Link to="/mypage/option" className="item depth-menu">
+                          <i className="ico menu-set"></i>
+                          <span>앱 환경설정</span>
+                        </Link>
+                      </li>
+                    )}
                   </ul>
                 </li>
                 <li>

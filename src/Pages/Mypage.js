@@ -80,11 +80,23 @@ export default function MyPage() {
                     <span>바코드 스캔</span>
                   </i>
                 </button>
+
+                <Link to="/pay?activeHtml=true" className="btn">
+                  <i className="ico giftcard">
+                    <span>기프트카드</span>
+                  </i>
+                </Link>
+                {/* <Link to="/mypage/stamp" className="btn">
+                  <i className="ico stamp">
+                    <span>적립스탬프</span>
+                  </i>
+                </Link>
+
                 <Link to="/mypage/option" className="btn">
                   <i className="ico setting">
                     <span>환경설정</span>
                   </i>
-                </Link>
+                </Link> */}
                 {/* // [D] 211105 마크업 추가 */}
               </div>
             </header>
@@ -93,7 +105,7 @@ export default function MyPage() {
               <div className="user-info-wrap">
                 <div className="item my-info">
                   <p className="user">
-                    <strong>{decodeURI(axioData?.res2_data?.name)}</strong> 고객님
+                    <strong>{decodeURI(axioData?.res2_data?.name)}</strong> 고객님, 반갑습니다.
                   </p>
                 </div>
                 <ul className="data-list">
@@ -115,7 +127,7 @@ export default function MyPage() {
                           <p className="speech-bubble">
                             달콤 이용 실적에 따라 트로피가 적립되며,
                             <br />
-                            트로피 갯수에 따라 멤버십 등급이 결정됩니다.
+                            트로피 개수에 따라 멤버십 등급이 결정됩니다.
                           </p>
                         </div>
                       </dt>
@@ -177,6 +189,15 @@ export default function MyPage() {
                     <div className="title">
                       <i className="ico coupon"></i>
                       <span>쿠폰</span>
+                    </div>
+                  </Link>
+                </li>
+
+                <li>
+                  <Link to="/mypage/modify">
+                    <div className="title">
+                      <i className="ico menu-my"></i>
+                      <span>내 정보 수정</span>
                     </div>
                   </Link>
                 </li>

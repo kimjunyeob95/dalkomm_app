@@ -1,3 +1,4 @@
+/* eslint-disable array-callback-return */
 /* eslint-disable react/jsx-pascal-case */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
@@ -13,7 +14,7 @@ import GoContents from "Components/GoContents";
 import Popup_nomal from "Components/Popup/Popup_nomal";
 
 import { accordion, scrollDetail, popupOpen, contGap, moveScrollTop } from "Jquery/Jquery";
-import { checkMobile, getCookieValue, fadeOut, fn_memberName, handleLogin } from "Config/GlobalJs";
+import { checkMobile, getCookieValue, fadeOut, fn_memberName, handleLogin, setCookie } from "Config/GlobalJs";
 import { SERVER_DALKOMM, SERVER_DALKOMM_SUGAR, FRONT_SERVER } from "Config/Server";
 import { Swiper, SwiperSlide } from "swiper/react";
 import SwiperCore, { Autoplay, Scrollbar } from "swiper/core";
@@ -52,6 +53,13 @@ export function Main(props) {
     //최초 진입 시 실행
     if (state.loginFlag) {
       //로그인 시
+      setTimeout(() => {
+        //말풍선 쿠키 셋팅
+        if (!getCookieValue("mainBalloon")) {
+          setCookie("mainBalloon", true, { expires: 1 });
+        }
+      }, 1000);
+
       axios
         .all([
           axios.post(`${SERVER_DALKOMM_SUGAR}/api/getMainBanner`),
@@ -326,9 +334,11 @@ export function Main(props) {
                       <span>바코드</span>
                     </i>
                   </button>
-                  <div className="speech-wrap">
-                    <p className="speech-bubble ani">{axioData?.join_text?.replace(/%NAME%/g, decodeURI(axioData?.res3_data?.user?.user_name))}</p>
-                  </div>
+                  {getCookieValue("mainBalloon") !== "true" && (
+                    <div className="speech-wrap">
+                      <p className="speech-bubble ani">{axioData?.join_text?.replace(/%NAME%/g, decodeURI(axioData?.res3_data?.user?.user_name))}</p>
+                    </div>
+                  )}
                 </div>
               ) : (
                 <div className="item my-info" onClick={(e) => handleLogin(e.currentTarget)}>
@@ -462,7 +472,7 @@ export function Main(props) {
                                 <p className="title">
                                   {name_array[0]} {element?.menu_with_type === "I" ? "ICE" : element?.menu_with_type === "H" ? "HOT" : ""}{" "}
                                   {element?.menu_with_size && "(" + element?.menu_with_size + ")"}
-                                  {name_array[1] && " 외 " + name_array[1]}{" "}
+                                  {name_array[1] === "" && " 외 "}{" "}
                                 </p>
                               </div>
                             </div>
@@ -490,33 +500,37 @@ export function Main(props) {
                     <ul className="coupon-list data-list accordion">
                       {axioData?.res4_data?.coupon_list
                         ?.filter((e, i) => e.status === 0)
-                        .map((e, i) => (
-                          <li key={i}>
-                            <div className="item coupon js-accordion-switche" onClick={(e) => accordion(e.target, 0)}>
-                              <div className="data-wrap">
-                                <p className="day num fc-orange">{e?.due_date}</p>
-                                <p className="title">{e?.coupon_name}</p>
-                              </div>
-                              <div className="ico-wrap flex-center">
-                                <i className="ico accordion-arr"></i>
-                              </div>
-                            </div>
-                            <div className="item attention js-accordion-content">
-                              <dl>
-                                <dt className="title">
-                                  <i className="ico alert"></i>쿠폰 유의사항
-                                </dt>
-                                <dd className="text">
-                                  <ul className="attention-list">
-                                    {e?.detail_cautions?.split("\r\n").map((e, i) => (
-                                      <li key={i}>{e}</li>
-                                    ))}
-                                  </ul>
-                                </dd>
-                              </dl>
-                            </div>
-                          </li>
-                        ))}
+                        .map((e, i) => {
+                          if (i < 5) {
+                            return (
+                              <li key={i}>
+                                <div className="item coupon js-accordion-switche" onClick={(e) => accordion(e.target, 0)}>
+                                  <div className="data-wrap">
+                                    <p className="day num fc-orange">{e?.due_date}</p>
+                                    <p className="title">{e?.coupon_name}</p>
+                                  </div>
+                                  <div className="ico-wrap flex-center">
+                                    <i className="ico accordion-arr"></i>
+                                  </div>
+                                </div>
+                                <div className="item attention js-accordion-content">
+                                  <dl>
+                                    <dt className="title">
+                                      <i className="ico alert"></i>쿠폰 유의사항
+                                    </dt>
+                                    <dd className="text">
+                                      <ul className="attention-list">
+                                        {e?.detail_cautions?.split("\r\n").map((e, i) => (
+                                          <li key={i}>{e}</li>
+                                        ))}
+                                      </ul>
+                                    </dd>
+                                  </dl>
+                                </div>
+                              </li>
+                            );
+                          }
+                        })}
                     </ul>
                   </div>
                 </section>

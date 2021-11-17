@@ -7,8 +7,7 @@
 import axios from "axios";
 import $ from "jquery";
 import React, { useEffect, useContext, useState } from "react";
-import { Link, useHistory, useLocation } from "react-router-dom";
-import HeaderSub from "Components/Header/HeaderSub";
+import { useHistory, useLocation } from "react-router-dom";
 import GoContents from "Components/GoContents";
 import { authContext } from "ContextApi/Context";
 import { SERVER_DALKOMM } from "Config/Server";
@@ -16,7 +15,7 @@ import { SERVER_DALKOMM } from "Config/Server";
 import { Swiper, SwiperSlide } from "swiper/react";
 import SwiperCore, { Pagination } from "swiper/core";
 
-import { tabLink, fadeInOut, contGap } from "Jquery/Jquery";
+import { contGap } from "Jquery/Jquery";
 import { checkMobile, fadeOut } from "Config/GlobalJs";
 
 export default function MyGiftSend() {
@@ -90,9 +89,23 @@ export default function MyGiftSend() {
         axios.spread((res1) => {
           if (res1.data.meta.code === 20000) {
             let present_token = res1.data.data.present_token;
-            window.open(
-              `app://openPopupWebView?title=기프트카드 선물하기&link=${SERVER_DALKOMM}/app/web/present?present_token=${present_token}&type=present&redirectUrl=/pay`
-            );
+            let result = {
+              type: "get",
+              link: `${SERVER_DALKOMM}/app/web/present?present_token=${present_token}`,
+              title: "기프트카드 선물하기",
+              redirectUrl: "/pay?activeHtml=true",
+            };
+            result = JSON.stringify(result);
+
+            try {
+              if (checkMobile() === "android") {
+                window.android.fn_winOpen(result);
+              } else if (checkMobile() === "ios") {
+                window.webkit.messageHandlers.fn_winOpen.postMessage(result);
+              }
+            } catch (error) {
+              console.log(error);
+            }
           } else {
             alert(res1.data.meta.msg);
             return false;

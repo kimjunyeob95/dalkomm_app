@@ -1,3 +1,4 @@
+/* eslint-disable array-callback-return */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
 /* eslint-disable jsx-a11y/anchor-is-valid */
@@ -27,7 +28,7 @@ export default function OrderMenu() {
   if (storeCode === "0") {
     history.push("/");
   }
-
+  let recommendFlag = true;
   const body = {};
   let header_config = {
     headers: {
@@ -57,20 +58,34 @@ export default function OrderMenu() {
             let all_menu = res2.data.data;
             let res2_data = res3.data.data;
             let cart_count = res4.data.data;
-            setData((origin) => {
-              return {
-                ...origin,
-                res1_data,
-                all_menu,
-                res2_data,
-                cart_count,
-              };
-            });
-            scrollValue &&
-              window.scrollTo({
-                top: scrollValue,
-                behavior: "smooth",
-              });
+
+            axios
+              .all([
+                axios.post(`${SERVER_DALKOMM}/app/api/v2/menu/search`, { category_id: 1, store_code: storeCode, is_smartorder: true }, header_config),
+              ])
+              .then(
+                axios.spread((res1) => {
+                  let recommendData = res1.data.data;
+                  if (recommendData?.searched_menu_list?.length < 1) {
+                    recommendFlag = false;
+                  }
+                  setData((origin) => {
+                    return {
+                      ...origin,
+                      res1_data,
+                      all_menu,
+                      res2_data,
+                      cart_count,
+                      recommendFlag,
+                    };
+                  });
+                  scrollValue &&
+                    window.scrollTo({
+                      top: scrollValue,
+                      behavior: "smooth",
+                    });
+                })
+              );
           })
         );
     }
@@ -205,13 +220,25 @@ export default function OrderMenu() {
                   </li>{" "}
                   {/* [D] 현재 탭 .active 활성화 */}
                   {axioData?.res1_data?.category_info_list?.map((e, i) => {
-                    return (
-                      <li className={`swiper-slide ${cateType === e?.category_id && "active"}`} data-category={e?.category_id} key={i}>
-                        <Link to="#" onClick={(e) => jqueryTablink(e)} data-category={e?.category_id}>
-                          {e?.category_name}
-                        </Link>
-                      </li>
-                    );
+                    if (axioData?.recommendFlag) {
+                      return (
+                        <li className={`swiper-slide ${cateType === e?.category_id && "active"}`} data-category={e?.category_id} key={i}>
+                          <Link to="#" onClick={(e) => jqueryTablink(e)} data-category={e?.category_id}>
+                            {e?.category_name}
+                          </Link>
+                        </li>
+                      );
+                    } else {
+                      if (e?.category_id !== 1) {
+                        return (
+                          <li className={`swiper-slide ${cateType === e?.category_id && "active"}`} data-category={e?.category_id} key={i}>
+                            <Link to="#" onClick={(e) => jqueryTablink(e)} data-category={e?.category_id}>
+                              {e?.category_name}
+                            </Link>
+                          </li>
+                        );
+                      }
+                    }
                   })}
                 </ul>
               </Swiper>

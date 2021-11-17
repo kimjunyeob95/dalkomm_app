@@ -330,7 +330,7 @@ a[target=_blank]::after {content: ''; display: block; position: absolute; top: 5
 .item.store-search > .flex-both {-webkit-align-items: flex-start; -ms-flex-align: start; align-items: flex-start;}
 .item.store-search .detail-wrap .title{font-weight: 700; font-size: inherit; padding-right: 2.667vw; box-sizing: border-box;}
 .item.store-search .detail-wrap .place {position: relative; padding-left: 2.667vw; box-sizing: border-box; word-break: keep-all;}
-.item.store-search .detail-wrap .place::before {content: ''; position: absolute; display: inline-block; top: 0.4vw; left: 0; width: 0.267vw; height: 3.467vw; background-color: #c6c6c6;}
+.item.store-search .detail-wrap .place::before {content: ''; position: absolute; display: inline-block; top: 0.667vw; left: 0; width: 0.267vw; height: 3.467vw; background-color: #c6c6c6;}
 /* .item.menu */
 .item.menu .img-wrap {height: 37.067vw; overflow: hidden; font-size: 0;}
 .item.menu .img-wrap img{width: 100%; /*height: 100%; object-fit: cover; object-position: center;*/}

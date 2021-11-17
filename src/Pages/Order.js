@@ -20,7 +20,7 @@ import SwiperCore, { Scrollbar } from "swiper/core";
 
 import { SERVER_DALKOMM, FRONT_SERVER } from "Config/Server";
 import { authContext } from "ContextApi/Context";
-import { getCookieValue, fadeOut, checkMobile, handleLogin } from "Config/GlobalJs";
+import { getCookieValue, fadeOut, checkMobile, handleLogin, setCookie } from "Config/GlobalJs";
 
 export function Order(props) {
   const [state, dispatch] = useContext(authContext);
@@ -36,7 +36,13 @@ export function Order(props) {
   };
   let body = {};
   useEffect(() => {
-    // 말풍선 스크롤시 hide/show
+    setTimeout(() => {
+      //말풍선 쿠키 셋팅
+      if (!getCookieValue("orderBalloon")) {
+        setCookie("orderBalloon", true, { expires: 365 });
+      }
+    }, 1000);
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
 
     let location_body = { latitude: getCookieValue("latitude"), longitude: getCookieValue("longitude") };
@@ -75,7 +81,7 @@ export function Order(props) {
         })
       );
     }
-  }, [state?.auth]);
+  }, []);
 
   useEffect(() => {
     // 말풍선 스크롤시 hide/show
@@ -153,7 +159,12 @@ export function Order(props) {
     }
   };
   const handleGoPage = (e, link) => {
-    history.push(link);
+    if (!state.loginFlag) {
+      handleLogin();
+    } else {
+      history.push(link);
+    }
+
     // let result = { link: FRONT_SERVER + link };
     // result = JSON.stringify(result);
     // try {
@@ -350,7 +361,7 @@ export function Order(props) {
                                 </i>
                               </span>
                               <div className="table-order-wrap">
-                                {i === 0 && (
+                                {i === 0 && getCookieValue("orderBalloon") !== "true" && (
                                   <div className="speech-wrap">
                                     <p className="speech-bubble">
                                       현재 테이블 오더가

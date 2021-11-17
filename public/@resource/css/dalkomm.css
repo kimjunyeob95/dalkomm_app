@@ -427,6 +427,10 @@
 #content .fixed-con.store-pop .item.info-detail .detail-wrap > ul li {position: relative; padding-left: 6.400vw;}
 #content .fixed-con.store-pop .item.info-detail .detail-wrap > ul li .ico {position: absolute; top: 0; left: 0;}
 #content .fixed-con.store-pop .item.info-detail .detail-wrap > ul li > span {display: inline-block; word-break: keep-all;}
+@-webkit-keyframes speechBubbleHide {
+	0% {opacity: 1; visibility: visible;}
+	100% {opacity: 0; visibility: hidden;}
+}
 @keyframes speechBubbleHide {
 	0% {opacity: 1; visibility: visible;}
 	100% {opacity: 0; visibility: hidden;}

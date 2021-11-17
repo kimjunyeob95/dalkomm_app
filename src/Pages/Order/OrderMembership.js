@@ -39,15 +39,33 @@ export default function OrderMembership() {
   };
   useEffect(() => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    axios
-      .all([axios.get(`${SERVER_DALKOMM}/app/web/smartorder/order/${Number(frontValue?.smartOrderSeq)}/kt`, header_config)])
-      .then(axios.spread((res1) => {}));
+    axios.all([axios.post(`${SERVER_DALKOMM}/app/web/smartorder/order/${Number(frontValue?.smartOrderSeq)}/kt/new`, body, header_config)]).then(
+      axios.spread((res1) => {
+        let membershipData = res1.data.data;
+        setData((origin) => {
+          return {
+            ...origin,
+            membershipData,
+          };
+        });
+      })
+    );
   }, []);
   useEffect(() => {
     contGap();
   }, [axioData]);
 
   const handleConfirm = () => {
+    if ($("#birthday").val() === "") {
+      alert("생년월일을 입력해주세요.");
+      $("#birthday").focus();
+      return false;
+    }
+    if ($("#membershipCard").val() === "") {
+      alert("멤버십 카드번호를 입력해주세요.");
+      $("#membershipCard").focus();
+      return false;
+    }
     let body = {
       birth_day: String($("#birthday").val()),
       card_no: String($("#membershipCard").val()),
@@ -154,7 +172,7 @@ export default function OrderMembership() {
                             maxLength="6"
                             inputMode="numeric"
                             placeholder="생년월일 6자리를 입력해주세요."
-                            defaultValue={651016}
+                            defaultValue={""}
                           />
                         </div>
                         <div className="insert">
@@ -164,7 +182,7 @@ export default function OrderMembership() {
                             className="input-text medium"
                             maxLength="16"
                             placeholder="멤버십 카드번호 16자리를 입력해주세요."
-                            defaultValue={2917101586506325}
+                            defaultValue={axioData?.membershipData?.saved_card_no}
                           />
                         </div>
                       </div>

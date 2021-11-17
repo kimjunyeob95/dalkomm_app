@@ -70,8 +70,6 @@ export const indexReducer = (state, action) => {
 
 const ContextStore = (props) => {
   useEffect(() => {
-    //최초 쿠키 실행
-    // setCookie("X-DALKOMM-AUTH-TOKEN", "DALKOMM_APP", { domain: "dalkomm.com" });
     // // setCookie("Authorization", getCookieValue("auth"), { domain: "dalkomm.com" });
     // setCookie("X-DALKOMM-ACCESS-TOKEN", getCookieValue("accessToken"), { domain: "dalkomm.com" });
     // setCookie("X-DALKOMM-APP-VERSION", getCookieValue("app_version"), { domain: "dalkomm.com" });

@@ -30,7 +30,7 @@ export default function Pay() {
   const [axioData, setData] = useState();
   const [cardPopup, setCard] = useState(false);
   const history = useHistory();
-  const [activeHtml] = useState(getParameter("activeHtml") !== "" && history?.action === "PUSH" ? true : false);
+  const [activeHtml] = useState(getParameter("activeHtml") !== "" ? true : false);
   const body = {};
   const header_config = {
     headers: {

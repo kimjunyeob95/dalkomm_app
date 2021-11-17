@@ -60,9 +60,7 @@ export default function JoinStep3() {
               <div className="title-wrap">
                 <h2 className="section-title small">가입완료</h2>
                 <p className="text">
-                  <span className="fc-orange">{userName}</span>님
-                  <br />
-                  달콤 크루가 되신 것을 환영합니다!
+                  <span className="fc-orange">{userName}</span>님 환영합니다!
                 </p>
               </div>
 

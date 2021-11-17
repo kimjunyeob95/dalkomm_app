@@ -28,10 +28,10 @@ textarea {
 }
 select::-ms-expand 						{display: none;}
 input,
-textarea 								{font-size:inherit; color: inherit;}
+textarea 								{font-family: 'Noto Sans KR','돋움', Dotum, '굴림', Gulim, Verdana, Arial, sans-serif !important; font-size:inherit; color: inherit; letter-spacing: -0.053vw;}
 input::placeholder,
 input::-webkit-input-placeholder,
-textarea::-webkit-input-placeholder		{color:#989898;}
+textarea::-webkit-input-placeholder		{font-family: 'NanumSquare', sans-serif; color:#989898;}
 input:focus,
 select:focus,
 textarea:focus							{outline-color: transparent;outline-style: none;}
