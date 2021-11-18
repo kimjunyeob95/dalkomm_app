@@ -64,7 +64,7 @@ export default function StoryDetail() {
     };
   }, []);
   useEffect(() => {
-    fn_api();
+    axioData && fn_api();
   }, [id]);
   useEffect(() => {
     fadeOut();

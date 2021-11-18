@@ -840,7 +840,7 @@ export default function OrderFinal() {
                             {frontData?.orderDiscountType?.memberFlag ? (
                               <React.Fragment>
                                 <dt className="title">
-                                  멤버십 5% 할인 <span className="grade">[PLETINUM]</span>
+                                  멤버십 5% 할인 <span className="grade">[PLATINUM]</span>
                                 </dt>
                                 <dd className="price">-{frontData?.orderDiscountType?.memberPrice?.toLocaleString("ko-KR") + "원"}</dd>
                               </React.Fragment>

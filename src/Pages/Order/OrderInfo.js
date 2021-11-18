@@ -272,7 +272,7 @@ export default function OrderInfo() {
                           {axioData?.res1_data?.basic_discount_amount > 0 && (
                             <dl className="flex-both">
                               <dt className="title">
-                                멤버십 할인 <span className="grade">[PLETINUM]</span>
+                                멤버십 할인 <span className="grade">[PLATINUM]</span>
                               </dt>
                               <dd className="price">-{axioData?.res1_data?.basic_discount_amount.toLocaleString("ko-KR")}원</dd>
                             </dl>

@@ -39,11 +39,11 @@ export default function MyMembershipPolicy() {
           let res1_data = res1.data.data;
           let res2_data = res2.data.data;
           let percentage =
-            res2_data?.user?.current_point < 11
+            res1_data?.membership_level === 0
               ? "33.33333%"
-              : res2_data?.user?.current_point > 11 && res2_data?.user?.current_point < 31
+              : res1_data?.membership_level === 1
               ? "66.66666%"
-              : res2_data?.user?.current_point > 30
+              : res1_data?.membership_level > 1
               ? "100%"
               : "";
           setData((origin) => {

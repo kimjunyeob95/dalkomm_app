@@ -44,7 +44,7 @@ export default function MyCart() {
       })
     );
     setData(true);
-  }, [state?.auth]);
+  }, []);
 
   useEffect(() => {
     // 말풍선 스크롤시 hide/show
@@ -137,7 +137,6 @@ export default function MyCart() {
   };
 
   if (axioData) {
-    console.log(axioData);
     return (
       <React.Fragment>
         <GoContents />
