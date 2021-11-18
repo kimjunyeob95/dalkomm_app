@@ -328,9 +328,6 @@ export default function MyModify() {
                             nextMonthButtonDisabled,
                           }) => (
                             <div>
-                              <button onClick={decreaseMonth} disabled={prevMonthButtonDisabled} type="button">
-                                {"<"}
-                              </button>
                               <select value={getYear(date)} onChange={({ target: { value } }) => changeYear(value)}>
                                 {years.map((option) => (
                                   <option key={option} value={option}>
@@ -338,10 +335,12 @@ export default function MyModify() {
                                   </option>
                                 ))}
                               </select>
-                              년<span className="date_month">{months[getMonth(date)]}</span>
-                              <button onClick={increaseMonth} disabled={nextMonthButtonDisabled} type="button">
-                                {">"}
-                              </button>
+                              년
+                              <div className="date_month">
+                                <button onClick={decreaseMonth} disabled={prevMonthButtonDisabled} type="button"></button>
+                                {months[getMonth(date)]}
+                                <button onClick={increaseMonth} disabled={nextMonthButtonDisabled} type="button"></button>
+                              </div>
                             </div>
                           )}
                           locale="ko" // 달력 한글화

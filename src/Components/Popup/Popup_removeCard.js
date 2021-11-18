@@ -26,7 +26,7 @@ export default function Popup_removeCard() {
     };
     let cardNum = String($(".swiper-slide-active").data("cardnum"));
     let cardPin = String($(".swiper-slide-active").data("pin"));
-    if (cardNum === "undefined" || cardPin === "undefined") {
+    if (cardNum === "undefined" || cardPin === "undefined" || cardNum === "0") {
       alert("삭제할 카드가 없습니다.");
       $("body").removeClass("modal-opened");
       $("#popupExitJoin").removeClass("active");

@@ -104,6 +104,9 @@ export default function Pay() {
 
   const handleGiftDetail = (event) => {
     let giftCode = $("#payGift .swiper-slide-active").data("cardnum");
+    if (giftCode === 0) {
+      return false;
+    }
     if ($("#liGift").hasClass("active")) {
       history.push({
         pathname: `/mypage/giftRecipt/${giftCode}`,
@@ -161,6 +164,49 @@ export default function Pay() {
         activeHtml: false,
       });
     }
+  };
+
+  const handleAddPin = () => {
+    let cardNumber = $("#cardNumber").val();
+    let pinNumber = $("#pinNumber").val();
+    if (!cardNumber) {
+      $("#cardNumber").focus();
+      alert("카드 번호를 입력해 주세요.");
+      return false;
+    }
+    if (!pinNumber) {
+      $("#pinNumber").focus();
+      alert("PIN 번호를 입력해 주세요.");
+      return false;
+    }
+    axios
+      .all([
+        axios.post(`${SERVER_DALKOMM}/app/api/v2/chargecard/register`, { card_number: String(cardNumber), pin: String(pinNumber) }, header_config),
+      ])
+      .then(
+        axios.spread((res1) => {
+          if (res1.data.meta.code === 20000) {
+            $("#resAlert").text("충전카드가 발급되었습니다.");
+            $(".overlay.popupExitJoin").addClass("active");
+            $("body").addClass("modal-opened");
+            firstApi();
+          } else {
+            $("#resAlert").text(res1.data.meta.msg);
+            $(".overlay.popupExitJoin").addClass("active");
+            $("body").addClass("modal-opened");
+          }
+        })
+      );
+  };
+
+  const handleClose = () => {
+    $("#cardNumber").val("");
+    $("#pinNumber").val("");
+  };
+
+  const handleInputCard = () => {
+    $("body").addClass("modal-opened");
+    $("#popupCardAdd").addClass("active");
   };
   if (axioData) {
     return (
@@ -312,25 +358,79 @@ export default function Pay() {
                                   <i className="ico money">
                                     <span>충전하기</span>
                                   </i>
-                                  &nbsp;충전하기
+                                  충전하기
                                 </a>
                               </div>
                             </div>
                           </SwiperSlide>
                         ))}
+                        <SwiperSlide className="swiper-slide" data-cardnum={0} data-pin={0}>
+                          <h2>기프트 카드 추가</h2>
+                          <div className="item card gift add">
+                            <div className="card-wrap">
+                              <p className="grade en">
+                                RECHARGEABLE
+                                <br />
+                                GIFT CARD
+                              </p>
+                              <p className="sort en">DAL.KOMM GIFT CARD</p>
+                            </div>
+                            <div className="barcode-wrap">
+                              <div className="barcode">
+                                <div className="img-wrap">
+                                  <img src="/@resource/images/com/barcode.svg" alt="바코드" />
+                                </div>
+                                <p className="num">1309675152301202</p>
+                              </div>
+                              <button type="button" className="btn open-pop" pop-target="#zoomCardGift">
+                                <i className="ico barcode-scan">
+                                  <span>바코드 확대</span>
+                                </i>
+                              </button>
+                            </div>
+                            <div className="state-wrap flex-both">
+                              <dl className="possess flex-list">
+                                <dt className="title">보유 금액</dt>
+                                <dd className="price fc-orange">0원</dd>
+                              </dl>
+                              <a className="btn">
+                                <i className="ico money">
+                                  <span>충전하기</span>
+                                </i>
+                                충전하기
+                              </a>
+                            </div>
+
+                            <div className="btn-area">
+                              <button type="button" className="btn open-pop" pop-target="#popupCardAdd">
+                                <i className="ico"></i>
+
+                                <p className="text">카드 추가하기</p>
+                              </button>
+                            </div>
+                          </div>
+                        </SwiperSlide>
                       </ul>
-                      <div className="swiper-pagination"></div>
                     </Swiper>
                   ) : (
-                    <div className="item nodata">
-                      <h2 className="title">발급된 기프트 카드가 없습니다.</h2>
-
-                      <div className="btn-area">
-                        <a onClick={() => handleAddCard()} className="btn dark full large">
-                          기프트 카드 발급하기
+                    <ul className="data-list create-list">
+                      <li>
+                        <a onClick={(e) => handleAddCard(e.currentTarget)} className="item card-create">
+                          <div className="title-wrap">
+                            <i className="ico gift-add"></i>
+                            <p className="title">기프트 카드 발급받기</p>
+                          </div>
                         </a>
-                      </div>
-                    </div>
+                      </li>
+                      <li>
+                        <a className="item card-create" onClick={(e) => handleInputCard(e.currentTarget)}>
+                          <div className="title-wrap">
+                            <i className="ico card-input"></i>
+                            <p className="title">카드 번호 입력하기</p>
+                          </div>
+                        </a>
+                      </li>
+                    </ul>
                   )}
                   {axioData?.res2_data?.charge_card_list?.length > 0 && (
                     <ul className="row-list flex-center">
@@ -348,6 +448,65 @@ export default function Pay() {
                   )}
                 </div>
               </div>
+              {/* 기프트 카드 추가 팝업 */}
+              <div id="popupCardAdd" className="fixed-con layer-pop dimm">
+                <div className="popup">
+                  <div className="popup-wrap">
+                    <button type="button" className="btn btn-close" onClick={(e) => handleClose(e.currentTarget)}>
+                      <i className="ico close">
+                        <span>close</span>
+                      </i>
+                    </button>
+                    <div className="popup-body">
+                      <fieldset className="fieldset">
+                        <legend className="blind">쿠폰 등록</legend>
+                        <div className="w-inner">
+                          <h2 className="h2 ta-c">카드번호와 PIN 번호를 입력해 주세요.</h2>
+                          <div className="field">
+                            <label className="blind" htmlFor="cardNumber">
+                              카드 번호 16자리를 입력해 주세요.
+                            </label>
+                            <div className="insert">
+                              <input
+                                type="number"
+                                className="input-text medium"
+                                id="cardNumber"
+                                placeholder="카드 번호 16자리를 입력해 주세요."
+                                inputMode="numeric"
+                              />
+                            </div>
+                          </div>
+                          <div className="field">
+                            <label className="blind" htmlFor="pinNumber">
+                              PIN 번호 7자리를 입력해 주세요.
+                            </label>
+                            <div className="insert">
+                              <input
+                                type="number"
+                                className="input-text medium"
+                                id="pinNumber"
+                                placeholder="PIN 번호 7자리를 입력해 주세요."
+                                inputMode="numeric"
+                              />
+                            </div>
+                          </div>
+
+                          <ul className="attention-list">
+                            <li>선물 받은 카드 번호 16자리와 PIN번호 7자리를 입력해 주세요.</li>
+                            <li>[충전카드 선물하기]를 통해 보다 편리하게 충전카드를 선물할 수 있습니다.</li>
+                          </ul>
+                        </div>
+                      </fieldset>
+                      <div className="btn-area">
+                        <button type="button" onClick={(e) => handleAddPin(e.currentTarget)} className="btn full x-large dark">
+                          <strong>카드 등록하기</strong>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              {/* // 기프트 카드 추가 팝업 */}
             </div>
             {/* // #content */}
           </div>

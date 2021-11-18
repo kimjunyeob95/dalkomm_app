@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="36" height="26" viewBox="0 0 36 26">
+    <defs>
+        <style>
+            .cls-1{fill:#fff}.cls-2{fill:none;stroke:#000;stroke-width:1.4px}
+        </style>
+    </defs>
+    <g id="그룹_809" data-name="그룹 809" transform="translate(-169 -246.177)">
+        <g id="Icon_pay_color" transform="translate(169 246.177)">
+            <g id="그룹_72" data-name="그룹 72">
+                <path id="사각형_94" data-name="사각형 94" class="cls-1" transform="translate(.663 .657)" d="M0 0h28.246v20H0z"/>
+                <path id="사각형_94_-_윤곽선" data-name="사각형 94 - 윤곽선" d="M-.6-.6h30.264v21.509H-.6zM28.33.714H.734V19.6h27.6z" transform="translate(.6 .6)"/>
+                <path id="선_48" data-name="선 48" d="M5.047.714H0V-.6h5.047z" transform="translate(4.805 5.541)"/>
+                <path id="패스_41" data-name="패스 41" class="cls-1" d="M9.787 0A9.7 9.7 0 1 1 0 9.7 9.745 9.745 0 0 1 9.787 0z" transform="translate(16.426 6.597)"/>
+                <path id="패스_41_-_윤곽선" data-name="패스 41 - 윤곽선" d="M9.787 1.314A8.388 8.388 0 1 0 18.249 9.7a8.435 8.435 0 0 0-8.462-8.386m0-1.314A9.7 9.7 0 1 1 0 9.7 9.745 9.745 0 0 1 9.787 0z" transform="translate(16.141 6.39)"/>
+            </g>
+        </g>
+        <g id="_" data-name="+" transform="translate(190.5 257.567)">
+            <path id="선_39" data-name="선 39" class="cls-2" transform="translate(4.837 1)" d="M0 0v7.674"/>
+            <path id="선_40" data-name="선 40" class="cls-2" transform="translate(1 4.837)" d="M0 0h7.674"/>
+        </g>
+    </g>
+</svg>

@@ -108,7 +108,14 @@ export default function Menu() {
             <Nav order={5} />
 
             <div id="content" className="app-menu fade-in">
-              {state?.loginFlag && (
+              <div className="top-header">
+                <div className="w-inner">
+                  <h1 className="logo">
+                    <span className="blind">Dal.Komm</span>
+                  </h1>
+                </div>
+              </div>
+              {/* {state?.loginFlag && (
                 <div className="item my-info">
                   <div className="user-wrap flex-center">
                     <p className="user">
@@ -127,7 +134,7 @@ export default function Menu() {
                     </button>
                   </div>
                 </div>
-              )}
+              )} */}
 
               <ul className="gnb-list">
                 <li>
@@ -302,6 +309,13 @@ export default function Menu() {
         <div id="wrap" className="wrap">
           <div id="container" className="container">
             <Nav order={5} />
+            <div className="top-header">
+              <div className="w-inner">
+                <h1 className="logo">
+                  <span className="blind">Dal.Komm</span>
+                </h1>
+              </div>
+            </div>
           </div>
         </div>
       </React.Fragment>

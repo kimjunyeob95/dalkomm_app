@@ -11,7 +11,6 @@ button.btn	{overflow:visible;margin:0;padding:0;background-color:transparent;}
 
 .btn > .ico {vertical-align: middle;}
 
-
 /* button size */
 /*24px*/
 .btn.xx-small{height: 6.4vw; line-height: 6.4vw; font-weight: 700; font-size: 2.933vw; padding: 0 2.267vw;}
@@ -37,6 +36,8 @@ button.btn	{overflow:visible;margin:0;padding:0;background-color:transparent;}
 .btn.full{width: 100%;}
 .btn.bdr{border: 0.267vw solid #ebebeb;color: #000;background-color: #fff;}
 .btn.bdr-r{display: -ms-flexbox; display: -webkit-flex; display: flex; -webkit-justify-content: center; -ms-flex-pack: center; justify-content: center;	-webkit-align-items: center; -ms-flex-align: center; align-items: center; border-radius: 3.467vw;}
+
+.btn.round {border-radius: 50%;}
 
 .btn[disabled]{cursor: auto;}
 .btn.dark[disabled] {background-color: #bfbfbf;}
@@ -65,7 +66,6 @@ body.show-scrolltop-btn .btn.scroll-top {opacity: 1; visibility: visible; -webki
 .btn.back ,
 .btn.share,
 .btn.go-page {width: 8vw; height: 8vw;}
-
 
 /* .btn.text */
 .btn.text {font-size: 3.733vw;}
@@ -114,6 +114,3 @@ a.btn.text[target=_blank]::after {position: relative; top: 0; display: inline-bl
 /* .btn.tel */
 .btn.tel {position: relative;}
 .btn.tel::before {content: ''; display: inline-block; position: absolute; bottom: 0; left: 0; width: 100%; height: 0.267vw; background-color: #000;}
-
-/* .btn.help */
-/* .btn.help {position: relative;} */

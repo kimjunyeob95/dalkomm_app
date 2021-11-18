@@ -63,18 +63,22 @@
 .main.home .menu-slider.section-slider .swiper-slide + .swiper-slide {margin-left: 1.067vw;}
 .main.home .alert-info {padding: 17.600vw 0;}
 .main.home .item.drink .detail-wrap .title {font-size: 3.733vw; color: #747474;}
-.main.home .speech-wrap {-webkit-animation: speechBubbleHide 0.5s ease-in-out 3s 1 forwards; animation: speechBubbleHide 0.5s ease-in-out 3s 1 forwards}
+.main.home .speech-wrap {}
 .main.home .speech-bubble {padding-top: 2.560vw; padding-bottom: 2.240vw; text-align: center;}
 .main.home .item.menu .detail-wrap .title {font-size: 3.467vw; color: rgba(0,0,0,0.8);}
 
 /* AP001 (앱메뉴) */
+.app-menu .top-header {height: 14.400vw; border-bottom: 0.267vw solid rgba(235,235,235,0.8);}
+.app-menu .top-header .w-inner {padding-top: 4vw;}
+.app-menu .top-header .logo {width: 25.333vw; height: 3.467vw; background: url('../images/com/logo_dalkomm.svg') no-repeat 0 0; background-size: cover;}
 .app-menu .item.my-info {height: 20vw; margin-top: -1.067vw;}
 .app-menu .gnb-list {font-size: 0;}
 .app-menu .gnb-list > li + li {border-top: 0.267vw solid #f4f4f4;}
 .app-menu .gnb-list ul:not(.service-list) {margin: 2.667vw 0;}
 .app-menu .gnb-list ul:not(.service-list) > li {padding: 4.400vw 5.333vw;}
 .app-menu .gnb-list ul:not(.service-list) > li + li {border-top: 0.267vw solid #fcfcfc;}
-.app-menu .gnb-list .ico.new {margin-left: 1.067vw; vertical-align: middle;}
+.app-menu .gnb-list .ico.new {display: -webkit-inline-box;display: -ms-inline-flexbox;display: inline-flex; -webkit-justify-content: center; -ms-flex-pack: center; justify-content: center;
+	-webkit-align-items: center; -ms-flex-align: center; align-items: center; line-height: 1; margin-left: 1.067vw; vertical-align: middle;}
 .app-menu .item + .service-list {margin-top: 5.333vw;}
 .app-menu .item + .service-list > li {padding-left: 0.533vw; box-sizing: border-box;}
 .app-menu .item + .service-list > li + li {margin-top: 1.600vw;}
@@ -331,6 +335,7 @@
 #content.drink.order.info-detail .item.info-customer {padding-top: 5.867vw;}
 #content.drink.order.info-detail .item.info-customer .data-list > li + li {margin-top: 3.2vw;}
 #content.drink.order.info-detail .form + .alert-wrap {margin-top: -5.333vw;}
+#content.drink.order .field .label {width: 100%;}
 /* ME005 */
 #content.mypage.coupon .coupon-list {margin-top: -0.267vw;}
 #content.mypage.coupon .item.coupon {padding-left: 5.333vw;}
@@ -672,6 +677,12 @@
 
 #content.pay.main {padding-bottom: 8vw;}
 #content.pay.main .item.card {overflow: hidden;}
+#content.pay.main #cardSlider {padding-bottom: 0;}
+#content.pay.main #paygift .swiper-container-horizontal > .swiper-pagination-bullets {bottom: 13.333vw;}
+#content.pay.main .row-list {margin-top: 12.800vw; margin-bottom: 4vw;}
+
+#content.pay.main .create-list > li + li {margin-top: 2.133vw;}
+
 /* CA002 */
 #content.pay.charge:not(.history) {padding-bottom: 58.987vw;}
 #content.pay .section .form {padding-bottom: 16.320vw;}
@@ -737,6 +748,14 @@
 .zoom-card .item.card .card-wrap .sort {position: relative; bottom: auto; margin-top: 3.680vw;}
 .zoom-card .item.card .barcode .num {font-size: 4vw; letter-spacing: 0.160vw; margin-top: 2.080vw;}
 body.modal-opened .zoom-card .item.card {-webkit-transform: translateX(0); -ms-transform: translateX(0); -o-transform: translateX(0); transform: translateX(0);}
+
+/* 기프트 카드 추가 팝업 */
+#popupCardAdd .popup {padding-bottom: 0 !important;}
+#popupCardAdd .popup-body .h2 {margin-bottom: 5.333vw; font-size: 4.267vw; font-weight: 700; text-align: center;}
+#popupCardAdd .field + .field {margin-top: 2.133vw;}
+#popupCardAdd .field + .attention-list {margin-top: 5.333vw;}
+#popupCardAdd .attention-list > li {font-size: 2.933vw; color: rgba(84,84,84,0.8);}
+#popupCardAdd .popup .popup-body .btn-area {margin-top: 8vw;}
 
 /* NO003 */
 #content.story:not(.detail) {padding-bottom: 10.667vw;}

@@ -20,8 +20,8 @@ input[type="number"]:disabled{background-color: rgb(255, 255, 255); color:rgb(0,
 
 .banner-wrap .content-wrap .main-copy { color: #fff;}
 .banner-wrap .content-wrap .text {color: #fff; opacity: 0.8;}
-.ico.order {background: url('../images/com/icon_search_black.svg'); }
-.ico.order.white {background: url('../images/com/icon_search.svg'); }
+.ico.order {background-image: url('../images/com/icon_search_black.svg'); }
+.ico.order.white {background-image: url('../images/com/icon_search.svg'); }
 .swiper-scrollbar-drag{background: #fff; opacity: 0.6;}
 
 #popupExitJoin2 .popup {padding-top: 0;}
@@ -32,3 +32,6 @@ input[type="number"]:disabled{background-color: rgb(255, 255, 255); color:rgb(0,
 #popupExitJoin2 .popup-footer {display: -webkit-box;display: -ms-flexbox;display: flex;}
 #popupExitJoin2 .popup-footer .btn {width: 50%;}
 #popupExitJoin2 .popup-footer .btn.normal {border: none; background-color: #e4e4e4;}
+.app-menu .top-header .logo {width: 25.333vw; height: 3.467vw; background: url('../images/com/logo_dalkomm_balck.svg') no-repeat 0 0; background-size: cover;}
+#content.pay:not(.history) #cardSlider {padding-bottom: 7.867vw;}
+#content.pay.main .row-list {margin-top: 7.8vw;margin-bottom: 4vw;}
