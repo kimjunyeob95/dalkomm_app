@@ -31,6 +31,7 @@ export default function Pay() {
   const [cardPopup, setCard] = useState(false);
   const history = useHistory();
   const [activeHtml] = useState(getParameter("activeHtml") !== "" ? true : false);
+  let click_count = 0;
   const body = {};
   const header_config = {
     headers: {
@@ -136,7 +137,10 @@ export default function Pay() {
   };
 
   const handleAddCard = () => {
-    $(".item.card-create").eq(0).hide();
+    if (click_count > 0) {
+      return false;
+    }
+    click_count++;
     axios.all([axios.post(`${SERVER_DALKOMM}/app/api/v2/chargecard/publish`, body, header_config)]).then(
       axios.spread((res1) => {
         if (res1.data.meta.code === 20000) {
@@ -145,7 +149,7 @@ export default function Pay() {
           $("body").addClass("modal-opened");
           firstApi();
         } else {
-          $(".item.card-create").eq(0).show();
+          click_count = 0;
           $("#resAlert").text(res1.data.meta.msg);
           $(".overlay.popupExitJoin").addClass("active");
           $("body").addClass("modal-opened");
@@ -306,7 +310,7 @@ export default function Pay() {
               </div>
               <div id="payGift" className="tab-content">
                 <div className="w-inner">
-                  {axioData?.res2_data?.charge_card_list?.length < 0 ? (
+                  {axioData?.res2_data?.charge_card_list?.length > 0 ? (
                     <Swiper
                       id="cardSlider"
                       className="swiper-container"
