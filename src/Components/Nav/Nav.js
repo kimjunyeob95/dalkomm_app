@@ -104,14 +104,21 @@ export default function Nav({ order }) {
       <Link to="/menu" className={`btn ${order === 5 && "active"} `}>
         <div className="img-wrap">
           <svg viewBox="0 0 30 30">
-            <g transform="translate(4.754 7.637)">
-              <path d="M0 0L20.492 0" fill="#fff" stroke="#000" strokeMiterlimit="10" className="path-stroke" transform="translate(0 -0.637)" />
-              <path d="M0 0L20.492 0" fill="#fff" stroke="#000" strokeMiterlimit="10" className="path-stroke" transform="translate(0 7.363)" />
-              <path d="M0 0L20.492 0" fill="#fff" stroke="#000" strokeMiterlimit="10" className="path-stroke" transform="translate(0 15.363)" />
+            <g id="타원_121" fill="#fff" stroke="#ff592e" transform="translate(5 13.5)">
+              <circle stroke="none" cx="2" cy="2" r="2" />
+              <circle fill="none" cx="2" cy="2" r="1.5" />
+            </g>
+            <g id="타원_122" fill="#fff" stroke="#ff592e" transform="translate(13 13.5)">
+              <circle stroke="none" cx="2" cy="2" r="2" />
+              <circle fill="none" cx="2" cy="2" r="1.5" />
+            </g>
+            <g id="타원_123" fill="#fff" stroke="#ff592e" transform="translate(21 13.5)">
+              <circle stroke="none" cx="2" cy="2" r="2" />
+              <circle fill="none" cx="2" cy="2" r="1.5" />
             </g>
           </svg>
         </div>
-        <span className="name en">MENU</span>
+        <span className="name en">OTHER</span>
       </Link>
     </nav>
   );

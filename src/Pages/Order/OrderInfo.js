@@ -15,7 +15,7 @@ import Popup_nomal from "Components/Popup/Popup_nomal";
 
 import { fadeOut, checkMobile } from "Config/GlobalJs";
 
-import { SERVER_DALKOMM, FRONT_SERVER } from "Config/Server";
+import { SERVER_DALKOMM } from "Config/Server";
 import { authContext } from "ContextApi/Context";
 
 export default function OrderInfo() {
@@ -195,9 +195,17 @@ export default function OrderInfo() {
                                       {element?.smart_order_menu?.get_summary_option.map((e, i) => {
                                         let array = ["레귤러", "라지", "코끼리"];
                                         if (array.indexOf(e) > -1) {
+                                          let text;
+                                          if (e === "레귤러") {
+                                            text = "Regular";
+                                          } else if (e === "라지") {
+                                            text = "Large";
+                                          } else if (e === "코끼리") {
+                                            text = "Big";
+                                          }
                                           return (
                                             <span className="en" key={i}>
-                                              {e}
+                                              {text}
                                             </span>
                                           );
                                         }
