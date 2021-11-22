@@ -62,6 +62,11 @@ export default function MyOption() {
       })
     );
   };
+  const handleUpdate = () => {
+    if (state?.app_version > axioData?.res1_data?.app_version) {
+      alert("최신 버전입니다.");
+    }
+  };
   if (axioData) {
     return (
       <React.Fragment>
@@ -102,9 +107,11 @@ export default function MyOption() {
                   </p>
                 </li>
                 <li>
-                  버전 정보<span>v{axioData?.res1_data?.app_version}</span>
+                  버전 정보<span>v{state?.app_version}</span>
                   <div className="btn-area">
-                    <button className="btn x-small normal full">최신 버전 업데이트</button>
+                    <button className="btn x-small normal full" onClick={(e) => handleUpdate(e.currentTarget)}>
+                      최신 버전 업데이트
+                    </button>
                     {/* <button className="btn x-small normal full" disabled>최신 버전입니다.</button> */}
                   </div>
                 </li>

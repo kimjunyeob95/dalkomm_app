@@ -65,6 +65,7 @@ export default function OrderFavorite() {
         axios.spread((res1) => {
           if (res1.data.meta.code === 20000) {
             alert("해당 메뉴가 즐겨찾기에 삭제되었습니다.");
+            $(".favorite-chk").prop("checked", false);
             $("#drinkDelete").removeClass("active");
             $("body").removeClass("modal-opened");
             axiosFn();
@@ -73,6 +74,8 @@ export default function OrderFavorite() {
       );
     } else {
       alert("삭제할 메뉴를 선택해주세요.");
+      $("body").removeClass("modal-opened");
+      $("#drinkDelete").removeClass("active");
     }
   };
 

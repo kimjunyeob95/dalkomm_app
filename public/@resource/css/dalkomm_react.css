@@ -35,3 +35,5 @@ input[type="number"]:disabled{background-color: rgb(255, 255, 255); color:rgb(0,
 .app-menu .top-header .logo {width: 25.333vw; height: 3.467vw; background: url('../images/com/logo_dalkomm_balck.svg') no-repeat 0 0; background-size: cover;}
 #content.pay:not(.history) #cardSlider {padding-bottom: 7.867vw;}
 #content.pay.main .row-list {margin-top: 7.8vw;margin-bottom: 4vw;}
+.gmnoprint.gm-style-cc,a[rel="noopener"]{display: none !important;}
+.app-menu .top-header .w-inner{padding-top: 5.333vw;}

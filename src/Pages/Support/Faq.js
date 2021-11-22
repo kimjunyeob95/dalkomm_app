@@ -35,7 +35,7 @@ export default function Faq() {
               <section className="section">
                 {axioData?.faqList?.map((e, i) => (
                   <div className="faq-accordion accordion" key={i}>
-                    <div className="js-accordion-switche" onClick={(e) => accordion(e.target)}>
+                    <div className="js-accordion-switche" onClick={(e) => accordion(e.currentTarget)}>
                       <div className="flex-both">
                         <h2 className="h2">{e?.cate}</h2>
                         <i className="ico accordion-arr"></i>

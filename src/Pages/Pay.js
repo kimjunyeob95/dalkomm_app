@@ -213,6 +213,12 @@ export default function Pay() {
     $("body").addClass("modal-opened");
     $("#popupCardAdd").addClass("active");
   };
+
+  const handleInput = (e, maxLength) => {
+    if ($(e).val()?.length > maxLength) {
+      $(e).val($(e).val().slice(0, maxLength));
+    }
+  };
   if (axioData) {
     return (
       <React.Fragment>
@@ -476,8 +482,10 @@ export default function Pay() {
                                 type="number"
                                 className="input-text medium"
                                 id="cardNumber"
+                                maxLength={16}
                                 placeholder="카드 번호 16자리를 입력해 주세요."
                                 inputMode="numeric"
+                                onInput={(e) => handleInput(e.currentTarget, 16)}
                               />
                             </div>
                           </div>
@@ -490,8 +498,10 @@ export default function Pay() {
                                 type="number"
                                 className="input-text medium"
                                 id="pinNumber"
+                                maxLength="7"
                                 placeholder="PIN 번호 7자리를 입력해 주세요."
                                 inputMode="numeric"
+                                onInput={(e) => handleInput(e.currentTarget, 7)}
                               />
                             </div>
                           </div>

@@ -58,7 +58,7 @@ export default function MyGiftRecipt() {
           });
         })
       );
-  }, [state?.auth]);
+  }, []);
   useEffect(() => {
     contGap();
     fadeOut();

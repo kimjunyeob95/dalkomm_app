@@ -228,7 +228,7 @@ export default function MyMembershipPolicy() {
                           <span className="title en">SILVER</span>
                           <span className="text">
                             트로피 0-10개 <br />
-                            보유 회원
+                            적립 회원
                           </span>
                         </div>
                         <ul className="list">
@@ -243,7 +243,7 @@ export default function MyMembershipPolicy() {
                           <span className="title en">GOLD</span>
                           <span className="text">
                             트로피 11-30개 <br />
-                            보유 회원
+                            적립 회원
                           </span>
                         </div>
                         <ul className="list">
@@ -260,7 +260,7 @@ export default function MyMembershipPolicy() {
                           <span className="title en">PLATINUM</span>
                           <span className="text">
                             트로피 31개 이상 <br />
-                            보유 회원
+                            적립 회원
                           </span>
                         </div>
                         <ul className="list">

@@ -88,6 +88,11 @@ export function OrderStoreSearch(props) {
     axios.all([axios.post(`${SERVER_DALKOMM}/app/api/v2/store/${storeCode}`, {}, header_config)]).then(
       axios.spread((res1) => {
         let detailStore = res1.data.data;
+        if (detailStore.store_is_favorite) {
+          $(`#btn-bookmark`).addClass("active");
+        } else {
+          $(`#btn-bookmark`).removeClass("active");
+        }
         setStore((origin) => {
           return {
             ...origin,
@@ -109,9 +114,12 @@ export function OrderStoreSearch(props) {
           }
         });
       }
-      axios
-        .all([axios.post(`${SERVER_DALKOMM}/app/api/v2/favorite/store/delete`, { store_code: storeCode }, header_config)])
-        .then(axios.spread((res1) => {}));
+      axios.all([axios.post(`${SERVER_DALKOMM}/app/api/v2/favorite/store/delete`, { store_code: storeCode }, header_config)]).then(
+        axios.spread((res1) => {
+          $(`#btn-bookmark[data-storecode=${storeCode}]`).removeClass("active");
+          $(`span.btn.bookmark[data-storecode=${storeCode}]`).removeClass("active");
+        })
+      );
     } else {
       //즐겨찾기 추가
       axios.all([axios.post(`${SERVER_DALKOMM}/app/api/v2/favorite/store/add`, { store_code: storeCode }, header_config)]).then(
@@ -119,6 +127,9 @@ export function OrderStoreSearch(props) {
           if (res1.data.meta.code !== 20000) {
             alert(res1.data.meta.msg);
             $(e).removeClass("active");
+          } else if (res1.data.meta.code === 20000) {
+            $(`#btn-bookmark[data-storecode=${storeCode}]`).addClass("active");
+            $(`span.btn.bookmark[data-storecode=${storeCode}]`).addClass("active");
           }
         })
       );
@@ -560,6 +571,8 @@ export function OrderStoreSearch(props) {
                           type="button"
                           className={`btn light-g medium bookmark ${storeData?.detailStore?.store_is_favorite && "active"}`}
                           onClick={(event) => handleFavorite(event.currentTarget, storeData?.detailStore?.store_code)}
+                          data-storecode={storeData?.detailStore?.store_code}
+                          id="btn-bookmark"
                         >
                           <i className="ico heart">
                             <span>즐겨찾기</span>
@@ -576,6 +589,8 @@ export function OrderStoreSearch(props) {
                           type="button"
                           className={`btn light-g medium bookmark ${storeData?.detailStore?.store_is_favorite && "active"}`}
                           onClick={(event) => handleFavorite(event.currentTarget, storeData?.detailStore?.store_code)}
+                          data-storecode={storeData?.detailStore?.store_code}
+                          id="btn-bookmark"
                         >
                           <i className="ico heart">
                             <span>즐겨찾기</span>
