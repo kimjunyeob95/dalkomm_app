@@ -107,13 +107,14 @@ export default function OrderInfoDetail() {
                         <p className="title">영양 성분 정보</p>
                       </div>
                       <div className="detail-wrap toggle-cont" style={{ display: "block" }}>
-                        <p className="text">
+                        {/* <p className="text">
                           <span>
                             1회 제공량 {axioData?.res1_data?.size} / 열량 {axioData?.res1_data?.kcal} (Kcal)
                           </span>
                         </p>
-                        <br />
+                        <br /> */}
                         <div
+                          className="markup"
                           dangerouslySetInnerHTML={{
                             __html: axioData?.res1_data?.memo,
                           }}

@@ -75,17 +75,25 @@ export default function OrderSearch() {
 
   const handleSearch = (e) => {
     let targetValue = $("#searchValue").val();
-    axios.all([axios.post(`${SERVER_DALKOMM}/app/api/v2/menu/search`, { store_code: storeCode, q: targetValue }, header_config)]).then(
-      axios.spread((res1) => {
-        let all_menu = res1.data.data;
-        setData((origin) => {
-          return {
-            ...origin,
-            all_menu,
-          };
-        });
-      })
-    );
+    axios
+      .all([
+        axios.post(
+          `${SERVER_DALKOMM}/app/api/v2/menu/search`,
+          { store_code: storeCode, q: targetValue, is_smartorder: storeCode !== 0 ? true : false },
+          header_config
+        ),
+      ])
+      .then(
+        axios.spread((res1) => {
+          let all_menu = res1.data.data;
+          setData((origin) => {
+            return {
+              ...origin,
+              all_menu,
+            };
+          });
+        })
+      );
   };
   const handleKeyPress = (e) => {
     if (e.key === "Enter") {

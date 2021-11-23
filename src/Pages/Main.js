@@ -778,7 +778,31 @@ export function Main(props) {
                         <div className="item store-info">
                           <div className="info-wrap flex-both">
                             <div className="title-wrap flex-start">
-                              <i className="ico store-type small house"></i>{" "}
+                              <i
+                                className={`ico store-type small ${
+                                  storeData?.detailStore?.store_sub_type === 0
+                                    ? "house"
+                                    : storeData?.detailStore?.store_sub_type === 1
+                                    ? "building"
+                                    : storeData?.detailStore?.store_sub_type === 2
+                                    ? "rest-area"
+                                    : storeData?.detailStore?.store_sub_type === 3
+                                    ? "terminal"
+                                    : storeData?.detailStore?.store_sub_type === 4
+                                    ? "head-office"
+                                    : storeData?.detailStore?.store_sub_type === 5
+                                    ? "drive-thru"
+                                    : storeData?.detailStore?.store_sub_type === 6
+                                    ? "vivaldi-park"
+                                    : storeData?.detailStore?.store_sub_type === 7
+                                    ? "hospital"
+                                    : storeData?.detailStore?.store_sub_type === 8
+                                    ? "cinema"
+                                    : storeData?.detailStore?.store_sub_type === 9
+                                    ? "theme-park"
+                                    : ""
+                                }`}
+                              ></i>{" "}
                               {/* 매장 타입별 
                                                     .ico.store-type.small
                                                     .ico.store-type.small.house : 기본형 (단독건물매장)

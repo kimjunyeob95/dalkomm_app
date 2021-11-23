@@ -10,7 +10,9 @@ input[type="number"]:disabled{background-color: rgb(255, 255, 255); color:rgb(0,
 .overlay.active {z-index: 999;}
 .btn.grey {background-color:#e4e4e4;color: #000; border: none;}
 .item.store .data-wrap .place {word-break: break-all;}
-#content.drink.detail .item.info-detail .detail-wrap .text + .table-wrap p span {white-space: break-spaces !important;}
+#content.drink.detail .item.info-detail .detail-wrap .text + .table-wrap p span,
+.item.info-detail .detail-wrap .markup p  {white-space: break-spaces !important; font-family: 'NanumSquare','돋움', Dotum, '굴림', Gulim, Verdana, Arial, sans-serif !important; font-size: 3.367vw !important;}
+
 #content.story.detail .swiper-container{width: 100%;}
 .flex-list .desc { position: absolute;font-size: 3.0vw;line-height: 5.333vw;box-sizing: border-box;top: 17vw;}
 #content.drink.detail .fixed-con .data-list li.option .item.info-order{padding-top: 3.867vw;padding-bottom: 3.867vw;}

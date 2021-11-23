@@ -60,9 +60,10 @@ export default function MyGiftSend() {
 
   const handleSubmit = (e) => {
     let validation = true;
-    let textVal = $(".swiper-slide-active textarea").val();
+    let textVal = $("#textmsg").val();
     if (textVal === "") {
       alert("선물 메세지를 입력해 주세요.");
+      $("#textmsg").focus();
       validation = false;
       return false;
     }

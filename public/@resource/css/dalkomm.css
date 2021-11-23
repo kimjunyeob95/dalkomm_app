@@ -195,12 +195,13 @@
 #content.mypage.main .user-state-wrap li.trophy {width: 44.533vw;}
 #content.mypage.main .user-state-wrap li.grade {width: calc(100% - 44.533vw);}
 #content.mypage.main .user-state-wrap li.trophy .title {-webkit-align-items: center; -ms-flex-align: center; align-items: center;}
-#content.mypage.main .user-state-wrap li.trophy .title > span + .guide-wrap {margin-left: 1.067vw;}
+#content.mypage.main .user-state-wrap li.trophy .title > span + .guide-wrap {margin-left: 1.067vw; margin-top: -0.267vw}
 #content.mypage.main .user-state-wrap .item.describe {-webkit-flex-direction: column; -ms-flex-direction: column; flex-direction: column; -webkit-align-items: flex-start; -ms-flex-align: start; align-items: flex-start; -webkit-justify-content: flex-start; -ms-flex-pack: start; justify-content: flex-start; height: 27.467vw; padding: 6.667vw 5.333vw 0; box-sizing: border-box;}
 #content.mypage.main .user-state-wrap .item.describe .title {width: 100%; height: 6.400vw; font-weight: 700; font-size: 3.733vw; color: rgba(0,0,0,0.4);}
 #content.mypage.main .user-state-wrap .item.describe .title + .text {margin-top: 3.733vw;}
+#content.mypage.main .user-state-wrap .item.describe .title.flex-list + .text {margin-top: 3.733vw;}
 #content.mypage.main .user-state-wrap .item.describe .text {font-weight: 700; font-size: 4.267vw;}
-#content.mypage.main .user-state-wrap .item.describe .text .num {font-size: 5.333vw; vertical-align: middle;}
+#content.mypage.main .user-state-wrap .item.describe .text .num {position: relative; top: -0.2vw; font-size: 5.333vw; vertical-align: middle;}
 #content.mypage.main .user-state-wrap .item.describe .text .en {font-size: 4.267vw;}
 #content.mypage.main .guide-wrap {position: relative;}
 #content.mypage.main .guide-wrap .speech-bubble {display: none; position: absolute; top: -16.800vw; left: 0; width: 63.467vw; background-color: rgba(0,0,0,0.6); font-weight: 400; font-size: 3.200vw; line-height: 4.267vw; letter-spacing: -0.064vw; padding: 2.933vw 2.4vw 2.400vw; z-index: 1;}
@@ -251,9 +252,9 @@
 #content.mypage.membership .benefit-wrap .data-list > li {border-top: 0.267vw solid  rgba(235,235,235,0.2); padding: 5.333vw 5.333vw 8vw;}
 #content.mypage.membership .benefit-wrap .data-table th,
 #content.mypage.membership .benefit-wrap .data-table td {border: 0; border-bottom: 0.267vw solid rgba(112,112,112,0.2); color: rgba(0,0,0,0.8);}
-#content.mypage.membership .benefit-wrap .data-table th {border-top: 0.267vw solid #707070; font-size: 3.200vw; padding: 4.667vw 1.867vw; vertical-align: middle;}
+#content.mypage.membership .benefit-wrap .data-table th {border-top: 0.267vw solid #707070; font-size: 3.200vw; padding: 4.667vw 1.067vw; vertical-align: middle;}
 #content.mypage.membership .benefit-wrap .data-table th span {display: block; font-size: 2.667vw; margin-top: 1.333vw;}
-#content.mypage.membership .benefit-wrap .data-table td {font-size: 2.667vw; padding: 3.867vw 1.867vw;}
+#content.mypage.membership .benefit-wrap .data-table td {font-size: 2.667vw; padding: 3.867vw 1.067vw; word-break: keep-all;}
 #content.mypage.membership .benefit-wrap .data-table th:nth-child(1),
 #content.mypage.membership .benefit-wrap .data-table td:nth-child(1) {padding-left: 5.333vw; padding-right: 0; text-align: left;}
 #content.mypage.membership .benefit-wrap .data-table th:last-child,
@@ -262,7 +263,7 @@
 #content.mypage.membership .benefit-wrap > .attention-list > li {font-size: 3.200vw; letter-spacing: -0.042vw; color: rgba(0,0,0,0.5);}
 #content.mypage.membership .benefit-wrap > .attention-list > li + li {margin-top: 1.067vw;}
 /* ME001_3 */
-#content.mypage.membership.save .possess-state {width: 28.533vw;}
+#content.mypage.membership.save .possess-state {width: 28.533vw; word-break: keep-all;}
 #content.mypage.membership.save .possess-state,
 #content.mypage.membership.save .extinct {padding-top:7.467vw; padding-bottom: 7.467vw;}
 #content.mypage.membership.save .possess-state + .extinct {border-left: 1px solid rgba(235,235,235,0.3);}
@@ -582,7 +583,7 @@
 #content.drink.order .store-search-wrap + .section {padding-top: 5.867vw; padding-bottom: 7.067vw;}
 #content.drink.order .section + .section {border-top: 0.267vw solid rgba(112,112,112,0.1); padding-top: 6.4vw; margin-top: 6vw;}
 #content.drink.order .section + .section:nth-child(3) {border-top: none;}
-#content.drink.order .item.order-detail .address {margin-top: 2.667vw; padding-bottom: 0.933vw;}
+#content.drink.order .item.order-detail .address {margin-top: 2.667vw; padding-bottom: 0.933vw; padding-left: 21.333vw; box-sizing: border-box;}
 #content.drink.order .field .label.en {font-weight: 600;}
 #content.drink.order .label .alert {vertical-align: 0.533vw; color: #bfbfbf;}
 #content.drink.order .label .alert > .ico.alert {top: -0.267vw; opacity: 0.7;}
@@ -607,6 +608,9 @@
 #content.drink.order .fixed-con .item.info-order .total .title {font-weight: 600;}
 #content.drink.order .fixed-con .item.info-order .price {font-weight: 800;}
 #content.drink.order .fixed-con .btn-area .btn.full {font-weight: 700;}
+
+#content.drink.order > .section .w-inner > .field .item.order-detail > .flex-both .label {width: 21.333vw;}
+#content.drink.order > .section .w-inner > .field .item.order-detail > .flex-both .label + span {width: calc(100% - 21.333vw); text-align: right;}
 
 /* TO006_1 */
 #content.membership .form-wrap {padding-top: 6.8vw;}
