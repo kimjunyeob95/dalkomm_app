@@ -65,6 +65,7 @@ export default function MyMembershipPolicy() {
   }, [axioData]);
 
   const handleReflash = () => {
+    $("#content").removeClass("fade-out").addClass("fade-in");
     axios
       .all([
         axios.post(`${SERVER_DALKOMM}/app/api/v2/membership`, body, header_config),
@@ -72,6 +73,7 @@ export default function MyMembershipPolicy() {
       ])
       .then(
         axios.spread((res1, res2) => {
+          $("#content").removeClass("fade-in").addClass("fade-out");
           let res1_data = res1.data.data;
           let res2_data = res2.data.data;
           let percentage =

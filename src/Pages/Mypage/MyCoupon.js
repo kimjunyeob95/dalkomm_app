@@ -113,7 +113,7 @@ export default function MyCoupon() {
                       ?.filter((e, i) => e.status === 0)
                       .map((e, i) => (
                         <li key={i}>
-                          <div className="item coupon js-accordion-switche" onClick={(e) => accordion(e.target, 0)}>
+                          <div className="item coupon js-accordion-switche" onClick={(e) => accordion(e.currentTarget, 0)}>
                             <div className="data-wrap">
                               <p className="day num">{e?.due_date}</p>
                               <p className="title">{e?.coupon_name}</p>
@@ -146,7 +146,7 @@ export default function MyCoupon() {
                       ?.filter((e, i) => e?.status === 2)
                       .map((e, i) => (
                         <li key={i}>
-                          <div className="item coupon js-accordion-switche" onClick={(e) => accordion(e.target, 0)}>
+                          <div className="item coupon js-accordion-switche" onClick={(e) => accordion(e.currentTarget, 0)}>
                             <div className="data-wrap">
                               <p className="day expire">기간만료</p> {/* [D] .day.expire : 기간 만료 */}
                               <p className="title">{e?.coupon_name}</p>

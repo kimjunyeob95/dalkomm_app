@@ -32,10 +32,16 @@ export default function OrderInfo() {
     },
   };
 
-  const axiosFn = () => {
+  const axiosFn = (type) => {
+    if (type) {
+      $("#content").removeClass("fade-out").addClass("fade-in");
+    }
     axios.all([axios.get(`${SERVER_DALKOMM}/app/api/v2/smartorder/orderinfo?orderinfo_id=${orderCode}`, header_config)]).then(
       axios.spread((res1) => {
         let res1_data = res1.data.data;
+        if (type) {
+          $("#content").removeClass("fade-in").addClass("fade-out");
+        }
         setData((origin) => {
           return {
             ...origin,
@@ -49,17 +55,15 @@ export default function OrderInfo() {
   useEffect(() => {
     // 말풍선 스크롤시 hide/show
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    if (state.auth !== "") {
-      axiosFn();
-    }
-  }, [state?.auth]);
+    axiosFn();
+  }, []);
 
   useEffect(() => {
     contGap();
     fadeOut();
   }, [axioData]);
   const handleF5 = () => {
-    axiosFn();
+    axiosFn(true);
   };
 
   const handleReorder = (order_id) => {
@@ -70,17 +74,6 @@ export default function OrderInfo() {
       axios.spread((res1) => {
         if (res1.data.meta.code === 20000) {
           history.push(`/order/final/${res1.data.data.orderinfo_id}`);
-          // let result = { link: FRONT_SERVER + `/order/final/${res1.data.data.orderinfo_id}`, category: "webviewCall" };
-          // result = JSON.stringify(result);
-          // try {
-          //   if (checkMobile() === "android") {
-          //     window.android.fn_winOpen(result);
-          //   } else if (checkMobile() === "ios") {
-          //     window.webkit.messageHandlers.fn_winOpen.postMessage(result);
-          //   }
-          // } catch (error) {
-          //   console.log(error);
-          // }
         } else {
           $("#resAlert").text("시스템 관리자에 문의 바랍니다.");
           $(".overlay.popupExitJoin").addClass("active");

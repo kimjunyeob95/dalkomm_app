@@ -515,7 +515,7 @@ export function Main(props) {
                           if (i < 5) {
                             return (
                               <li key={i}>
-                                <div className="item coupon js-accordion-switche" onClick={(e) => accordion(e.target, 0)}>
+                                <div className="item coupon js-accordion-switche" onClick={(e) => accordion(e.currentTarget, 0)}>
                                   <div className="data-wrap">
                                     <p className="day num fc-orange">{e?.due_date}</p>
                                     <p className="title">{e?.coupon_name}</p>
