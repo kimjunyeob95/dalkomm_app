@@ -288,8 +288,6 @@ export default function OrderFinal() {
       order_menu_coupon: menu_coupon_array,
     };
     target_value = JSON.stringify(target_value);
-    // $("#formValue").val(target_value);
-    // $("#interForm").submit();
 
     let result = {
       type: "get",
@@ -510,16 +508,6 @@ export default function OrderFinal() {
     return (
       <React.Fragment>
         <GoContents />
-        {/* <form
-          id="interForm"
-          action={`${SERVER_DALKOMM}/app/web/smartorder/order/to/pay/v2`}
-          style={{ display: "none" }}
-          method="get"
-          encType="multipart/form-data"
-          acceptCharset="utf-8"
-        >
-          <input id="formValue" type="hidden" name="value" value="" />
-        </form> */}
         <div id="wrap" className="wrap">
           <div id="container" className="container">
             <HeaderSub title="주문하기" redirectBack={true} location={`/order/menu/${axioData?.res1_data?.store?.store_code}`} />

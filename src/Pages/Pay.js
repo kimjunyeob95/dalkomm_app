@@ -295,7 +295,7 @@ export default function Pay() {
                       <dt className="title">멤버십이란?</dt>
                       <dd className="text">
                         달콤을 이용해주시는 고객님께 다양한 혜택을 드리기 위한
-                        <br /> 달콤 고객 우대 제도이며 적립된 트로피 개수에 따라 등급이 결정됩니다
+                        <br /> 달콤 고객 우대 제도이며 적립된 트로피 개수에 따라 등급이 결정됩니다.
                       </dd>
                     </dl>
                   </div>

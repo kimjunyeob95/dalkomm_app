@@ -1,5 +1,8 @@
 #content.fade-in {opacity: 0; }
 #content.fade-out {opacity: 1; transition: all 600ms ease-in-out;}
+.order-state.fade-in {opacity: 0; }
+.order-state.fade-out {opacity: 1; transition: all 600ms ease-in-out;}
+
 .item.depth-menu.outLink::after{content: ''; display: block; position: absolute; top: 50%; right: 0; width: 6.4vw; height: 6.4vw; background: url('../images/com/icon_external.svg') no-repeat 0 0; background-size: cover; -webkit-transform: translateY(-50%); -ms-transform: translateY(-50%); -o-transform: translateY(-50%); transform: translateY(-50%); vertical-align: middle;}
 .react-barcode {margin: 0 auto; max-width: 286px; overflow: hidden;}
 .react-barcode div:last-child {display: none;}
@@ -11,7 +14,8 @@ input[type="number"]:disabled{background-color: rgb(255, 255, 255); color:rgb(0,
 .btn.grey {background-color:#e4e4e4;color: #000; border: none;}
 .item.store .data-wrap .place {word-break: break-all;}
 #content.drink.detail .item.info-detail .detail-wrap .text + .table-wrap p span,
-.item.info-detail .detail-wrap .markup p  {white-space: break-spaces !important; font-family: 'NanumSquare','돋움', Dotum, '굴림', Gulim, Verdana, Arial, sans-serif !important; font-size: 3.367vw !important;}
+.item.info-detail .detail-wrap .markup p,
+.item.info-detail .markup  {white-space: break-spaces !important; font-family: 'NanumSquare','돋움', Dotum, '굴림', Gulim, Verdana, Arial, sans-serif !important; font-size: 3.367vw !important;}
 
 #content.story.detail .swiper-container{width: 100%;}
 .flex-list .desc { position: absolute;font-size: 3.0vw;line-height: 5.333vw;box-sizing: border-box;top: 17vw;}

@@ -119,17 +119,7 @@ const ContextStore = (props) => {
   // indexInitialState.latitude = 37.507232666015625;
   // indexInitialState.longitude = 127.05642398540016;
   // indexInitialState.udid = "8280af29616a4ec1bb85a9ed17b9594e828e8140";
-  //다운씨
-  // indexInitialState.loginFlag = false;
-  // indexInitialState.accessToken =
-  //   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiOWx3bWYzRlRQL0htaWNOUlJNLzZGRTM4MnFrUVBGc2F4Rzl4dUsvRnVNYnAzeHY3cnIvUzNKemUwUzBPaHZ4ZiIsImF1ZCI6IkRBTEtPTU1fQVBQIiwidW5pb25fdXNlcl9pZCI6IkFKS1FNZnFNZmhodDJMVWwyTE1kNlcxbkhuVU9WaGVCa0Ewd3J2RC9VSEZnTm9lTEV2bE4wRk9WOGdmVTBJbnYiLCJpc3MiOiJEQUxLT01NIiwidXNlcl9sb2dpbl90eXBlIjoiRCIsImlhdCI6MTYzNTkxNDY5OX0.4Bmu0APqRj6SHAk3rkDEpy2NefVOPLEzNth_3IUkG6E";
-  // indexInitialState.app_version = "3.0.0";
-  // indexInitialState.os = "ios";
-  // indexInitialState.isApp = "Y";
-  // indexInitialState.auth = "Basic ZGFsa29tbTpkYWxrb21tX2FwcDs5N2RjM2RmMzRmMzM5MzM1ZjFiMWE3YTE1OWY2YmM3MzI1ZTViMzVkOzIwMjExMTAzMTQ0NDM3";
-  // indexInitialState.latitude = 37.507232666015625;
-  // indexInitialState.longitude = 127.05642398540016;
-  // indexInitialState.udid = "8280af29616a4ec1bb85a9ed17b9594e828e8140";
+
   //과장님
   // indexInitialState.accessToken =
   //   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoicTcvOWVvUzBHQ0VQaEpNd3RVdGV0eEFsb01yMU8ybWszMVJOYVVWTWw2K01SZC9EN0NWd2RoeWcvKzBIa3pmUyIsImF1ZCI6IkRBTEtPTU1fQVBQIiwidW5pb25fdXNlcl9pZCI6IlVCaHdLUXN4bEY0STkrd3h6UDJic081WklLSDd2NTlsYmExN2RaTldTdVZYZ25wRVNXNllQNG50OUNVY1haR0MiLCJpc3MiOiJEQUxLT01NIiwidXNlcl9sb2dpbl90eXBlIjoiRCIsImlhdCI6MTYzNjQzMzA2MX0.UQrIN1JkdpuTWWf8eUMUboLyuLsALOh_qIQpSPJQzps";

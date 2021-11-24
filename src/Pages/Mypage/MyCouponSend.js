@@ -139,18 +139,18 @@ export default function MyCouponSend() {
                         </div>
 
                         <ul className="tabs">
-                          <li className="current giftid">
+                          <li className="giftid">
                             <a data-href="#tabGiftId" onClick={(e) => tabLink(e)}>
                               아이디로 보내기
                             </a>
                           </li>
-                          <li className="giftphone">
+                          <li className="giftphone current">
                             <a data-href="#tabGiftPhone" onClick={(e) => tabLink(e)}>
                               휴대폰 번호로 보내기
                             </a>
                           </li>
                         </ul>
-                        <div id="tabGiftId" className="tab-content active">
+                        <div id="tabGiftId" className="tab-content ">
                           <label htmlFor="giftName2" className="blind">
                             아이디
                           </label>
@@ -158,7 +158,7 @@ export default function MyCouponSend() {
                             <input type="text" className="input-text medium" id="giftName2" placeholder="아이디를 입력해 주세요." />
                           </div>
                         </div>
-                        <div id="tabGiftPhone" className="tab-content">
+                        <div id="tabGiftPhone" className="tab-content active">
                           <label htmlFor="giftPhone" className="blind">
                             휴대전화 번호
                           </label>
@@ -172,7 +172,7 @@ export default function MyCouponSend() {
                         <div className="text">
                           <ul className="attention-list">
                             <li>쿠폰 선물 후에는 취소가 불가능 합니다.</li>
-                            <li>선물할 쿠폰과 아이디를 꼭 확인해 주세요.</li>
+                            {/* <li>선물할 쿠폰과 아이디를 꼭 확인해 주세요.</li> */}
                           </ul>
                         </div>
                       </div>

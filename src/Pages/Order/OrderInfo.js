@@ -34,13 +34,13 @@ export default function OrderInfo() {
 
   const axiosFn = (type) => {
     if (type) {
-      $("#content").removeClass("fade-out").addClass("fade-in");
+      $(".order-state").removeClass("fade-out").addClass("fade-in");
     }
     axios.all([axios.get(`${SERVER_DALKOMM}/app/api/v2/smartorder/orderinfo?orderinfo_id=${orderCode}`, header_config)]).then(
       axios.spread((res1) => {
         let res1_data = res1.data.data;
         if (type) {
-          $("#content").removeClass("fade-in").addClass("fade-out");
+          $(".order-state").removeClass("fade-in").addClass("fade-out");
         }
         setData((origin) => {
           return {

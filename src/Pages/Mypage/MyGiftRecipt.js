@@ -162,7 +162,7 @@ export default function MyGiftRecipt() {
                   <i className="ico alert">
                     <span>알림</span>
                   </i>
-                  {axioData?.res2_data?.usage_list?.length > 0 ? "최근 6개월의 사용내역을 조회할 수 있습니다." : "해당카드의 사용내역이 없습니다."}
+                  {axioData?.res2_data?.usage_list?.length > 0 ? "최근 10건의 사용내역을 조회할 수 있습니다. " : "해당카드의 사용내역이 없습니다."}
                 </p>
               </section>
             </div>

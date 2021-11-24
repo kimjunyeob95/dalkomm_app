@@ -17,6 +17,8 @@ export default function DevTest() {
       <br />
       <p> auth : {state?.auth}</p>
       <br />
+      <p> udid : {getCookieValue("udid")}</p>
+      <br />
     </div>
   );
 }
