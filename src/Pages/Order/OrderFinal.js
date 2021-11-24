@@ -247,6 +247,10 @@ export default function OrderFinal() {
     // });
   };
   const handleSubmit = () => {
+    if (!$('input[name="orderPayment"]:checked').val()) {
+      alert("결제 수단을 선택해주세요.");
+      return false;
+    }
     localStorage.setItem("saveMethod", $('input[name="orderPayment"]:checked').val());
     let validation = true;
     let menu_coupon_array = [];
