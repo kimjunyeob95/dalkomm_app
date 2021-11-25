@@ -19,6 +19,7 @@ export const indexInitialState = {
   latitude: getCookieValue("latitude"),
   longitude: getCookieValue("longitude"),
   udid: getCookieValue("udid"),
+  app_type: getCookieValue("app_type"),
   fcmToken: "",
 };
 
