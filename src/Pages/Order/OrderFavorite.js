@@ -25,6 +25,8 @@ export default function OrderFavorite() {
     headers: {
       "X-dalkomm-access-token": state.accessToken,
       Authorization: state.auth,
+      "X-DALKOMM-APP-TYPE": state.app_type,
+      "X-DALKOMM-CHANNEL": state.app_type,
     },
   };
 
