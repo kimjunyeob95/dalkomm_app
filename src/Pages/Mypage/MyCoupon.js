@@ -108,70 +108,88 @@ export default function MyCoupon() {
                   </li>
                 </ul>
                 <div id="availCoupon" className="tab-content active">
-                  <ul className="coupon-list data-list accordion">
-                    {axioData?.res1_data?.coupon_list
-                      ?.filter((e, i) => e.status === 0)
-                      .map((e, i) => (
-                        <li key={i}>
-                          <div className="item coupon js-accordion-switche" onClick={(e) => accordion(e.currentTarget, 0)}>
-                            <div className="data-wrap">
-                              <p className="day num">{e?.due_date}</p>
-                              <p className="title">{e?.coupon_name}</p>
+                  {axioData?.res1_data?.coupon_list?.filter((e, i) => e.status === 0)?.length > 0 ? (
+                    <ul className="coupon-list data-list accordion">
+                      {axioData?.res1_data?.coupon_list
+                        ?.filter((e, i) => e.status === 0)
+                        .map((e, i) => (
+                          <li key={i}>
+                            <div className="item coupon js-accordion-switche" onClick={(e) => accordion(e.currentTarget, 0)}>
+                              <div className="data-wrap">
+                                <p className="day num">{e?.due_date}</p>
+                                <p className="title">{e?.coupon_name}</p>
+                              </div>
+                              <div className="ico-wrap flex-center">
+                                <i className="ico accordion-arr"></i>
+                              </div>
                             </div>
-                            <div className="ico-wrap flex-center">
-                              <i className="ico accordion-arr"></i>
+                            <div className="item attention js-accordion-content">
+                              <dl>
+                                <dt className="title">
+                                  <i className="ico alert"></i>쿠폰 유의사항
+                                </dt>
+                                <dd className="text">
+                                  <ul className="attention-list">
+                                    {e?.detail_cautions?.split("\r\n").map((e, i) => (
+                                      <li key={i}>{e}</li>
+                                    ))}
+                                  </ul>
+                                </dd>
+                              </dl>
                             </div>
-                          </div>
-                          <div className="item attention js-accordion-content">
-                            <dl>
-                              <dt className="title">
-                                <i className="ico alert"></i>쿠폰 유의사항
-                              </dt>
-                              <dd className="text">
-                                <ul className="attention-list">
-                                  {e?.detail_cautions?.split("\r\n").map((e, i) => (
-                                    <li key={i}>{e}</li>
-                                  ))}
-                                </ul>
-                              </dd>
-                            </dl>
-                          </div>
-                        </li>
-                      ))}
-                  </ul>
+                          </li>
+                        ))}
+                    </ul>
+                  ) : (
+                    <div className="nodata-wrap">
+                      <div className="item nodata">
+                        <i className="ico nodata"></i>
+                        <p className="text gray">사용가능한 쿠폰이 없습니다.</p>
+                      </div>
+                    </div>
+                  )}
                 </div>
                 <div id="expiredCoupon" className="tab-content">
-                  <ul className="coupon-list data-list accordion">
-                    {axioData?.res1_data?.coupon_list
-                      ?.filter((e, i) => e?.status === 2)
-                      .map((e, i) => (
-                        <li key={i}>
-                          <div className="item coupon js-accordion-switche" onClick={(e) => accordion(e.currentTarget, 0)}>
-                            <div className="data-wrap">
-                              <p className="day expire">기간만료</p> {/* [D] .day.expire : 기간 만료 */}
-                              <p className="title">{e?.coupon_name}</p>
+                  {axioData?.res1_data?.coupon_list?.filter((e, i) => e.status === 2)?.length > 0 ? (
+                    <ul className="coupon-list data-list accordion">
+                      {axioData?.res1_data?.coupon_list
+                        ?.filter((e, i) => e?.status === 2)
+                        .map((e, i) => (
+                          <li key={i}>
+                            <div className="item coupon js-accordion-switche" onClick={(e) => accordion(e.currentTarget, 0)}>
+                              <div className="data-wrap">
+                                <p className="day expire">기간만료</p> {/* [D] .day.expire : 기간 만료 */}
+                                <p className="title">{e?.coupon_name}</p>
+                              </div>
+                              <div className="ico-wrap flex-center">
+                                <i className="ico accordion-arr"></i>
+                              </div>
                             </div>
-                            <div className="ico-wrap flex-center">
-                              <i className="ico accordion-arr"></i>
+                            <div className="item attention js-accordion-content">
+                              <dl>
+                                <dt className="title">
+                                  <i className="ico alert"></i>쿠폰 유의사항
+                                </dt>
+                                <dd className="text">
+                                  <ul className="attention-list">
+                                    {e?.detail_cautions?.split("\r\n").map((e, i) => (
+                                      <li key={i}>{e}</li>
+                                    ))}
+                                  </ul>
+                                </dd>
+                              </dl>
                             </div>
-                          </div>
-                          <div className="item attention js-accordion-content">
-                            <dl>
-                              <dt className="title">
-                                <i className="ico alert"></i>쿠폰 유의사항
-                              </dt>
-                              <dd className="text">
-                                <ul className="attention-list">
-                                  {e?.detail_cautions?.split("\r\n").map((e, i) => (
-                                    <li key={i}>{e}</li>
-                                  ))}
-                                </ul>
-                              </dd>
-                            </dl>
-                          </div>
-                        </li>
-                      ))}
-                  </ul>
+                          </li>
+                        ))}
+                    </ul>
+                  ) : (
+                    <div className="nodata-wrap">
+                      <div className="item nodata">
+                        <i className="ico nodata"></i>
+                        <p className="text gray">지난 쿠폰이 없습니다.</p>
+                      </div>
+                    </div>
+                  )}
                 </div>
               </section>
 

@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="31.2" height="31.2" viewBox="0 0 31.2 31.2">
+    <defs>
+        <style>
+            .cls-4{stroke-width:1.2px;fill:none;stroke:#000;stroke-miterlimit:10}
+        </style>
+    </defs>
+    <g id="Icon_Pay" transform="translate(.6 .6)">
+        <g id="레이어_2" data-name="레이어 2" transform="translate(4.51 9.22)">
+            <g id="그룹_10" data-name="그룹 10" transform="translate(-3.313 -3)">
+                <path id="사각형_21" data-name="사각형 21" class="cls-4" d="M0 0h21.213v15.039H0z"/>
+                <path id="선_3" data-name="선 3" class="cls-4" transform="translate(3.057 3.68)" d="M0 0h3.725"/>
+            </g>
+            <g id="타원_125" data-name="타원 125" transform="translate(8.293 .78)" style="fill:#fff;stroke:#000;stroke-width:1.2px">
+                <circle cx="8.5" cy="8.5" r="8.5" style="stroke:none"/>
+                <circle cx="8.5" cy="8.5" r="7.9" style="fill:none"/>
+            </g>
+            <path id="선_318" data-name="선 318" class="cls-4" transform="translate(14.034 9.28)" d="M0 0h5.517"/>
+            <path id="선_319" data-name="선 319" class="cls-4" transform="rotate(90 5.136 11.657)" d="M0 0h5.517"/>
+        </g>
+    </g>
+</svg>

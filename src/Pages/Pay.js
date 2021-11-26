@@ -228,6 +228,11 @@ export default function Pay() {
             <header id="header" className="header">
               <h1 className="page-title">페이</h1>
               <div className="btn-area flex-center">
+                <button type="button" className="btn open-pop add" pop-target="#popupCardAdd">
+                  <i className="ico add-card">
+                    <span>카드 추가</span>
+                  </i>
+                </button>
                 <a onClick={() => handlePage("/mypage/giftSend")} className="btn">
                   <i className="ico gift">
                     <span>메뉴검색</span>
@@ -375,52 +380,6 @@ export default function Pay() {
                             </div>
                           </SwiperSlide>
                         ))}
-                        <SwiperSlide className="swiper-slide" data-cardnum={0} data-pin={0}>
-                          <h2>기프트 카드 추가</h2>
-                          <div className="item card gift add">
-                            <div className="card-wrap">
-                              <p className="grade en">
-                                RECHARGEABLE
-                                <br />
-                                GIFT CARD
-                              </p>
-                              <p className="sort en">DAL.KOMM GIFT CARD</p>
-                            </div>
-                            <div className="barcode-wrap">
-                              <div className="barcode">
-                                <div className="img-wrap">
-                                  <img src="/@resource/images/com/barcode.svg" alt="바코드" />
-                                </div>
-                                <p className="num">1309675152301202</p>
-                              </div>
-                              <button type="button" className="btn open-pop" pop-target="#zoomCardGift">
-                                <i className="ico barcode-scan">
-                                  <span>바코드 확대</span>
-                                </i>
-                              </button>
-                            </div>
-                            <div className="state-wrap flex-both">
-                              <dl className="possess flex-list">
-                                <dt className="title">보유 금액</dt>
-                                <dd className="price fc-orange">0원</dd>
-                              </dl>
-                              <a className="btn">
-                                <i className="ico money">
-                                  <span>충전하기</span>
-                                </i>
-                                충전하기
-                              </a>
-                            </div>
-
-                            <div className="btn-area">
-                              <button type="button" className="btn open-pop" pop-target="#popupCardAdd">
-                                <i className="ico"></i>
-
-                                <p className="text">카드 추가하기</p>
-                              </button>
-                            </div>
-                          </div>
-                        </SwiperSlide>
                       </ul>
                     </Swiper>
                   ) : (
@@ -430,14 +389,6 @@ export default function Pay() {
                           <div className="title-wrap">
                             <i className="ico gift-add"></i>
                             <p className="title">기프트 카드 발급받기</p>
-                          </div>
-                        </a>
-                      </li>
-                      <li>
-                        <a className="item card-create" onClick={(e) => handleInputCard(e.currentTarget)}>
-                          <div className="title-wrap">
-                            <i className="ico card-input"></i>
-                            <p className="title">카드 번호 입력하기</p>
                           </div>
                         </a>
                       </li>

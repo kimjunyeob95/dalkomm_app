@@ -460,38 +460,55 @@ export function Main(props) {
                 <section className="section">
                   <div className="title-wrap w-inner flex-both">
                     <h3 className="section-title">나의 최근 주문</h3>
-                    <Link to={`/mypage/orderRecipt`} className="btn text">
-                      <span>더 보기</span>
-                      <i className="ico arr-r"></i>
-                    </Link>
+                    {axioData?.res6_data?.result?.length > 0 && (
+                      <Link to={`/mypage/orderRecipt`} className="btn text">
+                        <span>더 보기</span>
+                        <i className="ico arr-r"></i>
+                      </Link>
+                    )}
                   </div>
-
-                  <Swiper id="recentlyOrder" className="swiper-container section-slider menu-slider" slidesPerView={"auto"} freeMode={false}>
-                    <ul className="swiper-wrapper">
-                      {axioData?.res6_data?.result?.map((element, index) => {
-                        let name_array = element?.menu_name_with_count?.split(" 외 ");
-                        return (
-                          <SwiperSlide className="swiper-slide" key={index} onClick={() => history.push(`/order/info/${element?.smartorderinfo_id}`)}>
-                            <div className="item menu">
-                              <div className="img-wrap">
-                                <img
-                                  src={element?.menu_with_type === "I" ? element?.menu_with_ice_img : element?.menu_with_hot_img}
-                                  alt="아메리카노 ICE (R)"
-                                />
+                  {axioData?.res6_data?.result?.length > 0 ? (
+                    <Swiper id="recentlyOrder" className="swiper-container section-slider menu-slider" slidesPerView={"auto"} freeMode={false}>
+                      <ul className="swiper-wrapper">
+                        {axioData?.res6_data?.result?.map((element, index) => {
+                          let name_array = element?.menu_name_with_count?.split(" 외 ");
+                          return (
+                            <SwiperSlide
+                              className="swiper-slide"
+                              key={index}
+                              onClick={() => history.push(`/order/info/${element?.smartorderinfo_id}`)}
+                            >
+                              <div className="item menu">
+                                <div className="img-wrap">
+                                  <img
+                                    src={element?.menu_with_type === "I" ? element?.menu_with_ice_img : element?.menu_with_hot_img}
+                                    alt="아메리카노 ICE (R)"
+                                  />
+                                </div>
+                                <div className="detail-wrap">
+                                  <p className="title">
+                                    {name_array[0]} {element?.menu_with_type === "I" ? "ICE" : element?.menu_with_type === "H" ? "HOT" : ""}{" "}
+                                    {element?.menu_with_size && "(" + element?.menu_with_size + ")"}
+                                    {name_array[1] === "" && " 외 "}{" "}
+                                  </p>
+                                </div>
                               </div>
-                              <div className="detail-wrap">
-                                <p className="title">
-                                  {name_array[0]} {element?.menu_with_type === "I" ? "ICE" : element?.menu_with_type === "H" ? "HOT" : ""}{" "}
-                                  {element?.menu_with_size && "(" + element?.menu_with_size + ")"}
-                                  {name_array[1] === "" && " 외 "}{" "}
-                                </p>
-                              </div>
-                            </div>
-                          </SwiperSlide>
-                        );
-                      })}
-                    </ul>
-                  </Swiper>
+                            </SwiperSlide>
+                          );
+                        })}
+                      </ul>
+                    </Swiper>
+                  ) : (
+                    <div className="nodata-wrap">
+                      <div className="item nodata">
+                        <i className="ico nodata-order"></i>
+                        <p className="text gray">
+                          최근 주문 내역이 없습니다.
+                          <br /> 편리한 테이블오더를 시작해 보세요.
+                        </p>
+                      </div>
+                    </div>
+                  )}
                 </section>
               )}
 

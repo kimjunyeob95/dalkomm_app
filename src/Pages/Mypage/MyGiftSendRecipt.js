@@ -95,36 +95,37 @@ export default function MyGiftSendRecipt() {
               </button>
             </header>
             <div id="content" className={`pay gift history fade-in ${axioData?.resultList?.length < 1 && "charge"}`}>
-              <section className="section">
-                <ol className="data-list">
-                  {axioData?.resultList?.map((element, index) => (
-                    <li key={index}>
-                      <div className="history-header">{element[0]?.date}</div>
-                      {element.map((ele, indexs) => (
-                        <div className="item history" key={indexs}>
-                          <div className="detail-wrap flex-both">
-                            <p className="title">{ele?.recv_user_name}</p>
-                            <p className="price">
-                              <strong>{ele?.amount.toLocaleString("ko-KR")}원</strong>
-                            </p>
+              {axioData?.resultList?.length > 0 ? (
+                <section className="section">
+                  <ol className="data-list">
+                    {axioData?.resultList?.map((element, index) => (
+                      <li key={index}>
+                        <div className="history-header">{element[0]?.date}</div>
+                        {element.map((ele, indexs) => (
+                          <div className="item history" key={indexs}>
+                            <div className="detail-wrap flex-both">
+                              <p className="title">{ele?.recv_user_name}</p>
+                              <p className="price">
+                                <strong>{ele?.amount.toLocaleString("ko-KR")}원</strong>
+                              </p>
+                            </div>
+                            <div className="data-wrap">
+                              <p className="tel">{ele?.recv_user_mobile}</p>
+                            </div>
                           </div>
-                          <div className="data-wrap">
-                            <p className="tel">{ele?.recv_user_mobile}</p>
-                          </div>
-                        </div>
-                      ))}
-                    </li>
-                  ))}
-                </ol>
-                {axioData?.resultList?.length < 1 && (
-                  <p className="alert ta-c">
-                    <i className="ico alert">
-                      <span>알림</span>
-                    </i>
-                    기프트카드 선물내역이 없습니다.
-                  </p>
-                )}
-              </section>
+                        ))}
+                      </li>
+                    ))}
+                  </ol>
+                </section>
+              ) : (
+                <div className="nodata-wrap">
+                  <div className="item nodata">
+                    <i className="ico nodata"></i>
+                    <p className="text gray">기프트카드 선물 내역이 없습니다.</p>
+                  </div>
+                </div>
+              )}
             </div>{" "}
             {/* // #content */}
           </div>

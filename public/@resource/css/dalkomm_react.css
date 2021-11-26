@@ -43,3 +43,6 @@ input[type="number"]:disabled{background-color: rgb(255, 255, 255); color:rgb(0,
 #content.pay.main .row-list {margin-top: 7.8vw;margin-bottom: 4vw;}
 .gmnoprint.gm-style-cc,a[rel="noopener"],.gm-iv-address-link,.gm-iv-marker{display: none !important;}
 .app-menu .top-header .w-inner{padding-top: 5.333vw;}
+.pay.history .ico.alert {left: 17vw}
+#content.pay.charge.history .nodata-wrap{ margin-top: 6.6vw;}
+

@@ -66,6 +66,9 @@
 .main.home .speech-wrap {}
 .main.home .speech-bubble {padding-top: 2.560vw; padding-bottom: 2.240vw; text-align: center;}
 .main.home .item.menu .detail-wrap .title {font-size: 3.467vw; color: rgba(0,0,0,0.8);}
+.main.home .nodata-wrap {padding-top: 12vw; padding-bottom: 0;}
+.main.home .nodata-wrap .item.nodata .text {font-size: 4vw;}
+.main.home .nodata-wrap .item.nodata .ico + .text {margin-top: 1.333vw; padding-bottom: 11.733vw;}
 
 /* AP001 (앱메뉴) */
 .app-menu .top-header {height: 14.400vw; border-bottom: 0.267vw solid rgba(235,235,235,0.8);}
@@ -262,6 +265,7 @@
 #content.mypage.membership .benefit-wrap > .attention-list {padding: 8vw 5.333vw 0;}
 #content.mypage.membership .benefit-wrap > .attention-list > li {font-size: 3.200vw; letter-spacing: -0.042vw; color: rgba(0,0,0,0.5);}
 #content.mypage.membership .benefit-wrap > .attention-list > li + li {margin-top: 1.067vw;}
+#content.mypage.membership .nodata-wrap {padding-top: 58.667vw;}
 /* ME001_3 */
 #content.mypage.membership.save .possess-state {width: 28.533vw; word-break: keep-all;}
 #content.mypage.membership.save .possess-state,
@@ -681,9 +685,10 @@
 
 #content.pay.main {padding-bottom: 8vw;}
 #content.pay.main .item.card {overflow: hidden;}
-#content.pay.main #cardSlider {padding-bottom: 0;}
-#content.pay.main #paygift .swiper-container-horizontal > .swiper-pagination-bullets {bottom: 13.333vw;}
-#content.pay.main .row-list {margin-top: 12.800vw; margin-bottom: 4vw;}
+#content.pay.main #cardSlider {padding-bottom: 5.867vw;}
+#content.pay.main .swiper-container-horizontal > .swiper-pagination-bullets {bottom: 0;}
+/* #content.pay.main #paygift .swiper-container-horizontal > .swiper-pagination-bullets {bottom: 13.333vw;} */
+#content.pay.main .row-list {margin-top: 7.467vw; margin-bottom: 4vw;}
 
 #content.pay.main .create-list > li + li {margin-top: 2.133vw;}
 
@@ -708,7 +713,9 @@
 #content.pay.charge.history .item.history {height: 16vw; line-height: 16vw; background-color: #fcfcfc;padding-left: 5.333vw; padding-right: 5.333vw;}
 #content.pay.charge.history #cardSlider .swiper-pagination-bullets{margin-top: 8vw;}
 #content.pay.charge.history p.alert {font-size: 3.2vw; color: #989898; margin-top: 8vw;}
-#content.pay.charge.history .ico.alert {position: relative; width: 4.267vw; height: 4.267vw; vertical-align: middle; margin-right: 1.067vw;}
+ #content.pay.charge.history.ico.alert {position: relative; width: 4.267vw; height: 4.267vw; vertical-align: middle; margin-right: 1.067vw;}
+ #content.pay.charge.history .nodata-wrap {background-color: #fcfcfc; padding-top: 38.933vw; padding-bottom: 38.933vw; margin-top: 17.600vw;}
+ #content.pay.charge.history .nodata-wrap .item.nodata {}
 /* CA004 */
 #content.pay.gift .field > .flex-both + .label {margin-top: 5.333vw;}
 #content.pay.gift .item.card + .field {margin-top: 10.667vw;}
@@ -726,6 +733,7 @@
 #content.pay.gift.history .item.history {display: block; padding-top: 5.333vw; padding-bottom: 4.933vw;}
 #content.pay.gift.history .item.history + .item.history {border-top: 0.267vw solid rgba(235,235,235,0.2);}
 #content.pay.gift.history .item.history .detail-wrap + .data-wrap {margin-top: 1.867vw;}
+#content.pay.gift.history .nodata-wrap {padding-top: 70.667vw;}
 /* 카드 확대 팝업 */
 .zoom-card.overlay {background: rgba(0,0,0,0.8); padding: 0; z-index: 101;}
 .zoom-card .popup {background-color: transparent; padding: 0; overflow: hidden;}

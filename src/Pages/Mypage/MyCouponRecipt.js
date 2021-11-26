@@ -109,53 +109,71 @@ export default function MyCouponRecipt() {
                 </ul>
 
                 <div id="receiveCoupon" className="tab-content active">
-                  <ol className="data-list">
-                    {axioData?.getList?.map((e, i) => (
-                      <li key={i}>
-                        <h3 className="history-header">{e[0]?.date}</h3>
-                        <ul className="data-list coupon-list">
-                          {e?.map((element, index) => (
-                            <li key={index}>
-                              <div className="item coupon">
-                                <div className="data-wrap">
-                                  <div className="flex-both">
-                                    <p className="day num fc-orange">~{element?.due_date}</p>
-                                    <p className="name">{element?.user_name}</p>
+                  {axioData?.getList?.length > 0 ? (
+                    <ol className="data-list">
+                      {axioData?.getList?.map((e, i) => (
+                        <li key={i}>
+                          <h3 className="history-header">{e[0]?.date}</h3>
+                          <ul className="data-list coupon-list">
+                            {e?.map((element, index) => (
+                              <li key={index}>
+                                <div className="item coupon">
+                                  <div className="data-wrap">
+                                    <div className="flex-both">
+                                      <p className="day num fc-orange">~{element?.due_date}</p>
+                                      <p className="name">{element?.user_name}</p>
+                                    </div>
+                                    <p className="title">{element?.coupon_name}</p>
                                   </div>
-                                  <p className="title">{element?.coupon_name}</p>
                                 </div>
-                              </div>
-                            </li>
-                          ))}
-                        </ul>
-                      </li>
-                    ))}
-                  </ol>
+                              </li>
+                            ))}
+                          </ul>
+                        </li>
+                      ))}
+                    </ol>
+                  ) : (
+                    <div className="nodata-wrap">
+                      <div className="item nodata">
+                        <i className="ico nodata"></i>
+                        <p className="text gray">받은 쿠폰이 없습니다.</p>
+                      </div>
+                    </div>
+                  )}
                 </div>
 
                 <div id="sendCoupon" className="tab-content">
-                  <ol className="data-list">
-                    {axioData?.postList.map((e, i) => (
-                      <li key={i}>
-                        <h3 className="history-header">{e[0]?.date}</h3>
-                        <ul className="data-list coupon-list">
-                          {e?.map((element, index) => (
-                            <li key={index}>
-                              <div className="item coupon">
-                                <div className="data-wrap">
-                                  <div className="flex-both">
-                                    <p className="day num fc-orange">~{element?.due_date}</p>
-                                    <p className="name">{element?.user_name}</p>
+                  {axioData?.postList?.length > 0 ? (
+                    <ol className="data-list">
+                      {axioData?.postList.map((e, i) => (
+                        <li key={i}>
+                          <h3 className="history-header">{e[0]?.date}</h3>
+                          <ul className="data-list coupon-list">
+                            {e?.map((element, index) => (
+                              <li key={index}>
+                                <div className="item coupon">
+                                  <div className="data-wrap">
+                                    <div className="flex-both">
+                                      <p className="day num fc-orange">~{element?.due_date}</p>
+                                      <p className="name">{element?.user_name}</p>
+                                    </div>
+                                    <p className="title">{element?.coupon_name}</p>
                                   </div>
-                                  <p className="title">{element?.coupon_name}</p>
                                 </div>
-                              </div>
-                            </li>
-                          ))}
-                        </ul>
-                      </li>
-                    ))}
-                  </ol>
+                              </li>
+                            ))}
+                          </ul>
+                        </li>
+                      ))}
+                    </ol>
+                  ) : (
+                    <div className="nodata-wrap">
+                      <div className="item nodata">
+                        <i className="ico nodata"></i>
+                        <p className="text gray">보낸 쿠폰이 없습니다.</p>
+                      </div>
+                    </div>
+                  )}
                 </div>
 
                 <div className="alert-wrap">

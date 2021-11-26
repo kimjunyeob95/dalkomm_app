@@ -106,7 +106,7 @@ export default function MyGiftRecipt() {
                     </p>
                   </div>
                 )}
-                {axioData?.res2_data?.usage_list?.length > 0 && (
+                {axioData?.res2_data?.usage_list?.length > 0 ? (
                   <ul className="data-list">
                     {axioData?.res2_data?.usage_list?.map((element, index) => (
                       <li key={index}>
@@ -156,14 +156,22 @@ export default function MyGiftRecipt() {
                       </li>
                     ))}
                   </ul>
+                ) : (
+                  <div className="nodata-wrap">
+                    <div className="item nodata">
+                      <i className="ico nodata"></i>
+                      <p className="text gray">충전카드 사용 내역이 없습니다.</p>
+                    </div>
+                  </div>
                 )}
-
-                <p className="alert ta-c">
-                  <i className="ico alert">
-                    <span>알림</span>
-                  </i>
-                  {axioData?.res2_data?.usage_list?.length > 0 ? "최근 10건의 사용내역을 조회할 수 있습니다. " : "해당카드의 사용내역이 없습니다."}
-                </p>
+                {axioData?.res2_data?.usage_list?.length > 0 && (
+                  <p className="alert ta-c">
+                    <i className="ico alert">
+                      <span>알림</span>
+                    </i>
+                    최근 10건의 사용내역을 조회할 수 있습니다.
+                  </p>
+                )}
               </section>
             </div>
             {/* // #content */}

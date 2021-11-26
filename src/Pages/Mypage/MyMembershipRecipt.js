@@ -123,36 +123,45 @@ export default function MyMembershipRecipt() {
                   </div>
                 </div>
 
-                <ol className="data-list">
-                  {axioData?.trop_data?.usage_list?.map((e, i) => (
-                    <li key={i}>
-                      <div className="item save">
-                        <div className="flex-both">
-                          <div className="data-wrap">
-                            <p className="time">{e?.date}</p>
-                            <div className="data-info flex-list">
-                              <p className="title">{e?.detail}</p>
-                              {e?.channel && <p>{e?.channel}</p>}
+                {axioData?.trop_data?.usage_list?.length > 0 ? (
+                  <ol className="data-list">
+                    {axioData?.trop_data?.usage_list?.map((e, i) => (
+                      <li key={i}>
+                        <div className="item save">
+                          <div className="flex-both">
+                            <div className="data-wrap">
+                              <p className="time">{e?.date}</p>
+                              <div className="data-info flex-list">
+                                <p className="title">{e?.detail}</p>
+                                {e?.channel && <p>{e?.channel}</p>}
+                              </div>
                             </div>
-                          </div>
-                          <div className="state-wrap">
-                            <div className={`state ${e?.type === 1 ? "saving" : "cancel"}`}>
-                              <p className="text">
-                                {e?.type === 1 ? "적립" : e?.type === 2 ? "등급변경" : e?.type === 3 ? "취소" : e?.type === 4 ? "유효기간만료" : ""}
-                              </p>
-                              <p>&nbsp;{e?.point}</p>
+                            <div className="state-wrap">
+                              <div className={`state ${e?.type === 1 ? "saving" : "cancel"}`}>
+                                <p className="text">
+                                  {e?.type === 1 ? "적립" : e?.type === 2 ? "등급변경" : e?.type === 3 ? "취소" : e?.type === 4 ? "유효기간만료" : ""}
+                                </p>
+                                <p>&nbsp;{e?.point}</p>
+                              </div>
                             </div>
-                          </div>
 
-                          {/* [D] 적립 상태 :
+                            {/* [D] 적립 상태 :
                     .state.saving : 적립 ,
                     .state.cancel : 적립취소
                      */}
+                          </div>
                         </div>
-                      </div>
-                    </li>
-                  ))}
-                </ol>
+                      </li>
+                    ))}
+                  </ol>
+                ) : (
+                  <div className="nodata-wrap">
+                    <div className="item nodata">
+                      <i className="ico nodata"></i>
+                      <p className="text gray">트로피 적립 내역이 없습니다.</p>
+                    </div>
+                  </div>
+                )}
               </section>
             </div>
             {/* // #content */}

@@ -135,66 +135,77 @@ export default function MyOrderRecipt() {
             </header>
 
             <div id="content" className="mypage order fade-in">
-              <div className="sorting-wrap w-inner flex-end">
-                <select className="select medium" name="" id="select-duration" defaultValue={duration ? duration : "w"}>
-                  <option value="w">1주일 이내</option>
-                  <option value="m">1개월 이내</option>
-                  <option value="y">1년 이내</option>
-                </select>
-              </div>
+              {axioData?.result?.length > 0 && (
+                <div className="sorting-wrap w-inner flex-end">
+                  <select className="select medium" name="" id="select-duration" defaultValue={duration ? duration : "w"}>
+                    <option value="w">1주일 이내</option>
+                    <option value="m">1개월 이내</option>
+                    <option value="y">1년 이내</option>
+                  </select>
+                </div>
+              )}
 
-              <ul className="order-list data-list">
-                {axioData?.result?.map((e, i) => (
-                  <li key={i} onClick={() => handleDetail(e?.smartorderinfo_id)}>
-                    <div
-                      className={`item order ${
-                        e?.orderinfo_status === 2
-                          ? "making"
-                          : e?.orderinfo_status === 3
-                          ? "making"
-                          : e?.orderinfo_status === 4
-                          ? "complete"
-                          : e?.orderinfo_status === 5
-                          ? "cancel"
-                          : ""
-                      }`}
-                    >
-                      {/*
+              {axioData?.result?.length > 0 ? (
+                <ul className="order-list data-list">
+                  {axioData?.result?.map((e, i) => (
+                    <li key={i} onClick={() => handleDetail(e?.smartorderinfo_id)}>
+                      <div
+                        className={`item order ${
+                          e?.orderinfo_status === 2
+                            ? "making"
+                            : e?.orderinfo_status === 3
+                            ? "making"
+                            : e?.orderinfo_status === 4
+                            ? "complete"
+                            : e?.orderinfo_status === 5
+                            ? "cancel"
+                            : ""
+                        }`}
+                      >
+                        {/*
                   .item.order.making  : 제조중
                   .item.order.complete: 제조완료
                   .item.order.cancel  : 취소
                 */}
-                      <div className="img-wrap">
-                        <img src={e?.menu_with_type === "I" ? e?.menu_with_ice_img : e?.menu_with_hot_img} alt={e?.menu_name_with_count} />
-                      </div>
-                      <div className="detail-wrap">
-                        <div className="order-info">
-                          <div className="flex-both">
-                            <p className="title">{e?.menu_name_with_count}</p>
-                            <p className="location">{e?.orderinfo_store_name}</p>
+                        <div className="img-wrap">
+                          <img src={e?.menu_with_type === "I" ? e?.menu_with_ice_img : e?.menu_with_hot_img} alt={e?.menu_name_with_count} />
+                        </div>
+                        <div className="detail-wrap">
+                          <div className="order-info">
+                            <div className="flex-both">
+                              <p className="title">{e?.menu_name_with_count}</p>
+                              <p className="location">{e?.orderinfo_store_name}</p>
+                            </div>
+                            <p className="info">
+                              <span className="en">{e?.orderinfo_orderdate}</span>
+                            </p>
                           </div>
-                          <p className="info">
-                            <span className="en">{e?.orderinfo_orderdate}</span>
-                          </p>
-                        </div>
-                        <div className="status-info">
-                          <p className="status">
-                            {e?.orderinfo_status === 2
-                              ? "주문접수"
-                              : e?.orderinfo_status === 3
-                              ? "제조중"
-                              : e?.orderinfo_status === 4
-                              ? "제조완료"
-                              : e?.orderinfo_status === 5
-                              ? "취소"
-                              : ""}
-                          </p>
+                          <div className="status-info">
+                            <p className="status">
+                              {e?.orderinfo_status === 2
+                                ? "주문접수"
+                                : e?.orderinfo_status === 3
+                                ? "제조중"
+                                : e?.orderinfo_status === 4
+                                ? "제조완료"
+                                : e?.orderinfo_status === 5
+                                ? "취소"
+                                : ""}
+                            </p>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  </li>
-                ))}
-              </ul>
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <div className="nodata-wrap">
+                  <div className="item nodata">
+                    <i className="ico nodata"></i>
+                    <p className="text gray">주문내역이 없습니다.</p>
+                  </div>
+                </div>
+              )}
             </div>
             {/* // #content */}
           </div>
