@@ -9,10 +9,9 @@ import $ from "jquery";
 import React, { useEffect, useContext, useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 
-import HeaderSub from "Components/Header/HeaderSub";
 import Nav from "Components/Nav/Nav";
 import GoContents from "Components/GoContents";
-import { contGap, popupOpen, tabLink, fadeInOut } from "Jquery/Jquery";
+import { contGap, popupOpen, tabLink } from "Jquery/Jquery";
 import Popup_removeCard from "Components/Popup/Popup_removeCard";
 import Popup_nomal from "Components/Popup/Popup_nomal";
 
@@ -567,6 +566,11 @@ export default function Pay() {
             <header id="header" className="header">
               <h1 className="page-title">페이</h1>
               <div className="btn-area flex-center">
+                <button type="button" className="btn open-pop add" pop-target="#popupCardAdd">
+                  <i className="ico add-card">
+                    <span>카드 추가</span>
+                  </i>
+                </button>
                 <a onClick={() => handlePage("/mypage/giftSend")} className="btn">
                   <i className="ico gift">
                     <span>메뉴검색</span>

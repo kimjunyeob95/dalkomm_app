@@ -128,45 +128,53 @@ export default function MyStampRecipt() {
                     </div>
                   </div>
                 </div>
+                {axioData?.stampList?.usage_list?.length > 0 ? (
+                  <ol className="data-list">
+                    {axioData?.stampList?.usage_list?.map((e, i) => {
+                      let hide_flag = !e?.store_name && !e?.channel ? 0 : 100;
+                      return (
+                        <li key={i}>
+                          <div className="item save">
+                            <div className="flex-both">
+                              <div className="data-wrap">
+                                <p className="time">{e?.date}</p>
+                                <div className="data-info flex-list" style={{ opacity: 100 }}>
+                                  {e?.store_name && <p className="title">{e?.store_name}</p>}
+                                  {e?.channel && <p>{e?.channel}</p>}
 
-                <ol className="data-list">
-                  {axioData?.stampList?.usage_list?.map((e, i) => {
-                    let hide_flag = !e?.store_name && !e?.channel ? 0 : 100;
-                    return (
-                      <li key={i}>
-                        <div className="item save">
-                          <div className="flex-both">
-                            <div className="data-wrap">
-                              <p className="time">{e?.date}</p>
-                              <div className="data-info flex-list" style={{ opacity: 100 }}>
-                                {e?.store_name && <p className="title">{e?.store_name}</p>}
-                                {e?.channel && <p>{e?.channel}</p>}
-
-                                {e?.detail && <p className="text">{e?.detail}</p>}
+                                  {e?.detail && <p className="text">{e?.detail}</p>}
+                                </div>
                               </div>
-                            </div>
-                            <div className="state-wrap">
-                              <div className={`state ${e?.type === 1 ? "saving" : "cancel"}`}>
-                                <p className="text">
-                                  {e?.type === 1 ? "적립" : e?.type === 2 ? "사용" : e?.type === 3 ? "취소" : e?.type === 4 ? "소멸" : ""}
-                                </p>
-                                <p>&nbsp;{e?.point}</p>
-                                {/* [D] 트로피 사용 :
+                              <div className="state-wrap">
+                                <div className={`state ${e?.type === 1 ? "saving" : "cancel"}`}>
+                                  <p className="text">
+                                    {e?.type === 1 ? "적립" : e?.type === 2 ? "사용" : e?.type === 3 ? "취소" : e?.type === 4 ? "소멸" : ""}
+                                  </p>
+                                  <p>&nbsp;{e?.point}</p>
+                                  {/* [D] 트로피 사용 :
                                                 .amount.increase : 트로피 사용 + ,
                                                 .amount.decrease : 트로피 차감 -
                                                 */}
-                              </div>
-                              {/* [D] 적립 상태 :
+                                </div>
+                                {/* [D] 적립 상태 :
                                         .state.saving : 적립 ,
                                         .state.cancel : 적립취소
                                         */}
+                              </div>
                             </div>
                           </div>
-                        </div>
-                      </li>
-                    );
-                  })}
-                </ol>
+                        </li>
+                      );
+                    })}
+                  </ol>
+                ) : (
+                  <div className="nodata-wrap">
+                    <div className="item nodata">
+                      <i className="ico nodata"></i>
+                      <p className="text gray">적립 스탬프 내역이 없습니다.</p>
+                    </div>
+                  </div>
+                )}
               </section>
             </div>
             {/* // #content */}
