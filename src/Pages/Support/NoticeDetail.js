@@ -46,7 +46,7 @@ export default function NoticeDetail() {
 
         <div id="wrap" className="wrap">
           <div id="container" className="container">
-            <HeaderSub title="공지 사항" />
+            <HeaderSub title="달콤소식" />
 
             <div id="content" className="notice detail fade-in">
               <section className="section">
@@ -81,7 +81,7 @@ export default function NoticeDetail() {
   } else {
     <div id="wrap" className="wrap">
       <div id="container" className="container">
-        <HeaderSub title="공지 사항" />
+        <HeaderSub title="달콤소식" />
       </div>
     </div>;
   }

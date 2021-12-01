@@ -143,7 +143,7 @@ export default function Pay() {
     axios.all([axios.post(`${SERVER_DALKOMM}/app/api/v2/chargecard/publish`, body, header_config)]).then(
       axios.spread((res1) => {
         if (res1.data.meta.code === 20000) {
-          $("#resAlert").text("충전카드가 발급되었습니다.");
+          $("#resAlert").text("기프트카드가 발급되었습니다.");
           $(".overlay.popupExitJoin").addClass("active");
           $("body").addClass("modal-opened");
           firstApi();
@@ -190,7 +190,7 @@ export default function Pay() {
       .then(
         axios.spread((res1) => {
           if (res1.data.meta.code === 20000) {
-            $("#resAlert").text("충전카드가 발급되었습니다.");
+            $("#resAlert").text("기프트카드가 발급되었습니다.");
             $(".overlay.popupExitJoin").addClass("active");
             $("body").addClass("modal-opened");
             firstApi();
@@ -458,7 +458,7 @@ export default function Pay() {
 
                           <ul className="attention-list">
                             <li>선물 받은 카드 번호 16자리와 PIN번호 7자리를 입력해 주세요.</li>
-                            <li>[충전카드 선물하기]를 통해 보다 편리하게 충전카드를 선물할 수 있습니다.</li>
+                            <li>[기프트카드 선물하기]를 통해 보다 편리하게 기프트카드를 선물할 수 있습니다.</li>
                           </ul>
                         </div>
                       </fieldset>

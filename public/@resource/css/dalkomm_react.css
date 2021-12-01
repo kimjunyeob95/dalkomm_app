@@ -24,8 +24,11 @@ input[type="number"]:disabled{background-color: rgb(255, 255, 255); color:rgb(0,
 .noDrag {-webkit-user-drag: none;-webkit-user-select: none;}
 .loading-wrap{background: none;}
 
-.banner-wrap .content-wrap .main-copy { color: #fff;}
-.banner-wrap .content-wrap .text {color: #fff; opacity: 0.8;}
+.banner-wrap .content-wrap .main-copy.white { color: #fff;}
+.banner-wrap .content-wrap .text.white {color: #fff; opacity: 0.8;}
+.banner-wrap .content-wrap .main-copy.black { color: #000;}
+.banner-wrap .content-wrap .text.black {color: #000; opacity: 0.8;}
+
 .ico.order {background-image: url('../images/com/icon_search_black.svg'); }
 .ico.order.white {background-image: url('../images/com/icon_search.svg'); }
 .swiper-scrollbar-drag{background: #fff; opacity: 0.6;}
@@ -45,4 +48,6 @@ input[type="number"]:disabled{background-color: rgb(255, 255, 255); color:rgb(0,
 .app-menu .top-header .w-inner{padding-top: 5.333vw;}
 .pay.history .ico.alert {left: 17vw}
 #content.pay.charge.history .nodata-wrap{ margin-top: 6.6vw;}
-
+.contentView img{width: 100% !important; height: auto !important;}
+#content.app-menu .gnb-list li.active span::before{content: ''; display: inline-block; position: absolute; top: 0.267vw; right: -2.400vw; width: 1.067vw; height: 1.067vw; background-color: #ff592e; border-radius: 50%;}
+.loading-wrap img{width: 80px; height: 80px;}

@@ -12,13 +12,14 @@ import Nav from "Components/Nav/Nav";
 import GoContents from "Components/GoContents";
 import { contGap, moveScrollTop } from "Jquery/Jquery";
 import Popup_nomal from "Components/Popup/Popup_nomal";
+import Loading from "Components/Loading";
 
 import { Map, GoogleApiWrapper, Marker } from "google-maps-react";
 
 import { Swiper, SwiperSlide } from "swiper/react";
 import SwiperCore, { Scrollbar } from "swiper/core";
 
-import { SERVER_DALKOMM, FRONT_SERVER } from "Config/Server";
+import { SERVER_DALKOMM } from "Config/Server";
 import { authContext } from "ContextApi/Context";
 import { getCookieValue, fadeOut, checkMobile, handleLogin, setCookie } from "Config/GlobalJs";
 
@@ -51,13 +52,13 @@ export function Order(props) {
       //로그인 시
       axios
         .all([
-          axios.post(`${SERVER_DALKOMM}/app/api/v2/store/around`, location_body, header_config),
-          axios.post(`${SERVER_DALKOMM}/app/api/v2/store/main`, location_body, header_config),
+          location_body.latitude && location_body.longitude && axios.post(`${SERVER_DALKOMM}/app/api/v2/store/around`, location_body, header_config),
+          location_body.latitude && location_body.longitude && axios.post(`${SERVER_DALKOMM}/app/api/v2/store/main`, location_body, header_config),
         ])
         .then(
           axios.spread((res1, res2) => {
-            let res1_data = res1.data.data;
-            let res2_data = res2.data.data;
+            let res1_data = res1?.data?.data;
+            let res2_data = res2?.data?.data;
             setData((origin) => {
               return {
                 ...origin,
@@ -69,17 +70,21 @@ export function Order(props) {
         );
     } else {
       //비로그인 시
-      axios.all([axios.post(`${SERVER_DALKOMM}/app/api/v2/store/around`, location_body, header_config)]).then(
-        axios.spread((res1) => {
-          let res1_data = res1.data.data;
-          setData((origin) => {
-            return {
-              ...origin,
-              res1_data,
-            };
-          });
-        })
-      );
+      axios
+        .all([
+          location_body.latitude && location_body.longitude && axios.post(`${SERVER_DALKOMM}/app/api/v2/store/around`, location_body, header_config),
+        ])
+        .then(
+          axios.spread((res1) => {
+            let res1_data = res1?.data?.data;
+            setData((origin) => {
+              return {
+                ...origin,
+                res1_data,
+              };
+            });
+          })
+        );
     }
   }, []);
 
@@ -351,109 +356,119 @@ export function Order(props) {
                       <i className="ico search-s"></i>
                     </Link>
                   </div>
-
-                  <ul className="data-list col-2">
-                    {axioData?.res1_data?.store_list?.map((e, i) => {
-                      return (
-                        <li key={i}>
-                          <a
-                            data-href="#tableOrderAble"
-                            className="item store open-layer"
-                            onClick={(event) => handleDetail(event.currentTarget, e.store_code)}
-                          >
-                            <div className="flex-both">
-                              <span
-                                data-storecode={e.store_code}
-                                className={`btn bookmark ${e.store_is_favorite && "active"}`}
-                                onClick={(event) => handleFavorite(event.currentTarget, e.store_code)}
-                              >
-                                <i className="ico heart">
-                                  <span>즐겨찾기</span>
-                                </i>
-                              </span>
-                              <div className="table-order-wrap">
-                                {i === 0 && getCookieValue("orderBalloon") !== "true" && (
-                                  <div className="speech-wrap">
-                                    <p className="speech-bubble">
-                                      현재 테이블 오더가
-                                      <br />
-                                      가능한 매장인지 확인해보세요.
-                                    </p>
-                                  </div>
-                                )}
-
-                                <span className={`table-order ${e.store_is_smartorder === true ? "possible" : "impossible"}`}></span>
-                              </div>
-                            </div>
-                            <div className="img-wrap">
-                              <i
-                                className={`ico store-type ${
-                                  e?.store_sub_type === 0
-                                    ? "house"
-                                    : e?.store_sub_type === 1
-                                    ? "building"
-                                    : e?.store_sub_type === 2
-                                    ? "rest-area"
-                                    : e?.store_sub_type === 3
-                                    ? "terminal"
-                                    : e?.store_sub_type === 4
-                                    ? "head-office"
-                                    : e?.store_sub_type === 5
-                                    ? "drive-thru"
-                                    : e?.store_sub_type === 6
-                                    ? "vivaldi-park"
-                                    : e?.store_sub_type === 7
-                                    ? "hospital"
-                                    : e?.store_sub_type === 8
-                                    ? "cinema"
-                                    : e?.store_sub_type === 9
-                                    ? "theme-park"
-                                    : ""
-                                }`}
-                              ></i>
-                            </div>
-                            <div className="data-wrap">
-                              <p className="place">{e.store_name}</p>
-                              <ul className="provide-list">
-                                <li>
-                                  <i className="ico wifi">
-                                    <span>인터넷가능 매장</span>
+                  {state.latitude && state.longitude ? (
+                    <ul className="data-list col-2">
+                      {axioData?.res1_data?.store_list?.map((e, i) => {
+                        return (
+                          <li key={i}>
+                            <a
+                              data-href="#tableOrderAble"
+                              className="item store open-layer"
+                              onClick={(event) => handleDetail(event.currentTarget, e.store_code)}
+                            >
+                              <div className="flex-both">
+                                <span
+                                  data-storecode={e.store_code}
+                                  className={`btn bookmark ${e.store_is_favorite && "active"}`}
+                                  onClick={(event) => handleFavorite(event.currentTarget, e.store_code)}
+                                >
+                                  <i className="ico heart">
+                                    <span>즐겨찾기</span>
                                   </i>
-                                </li>
-                                {e?.store_is_park && (
+                                </span>
+                                <div className="table-order-wrap">
+                                  {i === 0 && getCookieValue("orderBalloon") !== "true" && (
+                                    <div className="speech-wrap">
+                                      <p className="speech-bubble">
+                                        현재 테이블 오더가
+                                        <br />
+                                        가능한 매장인지 확인해보세요.
+                                      </p>
+                                    </div>
+                                  )}
+
+                                  <span className={`table-order ${e.store_is_smartorder === true ? "possible" : "impossible"}`}></span>
+                                </div>
+                              </div>
+                              <div className="img-wrap">
+                                <i
+                                  className={`ico store-type ${
+                                    e?.store_sub_type === 0
+                                      ? "house"
+                                      : e?.store_sub_type === 1
+                                      ? "building"
+                                      : e?.store_sub_type === 2
+                                      ? "rest-area"
+                                      : e?.store_sub_type === 3
+                                      ? "terminal"
+                                      : e?.store_sub_type === 4
+                                      ? "head-office"
+                                      : e?.store_sub_type === 5
+                                      ? "drive-thru"
+                                      : e?.store_sub_type === 6
+                                      ? "vivaldi-park"
+                                      : e?.store_sub_type === 7
+                                      ? "hospital"
+                                      : e?.store_sub_type === 8
+                                      ? "cinema"
+                                      : e?.store_sub_type === 9
+                                      ? "theme-park"
+                                      : ""
+                                  }`}
+                                ></i>
+                              </div>
+                              <div className="data-wrap">
+                                <p className="place">{e.store_name}</p>
+                                <ul className="provide-list">
                                   <li>
-                                    <i className="ico parking">
-                                      <span>주차가능 매장</span>
+                                    <i className="ico wifi">
+                                      <span>인터넷가능 매장</span>
                                     </i>
                                   </li>
-                                )}
-                                {e?.store_is_smoking && (
-                                  <li>
-                                    <i className="ico smoking">
-                                      <span>흡연가능 매장</span>
-                                    </i>
-                                  </li>
-                                )}
-                                {e?.store_is_kiosk && (
-                                  <li>
-                                    <i className="ico kiosk">
-                                      <span>키오스크 매장</span>
-                                    </i>
-                                  </li>
-                                )}
-                                {/* <li>
+                                  {e?.store_is_park && (
+                                    <li>
+                                      <i className="ico parking">
+                                        <span>주차가능 매장</span>
+                                      </i>
+                                    </li>
+                                  )}
+                                  {e?.store_is_smoking && (
+                                    <li>
+                                      <i className="ico smoking">
+                                        <span>흡연가능 매장</span>
+                                      </i>
+                                    </li>
+                                  )}
+                                  {e?.store_is_kiosk && (
+                                    <li>
+                                      <i className="ico kiosk">
+                                        <span>키오스크 매장</span>
+                                      </i>
+                                    </li>
+                                  )}
+                                  {/* <li>
                                   <i className="ico drive">
                                     <span>드라이브스루 매장</span>
                                   </i>
                                 </li> */}
-                              </ul>
-                              <p className="distance">{e.store_distance !== "-1" && e.store_distance + "km"}</p>
-                            </div>
-                          </a>
-                        </li>
-                      );
-                    })}
-                  </ul>
+                                </ul>
+                                <p className="distance">{e.store_distance !== "-1" && e.store_distance + "km"}</p>
+                              </div>
+                            </a>
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  ) : (
+                    <div className="alert-info" style={{ marginTop: "22.667vw" }}>
+                      <i className="ico store-alert"></i>
+                      <p className="text ta-c">
+                        앱 설정 &gt; 권한에서 <span className="fc-orange">위치 권한</span>을 허용해 주세요.
+                        <br />
+                        고객님과 가까운 매장을 추천해 드립니다.
+                      </p>
+                    </div>
+                  )}
                 </div>
               </section>
               {/* //가까운 매장 */}
@@ -691,7 +706,8 @@ export function Order(props) {
                       <div className="w-inner btn-area flex-both">
                         <button
                           className="btn full medium dark"
-                          onClick={(e) => handleGoPage(e.currentTarget, `/order/menu/${storeData?.detailStore?.store_code}`)}
+                          // onClick={(e) => handleGoPage(e.currentTarget, `/order/menu/${storeData?.detailStore?.store_code}`)}
+                          onClick={(e) => handleGoPage(e.currentTarget, `/order/menu/dalkomm217`)}
                         >
                           주문하기
                         </button>
@@ -754,6 +770,7 @@ export function Order(props) {
             <header id="header" className="header undefined">
               <h1 className="page-title">매장선택</h1>
             </header>
+            <Loading />
             <Nav order={3} />
           </div>
         </div>

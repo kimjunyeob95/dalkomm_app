@@ -139,13 +139,13 @@ export default function Menu() {
               <ul className="gnb-list">
                 <li>
                   <ul>
-                    <li className="new">
+                    <li className={`${axioData?.newFlag?.storyNew === "TRUE" && "active"}`}>
                       {" "}
                       {/* [D] 활성화 콘텐츠 메뉴 .new */}
                       <Link to="/story/list" className="item depth-menu">
                         <i className="ico menu-story"></i>
                         <span>달콤스토리</span>
-                        {axioData?.newFlag?.storyNew === "TRUE" && <i className="ico new">N</i>}
+                        {/* {axioData?.newFlag?.storyNew === "TRUE" && <i className="ico new">N</i>} */}
                         {/* [D] 활성화 콘텐츠 메뉴일시 노출*/}
                       </Link>
                     </li>
@@ -165,13 +165,13 @@ export default function Menu() {
                         </Link>
                       </li>
                     )}
-                    <li className="new">
+                    <li className={`${axioData?.newFlag?.noticeNew === "TRUE" && "active"}`}>
                       {" "}
                       {/* [D] 활성화 콘텐츠 메뉴 .new */}
                       <Link to="/support/notice/list" className="item depth-menu">
                         <i className="ico menu-notice"></i>
-                        <span>공지사항</span>
-                        {axioData?.newFlag?.noticeNew === "TRUE" && <i className="ico new">N</i>}
+                        <span>달콤소식</span>
+                        {/* {axioData?.newFlag?.noticeNew === "TRUE" && <i className="ico new">N</i>} */}
                       </Link>
                     </li>
                     <li>

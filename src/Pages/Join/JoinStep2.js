@@ -23,22 +23,29 @@ const range = require("lodash");
 
 export default function JoinStep2() {
   const [state, dispatch] = useContext(authContext);
+  const history = useHistory();
+  const location = useLocation();
   const [startDate, setStartDate] = useState();
   const years = range.range(1940, getYear(new Date()) + 1, 1); // 수정
   const months = ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"];
-  const history = useHistory();
-  const location = useLocation();
+
   let header_config = {
     headers: {
       "X-dalkomm-access-token": state.accessToken,
       Authorization: state.auth,
     },
   };
+
   useEffect(() => {
     if (location?.join_token === "" || !location?.join_token) {
       alert("잘못된 접근입니다.");
       history.push("/");
     }
+    setTimeout(() => {
+      if (location?.value?.datepicker) {
+        $("#datepicker").val(location?.value?.datepicker);
+      }
+    }, 500);
   }, []);
 
   const handleSubmit = (e) => {
@@ -168,6 +175,7 @@ export default function JoinStep2() {
                             maxLength={8}
                             placeholder="이름(닉네임)을 입력해 주세요."
                             style={{ imeMode: "active" }}
+                            defaultValue={location?.value?.userName}
                           />
                         </div>
                         <p className="guide-txt">2자 이상 8자 이하, 한글 또는 영문만 입력 가능합니다.</p>
@@ -177,7 +185,13 @@ export default function JoinStep2() {
                           이메일 주소
                         </label>
                         <div className="insert">
-                          <input type="email" className="input-text medium chk-validation" id="useEmail" placeholder="이메일 주소를 입력해 주세요." />
+                          <input
+                            type="email"
+                            className="input-text medium chk-validation"
+                            id="useEmail"
+                            defaultValue={location?.value?.useEmail}
+                            placeholder="이메일 주소를 입력해 주세요."
+                          />
                         </div>
                         <p className="guide-txt">올바른 형식의 이메일 주소를 입력해 주세요</p>
                       </div>
@@ -186,7 +200,13 @@ export default function JoinStep2() {
                           비밀번호
                         </label>
                         <div className="insert">
-                          <input type="password" className="input-text medium chk-validation" id="userPw" placeholder="비밀번호를 입력해 주세요." />
+                          <input
+                            type="password"
+                            defaultValue={location?.value?.userPw}
+                            className="input-text medium chk-validation"
+                            id="userPw"
+                            placeholder="비밀번호를 입력해 주세요."
+                          />
                         </div>
                         <p className="guide-txt">8자리 이상 영문, 숫자, 특수문자 중 2가지 이상 사용해 주세요.</p>
                       </div>
@@ -200,6 +220,7 @@ export default function JoinStep2() {
                             className="input-text medium chk-validation"
                             id="userPwChk"
                             placeholder="비밀번호를 한번 더 입력해 주세요."
+                            defaultValue={location?.value?.userPw}
                           />
                         </div>
                       </div>
@@ -246,7 +267,6 @@ export default function JoinStep2() {
                             // filterDate={(date) => date.getDay() !== 6 && date.getDay() !== 0}
                             // calendarClassName="" // 캘린더 클래스부여
                             // portalId="" //캘린더 최상단 ID부여
-
                             maxDate={new Date()}
                             dateFormatCalendar="yyyy년 MM월"
                             popperPlacement="auto" // 화면 중앙에 팝업이 뜨도록
@@ -271,11 +291,28 @@ export default function JoinStep2() {
                         <input type="checkbox" className="checkbox chk-agree" name="termsAgree" id="termsAgree01" />
                         <label htmlFor="termsAgree01">이용 약관 동의 (필수)</label>
                       </div>
-                      {/* <div className="btn-area">
-                        <button type="button" pop-target="#popupTerms01" className="btn bdr-r xx-small gray open-pop">
+                      <div className="btn-area">
+                        <button
+                          type="button"
+                          onClick={() =>
+                            history.push({
+                              pathname: "/support/terms",
+                              from: "회원가입",
+                              value: {
+                                userName: $("#userName").val(),
+                                useEmail: $("#useEmail").val(),
+                                userPw: $("#userPw").val(),
+                                datepicker: $("#datepicker").val(),
+                              },
+                              join_token: location?.join_token,
+                            })
+                          }
+                          pop-target="#popupTerms01"
+                          className="btn bdr-r xx-small gray open-pop"
+                        >
                           전문보기
                         </button>
-                      </div> */}
+                      </div>
                     </div>
 
                     <div className="field">
@@ -283,33 +320,84 @@ export default function JoinStep2() {
                         <input type="checkbox" className="checkbox chk-agree" name="termsAgree" id="termsAgree02" />
                         <label htmlFor="termsAgree02">위치정보 이용약관 동의 (필수)</label>
                       </div>
-                      {/* <div className="btn-area">
-                        <button type="button" pop-target="#popupTerms02" className="btn bdr-r xx-small gray open-pop">
+                      <div className="btn-area">
+                        <button
+                          type="button"
+                          onClick={() =>
+                            history.push({
+                              pathname: "/support/terms",
+                              from: "회원가입",
+                              value: {
+                                userName: $("#userName").val(),
+                                useEmail: $("#useEmail").val(),
+                                userPw: $("#userPw").val(),
+                                datepicker: $("#datepicker").val(),
+                              },
+                              join_token: location?.join_token,
+                            })
+                          }
+                          pop-target="#popupTerms02"
+                          className="btn bdr-r xx-small gray open-pop"
+                        >
                           전문보기
                         </button>
-                      </div> */}
+                      </div>
                     </div>
                     <div className="field">
                       <div className="check-wrap">
                         <input type="checkbox" className="checkbox chk-agree" name="termsAgree" id="termsAgree03" />
                         <label htmlFor="termsAgree03">개인 정보 수집 및 이용 동의 (필수)</label>
                       </div>
-                      {/* <div className="btn-area">
-                        <button type="button" pop-target="#popupTerms02" className="btn bdr-r xx-small gray open-pop">
+                      <div className="btn-area">
+                        <button
+                          type="button"
+                          onClick={() =>
+                            history.push({
+                              pathname: "/support/policy",
+                              from: "회원가입",
+                              value: {
+                                userName: $("#userName").val(),
+                                useEmail: $("#useEmail").val(),
+                                userPw: $("#userPw").val(),
+                                datepicker: $("#datepicker").val(),
+                              },
+                              join_token: location?.join_token,
+                            })
+                          }
+                          pop-target="#popupTerms02"
+                          className="btn bdr-r xx-small gray open-pop"
+                        >
                           전문보기
                         </button>
-                      </div> */}
+                      </div>
                     </div>
                     <div className="field">
                       <div className="check-wrap">
                         <input type="checkbox" className="checkbox chk-agree" name="termsAgree" id="termsAgree04" />
                         <label htmlFor="termsAgree04">개인 정보 제공 및 위탁 동의 (필수)</label>
                       </div>
-                      {/* <div className="btn-area">
-                        <button type="button" pop-target="#popupTerms02" className="btn bdr-r xx-small gray open-pop">
+                      <div className="btn-area">
+                        <button
+                          type="button"
+                          onClick={() =>
+                            history.push({
+                              pathname: "/support/policy",
+                              from: "회원가입",
+                              value: {
+                                userName: $("#userName").val(),
+                                useEmail: $("#useEmail").val(),
+                                userPw: $("#userPw").val(),
+                                datepicker: $("#datepicker").val(),
+                              },
+                              join_token: location?.join_token,
+                            })
+                          }
+                          pop-target="#popupTerms02"
+                          className="btn bdr-r xx-small gray open-pop"
+                        >
                           전문보기
                         </button>
-                      </div> */}
+                      </div>
                     </div>
                     <div className="field">
                       <div className="check-wrap">

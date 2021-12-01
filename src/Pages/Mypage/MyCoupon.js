@@ -27,9 +27,7 @@ export default function MyCoupon() {
     },
   };
 
-  useEffect(() => {
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-
+  const fn_axios = () => {
     axios.all([axios.post(`${SERVER_DALKOMM}/app/api/v2/coupon/list`, body, header_config)]).then(
       axios.spread((res1) => {
         let res1_data = res1.data.data;
@@ -41,6 +39,11 @@ export default function MyCoupon() {
         });
       })
     );
+  };
+
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    fn_axios();
   }, []);
   const fn_submit = () => {
     let coupon_number = $("#couponNum").val();
@@ -50,14 +53,12 @@ export default function MyCoupon() {
     } else {
       axios.all([axios.post(`${SERVER_DALKOMM}/app/api/v2/coupon/ext/use`, { coupon_number: coupon_number }, header_config)]).then(
         axios.spread((res1) => {
-          let res1_data = res1.data.data;
+          $("#couponNum").val("");
+          $("body").removeClass("modal-opened");
+          $("#popupRegisterCoupon").removeClass("active");
           alert(res1.data.meta.msg);
-          if (res1.data.meta === 20000) {
-            setData((origin) => {
-              return {
-                ...origin,
-              };
-            });
+          if (res1.data.meta.code === 20000) {
+            fn_axios();
           }
         })
       );

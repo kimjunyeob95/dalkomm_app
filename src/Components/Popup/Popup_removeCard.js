@@ -34,10 +34,10 @@ export default function Popup_removeCard() {
       axios.all([axios.post(`${SERVER_DALKOMM}/app/api/v2/chargecard/delete`, { card_number: cardNum, pin: cardPin }, header_config)]).then(
         axios.spread((response) => {
           if (response.data.meta.code === 20000) {
-            alert("해당 충전카드가 삭제되었습니다.");
+            alert("해당 기프트카드가 삭제되었습니다.");
             window.location.reload();
           } else if (response.data.meta.code === 20025) {
-            alert("충전카드 잔액이 0원일 때 삭제하실 수 있습니다.");
+            alert("기프트카드 잔액이 0원일 때 삭제하실 수 있습니다.");
             $("body").removeClass("modal-opened");
             $("#popupExitJoin").removeClass("active");
           } else {

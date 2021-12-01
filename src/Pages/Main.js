@@ -15,7 +15,7 @@ import Popup_nomal from "Components/Popup/Popup_nomal";
 
 import { accordion, scrollDetail, popupOpen, contGap, moveScrollTop } from "Jquery/Jquery";
 import { checkMobile, getCookieValue, fadeOut, fn_memberName, handleLogin, setCookie } from "Config/GlobalJs";
-import { SERVER_DALKOMM, SERVER_DALKOMM_SUGAR, FRONT_SERVER } from "Config/Server";
+import { SERVER_DALKOMM, SERVER_DALKOMM_SUGAR } from "Config/Server";
 import { Swiper, SwiperSlide } from "swiper/react";
 import SwiperCore, { Autoplay, Scrollbar } from "swiper/core";
 import { authContext } from "ContextApi/Context";
@@ -63,7 +63,7 @@ export function Main(props) {
       axios
         .all([
           axios.post(`${SERVER_DALKOMM_SUGAR}/api/getMainBanner`),
-          axios.post(`${SERVER_DALKOMM}/app/api/v2/store/around`, location_body, header_config),
+          location_body.latitude && location_body.longitude && axios.post(`${SERVER_DALKOMM}/app/api/v2/store/around`, location_body, header_config),
           axios.post(`${SERVER_DALKOMM}/app/api/main/user`, body, header_config),
           axios.post(`${SERVER_DALKOMM}/app/api/v2/coupon/list`, body, header_config),
           axios.post(`${SERVER_DALKOMM}/app/api/v2/membership`, body, header_config),
@@ -75,14 +75,14 @@ export function Main(props) {
         .then(
           axios.spread((res1, res2, res3, res4, res5, res6, res7, res8, res9) => {
             let res1_data = res1.data;
-            let res2_data = res2.data.data;
+            let res2_data = res2?.data?.data;
             let res3_data = res3.data.data;
             let res4_data = res4.data.data;
             let res5_data = res5.data.data;
             let res6_data = res6.data.data;
             let mdList = res7.data.list;
             let join_text = res8.data.msg;
-            let contentData = res9.data.list[0];
+            let contentData = res9.data.centerBanner[0];
             setData((origin) => {
               return {
                 ...origin,
@@ -104,16 +104,16 @@ export function Main(props) {
       axios
         .all([
           axios.post(`${SERVER_DALKOMM_SUGAR}/api/getMainBanner`),
-          axios.post(`${SERVER_DALKOMM}/app/api/v2/store/around`, location_body, header_config),
+          location_body.latitude && location_body.longitude && axios.post(`${SERVER_DALKOMM}/app/api/v2/store/around`, location_body, header_config),
           axios.post(`${SERVER_DALKOMM_SUGAR}/api/getMd`),
           axios.post(`${SERVER_DALKOMM_SUGAR}/api/contentList`),
         ])
         .then(
           axios.spread((res1, res2, res3, res4) => {
             let res1_data = res1.data;
-            let res2_data = res2.data.data;
+            let res2_data = res2?.data?.data;
             let mdList = res3.data.list;
-            let contentData = res4.data.list[0];
+            let contentData = res4.data.centerBanner[0];
             setData((origin) => {
               return {
                 ...origin,
@@ -254,17 +254,6 @@ export function Main(props) {
 
   const handleGoPage = (e, link) => {
     history.push(link);
-    // let result = { link: FRONT_SERVER + link, category: "webviewCall" };
-    // result = JSON.stringify(result);
-    // try {
-    //   if (checkMobile() === "android") {
-    //     window.android.fn_winOpen(result);
-    //   } else if (checkMobile() === "ios") {
-    //     window.webkit.messageHandlers.fn_winOpen.postMessage(result);
-    //   }
-    // } catch (error) {
-    //   console.log(error);
-    // }
   };
 
   const fn_dev = () => {
@@ -312,7 +301,7 @@ export function Main(props) {
                             <div className="w-inner flex-end">
                               <p className="sub-copy en fc-orange">{e?.cate}</p>
                               <h2 className={`main-copy ${e?.color === "B" ? "black" : e?.color === "W" ? "white" : ""}`}>{e?.title}</h2>
-                              <p className="text">{e?.subtitle}</p>
+                              <p className={`text ${e?.color === "B" ? "black" : e?.color === "W" ? "white" : ""}`}>{e?.subtitle}</p>
                             </div>
                           </div>
                         </div>
@@ -402,34 +391,35 @@ export function Main(props) {
                     </Link>
                   </li>
                   <li>
-                    <Link to="/order" className="item my-state">
-                      <div className="img-wrap">
-                        <i
-                          className={`ico store-type small ${
-                            axioData?.res2_data?.store_list[0]?.store_sub_type === 0
-                              ? "house"
-                              : axioData?.res2_data?.store_list[0]?.store_sub_type === 1
-                              ? "building"
-                              : axioData?.res2_data?.store_list[0]?.store_sub_type === 2
-                              ? "rest-area"
-                              : axioData?.res2_data?.store_list[0]?.store_sub_type === 3
-                              ? "terminal"
-                              : axioData?.res2_data?.store_list[0]?.store_sub_type === 4
-                              ? "head-office"
-                              : axioData?.res2_data?.store_list[0]?.store_sub_type === 5
-                              ? "drive-thru"
-                              : axioData?.res2_data?.store_list[0]?.store_sub_type === 6
-                              ? "vivaldi-park"
-                              : axioData?.res2_data?.store_list[0]?.store_sub_type === 7
-                              ? "hospital"
-                              : axioData?.res2_data?.store_list[0]?.store_sub_type === 8
-                              ? "cinema"
-                              : axioData?.res2_data?.store_list[0]?.store_sub_type === 9
-                              ? "theme-park"
-                              : ""
-                          }`}
-                        >
-                          {/* 매장 타입별 
+                    {state.latitude && state.longitude ? (
+                      <Link to="/order" className="item my-state">
+                        <div className="img-wrap">
+                          <i
+                            className={`ico store-type small ${
+                              axioData?.res2_data?.store_list[0]?.store_sub_type === 0
+                                ? "house"
+                                : axioData?.res2_data?.store_list[0]?.store_sub_type === 1
+                                ? "building"
+                                : axioData?.res2_data?.store_list[0]?.store_sub_type === 2
+                                ? "rest-area"
+                                : axioData?.res2_data?.store_list[0]?.store_sub_type === 3
+                                ? "terminal"
+                                : axioData?.res2_data?.store_list[0]?.store_sub_type === 4
+                                ? "head-office"
+                                : axioData?.res2_data?.store_list[0]?.store_sub_type === 5
+                                ? "drive-thru"
+                                : axioData?.res2_data?.store_list[0]?.store_sub_type === 6
+                                ? "vivaldi-park"
+                                : axioData?.res2_data?.store_list[0]?.store_sub_type === 7
+                                ? "hospital"
+                                : axioData?.res2_data?.store_list[0]?.store_sub_type === 8
+                                ? "cinema"
+                                : axioData?.res2_data?.store_list[0]?.store_sub_type === 9
+                                ? "theme-park"
+                                : ""
+                            }`}
+                          >
+                            {/* 매장 타입별 
                                         .ico.store-type.small
                                         .ico.store-type.small.house : 기본형 (단독건물매장)
                                         .ico.store-type.small.building : 기본형 (건물내매장)
@@ -442,14 +432,17 @@ export function Main(props) {
                                         .ico.store-type.small.cinema : 영화관내 지점
                                         .ico.store-type.small.theme-park : 놀이공원, 유원지, 테마파크 지점 (EX, 키자니아, 에버랜드, 유원지)
                                     */}
-                          <span>가까운 매장</span>
-                        </i>
-                      </div>
-                      <div className="data-wrap">
-                        <p className="title">가까운 매장</p>
-                        <p className="state">{axioData?.res2_data?.store_list[0]?.store_name}</p>
-                      </div>
-                    </Link>
+                            <span>가까운 매장</span>
+                          </i>
+                        </div>
+                        <div className="data-wrap">
+                          <p className="title">가까운 매장</p>
+                          <p className="state">{axioData?.res2_data?.store_list[0]?.store_name}</p>
+                        </div>
+                      </Link>
+                    ) : (
+                      <></>
+                    )}
                   </li>
                 </ul>
               </div>
@@ -614,57 +607,57 @@ export function Main(props) {
                     <i className="ico arr-r"></i>
                   </Link>
                 </div>
-
-                <Swiper id="searchStore" className="swiper-container section-slider store-slider" slidesPerView={"auto"} freeMode={true}>
-                  <ul className="swiper-wrapper data-list">
-                    {axioData?.res2_data?.store_list?.map((e, i) => {
-                      return (
-                        <SwiperSlide className="swiper-slide" key={i}>
-                          <a
-                            data-href="#tableOrderAble"
-                            className="item store open-layer"
-                            onClick={(event) => handleDetail(event.currentTarget, e.store_code)}
-                          >
-                            <div className="flex-both">
-                              <span
-                                data-storecode={e.store_code}
-                                className={`btn bookmark ${e.store_is_favorite && "active"}`}
-                                onClick={(event) => handleFavorite(event.currentTarget, e.store_code)}
-                              >
-                                <i className="ico heart">
-                                  <span>즐겨찾기</span>
-                                </i>
-                              </span>
-                              <span className={`table-order ${e.store_is_smartorder === true ? "possible" : "impossible"}`}></span>{" "}
-                              {/* .table-order.possible : 테이블 오더 가능 매장 / .table-order.impossible : 테이블 오더 불가능 매장 */}
-                            </div>
-                            <div className="img-wrap">
-                              <i
-                                className={`ico store-type ${
-                                  e?.store_sub_type === 0
-                                    ? "house"
-                                    : e?.store_sub_type === 1
-                                    ? "building"
-                                    : e?.store_sub_type === 2
-                                    ? "rest-area"
-                                    : e?.store_sub_type === 3
-                                    ? "terminal"
-                                    : e?.store_sub_type === 4
-                                    ? "head-office"
-                                    : e?.store_sub_type === 5
-                                    ? "drive-thru"
-                                    : e?.store_sub_type === 6
-                                    ? "vivaldi-park"
-                                    : e?.store_sub_type === 7
-                                    ? "hospital"
-                                    : e?.store_sub_type === 8
-                                    ? "cinema"
-                                    : e?.store_sub_type === 9
-                                    ? "theme-park"
-                                    : ""
-                                }`}
-                              ></i>{" "}
-                              {/* 매장 타입별 .ico.store-type
+                {state.latitude && state.longitude ? (
+                  <Swiper id="searchStore" className="swiper-container section-slider store-slider" slidesPerView={"auto"} freeMode={true}>
+                    <ul className="swiper-wrapper data-list">
+                      {axioData?.res2_data?.store_list?.map((e, i) => {
+                        return (
+                          <SwiperSlide className="swiper-slide" key={i}>
+                            <a
+                              data-href="#tableOrderAble"
+                              className="item store open-layer"
+                              onClick={(event) => handleDetail(event.currentTarget, e.store_code)}
+                            >
+                              <div className="flex-both">
+                                <span
+                                  data-storecode={e.store_code}
+                                  className={`btn bookmark ${e.store_is_favorite && "active"}`}
+                                  onClick={(event) => handleFavorite(event.currentTarget, e.store_code)}
+                                >
+                                  <i className="ico heart">
+                                    <span>즐겨찾기</span>
+                                  </i>
+                                </span>
+                                <span className={`table-order ${e.store_is_smartorder === true ? "possible" : "impossible"}`}></span>{" "}
+                                {/* .table-order.possible : 테이블 오더 가능 매장 / .table-order.impossible : 테이블 오더 불가능 매장 */}
+                              </div>
+                              <div className="img-wrap">
+                                <i
+                                  className={`ico store-type ${
+                                    e?.store_sub_type === 0
+                                      ? "house"
+                                      : e?.store_sub_type === 1
+                                      ? "building"
+                                      : e?.store_sub_type === 2
+                                      ? "rest-area"
+                                      : e?.store_sub_type === 3
+                                      ? "terminal"
+                                      : e?.store_sub_type === 4
+                                      ? "head-office"
+                                      : e?.store_sub_type === 5
+                                      ? "drive-thru"
+                                      : e?.store_sub_type === 6
+                                      ? "vivaldi-park"
+                                      : e?.store_sub_type === 7
+                                      ? "hospital"
+                                      : e?.store_sub_type === 8
+                                      ? "cinema"
+                                      : e?.store_sub_type === 9
+                                      ? "theme-park"
+                                      : ""
+                                  }`}
+                                ></i>{" "}
+                                {/* 매장 타입별 .ico.store-type
                                             .ico.store-type.house : 기본형 (단독건물매장)
                                             .ico.store-type.building : 기본형 (건물내매장)
                                             .ico.store-type.rest-area : 고속도로 휴게소점
@@ -676,51 +669,61 @@ export function Main(props) {
                                             .ico.store-type.cinema : 영화관내 지점
                                             .ico.store-type.theme-park : 놀이공원, 유원지, 테마파크 지점 (EX, 키자니아, 에버랜드, 유원지)
                                         */}
-                            </div>
-                            <div className="data-wrap">
-                              <p className="place">{e.store_name}</p>
-                              <ul className="provide-list">
-                                <li>
-                                  <i className="ico wifi">
-                                    <span>인터넷가능 매장</span>
-                                  </i>
-                                </li>
-                                {e?.store_is_park && (
+                              </div>
+                              <div className="data-wrap">
+                                <p className="place">{e.store_name}</p>
+                                <ul className="provide-list">
                                   <li>
-                                    <i className="ico parking">
-                                      <span>주차가능 매장</span>
+                                    <i className="ico wifi">
+                                      <span>인터넷가능 매장</span>
                                     </i>
                                   </li>
-                                )}
-                                {e?.store_is_kiosk && (
-                                  <li>
-                                    <i className="ico kiosk">
-                                      <span>키오스크 매장</span>
-                                    </i>
-                                  </li>
-                                )}
-                                {e?.store_is_smoking && (
-                                  <li>
-                                    <i className="ico smoking">
-                                      <span>흡연가능 매장</span>
-                                    </i>
-                                  </li>
-                                )}
-                                {/*
+                                  {e?.store_is_park && (
+                                    <li>
+                                      <i className="ico parking">
+                                        <span>주차가능 매장</span>
+                                      </i>
+                                    </li>
+                                  )}
+                                  {e?.store_is_kiosk && (
+                                    <li>
+                                      <i className="ico kiosk">
+                                        <span>키오스크 매장</span>
+                                      </i>
+                                    </li>
+                                  )}
+                                  {e?.store_is_smoking && (
+                                    <li>
+                                      <i className="ico smoking">
+                                        <span>흡연가능 매장</span>
+                                      </i>
+                                    </li>
+                                  )}
+                                  {/*
                                 <li>
                                   <i className="ico drive">
                                     <span>드라이브스루 매장</span>
                                   </i>
                                 </li> */}
-                              </ul>
-                              <p className="distance">{e.store_distance !== "-1" && e.store_distance + "km"}</p>
-                            </div>
-                          </a>
-                        </SwiperSlide>
-                      );
-                    })}
-                  </ul>
-                </Swiper>
+                                </ul>
+                                <p className="distance">{e.store_distance !== "-1" && e.store_distance + "km"}</p>
+                              </div>
+                            </a>
+                          </SwiperSlide>
+                        );
+                      })}
+                    </ul>
+                  </Swiper>
+                ) : (
+                  <div className="alert-info">
+                    <i className="ico store-alert"></i>
+                    <p className="text ta-c">
+                      앱 설정 &gt; 권한에서 <span className="fc-orange">위치 권한</span>을 허용해 주세요.
+                      <br />
+                      고객님과 가까운 매장을 추천해 드립니다.
+                    </p>
+                  </div>
+                )}
               </section>
               {/*
                 <section className="section">

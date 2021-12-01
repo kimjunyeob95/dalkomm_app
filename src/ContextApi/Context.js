@@ -120,6 +120,7 @@ const ContextStore = (props) => {
   // indexInitialState.latitude = 37.507232666015625;
   // indexInitialState.longitude = 127.05642398540016;
   // indexInitialState.udid = "8280af29616a4ec1bb85a9ed17b9594e828e8140";
+  // indexInitialState.app_type = "I";
 
   //과장님
   // indexInitialState.accessToken =

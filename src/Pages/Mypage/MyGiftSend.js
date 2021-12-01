@@ -243,8 +243,8 @@ export default function MyGiftSend() {
                         <div className="item attention">
                           <div className="text">
                             <ul className="attention-list">
-                              <li>선물을 받으시는 고객님의 앱에 충전카드가 자동으로 추가됩니다.</li>
-                              <li>선물 받은 충전카드 사용을 위해 앱 다운로드 및 회원가입이 필요합니다.</li>
+                              <li>선물을 받으시는 고객님의 앱에 기프트카드가 자동으로 추가됩니다.</li>
+                              <li>선물 받은 기프트카드 사용을 위해 앱 다운로드 및 회원가입이 필요합니다.</li>
                             </ul>
                           </div>
                         </div>

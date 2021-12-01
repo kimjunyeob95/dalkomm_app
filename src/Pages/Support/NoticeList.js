@@ -42,7 +42,7 @@ export default function NoticeList() {
 
         <div id="wrap" className="wrap">
           <div id="container" className="container">
-            <HeaderSub title="공지 사항" redirectBack={true} location="/menu" />
+            <HeaderSub title="달콤소식" redirectBack={true} location="/menu" />
 
             <div id="content" className="notice list fade-in">
               <section className="section">
@@ -73,7 +73,7 @@ export default function NoticeList() {
     return (
       <div id="wrap" className="wrap">
         <div id="container" className="container">
-          <HeaderSub title="공지 사항" redirectBack={true} location="/menu" />
+          <HeaderSub title="달콤소식" redirectBack={true} location="/menu" />
         </div>
       </div>
     );

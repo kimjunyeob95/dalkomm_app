@@ -160,7 +160,7 @@ export default function MyGiftRecipt() {
                   <div className="nodata-wrap">
                     <div className="item nodata">
                       <i className="ico nodata"></i>
-                      <p className="text gray">충전카드 사용 내역이 없습니다.</p>
+                      <p className="text gray">기프트카드 사용 내역이 없습니다.</p>
                     </div>
                   </div>
                 )}

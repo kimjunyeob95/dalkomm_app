@@ -3,14 +3,16 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 // eslint-disable-next-line no-unused-vars
 import axios from "axios";
+import $ from "jquery";
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { SERVER_DALKOMM_SUGAR } from "Config/Server";
 import GoContents from "Components/GoContents";
 import { fadeOut } from "Config/GlobalJs";
 
 export default function PrivacyPolicy() {
   const [axioData, setData] = useState();
+  const history = useHistory();
 
   useEffect(() => {
     // 말풍선 스크롤시 hide/show
@@ -21,7 +23,16 @@ export default function PrivacyPolicy() {
   }, []);
   useEffect(() => {
     fadeOut();
+    $("body").removeClass("modal-opened");
   }, [axioData]);
+
+  const handleGoback = () => {
+    if (history?.location?.from === "회원가입") {
+      history.push({ pathname: "/join/step2", value: history?.location.value, join_token: history?.location.join_token });
+    } else {
+      history.push("/menu");
+    }
+  };
   if (axioData) {
     return (
       <React.Fragment>
@@ -31,11 +42,11 @@ export default function PrivacyPolicy() {
           <div id="container" className="container">
             <header id="header" className="header">
               <h1 className="page-title">개인정보처리방침</h1>
-              <Link type="button" className="btn back" to={"/menu"}>
+              <a type="button" className="btn back" onClick={() => handleGoback()}>
                 <i className="ico back">
                   <span className="blind">뒤로</span>
                 </i>
-              </Link>
+              </a>
             </header>
 
             <div id="content" className="story fade-in" style={{ paddingTop: "3.667vw" }}>
