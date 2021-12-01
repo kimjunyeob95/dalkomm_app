@@ -301,6 +301,7 @@ export default function MyModify() {
                           className="input-text medium chk-validation"
                           id="userName"
                           title="이름 (닉네임)"
+                          placeholder="2자 이상 8자 이하, 한글 또는 영문만 입력 가능합니다."
                           name="user_name"
                           maxLength={8}
                           defaultValue={
@@ -308,7 +309,6 @@ export default function MyModify() {
                               ? decodeURI(axioData?.res2_data?.name)
                               : axioData?.res2_data?.user?.user_name
                           }
-                          onChange={() => console.log("zz")}
                         />
                       </div>
                     </div>

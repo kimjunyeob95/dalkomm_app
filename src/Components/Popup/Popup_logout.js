@@ -6,7 +6,7 @@ import React, { useContext } from "react";
 import $ from "jquery";
 import { useHistory } from "react-router-dom";
 
-import { checkMobile } from "Config/GlobalJs";
+import { checkMobile, setCookie } from "Config/GlobalJs";
 import { authContext } from "ContextApi/Context";
 
 export default function Popup_logout() {
@@ -14,20 +14,18 @@ export default function Popup_logout() {
   const [, dispatch] = useContext(authContext);
   const handleClose = () => {
     try {
-      history.push("/");
       $("body").removeClass("modal-opened");
       dispatch({ type: "logout" });
+      setCookie("accessToken", "");
       if (checkMobile() === "android") {
         window.android.fn_logout();
       } else if (checkMobile() === "ios") {
         window.webkit.messageHandlers.fn_logout.postMessage("");
       }
+      history.push("/");
     } catch (error) {
       console.log(error);
     }
-    // history.push("/");
-    // $("body").removeClass("modal-opened");
-    // dispatch({ type: "logout" });
   };
   return (
     <div id="popupExitJoin" className="overlay">

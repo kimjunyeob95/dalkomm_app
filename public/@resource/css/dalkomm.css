@@ -56,7 +56,10 @@
 .main.home .main-visual .btn.view-page {position: absolute; right: 5.333vw; bottom: 11.733vw; z-index: 1;}
 .main.home .swiper-container-horizontal>.swiper-scrollbar {bottom: 11.467vw; width: 48%;}
 .main.home .item.my-info + .myinfo-wrap {margin-top: -0.267vw;}
-.main.home .myinfo-wrap .data-list.col-3 > li + li {border-left: 0.267vw solid #f1f1f1; margin-left: -0.267vw;}
+.main.home .myinfo-wrap {border-bottom: 0.267vw solid #f1f1f1;}
+.main.home .myinfo-wrap .data-list.col-3 > li {border-right: 0.267vw solid #f1f1f1;}
+.main.home .myinfo-wrap .data-list.col-3 > li + li {margin-left: -0.267vw;}
+.main.home .myinfo-wrap .data-list.col-3 > li:last-child {border-right: 0;}
 .main.home .myinfo-wrap .item.my-state .data-wrap .state {display:block;overflow:hidden;text-overflow:ellipsis;-webkit-box-orient:vertical;word-wrap:break-word;display:-webkit-box;-webkit-line-clamp:1;}
 .main.home .myinfo-wrap + .section {margin-top: 13.333vw;}
 .main.home .menu-slider.section-slider .swiper-slide {width: 37.867vw;}
@@ -183,7 +186,8 @@
 
 /* 마이페이지 */
 /* ME001 */
-#content.mypage.main .user-info-wrap {padding: 3.2vw 5.333vw 8.267vw; box-sizing: border-box;}
+#content.mypage.main .user-info-wrap {position: relative; padding: 3.2vw 5.333vw 8.267vw; box-sizing: border-box;}
+#content.mypage.main .user-info-wrap::before {content: ''; display: inline-block; position: absolute; bottom: 0; right: 0; width: 40vw; height: 24vw; background: url('../images/com/illust-mypage.png') no-repeat 0 0; background-size: cover;}
 #content.mypage.main .user-info-wrap .my-info {height: auto; padding: 0; border-bottom: 0;}
 #content.mypage.main .user-info-wrap .my-info .user strong {font-weight: 700; color: #fc6c0f;}
 #content.mypage.main .user-info-wrap .my-info .grade {font-weight: 600; font-size: 3.733vw; letter-spacing: 0.373vw;}
@@ -265,7 +269,7 @@
 #content.mypage.membership .benefit-wrap > .attention-list {padding: 8vw 5.333vw 0;}
 #content.mypage.membership .benefit-wrap > .attention-list > li {font-size: 3.200vw; letter-spacing: -0.042vw; color: rgba(0,0,0,0.5);}
 #content.mypage.membership .benefit-wrap > .attention-list > li + li {margin-top: 1.067vw;}
-#content.mypage.membership .nodata-wrap {padding-top: 58.667vw;}
+#content.mypage.membership .nodata-wrap {border-top: 0.267vw solid rgba(235,235,235,0.2); padding-top: 58.667vw;}
 /* ME001_3 */
 #content.mypage.membership.save .possess-state {width: 28.533vw; word-break: keep-all;}
 #content.mypage.membership.save .possess-state,
@@ -321,6 +325,7 @@
 #content.mypage.order:not(.bookmark) .item.order .detail-wrap .location {-ms-flex-negative: 0;flex-shrink: 0;  font-size: 3.2vw; color: #999; box-sizing: border-box;}
 #content.mypage.order:not(.bookmark) .item.order .detail-wrap .info {margin-top: 0.8vw; margin-bottom: 0; font-size: 3.2vw;}
 #content.mypage.order:not(.bookmark) .item.order .detail-wrap .status-info {font-size: 3.733vw;}
+#content.mypage.order .nodata-wrap {padding-top: 58.667vw;}
 /* ME004_1 */
 #content.drink.order.info-detail {padding-bottom: 13.333vw; margin-bottom: 0;}
 #content.drink.order.info-detail .section + .section {border-top: 0; padding-top: 0; margin-top: 12vw;}

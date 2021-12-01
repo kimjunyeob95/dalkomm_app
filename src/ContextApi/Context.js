@@ -4,7 +4,7 @@
 // eslint-disable-next-line no-unused-vars
 import axios from "axios";
 import React, { useEffect, useReducer } from "react";
-import { getCookieValue, checkMobile, setCookie } from "Config/GlobalJs";
+import { getCookieValue, checkMobile } from "Config/GlobalJs";
 import { SERVER_DALKOMM } from "Config/Server";
 
 export const authContext = React.createContext();

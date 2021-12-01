@@ -1,3 +1,4 @@
+/* eslint-disable array-callback-return */
 /* eslint-disable react/jsx-pascal-case */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
@@ -45,7 +46,6 @@ export function Order(props) {
     }, 1000);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-
     let location_body = { latitude: getCookieValue("latitude"), longitude: getCookieValue("longitude") };
     // let location_body = { latitude: 37.507232666015625, longitude: 127.05642398540016 };
     if (state.accessToken !== "") {
@@ -53,7 +53,7 @@ export function Order(props) {
       axios
         .all([
           location_body.latitude && location_body.longitude && axios.post(`${SERVER_DALKOMM}/app/api/v2/store/around`, location_body, header_config),
-          location_body.latitude && location_body.longitude && axios.post(`${SERVER_DALKOMM}/app/api/v2/store/main`, location_body, header_config),
+          axios.post(`${SERVER_DALKOMM}/app/api/v2/store/main`, body, header_config),
         ])
         .then(
           axios.spread((res1, res2) => {
@@ -228,107 +228,111 @@ export function Order(props) {
                     freeMode={false}
                   >
                     <ul slot="container-start" className="swiper-wrapper has-scrollbar-swiper data-list">
-                      {axioData?.res2_data?.favorite_store_list?.map((e, i) => (
-                        <SwiperSlide className="swiper-slide" key={i}>
-                          <a
-                            data-href="#tableOrderAble"
-                            className="item store open-layer"
-                            onClick={(event) => handleDetail(event.currentTarget, e.store_code)}
-                          >
-                            <div className="flex-both">
-                              <span
-                                data-storecode={e.store_code}
-                                className={`btn bookmark ${e.store_is_favorite && "active"}`}
-                                onClick={(event) => handleFavorite(event.currentTarget, e.store_code)}
+                      {axioData?.res2_data?.favorite_store_list?.map((e, i) => {
+                        if (e?.store_name !== "본사테스트점") {
+                          return (
+                            <SwiperSlide className="swiper-slide" key={i}>
+                              <a
+                                data-href="#tableOrderAble"
+                                className="item store open-layer"
+                                onClick={(event) => handleDetail(event.currentTarget, e.store_code)}
                               >
-                                {" "}
-                                {/* [D] 즐겨찾는 매장일 시 .active 활성화 */}
-                                <i className="ico heart">
-                                  <span>즐겨찾기</span>
-                                </i>
-                              </span>
-                              <span className={`table-order ${e?.store_is_smartorder ? "possible" : "impossible"}`}></span>{" "}
-                            </div>
-                            <div className="img-wrap">
-                              <i
-                                className={`ico store-type ${
-                                  e?.store_sub_type === 0
-                                    ? "house"
-                                    : e?.store_sub_type === 1
-                                    ? "building"
-                                    : e?.store_sub_type === 2
-                                    ? "rest-area"
-                                    : e?.store_sub_type === 3
-                                    ? "terminal"
-                                    : e?.store_sub_type === 4
-                                    ? "head-office"
-                                    : e?.store_sub_type === 5
-                                    ? "drive-thru"
-                                    : e?.store_sub_type === 6
-                                    ? "vivaldi-park"
-                                    : e?.store_sub_type === 7
-                                    ? "hospital"
-                                    : e?.store_sub_type === 8
-                                    ? "cinema"
-                                    : e?.store_sub_type === 9
-                                    ? "theme-park"
-                                    : ""
-                                }`}
-                              ></i>
-                              {/* 매장 타입별 .ico.store-type
-                                          .ico.store-type.house : 기본형 (단독건물매장)
-                                          .ico.store-type.building : 기본형 (건물내매장)
-                                          .ico.store-type.rest-area : 고속도로 휴게소점
-                                          .ico.store-type.terminal : 버스터미널점
-                                          .ico.store-type.head-office : 분당서현점(본점)
-                                          .ico.store-type.drive-thru : 광주쌍령DT점 (드라이브스루)
-                                          .ico.store-type.vivaldi-park : 비발디파크점
-                                          .ico.store-type.hospital :  병원내 지점
-                                          .ico.store-type.cinema : 영화관내 지점
-                                          .ico.store-type.theme-park : 놀이공원, 유원지, 테마파크 지점 (EX, 키자니아, 에버랜드, 유원지)
-                                      */}
-                            </div>
-                            <div className="data-wrap">
-                              <p className="place">{e?.store_name}</p>
-                              <ul className="provide-list">
-                                <li>
-                                  <i className="ico wifi">
-                                    <span>인터넷가능 매장</span>
-                                  </i>
-                                </li>
-                                {e?.store_is_park && (
-                                  <li>
-                                    <i className="ico parking">
-                                      <span>주차가능 매장</span>
+                                <div className="flex-both">
+                                  <span
+                                    data-storecode={e.store_code}
+                                    className={`btn bookmark ${e.store_is_favorite && "active"}`}
+                                    onClick={(event) => handleFavorite(event.currentTarget, e.store_code)}
+                                  >
+                                    {" "}
+                                    {/* [D] 즐겨찾는 매장일 시 .active 활성화 */}
+                                    <i className="ico heart">
+                                      <span>즐겨찾기</span>
                                     </i>
-                                  </li>
-                                )}
-                                {e?.store_is_smoking && (
-                                  <li>
-                                    <i className="ico smoking">
-                                      <span>흡연가능 매장</span>
-                                    </i>
-                                  </li>
-                                )}
-                                {e?.store_is_kiosk && (
-                                  <li>
-                                    <i className="ico kiosk">
-                                      <span>키오스크 매장</span>
-                                    </i>
-                                  </li>
-                                )}
+                                  </span>
+                                  <span className={`table-order ${e?.store_is_smartorder ? "possible" : "impossible"}`}></span>{" "}
+                                </div>
+                                <div className="img-wrap">
+                                  <i
+                                    className={`ico store-type ${
+                                      e?.store_sub_type === 0
+                                        ? "house"
+                                        : e?.store_sub_type === 1
+                                        ? "building"
+                                        : e?.store_sub_type === 2
+                                        ? "rest-area"
+                                        : e?.store_sub_type === 3
+                                        ? "terminal"
+                                        : e?.store_sub_type === 4
+                                        ? "head-office"
+                                        : e?.store_sub_type === 5
+                                        ? "drive-thru"
+                                        : e?.store_sub_type === 6
+                                        ? "vivaldi-park"
+                                        : e?.store_sub_type === 7
+                                        ? "hospital"
+                                        : e?.store_sub_type === 8
+                                        ? "cinema"
+                                        : e?.store_sub_type === 9
+                                        ? "theme-park"
+                                        : ""
+                                    }`}
+                                  ></i>
+                                  {/* 매장 타입별 .ico.store-type
+                                              .ico.store-type.house : 기본형 (단독건물매장)
+                                              .ico.store-type.building : 기본형 (건물내매장)
+                                              .ico.store-type.rest-area : 고속도로 휴게소점
+                                              .ico.store-type.terminal : 버스터미널점
+                                              .ico.store-type.head-office : 분당서현점(본점)
+                                              .ico.store-type.drive-thru : 광주쌍령DT점 (드라이브스루)
+                                              .ico.store-type.vivaldi-park : 비발디파크점
+                                              .ico.store-type.hospital :  병원내 지점
+                                              .ico.store-type.cinema : 영화관내 지점
+                                              .ico.store-type.theme-park : 놀이공원, 유원지, 테마파크 지점 (EX, 키자니아, 에버랜드, 유원지)
+                                          */}
+                                </div>
+                                <div className="data-wrap">
+                                  <p className="place">{e?.store_name}</p>
+                                  <ul className="provide-list">
+                                    <li>
+                                      <i className="ico wifi">
+                                        <span>인터넷가능 매장</span>
+                                      </i>
+                                    </li>
+                                    {e?.store_is_park && (
+                                      <li>
+                                        <i className="ico parking">
+                                          <span>주차가능 매장</span>
+                                        </i>
+                                      </li>
+                                    )}
+                                    {e?.store_is_smoking && (
+                                      <li>
+                                        <i className="ico smoking">
+                                          <span>흡연가능 매장</span>
+                                        </i>
+                                      </li>
+                                    )}
+                                    {e?.store_is_kiosk && (
+                                      <li>
+                                        <i className="ico kiosk">
+                                          <span>키오스크 매장</span>
+                                        </i>
+                                      </li>
+                                    )}
 
-                                {/* <li>
-                                  <i className="ico drive">
-                                    <span>드라이브스루 매장</span>
-                                  </i>
-                                </li> */}
-                              </ul>
-                              <p className="distance">{e?.store_distance !== "-1" && e?.store_distance + "km"}</p>
-                            </div>
-                          </a>
-                        </SwiperSlide>
-                      ))}
+                                    {/* <li>
+                                      <i className="ico drive">
+                                        <span>드라이브스루 매장</span>
+                                      </i>
+                                    </li> */}
+                                  </ul>
+                                  <p className="distance">{e?.store_distance !== "-1" && e?.store_distance + "km"}</p>
+                                </div>
+                              </a>
+                            </SwiperSlide>
+                          );
+                        }
+                      })}
                     </ul>
 
                     <div className="swiper-scrollbar"></div>
