@@ -644,6 +644,8 @@ a[target=_blank]::after {content: ''; display: block; position: absolute; top: 5
 .item.free-coupon .data-wrap .title + .expiry {margin-top: 3.200vw;}
 .item.free-coupon .data-wrap .expiry {font-size: 3.200vw; color: rgba(0, 0, 0, 0.5); text-align: center;}
 .item.free-coupon .btn-area {margin-top: 0;}
+/* .item.list */
+.item.list {font-size: 4.267vw; border-bottom: 0.267vw solid rgba(112,112,112,0.1); padding: 5.600vw 5.333vw; box-sizing: border-box;}
 
 /* attention list */
 .attention-list > li {position: relative; line-height: 4.800vw; word-break: keep-all; padding-left: 2.933vw;}

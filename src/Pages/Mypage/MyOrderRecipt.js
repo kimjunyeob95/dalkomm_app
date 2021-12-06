@@ -135,15 +135,13 @@ export default function MyOrderRecipt() {
             </header>
 
             <div id="content" className="mypage order fade-in">
-              {axioData?.result?.length > 0 && (
-                <div className="sorting-wrap w-inner flex-end">
-                  <select className="select medium" name="" id="select-duration" defaultValue={duration ? duration : "w"}>
-                    <option value="w">1주일 이내</option>
-                    <option value="m">1개월 이내</option>
-                    <option value="y">1년 이내</option>
-                  </select>
-                </div>
-              )}
+              <div className="sorting-wrap w-inner flex-end">
+                <select className="select medium" name="" id="select-duration" defaultValue={duration ? duration : "w"}>
+                  <option value="w">1주일 이내</option>
+                  <option value="m">1개월 이내</option>
+                  <option value="y">1년 이내</option>
+                </select>
+              </div>
 
               {axioData?.result?.length > 0 ? (
                 <ul className="order-list data-list">

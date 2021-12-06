@@ -209,7 +209,7 @@ export default function Menu() {
                       </Link>
                     </li>
                     <li>
-                      <Link to="/support/terms" className="item depth-menu">
+                      <Link to="/support/termList" className="item depth-menu">
                         <i className="ico menu-term"></i>
                         <span>이용약관</span>
                       </Link>

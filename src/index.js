@@ -56,6 +56,8 @@ import NoticeList from "Pages/Support/NoticeList";
 import NoticeDetail from "Pages/Support/NoticeDetail";
 import Faq from "Pages/Support/Faq";
 import PrivacyPolicy from "Pages/Support/PrivacyPolicy";
+import TermList from "Pages/Support/TermList";
+import TermLocation from "Pages/Support/TermLocation";
 import Terms from "Pages/Support/Terms";
 import Company from "Pages/Support/Company";
 
@@ -163,7 +165,9 @@ ReactDOM.render(
         <Route exact path="/support/notice/list" component={() => <NoticeList />} />
         <Route exact path="/support/notice/detail/:id" component={() => <NoticeDetail />} />
         <Route exact path="/support/faq" component={() => <Faq />} />
+        <Route exact path="/support/termList" component={() => <TermList />} />
         <Route exact path="/support/terms" component={() => <Terms />} />
+        <Route exact path="/support/termLocation" component={() => <TermLocation />} />
         <Route exact path="/support/policy" component={() => <PrivacyPolicy />} />
         <Route exact path="/support/company" component={() => <Company />} />
 

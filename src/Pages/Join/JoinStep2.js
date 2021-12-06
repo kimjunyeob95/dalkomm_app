@@ -325,7 +325,7 @@ export default function JoinStep2() {
                           type="button"
                           onClick={() =>
                             history.push({
-                              pathname: "/support/terms",
+                              pathname: "/support/termLocation",
                               from: "회원가입",
                               value: {
                                 userName: $("#userName").val(),

@@ -10,12 +10,12 @@ import { SERVER_DALKOMM_SUGAR } from "Config/Server";
 import GoContents from "Components/GoContents";
 import { fadeOut } from "Config/GlobalJs";
 
-export default function Terms() {
+export default function TermLocation() {
   const [axioData, setData] = useState();
   const history = useHistory();
   useEffect(() => {
     // 말풍선 스크롤시 hide/show
-    axios.get(`${SERVER_DALKOMM_SUGAR}/api/policy`).then((res) => {
+    axios.get(`${SERVER_DALKOMM_SUGAR}/api/policyLocation`).then((res) => {
       let markup = res.data;
       setData({ markup });
     });
