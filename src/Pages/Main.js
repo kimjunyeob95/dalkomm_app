@@ -560,43 +560,46 @@ export function Main(props) {
               {/* // 나의 보유 쿠폰 */}
 
               {/* 달콤 스토리 */}
-              <section className="section">
-                <div className="w-inner">
-                  <Link to={`/story/detail/${axioData?.contentData?.seq}`} className="item dalkomm-story">
-                    <div className="badge-wrap">
-                      {axioData?.contentData?.cate === "STORY" ? (
-                        <span className="badge square story">STORY</span>
-                      ) : axioData?.contentData?.cate === "EVENT" ? (
-                        <span className="badge square event">EVENT</span>
-                      ) : axioData?.contentData?.cate === "NEW" ? (
-                        <span className="badge square new">NEW</span>
-                      ) : axioData?.contentData?.cate === "PICK" ? (
-                        <span className="badge square pick">PICK</span>
-                      ) : axioData?.contentData?.cate === "STORE" ? (
-                        <span className="badge square store">STORE</span>
-                      ) : (
-                        ""
-                      )}
-                      {/* 달콤스토리 .badge.square 타입
+              {axioData?.contentData && (
+                <section className="section">
+                  <div className="w-inner">
+                    <Link to={`/story/detail/${axioData?.contentData?.seq}`} className="item dalkomm-story">
+                      <div className="badge-wrap">
+                        {axioData?.contentData?.cate === "STORY" ? (
+                          <span className="badge square story">STORY</span>
+                        ) : axioData?.contentData?.cate === "EVENT" ? (
+                          <span className="badge square event">EVENT</span>
+                        ) : axioData?.contentData?.cate === "NEW" ? (
+                          <span className="badge square new">NEW</span>
+                        ) : axioData?.contentData?.cate === "PICK" ? (
+                          <span className="badge square pick">PICK</span>
+                        ) : axioData?.contentData?.cate === "STORE" ? (
+                          <span className="badge square store">STORE</span>
+                        ) : (
+                          ""
+                        )}
+                        {/* 달콤스토리 .badge.square 타입
                                     .badge.square.story : 브랜드 스토리 콘텐츠
                                     .badge.square.event : 이벤트/프로모션
                                     .badge.square.store : 신규 매장 소개
                                     .badge.square.new   : 신메뉴 소개 
                                     .badge.square.pick  : 달콤 굿즈 소개
                                 */}
-                      {/* <span className="d-day num">D-30</span> */}
-                    </div>
-                    <div className="img-wrap">
-                      <img src={axioData?.contentData?.thumb} alt="{title}" />
-                    </div>
-                    <div className="data-wrap">
-                      <p className="title">{axioData?.contentData?.title}</p>
-                      <p className="text">{axioData?.contentData?.sub_title}</p>
-                      <p className="date">{axioData?.contentData?.date}</p>
-                    </div>
-                  </Link>
-                </div>
-              </section>
+                        {/* <span className="d-day num">D-30</span> */}
+                      </div>
+                      <div className="img-wrap">
+                        <img src={axioData?.contentData?.thumb} alt="{title}" />
+                      </div>
+                      <div className="data-wrap">
+                        <p className="title">{axioData?.contentData?.title}</p>
+                        <p className="text">{axioData?.contentData?.sub_title}</p>
+                        <p className="date">{axioData?.contentData?.date}</p>
+                      </div>
+                    </Link>
+                  </div>
+                </section>
+              )}
+
               {/* // 달콤 스토리 */}
 
               <section className="section">

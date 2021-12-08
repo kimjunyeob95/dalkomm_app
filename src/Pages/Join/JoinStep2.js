@@ -37,10 +37,10 @@ export default function JoinStep2() {
   };
 
   useEffect(() => {
-    if (location?.join_token === "" || !location?.join_token) {
-      alert("잘못된 접근입니다.");
-      history.push("/");
-    }
+    // if (location?.join_token === "" || !location?.join_token) {
+    //   alert("잘못된 접근입니다.");
+    //   history.push("/");
+    // }
     setTimeout(() => {
       if (location?.value?.datepicker) {
         $("#datepicker").val(location?.value?.datepicker);
@@ -89,7 +89,7 @@ export default function JoinStep2() {
           login_email: $("#useEmail").val(),
           password: $("#userPw").val(),
           name: $("#userName").val(),
-          birthday: $("#datepicker").val().split("-").join(""),
+          birthday: $("#datepicker").val() ? $("#datepicker").val().split("-").join("") : "19951114",
           policy: agree_text,
         };
 
@@ -228,7 +228,7 @@ export default function JoinStep2() {
                     <div className="field-wrap">
                       <div className="field">
                         <label className="label" htmlFor="datepicker">
-                          생년월일<span>(필수)</span>
+                          생년월일<span>(선택)</span>
                         </label>
                         <div className="insert">
                           <DatePicker
@@ -259,7 +259,8 @@ export default function JoinStep2() {
                             )}
                             locale="ko" // 달력 한글화
                             selected={startDate}
-                            className="input-text medium input-date chk-validation"
+                            // className="input-text medium input-date chk-validation"
+                            className="input-text medium input-date"
                             id="datepicker"
                             name="datepicker"
                             onChange={(date) => setStartDate(date)}
