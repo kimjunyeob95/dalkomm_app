@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-duplicate-props */
 /* eslint-disable array-callback-return */
 /* eslint-disable react/jsx-pascal-case */
 /* eslint-disable react-hooks/exhaustive-deps */
@@ -26,7 +27,7 @@ import Loading from "Components/Loading";
 
 export function Main(props) {
   let dev_count = 1;
-  const [state, dispatch] = useContext(authContext);
+  const [state] = useContext(authContext);
   const [axioData, setData] = useState(false);
   const [storeData, setStore] = useState(false);
   const [swierFlag, setFlag] = useState(false);
@@ -280,7 +281,7 @@ export function Main(props) {
                 slidesPerView={1}
                 scrollbar={{
                   el: "#mainVisual .swiper-scrollbar",
-                  draggable: true,
+                  hide: false,
                 }}
                 loop={false}
                 freeMode={false}
@@ -292,7 +293,7 @@ export function Main(props) {
                 <ul className="swiper-wrapper">
                   {axioData?.res1_data?.list?.map((e, i) => {
                     return (
-                      <SwiperSlide className="swiper-slide" key={i} link={e?.link}>
+                      <li className="swiper-slide" key={i} link={e?.link}>
                         <div className="banner-wrap main-top-banner">
                           <div className="img-wrap">
                             <img src={e?.thumb} alt="여름 스테디셀러" />
@@ -305,7 +306,7 @@ export function Main(props) {
                             </div>
                           </div>
                         </div>
-                      </SwiperSlide>
+                      </li>
                     );
                   })}
                 </ul>
