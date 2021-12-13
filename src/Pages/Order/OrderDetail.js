@@ -1,3 +1,4 @@
+/* eslint-disable array-callback-return */
 /* eslint-disable no-unreachable */
 /* eslint-disable no-script-url */
 /* eslint-disable react-hooks/exhaustive-deps */
@@ -17,51 +18,42 @@ import { SERVER_DALKOMM } from "Config/Server";
 import { authContext } from "ContextApi/Context";
 import { fadeOut, checkMobile } from "Config/GlobalJs";
 
+export const hardCodingMenu = [
+  {
+    menuCode: "0936",
+    name_kor: "에그포테이토 모닝롤",
+    name_eng: "Egg potato morning roll",
+    thum: "/@resource/images/hardcoding/0936.png",
+  },
+  {
+    menuCode: "0937",
+    name_kor: "후르츠산도",
+    name_eng: "Fruits Sando",
+    thum: "/@resource/images/hardcoding/0937.png",
+  },
+  {
+    menuCode: "0938",
+    name_kor: "햄 & 에멘탈치즈 크로와상",
+    name_eng: "Ham and Emmental Cheese Croissant",
+    thum: "/@resource/images/hardcoding/0938.png",
+  },
+  {
+    menuCode: "0939",
+    name_kor: "더블햄모짜렐라 샌드위치",
+    name_eng: "Double ham mozzarella sandwich",
+    thum: "/@resource/images/hardcoding/0939.png",
+  },
+];
+
 export default function OrderDetail() {
-  const [state, dispatch] = useContext(authContext);
+  const [state] = useContext(authContext);
   const [axioData, setData] = useState(false);
+  const [recommData, setRecommData] = useState([]);
   const history = useHistory();
   const { orderCode, storeCode } = useParams();
   const [frontData, setFront] = useState({ defaultPrice: 0 });
   const { scrollValue, cateType } = useLocation();
-  let hardCodingMenu = [
-    {
-      menuCode: "0925",
-      name_kor: "미트볼칠리치즈 샌드위치",
-      name_eng: "Meatball sandwich",
-      thum: "/@resource/images/hardcoding/0925.png",
-    },
-    {
-      menuCode: "0911",
-      name_kor: "마스카포네 티라미수",
-      name_eng: "Mascarpone tiramisu",
-      thum: "/@resource/images/hardcoding/0911.png",
-    },
-    // {
-    //   menuCode: "0084",
-    //   name_kor: "허니브레드",
-    //   name_eng: "Honey bread",
-    //   thum: "/@resource/images/hardcoding/0084.png",
-    // },
-    // {
-    //   menuCode: "0778",
-    //   name_kor: "리코타치즈베이글",
-    //   name_eng: "Plain ricootta cheese bagle",
-    //   thum: "/@resource/images/hardcoding/0778.png",
-    // },
-    // {
-    //   menuCode: "0091",
-    //   name_kor: "스위트쌀롤",
-    //   name_eng: "Sweet rice roll",
-    //   thum: "/@resource/images/hardcoding/0091.png",
-    // },
-    // {
-    //   menuCode: "0094",
-    //   name_kor: "바닐라 마카롱",
-    //   name_eng: "vanilla macaron",
-    //   thum: "/@resource/images/hardcoding/0094.png",
-    // },
-  ];
+
   const flagFn = (element) => {
     if (element === 0 || element === null || element === "" || element === undefined || element === "0" || element === "None") {
       return false;
@@ -79,7 +71,24 @@ export default function OrderDetail() {
       "X-DALKOMM-CHANNEL": state.app_type,
     },
   };
-
+  const fn_api_recomm = () => {
+    hardCodingMenu.map((element, index) => {
+      axios
+        .all([
+          axios.get(`${SERVER_DALKOMM}/app/api/v2/menu/detail?code=${element.menuCode}&store_code=${storeCode}&is_smartorder=${1}`, header_config),
+        ])
+        .then(
+          axios.spread((res1) => {
+            let res1_data = res1.data.data;
+            if (!res1_data.menu.status) {
+              setRecommData((origin) => [...origin, { ...element, soldOut: true }]);
+            } else {
+              setRecommData((origin) => [...origin, { ...element, soldOut: false }]);
+            }
+          })
+        );
+    });
+  };
   const fn_api = () => {
     axios
       .all([axios.get(`${SERVER_DALKOMM}/app/api/v2/menu/detail?code=${orderCode}&store_code=${storeCode}&is_smartorder=${1}`, header_config)])
@@ -103,6 +112,8 @@ export default function OrderDetail() {
   };
   useEffect(() => {
     fn_api();
+    setRecommData([]);
+    fn_api_recomm();
     $("#addCart").removeClass("active");
     $("body").removeClass("modal-opened");
     $("#orderCount").val(1);
@@ -144,7 +155,6 @@ export default function OrderDetail() {
     }
 
     let add_obj = getMenuObj();
-    // return console.log(add_obj);
     axios
       .all([axios.post(`${SERVER_DALKOMM}/app/api/v2/menu/to/order`, add_obj, header_config)])
       .then(
@@ -649,6 +659,13 @@ export default function OrderDetail() {
         })
       )
       .catch((res) => alert("관리자에 문의 바랍니다."));
+  };
+  const handleDetail = (link, soldout) => {
+    if (!soldout) {
+      history.push(link);
+    } else {
+      return false;
+    }
   };
   if (axioData) {
     return (
@@ -1435,9 +1452,13 @@ export default function OrderDetail() {
                           observeParents={true}
                         >
                           <ul className="swiper-wrapper data-list" slot="container-start">
-                            {axioData?.hardCodingMenu?.map((e, i) => (
-                              <li className="swiper-slide" key={i} onClick={() => history.push(`/order/detail/${storeCode}/${e?.menuCode}`)}>
-                                <div className="item menu">
+                            {recommData?.map((e, i) => (
+                              <li
+                                className="swiper-slide"
+                                key={i}
+                                onClick={() => handleDetail(`/order/detail/${storeCode}/${e?.menuCode}`, e.soldOut)}
+                              >
+                                <div className={`item menu ${e.soldOut ? "sold-out" : ""}`}>
                                   <div className="img-wrap">
                                     <img src={e?.thum} alt="크루아상" />
                                   </div>

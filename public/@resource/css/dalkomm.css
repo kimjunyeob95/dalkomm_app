@@ -502,7 +502,9 @@
 #content.drink.detail .item.drink-info .detail-wrap .price {width: 28%; text-align: right;}
 #content.drink.detail .item.drink-info .btn.bookmark {position: absolute; top: 5.333vw; right: 5.333vw;}
 #content.drink.detail .item.drink-info .ico.heart {width: 6.933vw; height: 6.933vw;}
-#content.drink.detail .fieldset > .field + .w-inner {padding-top: 10.667vw; padding-bottom: 10.533vw;}
+/* #content.drink.detail .fieldset > .field + .w-inner {padding-top: 10.667vw; padding-bottom: 10.533vw;} */
+#content.drink.detail .fieldset > .field + .w-inner > .field:first-child {margin-top: 10.667vw;}
+#content.drink.detail .fieldset > .field + .w-inner > .field:last-child {margin-bottom: 10.667vw;}
 #content.drink.detail .form + .toggle-wrap {margin-top: -0.267vw;}
 #content.drink.detail .label + .select-group,
 #content.drink.detail .label + .data-list {margin-top: 2.667vw;}
@@ -513,6 +515,7 @@
 #content.drink.detail .select-group.col-3 input:not(:checked) + label .speech-bubble::before {border-top-color: #cecece;}
 #content.drink.detail .toggle-wrap ,
 #content.drink.detail .toggle-wrap > li {border-color: #f3f3f3;}
+#content.drink.detail .item.drink-info .detail-wrap .name {word-break: keep-all;}
 #content.drink.detail .item.info-detail .title-wrap {padding-top: 5.787vw; padding-bottom: 5.947vw;}
 #content.drink.detail .item.info-detail .title-wrap.toggle-switch .title {font-weight: 700;}
 #content.drink.detail .item.info-detail .detail-wrap .text > span {position: relative;}

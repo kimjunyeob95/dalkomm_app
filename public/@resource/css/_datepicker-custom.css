@@ -123,3 +123,6 @@ a.ui-button:active,
 .react-datepicker-popper[data-placement^=top] .react-datepicker__triangle:before {display: none;}
 
 .react-datepicker-popper[data-placement^=bottom] {padding-top: 0 !important;}
+
+.react-datepicker__day,
+.react-datepicker__day--selected {outline: none !important; border: none !important;}

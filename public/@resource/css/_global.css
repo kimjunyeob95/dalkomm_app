@@ -343,7 +343,7 @@ a[target=_blank]::after {content: ''; display: block; position: absolute; top: 5
 .item.menu .img-wrap img{width: 100%; /*height: 100%; object-fit: cover; object-position: center;*/}
 .item.menu .img-wrap + .detail-wrap {margin-top: 2.133vw;}
 .item.menu .detail-wrap {font-weight: 700; text-align: center;}
-.item.menu .detail-wrap .title {font-weight: 400; font-size: 4vw;}
+.item.menu .detail-wrap .title {font-weight: 400; font-size: 4vw; word-break: keep-all;}
 .item.menu .detail-wrap .title > .en {display: block; font-weight: 400; font-size: 2.667vw; color: #000; opacity: 0.4;}
 .item.menu .detail-wrap .title + .price {margin-top: 2.667vw;}
 .item.menu .detail-wrap .price {font-weight: 400; font-size: 3.733vw;}
@@ -351,6 +351,9 @@ a[target=_blank]::after {content: ''; display: block; position: absolute; top: 5
 .item.menu .badge:nth-child(2) {top: calc(2.667vw + (10.133vw * 1) + (1.067vw * 1));}
 .item.menu .badge:nth-child(3) {top: calc(2.667vw + (10.133vw * 2) + (1.067vw * 2));}
 .item.menu .badge:nth-child(4) {top: calc(2.667vw + (10.133vw * 3) + (1.067vw * 3));}
+.item.menu.sold-out .img-wrap {position: relative;}
+.item.menu.sold-out .img-wrap::before {content: 'SOLD OUT'; display: -ms-flexbox; display: -webkit-flex; display: flex;	-webkit-justify-content: center; -ms-flex-pack: center; justify-content: center;
+	-webkit-align-items: center; -ms-flex-align: center; align-items: center; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.3); font-family: "Montserrat"; font-weight: 700; font-size: 3.2vw; color: #fff; }
 /* .item.drink-info */
 .item.drink-info .img-wrap {width: 100%; /*height:72.800vw;*/ height: auto; font-size: 0;}
 .item.drink-info .img-wrap img {width: 100%;}
