@@ -55,6 +55,8 @@
 .main.home .main-visual .banner-wrap .img-wrap {height:93.067vw;}
 .main.home .main-visual .btn.view-page {position: absolute; right: 5.333vw; bottom: 11.733vw; z-index: 1;}
 .main.home .swiper-container-horizontal>.swiper-scrollbar {bottom: 11.467vw; width: 48%;}
+/* .main.home .main-visual .swiper-scrollbar {background: rgba(235,235,235,0.4) !important;} */
+.main.home .main-visual .swiper-scrollbar-drag {background: #7e7e7e !important;}
 .main.home .item.my-info + .myinfo-wrap {margin-top: -0.267vw;}
 .main.home .myinfo-wrap {border-bottom: 0.267vw solid #f1f1f1;}
 .main.home .myinfo-wrap .data-list.col-3 > li {border-right: 0.267vw solid #f1f1f1;}
@@ -101,11 +103,11 @@
 #popupServiceAccess .data-list {margin-top: 8vw; padding-top: 8vw; border-top: 0.267vw solid #ebebeb;}
 #popupServiceAccess .data-list li {-webkit-box-align: center;-ms-flex-align: center;align-items: center;}
 #popupServiceAccess .data-list li + li {margin-top: 8vw;}
-#popupServiceAccess .data-list .thumb-wrap {width: 10.6667vw; height: 10.6667vw; margin-right: 4.2667vw;}
+#popupServiceAccess .data-list .thumb-wrap {width: 10.6667vw; height: 10.6667vw; background-color: #f8f8f8 !important; margin-right: 4.2667vw;}
 #popupServiceAccess .data-list .detail-wrap {font-size: 3.2vw; color: rgba(0,0,0,0.8);}
 #popupServiceAccess .data-list .detail-wrap .type strong {font-weight: 700; color: #000;}
 #popupServiceAccess .data-list .detail-wrap .type + .description {margin-top: 1.6vw;}
-#popupServiceAccess .data-list .ico {width: 10.6667vw; height: 10.6667vw; background-size: 6.9333vw; background-color: #f8f8f8;}
+#popupServiceAccess .data-list .ico {width: 10.6667vw; height: 10.6667vw; background-size: 6.9333vw; background-color: #f8f8f8 !important;}
 
 /* LL001 */
 #content.login > .w-inner {display: -webkit-box;display: -ms-flexbox;display: flex; -webkit-box-orient: vertical; -webkit-box-direction: normal; -ms-flex-direction: column; flex-direction: column; -webkit-box-pack: justify; -ms-flex-pack: justify; justify-content: space-between; min-height: calc(100vh - 14.667vw);}
@@ -306,6 +308,7 @@
 #content.mypage.stamp .free-coupon-wrap .item.free-coupon {position: absolute; top: 50%; left: 50%; width: calc(100% - (5.333vw * 2)); transform: translate(-50%,-50%);}
 #content.mypage.stamp .free-coupon-wrap .btn-area {margin-top: 0;}
 #content.mypage.stamp .free-coupon-wrap .btn-area .ico {margin-right: 1.600vw;}
+#content.mypage.stamp .user-stamp-wrap + .w-inner .btn-area {margin-top: 8vw;}
 /* ME003 */
 #content.mypage.modify .form-wrap {padding: 8vw 5.333vw;}
 #content.mypage.modify .form-wrap + .form-wrap {border-top: 0.267vw solid rgba(112,112,112,0.1);}
@@ -723,8 +726,9 @@
 #content.pay.charge.history #cardSlider .swiper-pagination-bullets{margin-top: 8vw;}
 #content.pay.charge.history p.alert {font-size: 3.2vw; color: #989898; margin-top: 8vw;}
  #content.pay.charge.history.ico.alert {position: relative; width: 4.267vw; height: 4.267vw; vertical-align: middle; margin-right: 1.067vw;}
- #content.pay.charge.history .nodata-wrap {background-color: #fcfcfc; padding-top: 38.933vw; padding-bottom: 38.933vw; margin-top: 17.600vw;}
- #content.pay.charge.history .nodata-wrap .item.nodata {}
+ #content.pay.charge.history:not(.gift) .nodata-wrap {background-color: #fcfcfc; padding-top: 38.933vw; padding-bottom: 38.933vw; margin-top: 17.600vw;}
+ #content.pay.charge.history > .section > .nodata-wrap {background-color: transparent; padding-top: 56.8vw; padding-bottom: 30vw; margin-top: 0;}
+ #content.pay.charge.history.gift .nodata-wrap {margin-top: 0 !important; background-color: transparent;}
 /* CA004 */
 #content.pay.gift .field > .flex-both + .label {margin-top: 5.333vw;}
 #content.pay.gift .item.card + .field {margin-top: 10.667vw;}
@@ -779,7 +783,8 @@ body.modal-opened .zoom-card .item.card {-webkit-transform: translateX(0); -ms-t
 #popupCardAdd .popup .popup-body .btn-area {margin-top: 8vw;}
 
 /* NO003 */
-#content.story:not(.detail) {padding-bottom: 10.667vw;}
+#content.story:not(.detail) {position: relative; padding-bottom: 10.667vw;}
+#content.story:not(.detail)::before {content: ''; display: block; position: absolute; top: -0.267vw; left: 0; width: 100%; height: 0.267vw; background-color: #fff;}
 #content.story:not(.detail) .data-list > li + li {margin-top: 5.333vw;}
 /* NO004 */
 #content.story.detail .banner-wrap .img-wrap {height: 68.267vw; overflow: hidden;}

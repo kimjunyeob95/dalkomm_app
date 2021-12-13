@@ -72,7 +72,7 @@ export default function OrderDetail() {
     },
   };
   const fn_api_recomm = () => {
-    hardCodingMenu.map((element, index) => {
+    hardCodingMenu.map((element) => {
       axios
         .all([
           axios.get(`${SERVER_DALKOMM}/app/api/v2/menu/detail?code=${element.menuCode}&store_code=${storeCode}&is_smartorder=${1}`, header_config),

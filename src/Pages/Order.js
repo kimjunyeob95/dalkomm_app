@@ -47,13 +47,15 @@ export function Order(props) {
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
     let location_body = { latitude: getCookieValue("latitude"), longitude: getCookieValue("longitude") };
-    // let location_body = { latitude: 37.507232666015625, longitude: 127.05642398540016 };
+    // let location_body = { latitude: "", longitude: "" };
     if (state.accessToken !== "") {
       //로그인 시
       axios
         .all([
           location_body.latitude && location_body.longitude && axios.post(`${SERVER_DALKOMM}/app/api/v2/store/around`, location_body, header_config),
-          axios.post(`${SERVER_DALKOMM}/app/api/v2/store/main`, body, header_config),
+          location_body.latitude && location_body.longitude
+            ? axios.post(`${SERVER_DALKOMM}/app/api/v2/store/main`, location_body, header_config)
+            : axios.post(`${SERVER_DALKOMM}/app/api/v2/store/main`, body, header_config),
         ])
         .then(
           axios.spread((res1, res2) => {

@@ -6,7 +6,6 @@
 import axios from "axios";
 import $ from "jquery";
 import React, { useEffect, useContext, useState } from "react";
-import { Link } from "react-router-dom";
 import HeaderSub from "Components/Header/HeaderSub";
 import GoContents from "Components/GoContents";
 import { authContext } from "ContextApi/Context";
@@ -17,7 +16,7 @@ import { tabLink, contGap } from "Jquery/Jquery";
 import { checkMobile, fadeOut } from "Config/GlobalJs";
 
 export default function MyCouponSend() {
-  const [state, dispatch] = useContext(authContext);
+  const [state] = useContext(authContext);
   const [axioData, setData] = useState();
 
   const body = {};
@@ -119,13 +118,17 @@ export default function MyCouponSend() {
                         <span className="label">선물 쿠폰 선택</span>
                         <div className="insert">
                           <select name="" id="selectCoupon" className="select medium">
-                            {axioData?.res1_data?.coupon_list
-                              ?.filter((e, i) => e.status === 0)
-                              .map((e, i) => (
-                                <option key={i} value={e?.user_coupon_id}>
-                                  {e?.coupon_name}
-                                </option>
-                              ))}
+                            {axioData?.res1_data?.coupon_list?.filter((e, i) => e.status === 0)?.length > 0 ? (
+                              axioData?.res1_data?.coupon_list
+                                ?.filter((e, i) => e.status === 0)
+                                .map((e, i) => (
+                                  <option key={i} value={e?.user_coupon_id}>
+                                    {e?.coupon_name}
+                                  </option>
+                                ))
+                            ) : (
+                              <option value="">선물 가능한 쿠폰이 없습니다.</option>
+                            )}
                           </select>
                         </div>
                       </div>
