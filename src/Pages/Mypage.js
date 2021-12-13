@@ -184,7 +184,7 @@ export default function MyPage() {
                     </div>
                   </Link>
                 </li>
-                <li className={axioData?.res3_data?.coupon_list?.length > 0 && "active"}>
+                <li className={axioData?.res3_data?.coupon_list?.length > 0 ? "active" : ""}>
                   <Link to="/mypage/coupon">
                     <div className="title">
                       <i className="ico coupon"></i>

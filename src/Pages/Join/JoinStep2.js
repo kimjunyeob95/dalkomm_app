@@ -37,10 +37,10 @@ export default function JoinStep2() {
   };
 
   useEffect(() => {
-    if (location?.join_token === "" || !location?.join_token) {
-      alert("잘못된 접근입니다.");
-      history.push("/");
-    }
+    // if (location?.join_token === "" || !location?.join_token) {
+    //   alert("잘못된 접근입니다.");
+    //   history.push("/");
+    // }
     setTimeout(() => {
       if (location?.value?.datepicker) {
         $("#datepicker").val(location?.value?.datepicker);
@@ -113,12 +113,18 @@ export default function JoinStep2() {
       }
     }
   };
-  const handleCheck = (type) => {
+  const handleCheck = (type, element) => {
     if (type === "all") {
       if ($("#termsAll").prop("checked")) {
         $("input[name=termsAgree]").prop("checked", true);
       } else {
         $("input[name=termsAgree]").prop("checked", false);
+      }
+    } else if (type === "agree") {
+      if ($("#termsAll").is(":checked")) {
+        if (!$(element).is(":checked")) {
+          $("#termsAll").prop("checked", false);
+        }
       }
     }
   };
@@ -289,7 +295,13 @@ export default function JoinStep2() {
 
                     <div className="field">
                       <div className="check-wrap">
-                        <input type="checkbox" className="checkbox chk-agree" name="termsAgree" id="termsAgree01" />
+                        <input
+                          type="checkbox"
+                          className="checkbox chk-agree"
+                          name="termsAgree"
+                          id="termsAgree01"
+                          onClick={(e) => handleCheck("agree", e.target)}
+                        />
                         <label htmlFor="termsAgree01">이용 약관 동의 (필수)</label>
                       </div>
                       <div className="btn-area">
@@ -318,7 +330,13 @@ export default function JoinStep2() {
 
                     <div className="field">
                       <div className="check-wrap">
-                        <input type="checkbox" className="checkbox chk-agree" name="termsAgree" id="termsAgree02" />
+                        <input
+                          type="checkbox"
+                          className="checkbox chk-agree"
+                          name="termsAgree"
+                          id="termsAgree02"
+                          onClick={(e) => handleCheck("agree", e.target)}
+                        />
                         <label htmlFor="termsAgree02">위치정보 이용약관 동의 (필수)</label>
                       </div>
                       <div className="btn-area">
@@ -346,7 +364,13 @@ export default function JoinStep2() {
                     </div>
                     <div className="field">
                       <div className="check-wrap">
-                        <input type="checkbox" className="checkbox chk-agree" name="termsAgree" id="termsAgree03" />
+                        <input
+                          type="checkbox"
+                          className="checkbox chk-agree"
+                          name="termsAgree"
+                          id="termsAgree03"
+                          onClick={(e) => handleCheck("agree", e.target)}
+                        />
                         <label htmlFor="termsAgree03">개인 정보 수집 및 이용 동의 (필수)</label>
                       </div>
                       <div className="btn-area">
@@ -374,7 +398,13 @@ export default function JoinStep2() {
                     </div>
                     <div className="field">
                       <div className="check-wrap">
-                        <input type="checkbox" className="checkbox chk-agree" name="termsAgree" id="termsAgree04" />
+                        <input
+                          type="checkbox"
+                          className="checkbox chk-agree"
+                          name="termsAgree"
+                          id="termsAgree04"
+                          onClick={(e) => handleCheck("agree", e.target)}
+                        />
                         <label htmlFor="termsAgree04">개인 정보 제공 및 위탁 동의 (필수)</label>
                       </div>
                       <div className="btn-area">

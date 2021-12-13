@@ -6,18 +6,21 @@
 .ui-widget.ui-widget-content,
 .react-datepicker  {border: 0; -webkit-box-shadow: 0 0 2.600vw rgb(0 0 0 / 20%); box-shadow: 0 0 2.600vw rgb(0 0 0 / 20%);}
 .ui-datepicker table {table-layout: fixed; font-size: 3.733vw; margin: 0;}
-.ui-datepicker .ui-datepicker-header {position: relative; height: 15.573vw; line-height: 15.573vw; padding: 0; margin-bottom: 1.333vw;}
+.react-datepicker__header > div:not(.react-datepicker__day-names),
+.ui-datepicker .ui-datepicker-header {position: relative; height: 15.573vw; line-height: 15.573vw; padding: 0; margin-bottom: 1.333vw; text-align: left;}
+.react-datepicker__header > div:not(.react-datepicker__day-names):before,
 .ui-datepicker .ui-datepicker-header::before {content: ''; display: inline-block; position: absolute; bottom: 0; left: -3.733vw; width: calc( 100% + (3.733vw * 2)); height: 0.267vw; background-color: #f0f0f0;}
 .ui-widget-header,
 .react-datepicker__header,
 .react-datepicker__header select {background-color: #fff; border: 0; letter-spacing: -0.133vw; color: #1c1c1c;}
 .ui-datepicker .ui-datepicker-title {line-height: inherit; margin: 0; font-size: 0; text-align: left; padding-left: 2.133vw;}
+.react-datepicker__header > div:not(.react-datepicker__day-names)::after,
 .ui-datepicker .ui-datepicker-title::before {content: ''; display: inline-block; position: absolute; top: 50%; left: calc(17% + -3.733vw + 5.333vw + 3.600vw); width: 2.400vw; height: 2.400vw; background: url('../images/@uio/calender_dropdown.svg') no-repeat 0 0; background-size: cover; transform: translateY(-50%); margin-top: -0.533vw;}
 .ui-datepicker .ui-datepicker-title,
 .react-datepicker__header,
 .react-datepicker__header select {font-weight: 700; font-size: 4.267vw; }
 .ui-datepicker th,
-.react-datepicker__day-name {font-size: 3.733vw; color: #a4a4a4 !important; padding-left: 2.667vw; padding-right: 2.667vw;}
+.react-datepicker__day-name {font-size: 3.733vw; color: #a4a4a4 !important; padding-left: 2.667vw; padding-right: 2.667vw; font-weight: 400;}
 .ui-datepicker td {width: 11.733vw; height:9.600vw; font-weight: 600;padding: 0; box-sizing: border-box;}
 
 .ui-state-highlight,
@@ -28,12 +31,17 @@
 .ui-widget-header .ui-state-default, 
 .ui-button,
 html .ui-button.ui-state-disabled:hover, 
-html .ui-button.ui-state-disabled:active {display: -webkit-box;display: -ms-flexbox;display: flex; -webkit-box-pack: center; -ms-flex-pack: center; justify-content: center; -webkit-box-align: center; -ms-flex-align: center; align-items: center; width: 9.600vw; height: 100%; border: 0; background-color: #fff; line-height: normal; font-weight: inherit; font-size: 3.733vw; letter-spacing: -0.075vw; color: #262626; padding: 0;}
+html .ui-button.ui-state-disabled:active,
+.react-datepicker__day {display: -webkit-box;display: -ms-flexbox;display: flex; -webkit-box-pack: center; -ms-flex-pack: center; justify-content: center; -webkit-box-align: center; -ms-flex-align: center; align-items: center; width: 9.600vw !important; height: 100% !important; border: 0; background-color: #fff; line-height: normal; font-weight: inherit; font-size: 3.733vw !important; letter-spacing: -0.075vw !important; color: #262626; padding: 0 !important;}
+.react-datepicker__header select,
 .ui-datepicker-year {display: inline-block; width: auto !important; text-align: right; background-color: #fff; color: #000;  text-align-last: right;
    text-align: right; -ms-text-align-last: right; -moz-text-align-last: right; border: 0; padding: 0; margin: 0; display: flex; justify-content: flex-end; min-width: 5% !important;}
 .ui-datepicker-year::after {content: '년'; display: inline-block; position: relative;}
 .ui-datepicker-year,
-.ui-datepicker-month {display: inline-block;}
+.ui-datepicker-month,
+.react-datepicker__header select,
+.react-datepicker__header .date_month {display: inline-block;}
+.react-datepicker__header .date_month,
 .ui-datepicker-month {position: absolute; top: 0; right: -3.733vw; border-left: 0.267vw solid #f0f0f0; width: 68%; text-align: center; box-sizing: border-box;}
 .ui-datepicker .ui-datepicker-title select {font-family: 'Montserrat' !important; font-weight: 700; font-size: 4.267vw; text-align: right; margin: 0;}
 
@@ -49,16 +57,21 @@ a.ui-button:active,
 .ui-widget-header .ui-icon,
 .react-datepicker__header--custom > div > button {background-position: center;}
 .ui-widget-header .ui-datepicker-prev .ui-icon,
-.react-datepicker__header--custom > div > button:nth-of-type(1) {background-image: url('../images/@uio/calender_prev.svg'); background-position: center; background-size: 3.733vw 3.733vw;}
-.ui-datepicker .ui-datepicker-prev {left: calc(32% + 4.800vw);}
+.react-datepicker__header--custom > div > button:nth-of-type(1),
+.react-datepicker__header .date_month> button:nth-of-type(1) {background-repeat: no-repeat!important; background-image: url('../images/@uio/calender_prev.svg') !important; background-position: center !important; background-size: 3.733vw 3.733vw !important;}
 .ui-datepicker .ui-datepicker-prev,
-.ui-datepicker .ui-datepicker-next {position: absolute; top: 50%; transform: translateY(-50%); margin-left: 3.733vw; z-index: 2;}
+.react-datepicker__header .date_month> button:nth-of-type(1) {left: 0; margin-left: 4.800vw !important;}
+.react-datepicker__header--custom > div > button,
+.ui-datepicker .ui-datepicker-prev,
+.ui-datepicker .ui-datepicker-next,
+.react-datepicker__header .date_month> button {position: absolute; top: 50% !important; transform: translateY(-50%)!important; margin-left: 3.733vw!important; z-index: 2!important; padding: 0;}
 .ui-datepicker .ui-datepicker-next {right: 0w;}
 .ui-widget-header .ui-datepicker-next .ui-icon,
-.react-datepicker__header--custom > div > button:nth-of-type(2)  {background-image: url('../images/@uio/calender_next.svg'); background-position: center;  background-size: 3.733vw 3.733vw;}
+.react-datepicker__header--custom > div > button:nth-of-type(2) ,
+.react-datepicker__header .date_month > button:nth-of-type(2) {right: 4.8vw; background-repeat: no-repeat!important; background-image: url('../images/@uio/calender_next.svg') !important; background-position: center !important;  background-size: 3.733vw 3.733vw !important; margin-left: 0 !important;}
 .ui-datepicker .ui-datepicker-prev, 
 .ui-datepicker .ui-datepicker-next ,
-.react-datepicker__header--custom > div > button{width: 8vw; height: 8vw;}
+.react-datepicker__header .date_month> button {width: 8vw; height: 8vw;}
 .ui-datepicker .ui-datepicker-prev span, 
 .ui-datepicker .ui-datepicker-next span {left: 0; width: 100%; height: 100%; margin: 0; background-size: 6.667vw 6.667vw; -webkit-transform: translateY(-50%); -ms-transform: translateY(-50%); -o-transform: translateY(-50%); transform: translateY(-50%);}
 .ui-state-hover, 
@@ -102,9 +115,11 @@ a.ui-button:active,
 .react-datepicker__header--custom > div > button{position:absolute;top: -0.533vw; font-size:0;line-height:0;background-size: cover;}
 .react-datepicker__header--custom > div > button:nth-of-type(1) {left: 0;}
 .react-datepicker__header--custom > div > button:nth-of-type(2) {right: 0;}
-.react-datepicker__header--custom > div:not(.react-datepicker__day-names) {line-height: 7.467vw;}
+.react-datepicker__header--custom > div:not(.react-datepicker__day-names) {line-height: 15.573vw; margin-bottom: 0;}
 .react-datepicker__header select {font-family: 'Montserrat' !important;}
 .react-datepicker-popper[data-placement^=bottom] .react-datepicker__triangle:after,
 .react-datepicker-popper[data-placement^=bottom] .react-datepicker__triangle:before, 
 .react-datepicker-popper[data-placement^=top] .react-datepicker__triangle:after, 
 .react-datepicker-popper[data-placement^=top] .react-datepicker__triangle:before {display: none;}
+
+.react-datepicker-popper[data-placement^=bottom] {padding-top: 0 !important;}
