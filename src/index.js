@@ -60,6 +60,7 @@ import TermList from "Pages/Support/TermList";
 import TermLocation from "Pages/Support/TermLocation";
 import Terms from "Pages/Support/Terms";
 import Company from "Pages/Support/Company";
+import CustomerService from "Pages/Support/CustomerService";
 
 import PrivateRoute from "PrivateRoute";
 import reportWebVitals from "./reportWebVitals";
@@ -170,7 +171,7 @@ ReactDOM.render(
         <Route exact path="/support/termLocation" component={() => <TermLocation />} />
         <Route exact path="/support/policy" component={() => <PrivacyPolicy />} />
         <Route exact path="/support/company" component={() => <Company />} />
-
+        <Route exact path="/support/customerService" component={() => <CustomerService />} />
         <Route exact path="/login" component={() => <Login />} />
       </Switch>
     </Router>

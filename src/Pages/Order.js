@@ -710,8 +710,8 @@ export function Order(props) {
                       <div className="w-inner btn-area flex-both">
                         <button
                           className="btn full medium dark"
-                          // onClick={(e) => handleGoPage(e.currentTarget, `/order/menu/${storeData?.detailStore?.store_code}`)}
-                          onClick={(e) => handleGoPage(e.currentTarget, `/order/menu/dalkomm217`)}
+                          onClick={(e) => handleGoPage(e.currentTarget, `/order/menu/${storeData?.detailStore?.store_code}`)}
+                          // onClick={(e) => handleGoPage(e.currentTarget, `/order/menu/dalkomm217`)}
                         >
                           주문하기
                         </button>

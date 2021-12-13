@@ -562,8 +562,8 @@ export function OrderStoreSearch(props) {
                     {storeData?.detailStore?.store_is_smartorder ? (
                       <div className="w-inner btn-area flex-both">
                         <button
-                          // onClick={(e) => handleGoPage(e.currentTarget, `/order/menu/${storeData?.detailStore?.store_code}`)}
-                          onClick={(e) => handleGoPage(e.currentTarget, `/order/menu/dalkomm217`)}
+                          onClick={(e) => handleGoPage(e.currentTarget, `/order/menu/${storeData?.detailStore?.store_code}`)}
+                          // onClick={(e) => handleGoPage(e.currentTarget, `/order/menu/dalkomm217`)}
                           className="btn full medium dark"
                         >
                           주문하기

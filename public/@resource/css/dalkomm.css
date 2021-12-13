@@ -83,6 +83,7 @@
 .app-menu .gnb-list ul:not(.service-list) {margin: 2.667vw 0;}
 .app-menu .gnb-list ul:not(.service-list) > li {padding: 4.400vw 5.333vw;}
 .app-menu .gnb-list ul:not(.service-list) > li + li {border-top: 0.267vw solid #fcfcfc;}
+.app-menu .gnb-list li.service-center > ul {margin: 0 0 3.333vw;}
 .app-menu .gnb-list .ico.new {display: -webkit-inline-box;display: -ms-inline-flexbox;display: inline-flex; -webkit-justify-content: center; -ms-flex-pack: center; justify-content: center;
 	-webkit-align-items: center; -ms-flex-align: center; align-items: center; line-height: 1; margin-left: 1.067vw; vertical-align: middle;}
 .app-menu .item + .service-list {margin-top: 5.333vw;}
@@ -802,6 +803,10 @@ body.modal-opened .zoom-card .item.card {-webkit-transform: translateX(0); -ms-t
 #content.story.detail .fixed-con .btn-area .btn.next {border-left: 0.267vw solid #ebebeb;}
 #content.story.detail .story-detail-wrap {position: relative;background-color: #fff; z-index: 1;}
 body.scroll-has #content.story.detail .banner-wrap .img-wrap img {-webkit-transform: scale(1.1);-ms-transform: scale(1.1);transform: scale(1.1);}
+
+/* AP001_2 */
+#content.customer .data-list .item.contact {margin-top: 4.267vw;}
+#content.customer .item.contact .ico + span {line-height: 1; margin-left: 2.133vw;}
 
 /* section padding-bottom  */
 /* #content.drink.detail > .section,

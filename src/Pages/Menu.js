@@ -225,12 +225,12 @@ export default function Menu() {
                 <li>
                   <ul>
                     <li>
-                      <div className="item depth-menu">
+                      <Link to="/support/customerService" className="item depth-menu">
                         <i className="ico service-center"></i>
                         <span>고객센터</span>
-                      </div>
-                      <ul className="data-list service-list">
-                        {/* <li>
+                      </Link>
+                      {/* <ul className="data-list service-list">
+                        <li>
                           <div className="item contact">
                             <i className="ico tel-g">
                               <span>전화번호</span>
@@ -238,7 +238,7 @@ export default function Menu() {
 
                             <span className="num noDrag">1661-1399</span>
                           </div>
-                        </li> */}
+                        </li>
                         <li>
                           <div className="item contact">
                             <i className="ico mail-g">
@@ -250,7 +250,7 @@ export default function Menu() {
                             </span>
                           </div>
                         </li>
-                      </ul>
+                      </ul> */}
                     </li>
                   </ul>
                 </li>

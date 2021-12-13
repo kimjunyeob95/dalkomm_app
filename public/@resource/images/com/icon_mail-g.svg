@@ -1,23 +1,23 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
     <defs>
         <clipPath id="clip-path">
-            <path id="사각형_699" data-name="사각형 699" style="stroke-width:.8px;stroke:#000;fill:#e4e4e4" d="M0 0h18.462v12.923H0z"/>
+            <path id="사각형_699" data-name="사각형 699" style="stroke:#000;stroke-width:.8px;fill:#6e6e6e" d="M0 0h18.462v12.923H0z"/>
         </clipPath>
         <style>
-            .cls-5{fill:none;stroke:#fff;stroke-width:.9px}
+            .cls-6{fill:none;stroke:#fff;stroke-width:.9px}
         </style>
     </defs>
-    <g id="그룹_757" data-name="그룹 757" transform="translate(-21 -1012)">
+    <g id="그룹_916" data-name="그룹 916" transform="translate(-21 -1012)" style="opacity:.8">
         <g id="그룹_753" data-name="그룹 753" transform="translate(23.769 1018)">
-            <g id="사각형_698" data-name="사각형 698" style="stroke:#e4e4e4;stroke-width:.8px;fill:#e4e4e4">
-                <path style="stroke:none" d="M0 0h18.462v12.923H0z"/>
-                <path style="fill:none" d="M.4.4h17.662v12.123H.4z"/>
+            <g id="패스_605" data-name="패스 605" style="fill:#aaa">
+                <path d="M18.062 12.523H.4V.4h17.662v12.123z" style="stroke:none"/>
+                <path d="M.8.8v11.323h16.862V.8H.8M0 0h18.462v12.923H0V0z" style="fill:#aaa;stroke:none"/>
             </g>
             <g id="마스크_그룹_37" data-name="마스크 그룹 37" style="clip-path:url(#clip-path)">
                 <g id="그룹_758" data-name="그룹 758">
-                    <path id="패스_414" data-name="패스 414" class="cls-5" d="m-4193.537 10435.6 10.015 7.9 9.541-7.9" transform="translate(4193.022 -10434.98)"/>
-                    <path id="패스_415" data-name="패스 415" d="M7.92.182 0 6.13" transform="translate(-.481 6.446)" style="stroke:#fff;stroke-width:.9px;fill:#e4e4e4"/>
-                    <path id="선_309" data-name="선 309" class="cls-5" transform="translate(11.73 6.78)" d="m0 0 7.312 5.796"/>
+                    <path id="패스_414" data-name="패스 414" class="cls-6" d="m-4193.537 10435.6 10.015 7.9 9.541-7.9" transform="translate(4193.022 -10434.98)"/>
+                    <path id="패스_415" data-name="패스 415" d="M7.92.182 0 6.13" transform="translate(-.481 6.446)" style="stroke:#fff;stroke-width:.9px;fill:#6e6e6e"/>
+                    <path id="선_309" data-name="선 309" class="cls-6" transform="translate(11.73 6.78)" d="m0 0 7.312 5.796"/>
                 </g>
             </g>
         </g>
