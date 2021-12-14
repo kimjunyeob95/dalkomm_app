@@ -203,6 +203,7 @@ export default function OrderDetail() {
     handleFrontSize(axioData?.res1_data?.menu, type, trigger);
     handleDefaultPrice(trigger);
     handleOptionText(type, trigger);
+
     if (trigger === "타입선택") {
       $('input[name="orderSize"]').eq(0).click();
     }
@@ -211,7 +212,10 @@ export default function OrderDetail() {
     let option_type = $('input[name="orderType"]:checked').attr("text");
     let option_price = 0;
     let cupsize = "";
-    let option_size = trigger === "타입선택" ? "R" : $('input[name="orderSize"]:checked').val();
+    let option_size;
+
+    option_size = $('input[name="orderSize"]').eq(0).val();
+
     if (start === "처음" && ["HOT", "BOTH"].indexOf(res1_data?.type) > -1) {
       if (
         flagFn(res1_data?.detail_info_hot_big_price) &&
@@ -227,10 +231,17 @@ export default function OrderDetail() {
         flagFn(res1_data?.detail_info_hot_large_price) &&
         flagFn(res1_data?.detail_info_hot_simple_regular_price)
       ) {
-        setFront({
-          defaultPrice: res1_data.detail_info_hot_simple_regular_price,
-          cupsize: "BOTH",
-        });
+        if (res1_data?.size === "LARGE") {
+          setFront({
+            defaultPrice: res1_data.detail_info_hot_large_price,
+            cupsize: "LARGE",
+          });
+        } else {
+          setFront({
+            defaultPrice: res1_data.detail_info_hot_simple_regular_price,
+            cupsize: "BOTH",
+          });
+        }
       } else if (
         !flagFn(res1_data?.detail_info_hot_big_price) &&
         !flagFn(res1_data?.detail_info_hot_large_price) &&
@@ -367,7 +378,11 @@ export default function OrderDetail() {
         flagFn(res1_data?.detail_info_hot_large_price) &&
         flagFn(res1_data?.detail_info_hot_simple_regular_price)
       ) {
-        cupsize = "BOTH";
+        if (res1_data?.size === "LARGE") {
+          cupsize = "LARGE";
+        } else {
+          cupsize = "BOTH";
+        }
       } else if (
         !flagFn(res1_data?.detail_info_hot_big_price) &&
         !flagFn(res1_data?.detail_info_hot_large_price) &&
@@ -411,7 +426,11 @@ export default function OrderDetail() {
         flagFn(res1_data?.detail_info_ice_large_price) &&
         flagFn(res1_data?.detail_info_ice_regular_price)
       ) {
-        cupsize = "BOTH";
+        if (res1_data?.size === "LARGE") {
+          cupsize = "LARGE";
+        } else {
+          cupsize = "BOTH";
+        }
       } else if (
         !flagFn(res1_data?.detail_info_ice_big_price) &&
         !flagFn(res1_data?.detail_info_ice_large_price) &&
@@ -431,6 +450,7 @@ export default function OrderDetail() {
       ) {
         cupsize = "BIG";
       }
+
       if (option_size === "L") {
         option_price = res1_data.detail_info_ice_large_price;
       } else if (option_size === "R") {
@@ -449,7 +469,11 @@ export default function OrderDetail() {
       $('input[name="orderSize"]:checked').val() === undefined ? fn_select_size(axioData?.res1_data) : $('input[name="orderSize"]:checked').val();
     let type = $('input[name="orderType"]:checked').val();
     if (trigger === "타입선택") {
-      menu_size = "R";
+      if ($('input[name="orderSize"]:checked').val()) {
+        menu_size = $('input[name="orderSize"]').eq(0).val();
+      } else {
+        menu_size = "R";
+      }
     }
     let select_price = 0;
     if (type === "I") {
@@ -476,10 +500,17 @@ export default function OrderDetail() {
 
   const handleResultPrice = (defaultPrice, trigger) => {
     let total_price = Number(defaultPrice);
+    let menu_size;
+    if (trigger === "타입선택") {
+      if ($('input[name="orderSize"]:checked').val()) {
+        menu_size = $('input[name="orderSize"]').eq(0).val();
+      } else {
+        menu_size = "R";
+      }
+    }
     let price_menu = {
       menu_type: $('input[name="orderType"]:checked').val(),
-      menu_size:
-        trigger === "타입선택" || $('input[name="orderSize"]:checked').val() === undefined ? "R" : $('input[name="orderSize"]:checked').val(),
+      menu_size: menu_size,
       menu_cup: $('input[name="orderCup"]:checked').val(),
       shot: $('input[name="shot"]').val() ? Number($('input[name="shot"]').val()) : "",
       hazelnut: $('input[name="hazelnut"]').val() ? Number($('input[name="hazelnut"]').val()) : "",
@@ -512,6 +543,7 @@ export default function OrderDetail() {
 
   const handleOptionText = (type, trigger) => {
     let menu_type = $('input[name="orderType"]:checked').attr("text");
+
     let menu_size = "";
     if (type === "처음") {
       menu_size = axioData?.res1_data?.menu?.size;
@@ -526,7 +558,11 @@ export default function OrderDetail() {
     } else if (type === "중간") {
       menu_size = $('input[name="orderSize"]:checked').attr("text") === undefined ? "Regular" : $('input[name="orderSize"]:checked').attr("text");
       if (trigger === "타입선택") {
-        menu_size = "Regular";
+        if ($('input[name="orderSize"]:checked').val()) {
+          menu_size = $('input[name="orderSize"]').eq(0).attr("text");
+        } else {
+          menu_size = "Regular";
+        }
       }
     }
     let menu_cup = $('input[name="orderCup"]:checked').attr("text");
