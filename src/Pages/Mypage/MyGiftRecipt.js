@@ -89,7 +89,7 @@ export default function MyGiftRecipt() {
               <section className="section">
                 {axioData?.res2_data?.usage_list?.length > 0 && (
                   <div className="w-inner">
-                    <p className="card-title">{axioData?.res1_data?.user_name}님의 기프트카드</p>
+                    <p className="card-title">{axioData?.res2_data?.card_name}님의 기프트카드</p>
                     <div className="item card gift">
                       {/* <div className="card-wrap" style={{ backgroundImage: `url(${axioData?.res1_data?.charge_card_image_url})` }}> */}
                       <div className="card-wrap">

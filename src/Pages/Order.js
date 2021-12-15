@@ -25,7 +25,7 @@ import { authContext } from "ContextApi/Context";
 import { getCookieValue, fadeOut, checkMobile, handleLogin, setCookie } from "Config/GlobalJs";
 
 export function Order(props) {
-  const [state, dispatch] = useContext(authContext);
+  const [state] = useContext(authContext);
   const [axioData, setData] = useState(false);
   const [storeData, setStore] = useState(false);
   const [swierFlag, setFlag] = useState(false);

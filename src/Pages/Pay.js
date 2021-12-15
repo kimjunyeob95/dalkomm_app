@@ -67,8 +67,8 @@ export default function Pay() {
             fontSize: 20,
           });
           res2?.data?.data?.charge_card_list?.map((e, i) => {
-            window.$(`#barcode${i + 1}`).barcode(e?.card_number, "code128", {
-              barWidth: 2,
+            window.$(`#barcode${i + 1}`).barcode(e?.card_number + e?.pin_number, "code128", {
+              barWidth: 1,
               barHeight: 50,
               fontSize: 20,
             });
@@ -332,7 +332,7 @@ export default function Pay() {
                       <ul className="swiper-wrapper">
                         {axioData?.res2_data?.charge_card_list?.map((e, i) => (
                           <SwiperSlide className="swiper-slide" key={i} data-cardnum={e?.card_number} data-pin={e?.pin_number}>
-                            <h2>{axioData?.res1_data?.user_name}님의 기프트카드</h2>
+                            <h2>{e.card_name}님의 기프트카드</h2>
                             <div className="item card gift">
                               <div className="card-wrap">
                                 <p className="grade en">

@@ -13,18 +13,20 @@ import GoContents from "Components/GoContents";
 import { contGap } from "Jquery/Jquery";
 import Popup_nomal from "Components/Popup/Popup_nomal";
 
-import { fadeOut, checkMobile } from "Config/GlobalJs";
+import { fadeOut, checkMobile, getParameter } from "Config/GlobalJs";
 
 import { SERVER_DALKOMM } from "Config/Server";
 import { authContext } from "ContextApi/Context";
 
 export default function OrderInfo() {
-  const [state, dispatch] = useContext(authContext);
+  const [state] = useContext(authContext);
   const [axioData, setData] = useState(false);
   const history = useHistory();
   const { orderCode } = useParams();
   const { duration } = useLocation();
-  const body = {};
+
+  const [activeStoreCode] = useState(getParameter("store_code"));
+
   let header_config = {
     headers: {
       "X-dalkomm-access-token": state.accessToken,
@@ -58,6 +60,12 @@ export default function OrderInfo() {
     // 말풍선 스크롤시 hide/show
     // eslint-disable-next-line react-hooks/exhaustive-deps
     axiosFn();
+    //즐겨찾기 추가
+    if (activeStoreCode) {
+      axios
+        .all([axios.post(`${SERVER_DALKOMM}/app/api/v2/favorite/store/add`, { store_code: activeStoreCode }, header_config)])
+        .then(axios.spread(() => {}));
+    }
   }, []);
 
   useEffect(() => {
