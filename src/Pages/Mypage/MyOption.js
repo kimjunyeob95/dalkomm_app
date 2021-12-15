@@ -7,16 +7,16 @@ import $ from "jquery";
 import axios from "axios";
 import React, { useEffect, useState, useContext } from "react";
 import { Link } from "react-router-dom";
-import { fadeOut } from "Config/GlobalJs";
+import { fadeOut, checkMobile } from "Config/GlobalJs";
 import GoContents from "Components/GoContents";
 import Popup_logout from "Components/Popup/Popup_logout";
-import { contGap, popupOpen, fadeInOut } from "Jquery/Jquery";
+import { contGap, popupOpen } from "Jquery/Jquery";
 
 import { authContext } from "ContextApi/Context";
 import { SERVER_DALKOMM } from "Config/Server";
 
 export default function MyOption() {
-  const [state, dispatch] = useContext(authContext);
+  const [state] = useContext(authContext);
   const [axioData, setData] = useState();
 
   const body = {};
@@ -65,6 +65,22 @@ export default function MyOption() {
   const handleUpdate = () => {
     if (state?.app_version > axioData?.res1_data?.app_version) {
       alert("최신 버전입니다.");
+    } else {
+      let linkData;
+
+      try {
+        if (checkMobile() === "android") {
+          linkData = { data: "https://play.google.com/store/search?q=%EB%8B%AC%EC%BD%A4%EC%BB%A4%ED%94%BC&c=apps" };
+          linkData = JSON.stringify(linkData);
+          window.android.fn_callUrl(linkData);
+        } else if (checkMobile() === "ios") {
+          linkData = { data: "https://apps.apple.com/kr/app/%EB%8B%AC%EC%BD%A4%EC%BB%A4%ED%94%BC/id1097036744" };
+          linkData = JSON.stringify(linkData);
+          window.webkit.messageHandlers.fn_callUrl.postMessage(linkData);
+        }
+      } catch (error) {
+        console.log(error);
+      }
     }
   };
   if (axioData) {
