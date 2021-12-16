@@ -54,16 +54,15 @@ export default function OrderFinal() {
       if (flag_count > 1) {
         res1_data.smartorder_detail_list?.map((element, index) => {
           let quantity = element?.price * element?.quantity;
-          if (element?.quantity > 1) {
-            if (element?.available_discount) {
-              notOption_price += quantity * (res1_data?.basic_discount_rate_percent / 100);
-            }
-          } else {
+          if (index > 0) {
             if (element?.available_discount) {
               notOption_price += quantity * (res1_data?.basic_discount_rate_percent / 100);
             }
           }
         });
+      } else {
+        let quantity = res1_data?.smartorder_detail_list[0]?.price * 1;
+        notOption_price += quantity * (res1_data?.basic_discount_rate_percent / 100);
       }
       finalPrice = res1_data?.total_order_amount - notOption_price;
     } else if ("membership") {
@@ -79,6 +78,7 @@ export default function OrderFinal() {
           }
         }
       });
+
       finalPrice = res1_data?.total_order_amount - notOption_price;
     }
   };
@@ -669,6 +669,7 @@ export default function OrderFinal() {
                                     data-menuid={axioData?.res1_data?.smartorder_detail_list[index]?.smartorder_menu_id}
                                     data-quantity={axioData?.res1_data?.smartorder_detail_list[index]?.quantity}
                                     data-index={index}
+                                    data-index2={index2}
                                     data-originprice={axioData?.res1_data?.smartorder_detail_list[index]?.price}
                                     data-optionprice={axioData?.res1_data?.smartorder_detail_list[index]?.option_price}
                                     data-available_discount={axioData?.res1_data?.smartorder_detail_list[index]?.available_discount}
@@ -684,7 +685,7 @@ export default function OrderFinal() {
                                     }
                                     value={selectOption(menu_count)}
                                   >
-                                    {axioData?.res1_data?.affiliate_discount && index === 0 ? (
+                                    {axioData?.res1_data?.affiliate_discount && index === 0 && index2 === 0 ? (
                                       <option
                                         value=""
                                         data-originprice={axioData?.res1_data?.smartorder_detail_list[index]?.price}

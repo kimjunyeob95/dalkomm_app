@@ -270,7 +270,7 @@ export default function MyMembershipPolicy() {
                           <li>온라인 이벤트 참여</li>
                           <li>멤버십카드 발급 및 스탬프 적립</li>
                           <li>생일 축하 아메리카노 쿠폰 </li>
-                          <li>신메뉴 30%할인 쿠폰</li>
+                          {/* <li>신메뉴 30%할인 쿠폰</li> */}
                           <li>
                             테이블오더 5% 항시 할인
                             <span className="standard">제조음료 주문 시</span>

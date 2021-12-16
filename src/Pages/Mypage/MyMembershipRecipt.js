@@ -7,7 +7,6 @@ import axios from "axios";
 import React, { useEffect, useContext, useState } from "react";
 import { useHistory } from "react-router-dom";
 
-import Nav from "Components/Nav/Nav";
 import GoContents from "Components/GoContents";
 import { contGap } from "Jquery/Jquery";
 
@@ -16,7 +15,7 @@ import { SERVER_DALKOMM } from "Config/Server";
 import { fadeOut } from "Config/GlobalJs";
 
 export default function MyMembershipRecipt() {
-  const [state, dispatch] = useContext(authContext);
+  const [state] = useContext(authContext);
   const [axioData, setData] = useState();
   const history = useHistory();
 

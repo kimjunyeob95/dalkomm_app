@@ -24,6 +24,8 @@ export default function MyOption() {
     headers: {
       "X-dalkomm-access-token": state?.accessToken,
       Authorization: state?.auth,
+      "X-DALKOMM-APP-TYPE": state.app_type,
+      "X-DALKOMM-STORE": state.udid,
     },
   };
 
@@ -63,7 +65,7 @@ export default function MyOption() {
     );
   };
   const handleUpdate = () => {
-    if (state?.app_version > axioData?.res1_data?.app_version) {
+    if (state?.app_version >= axioData?.res1_data?.app_version) {
       alert("최신 버전입니다.");
     } else {
       let linkData;
