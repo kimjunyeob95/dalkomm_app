@@ -4,15 +4,11 @@
 // eslint-disable-next-line no-unused-vars
 import axios from "axios";
 import $ from "jquery";
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useParams, useHistory } from "react-router-dom";
 import { SERVER_DALKOMM_SUGAR } from "Config/Server";
 import GoContents from "Components/GoContents";
-
 import { moveScrollTop } from "Jquery/Jquery";
-
-import { Swiper, SwiperSlide } from "swiper/react";
-import SwiperCore, { Pagination } from "swiper/core";
 import { fadeOut } from "Config/GlobalJs";
 
 export default function StoryDetail() {
@@ -91,13 +87,13 @@ export default function StoryDetail() {
                   <span className="blind">뒤로</span>
                 </i>
               </Link>
-              <div className="btn-area flex-center">
-                {/* <a href="javascript:void(0);" className="btn share">
-              <i className="ico share">
-                <span>공유하기</span>
-              </i>
-            </a> */}
-              </div>
+              {/* <div className="btn-area flex-center">
+                <a className="btn share">
+                  <i className="ico share">
+                    <span>공유하기</span>
+                  </i>
+                </a>
+              </div> */}
             </header>
 
             <div id="content" className="story detail fade-in">

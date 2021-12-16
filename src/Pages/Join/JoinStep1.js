@@ -79,10 +79,7 @@ export default function JoinStep1() {
       axios.all([axios.post(`${SERVER_DALKOMM}/app/api/account/simple/cert/confirm`, body, header_config)]).then(
         axios.spread((res1) => {
           if (res1.data.meta.code === 20000) {
-            history.push({
-              pathname: "/join/step2",
-              join_token: res1.data.data.join_token,
-            });
+            history.push(`/join/step2/${encodeURIComponent(res1.data.data.join_token)}`);
           } else {
             $("#resAlert").text(res1.data.meta.msg);
             $(".overlay.popupExitJoin").addClass("active");

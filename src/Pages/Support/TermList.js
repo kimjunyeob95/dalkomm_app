@@ -11,7 +11,7 @@ export default function TermList() {
   const history = useHistory();
   const handleGoback = () => {
     if (history?.location?.from === "회원가입") {
-      history.push({ pathname: "/join/step2", value: history?.location.value, join_token: history?.location.join_token });
+      history.push({ pathname: `/join/step2/${history?.location.join_token}`, value: history?.location.value });
     } else {
       history.push("/menu");
     }

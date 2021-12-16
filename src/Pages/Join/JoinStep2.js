@@ -7,7 +7,7 @@ import axios from "axios";
 import $ from "jquery";
 import React, { useState, useEffect, useContext } from "react";
 import { getYear, getMonth } from "date-fns"; // getYear, getMonth
-import { Link, useHistory, useLocation } from "react-router-dom";
+import { Link, useHistory, useLocation, useParams } from "react-router-dom";
 import DatePicker, { registerLocale } from "react-datepicker"; // 한국어적용
 import ko from "date-fns/locale/ko"; // 한국어적용
 import "react-datepicker/dist/react-datepicker.css";
@@ -22,7 +22,10 @@ registerLocale("ko", ko); // 한국어적용
 const range = require("lodash");
 
 export default function JoinStep2() {
-  const [state, dispatch] = useContext(authContext);
+  const [state] = useContext(authContext);
+  const { join_token } = useParams();
+  const [joinToken] = useState(join_token);
+
   const history = useHistory();
   const location = useLocation();
   const [startDate, setStartDate] = useState();
@@ -37,10 +40,10 @@ export default function JoinStep2() {
   };
 
   useEffect(() => {
-    // if (location?.join_token === "" || !location?.join_token) {
-    //   alert("잘못된 접근입니다.");
-    //   history.push("/");
-    // }
+    if (joinToken === "" || !joinToken) {
+      alert("잘못된 접근입니다.");
+      history.push("/");
+    }
     setTimeout(() => {
       if (location?.value?.datepicker) {
         $("#datepicker").val(location?.value?.datepicker);
@@ -85,7 +88,7 @@ export default function JoinStep2() {
     if (validation) {
       if (fn_pw_check($("#userPw").val(), $("#userPwChk").val()) && email_check($("#useEmail").val()) && name_check($("#userName").val())) {
         let body = {
-          join_token: location?.join_token,
+          join_token: decodeURIComponent(joinToken),
           login_email: $("#useEmail").val(),
           password: $("#userPw").val(),
           name: $("#userName").val(),
@@ -317,7 +320,7 @@ export default function JoinStep2() {
                                 userPw: $("#userPw").val(),
                                 datepicker: $("#datepicker").val(),
                               },
-                              join_token: location?.join_token,
+                              join_token: joinToken,
                             })
                           }
                           pop-target="#popupTerms01"
@@ -352,7 +355,7 @@ export default function JoinStep2() {
                                 userPw: $("#userPw").val(),
                                 datepicker: $("#datepicker").val(),
                               },
-                              join_token: location?.join_token,
+                              join_token: joinToken,
                             })
                           }
                           pop-target="#popupTerms02"
@@ -386,7 +389,7 @@ export default function JoinStep2() {
                                 userPw: $("#userPw").val(),
                                 datepicker: $("#datepicker").val(),
                               },
-                              join_token: location?.join_token,
+                              join_token: joinToken,
                             })
                           }
                           pop-target="#popupTerms02"
@@ -420,7 +423,7 @@ export default function JoinStep2() {
                                 userPw: $("#userPw").val(),
                                 datepicker: $("#datepicker").val(),
                               },
-                              join_token: location?.join_token,
+                              join_token: joinToken,
                             })
                           }
                           pop-target="#popupTerms02"

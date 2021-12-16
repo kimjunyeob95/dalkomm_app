@@ -76,7 +76,7 @@ ReactDOM.render(
         <Route exact path="/dev" component={() => <DevTest />} />
 
         <Route exact path="/join/step1" component={() => <JoinStep1 />} />
-        <Route exact path="/join/step2" component={() => <JoinStep2 />} />
+        <Route exact path="/join/step2/:join_token" component={() => <JoinStep2 />} />
         <Route exact path="/join/step3" component={() => <JoinStep3 />} />
         <Route exact path="/join/findId" component={() => <FindId />} />
         <Route exact path="/join/findPw" component={() => <FindPw />} />
