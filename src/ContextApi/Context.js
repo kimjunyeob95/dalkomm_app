@@ -12,7 +12,7 @@ export const authContext = React.createContext();
 export const indexInitialState = {
   loginFlag: getCookieValue("accessToken") !== "" ? true : false,
   accessToken: getCookieValue("accessToken"),
-  app_version: getCookieValue("app_version"),
+  app_version: checkMobile() === "android" ? "64" : getCookieValue("app_version"),
   os: getCookieValue("os"),
   isApp: getCookieValue("isApp"),
   auth: getCookieValue("auth") ? getCookieValue("auth") : "",
@@ -77,7 +77,7 @@ const ContextStore = (props) => {
         Authorization: getCookieValue("auth"),
         "X-DALKOMM-STORE": getCookieValue("udid"),
         "X-dalkomm-app-type": checkMobile() === "android" ? "A" : "I",
-        "X-dalkomm-app-version": getCookieValue("app_version"),
+        "X-dalkomm-app-version": checkMobile() === "android" ? "64" : getCookieValue("app_version"),
       },
     };
 
@@ -110,6 +110,7 @@ const ContextStore = (props) => {
       }
     }, 500);
   }, []);
+  //상용
   // indexInitialState.loginFlag = true;
   // indexInitialState.accessToken =
   //   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoidWxIdzFDYVlEaFJSZDR2NjdsSU1PTE0wOHJaNnFFMEEyenRndXl5MTFvSkRQS2RxR3VBbm9UWUpzZEZJSHI5eiIsImF1ZCI6IkRBTEtPTU1fQVBQIiwidW5pb25fdXNlcl9pZCI6InNCUFhFbnpscXkwUTNQZTQ3eVZLYnJrSnRyLzU1Y3AxUVBhQzZkZGVNTm93eDJaN2pPbzlSekdodTI4L2t3MTUiLCJpc3MiOiJEQUxLT01NIiwidXNlcl9sb2dpbl90eXBlIjoiRCIsImlhdCI6MTYzOTM5NTUxM30.116_x9aJneio-Gsv0l9rI9GI1MEn2XlVJTEps64v6r8";
@@ -121,6 +122,13 @@ const ContextStore = (props) => {
   // indexInitialState.longitude = 127.05642398540016;
   // indexInitialState.udid = "8280af29616a4ec1bb85a9ed17b9594e828e8140";
   // indexInitialState.app_type = "I";
+
+  //dev
+  // indexInitialState.accessToken =
+  //   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiVTFTb0I4TXhTUWxMREc0YmtWUjBmRFB0UkxnaTRtd05pK0wwQjJMb1Q2Z3lUallKQlRHcnhkeElmYVZEZHRwQSIsImF1ZCI6IkRBTEtPTU1fQVBQIiwidW5pb25fdXNlcl9pZCI6InE3bEU3SHFKdUdWbEhjNDhld21FOThyRUhaQ1lXU09tcVpXZFFtUEZlUTdJTkNZbXBmaFJxckZjcXNjdDRPRngiLCJpc3MiOiJEQUxLT01NIiwidXNlcl9sb2dpbl90eXBlIjoiRCIsImlhdCI6MTY0MDA0OTY2Mn0.OYjLsuDZpQL0-NPu70HbNQb-3w6wxYzeEv4SZOT7YE8";
+  // indexInitialState.app_version = "3.0.1";
+  // indexInitialState.auth = "Basic ZGFsa29tbTpkYWxrb21tX2FwcDszNjdjZjUxMjFkM2I3NTc5ZGVlMDA3YTliODcwNTJiYmU3ZDNhNmY2OzIwMjExMjIxMTEyMDM2";
+  // indexInitialState.udid = "A0F21C7B-3FDA-48A6-AA1D-07490E7916A4";
 
   //과장님
   // indexInitialState.accessToken =

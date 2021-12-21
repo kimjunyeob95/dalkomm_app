@@ -11,7 +11,7 @@
 import axios from "axios";
 import $ from "jquery";
 import React, { useEffect, useContext, useState } from "react";
-import { useHistory, useLocation } from "react-router-dom";
+import { useHistory, useLocation, useParams } from "react-router-dom";
 
 import HeaderSub from "Components/Header/HeaderSub";
 import GoContents from "Components/GoContents";
@@ -27,6 +27,7 @@ export default function OrderMembership() {
   const [axioData, setData] = useState(true);
   const [memberData, setMember] = useState({ agree: false });
   const history = useHistory();
+  const { smartOrderSeq } = useParams();
   const { frontValue } = useLocation();
   const [FrontData, setFront] = useState(frontValue);
 
@@ -39,7 +40,7 @@ export default function OrderMembership() {
   };
   useEffect(() => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    axios.all([axios.post(`${SERVER_DALKOMM}/app/web/smartorder/order/${Number(frontValue?.smartOrderSeq)}/kt/new`, body, header_config)]).then(
+    axios.all([axios.post(`${SERVER_DALKOMM}/app/web/smartorder/order/${Number(smartOrderSeq)}/kt/new`, body, header_config)]).then(
       axios.spread((res1) => {
         let membershipData = res1.data.data;
         setData((origin) => {
@@ -71,7 +72,7 @@ export default function OrderMembership() {
       card_no: String($("#membershipCard").val()),
       is_save: $("#membershipSave").is(":checked"),
     };
-    axios.all([axios.post(`${SERVER_DALKOMM}/app/api/v2/smartorder/order/${Number(frontValue?.smartOrderSeq)}/kt/point`, body, header_config)]).then(
+    axios.all([axios.post(`${SERVER_DALKOMM}/app/api/v2/smartorder/order/${Number(smartOrderSeq)}/kt/point`, body, header_config)]).then(
       axios.spread((res1) => {
         if (res1.data.meta.code === 20000) {
           alert(`사용 가능한 포인트는 ${res1.data.data.point} 입니다.`);
@@ -96,7 +97,7 @@ export default function OrderMembership() {
     } else if (type === "네") {
       let body = {
         card_no: String($("#membershipCard").val()),
-        orderinfo_id: Number(frontValue?.smartOrderSeq),
+        orderinfo_id: Number(smartOrderSeq),
       };
       axios.all([axios.post(`${SERVER_DALKOMM}/app/api/v2/smartorder/kt/delete`, body, header_config)]).then(
         axios.spread((res1) => {
@@ -117,10 +118,6 @@ export default function OrderMembership() {
   };
 
   const handleSubmit = () => {
-    let coupon_array = [];
-    FrontData?.menuQuantity?.map((element, index) => {
-      coupon_array.push({ quantity: 1, couponId: "" });
-    });
     // return console.log(FrontData?.menuQuantity);
     let body = {
       card_no: String($("#membershipCard").val()),
@@ -128,13 +125,13 @@ export default function OrderMembership() {
       is_save: $("#membershipSave").is(":checked"),
     };
 
-    axios.all([axios.post(`${SERVER_DALKOMM}/app/api/v2/smartorder/order/${FrontData?.smartOrderSeq}/kt`, body, header_config)]).then(
+    axios.all([axios.post(`${SERVER_DALKOMM}/app/api/v2/smartorder/order/${smartOrderSeq}/kt`, body, header_config)]).then(
       axios.spread((res1) => {
         console.log(res1);
         if (res1.data.meta.code === 20000) {
           history.push({
-            pathname: `/order/final/${FrontData?.smartOrderSeq}`,
-            frontValue: { ...FrontData, menuQuantity: coupon_array },
+            pathname: `/order/final/${smartOrderSeq}`,
+            frontValue: { ...FrontData },
           });
         } else {
           alert(res1.data.meta.msg);
@@ -149,13 +146,27 @@ export default function OrderMembership() {
     $("body").addClass("modal-opened");
   };
 
+  const handleBack = () => {
+    history.push({
+      pathname: `/order/final/${smartOrderSeq}`,
+      frontValue: { ...FrontData },
+    });
+  };
+
   if (axioData) {
     return (
       <React.Fragment>
         <GoContents />
         <div id="wrap" className="wrap">
           <div id="container" className="container">
-            <HeaderSub redirectFromMembership={true} noBack={true} frontValue={FrontData} title="KT 멤버십 제휴 할인" />
+            <header id="header" className="header undefined">
+              <h1 className="page-title">KT 멤버십 제휴 할인</h1>
+              <a className="btn back" onClick={(e) => handleBack(e.currentTarget)}>
+                <i className="ico back">
+                  <span className="blind">뒤로</span>
+                </i>
+              </a>
+            </header>
 
             <div id="content" className="membership discount">
               <div className="form-wrap">
@@ -244,7 +255,7 @@ export default function OrderMembership() {
               {/* // 선물하기 버튼 영역 */}
             </div>
             {/* // #content */}
-            <Popup_cancleMembership FrontData={FrontData} header_config={header_config} />
+            <Popup_cancleMembership smartOrderSeq={Number(smartOrderSeq)} FrontData={FrontData} header_config={header_config} />
           </div>
           {/* // #container */}
         </div>

@@ -8,37 +8,22 @@ import axios from "axios";
 import { useHistory } from "react-router-dom";
 import { SERVER_DALKOMM } from "Config/Server";
 
-export default function Popup_cancleMembership({ FrontData, header_config }) {
+export default function Popup_cancleMembership({ smartOrderSeq, FrontData, header_config }) {
   const history = useHistory();
   const handleClose = () => {
     let body = {
       card_no: String($("#membershipCard").val()),
-      orderinfo_id: Number(FrontData?.smartOrderSeq),
+      orderinfo_id: Number(smartOrderSeq),
     };
-    let data = FrontData;
-    if (data.orderDiscountType === "ktmembership") {
-      data = {
-        ...FrontData,
-        finalPrice: data.defaultPrice,
-        orderDiscountType: {
-          type: "",
-          price: 0,
-        },
-      };
-    } else {
-      data = {
-        ...FrontData,
-      };
-    }
 
-    axios.all([axios.post(`${SERVER_DALKOMM}/app/api/v2/smartorder/order/${Number(FrontData?.smartOrderSeq)}/kt/detach`, body, header_config)]).then(
+    axios.all([axios.post(`${SERVER_DALKOMM}/app/api/v2/smartorder/order/${Number(smartOrderSeq)}/kt/detach`, body, header_config)]).then(
       axios.spread((res1) => {
         if (res1.data.meta.code === 20000) {
           $("body").removeClass("modal-opened");
           $(".overlay.popupExitJoin").removeClass("active");
           history.push({
-            pathname: `/order/final/${FrontData?.smartOrderSeq}`,
-            frontValue: data,
+            pathname: `/order/final/${smartOrderSeq}`,
+            frontValue: FrontData,
           });
         } else {
           alert(res1.data.meta.msg);
