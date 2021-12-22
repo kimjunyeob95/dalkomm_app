@@ -332,7 +332,7 @@ export default function Pay() {
                       <ul className="swiper-wrapper">
                         {axioData?.res2_data?.charge_card_list?.map((e, i) => (
                           <SwiperSlide className="swiper-slide" key={i} data-cardnum={e?.card_number} data-pin={e?.pin_number}>
-                            <h2>{e.card_name}님의 기프트카드</h2>
+                            <h2>{e.card_name?.replace("님의 충전카드", "")}님의 기프트카드</h2>
                             <div className="item card gift">
                               <div className="card-wrap">
                                 <p className="grade en">

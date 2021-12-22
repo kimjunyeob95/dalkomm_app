@@ -12,7 +12,6 @@ import GoContents from "Components/GoContents";
 import { authContext } from "ContextApi/Context";
 import { SERVER_DALKOMM } from "Config/Server";
 
-import { Swiper, SwiperSlide } from "swiper/react";
 import SwiperCore, { Pagination } from "swiper/core";
 
 import { contGap } from "Jquery/Jquery";

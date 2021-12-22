@@ -149,7 +149,7 @@ export default function GiftCharge() {
                         <ul className="swiper-wrapper">
                           {axioData?.res2_data?.map((e, i) => (
                             <li className="swiper-slide" key={i} data-amount={e?.amount} data-cardnum={e?.card_number} data-pin={e?.pin_number}>
-                              <p className="card-title">{e?.card_name}님의 기프트카드</p>
+                              <p className="card-title">{e?.card_name?.replace("님의 충전카드", "")}님의 기프트카드</p>
                               <div className="item card gift">
                                 <div className="card-wrap">
                                   {/* <div className="card-wrap" style={{ backgroundImage: `url(${e?.card_image_url})` }}> */}
