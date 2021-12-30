@@ -13,7 +13,7 @@ import GoContents from "Components/GoContents";
 import { contGap, moveScrollTop, tabLink } from "Jquery/Jquery";
 
 import { Swiper } from "swiper/react";
-import { fadeOut } from "Config/GlobalJs";
+import { fadeOut, get_categoryName } from "Config/GlobalJs";
 
 import { SERVER_DALKOMM } from "Config/Server";
 import { authContext } from "ContextApi/Context";
@@ -224,7 +224,7 @@ export default function OrderMenu() {
                       return (
                         <li className={`swiper-slide ${cateType === e?.category_id && "active"}`} data-category={e?.category_id} key={i}>
                           <Link to="#" onClick={(e) => jqueryTablink(e)} data-category={e?.category_id}>
-                            {e?.category_name}
+                            {get_categoryName(e?.category_name)}
                           </Link>
                         </li>
                       );
@@ -233,7 +233,7 @@ export default function OrderMenu() {
                         return (
                           <li className={`swiper-slide ${cateType === e?.category_id && "active"}`} data-category={e?.category_id} key={i}>
                             <Link to="#" onClick={(e) => jqueryTablink(e)} data-category={e?.category_id}>
-                              {e?.category_name}
+                              {get_categoryName(e?.category_name)}
                             </Link>
                           </li>
                         );

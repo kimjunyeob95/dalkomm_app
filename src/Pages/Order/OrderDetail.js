@@ -16,7 +16,7 @@ import { Swiper } from "swiper/react";
 
 import { SERVER_DALKOMM } from "Config/Server";
 import { authContext } from "ContextApi/Context";
-import { fadeOut, checkMobile } from "Config/GlobalJs";
+import { fadeOut } from "Config/GlobalJs";
 
 export const hardCodingMenu = [
   {
@@ -224,7 +224,7 @@ export default function OrderDetail() {
       ) {
         setFront({
           defaultPrice: res1_data.detail_info_hot_simple_regular_price,
-          cupsize: "ALL",
+          cupsize: "BOTH",
         });
       } else if (
         !flagFn(res1_data?.detail_info_hot_big_price) &&
@@ -372,7 +372,11 @@ export default function OrderDetail() {
         flagFn(res1_data?.detail_info_hot_large_price) &&
         flagFn(res1_data?.detail_info_hot_simple_regular_price)
       ) {
-        cupsize = "ALL";
+        if (res1_data?.size === "LARGE") {
+          cupsize = "LARGE";
+        } else {
+          cupsize = "BOTH";
+        }
       } else if (
         !flagFn(res1_data?.detail_info_hot_big_price) &&
         flagFn(res1_data?.detail_info_hot_large_price) &&
@@ -1269,14 +1273,15 @@ export default function OrderDetail() {
                     </div>
                   </fieldset>
                 </form>
-                <ul className="data-list toggle-wrap">
-                  <li className="active">
-                    <div className="item info-detail">
-                      <div className="title-wrap toggle-switch">
-                        <p className="title">영양 성분 정보</p>
-                      </div>
-                      <div className="detail-wrap toggle-cont" style={{ display: "none" }}>
-                        {/* <p className="text">
+                {axioData?.res1_data?.menu?.memo !== "<p>&nbsp;</p>" && (
+                  <ul className="data-list toggle-wrap">
+                    <li className="active">
+                      <div className="item info-detail">
+                        <div className="title-wrap toggle-switch">
+                          <p className="title">영양 성분 정보</p>
+                        </div>
+                        <div className="detail-wrap toggle-cont" style={{ display: "none" }}>
+                          {/* <p className="text">
                           <span>
                             1회 제공량 <em>{axioData?.res1_data?.menu?.detail_info_ice_regular_size}</em>
                           </span>
@@ -1289,18 +1294,19 @@ export default function OrderDetail() {
                           </span>
                         </p>
                         <br /> */}
-                        <div className="table-wrap">
-                          <div
-                            className="markup"
-                            dangerouslySetInnerHTML={{
-                              __html: axioData?.res1_data?.menu?.memo,
-                            }}
-                          ></div>
+                          <div className="table-wrap">
+                            <div
+                              className="markup"
+                              dangerouslySetInnerHTML={{
+                                __html: axioData?.res1_data?.menu?.memo,
+                              }}
+                            ></div>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  </li>
-                </ul>
+                    </li>
+                  </ul>
+                )}
               </section>
 
               {/* 충전 후 금액 / 결제하기 영역 */}

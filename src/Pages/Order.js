@@ -41,7 +41,7 @@ export function Order(props) {
     setTimeout(() => {
       //말풍선 쿠키 셋팅
       if (!getCookieValue("orderBalloon")) {
-        setCookie("orderBalloon", true, { expires: 365 });
+        setCookie("orderBalloon", true, { expires: 7 });
       }
     }, 1000);
 

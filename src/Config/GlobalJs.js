@@ -14,6 +14,16 @@ export function checkMobile() {
   }
 }
 
+export const get_categoryName = (name) => {
+  switch (name) {
+    case "추천메뉴":
+      return "추천";
+    case "베이커리":
+      return "베이커리/MD";
+    default:
+      return name;
+  }
+};
 export const fn_memberName = (level) => {
   let result = level === 0 ? "SILVER" : level === 1 ? "GOLD" : level === 2 ? "PLATINUM" : "";
   return result;

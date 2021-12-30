@@ -134,6 +134,9 @@ export function Main(props) {
     contGap();
     fadeOut();
     SwiperCore.use([Autoplay, Scrollbar]);
+    setTimeout(() => {
+      $(".speech-bubble").fadeOut();
+    }, 2500);
   }, [axioData]);
 
   const handleFavorite = (e, storeCode) => {
@@ -335,11 +338,14 @@ export function Main(props) {
                       <span>바코드</span>
                     </i>
                   </button>
-                  {getCookieValue("mainBalloon") !== "true" && (
+                  {/* {getCookieValue("mainBalloon") !== "true" && (
                     <div className="speech-wrap">
                       <p className="speech-bubble ani">{axioData?.join_text?.replace(/%NAME%/g, decodeURI(axioData?.res3_data?.user?.user_name))}</p>
                     </div>
-                  )}
+                  )} */}
+                  <div className="speech-wrap">
+                    <p className="speech-bubble ani">{axioData?.join_text?.replace(/%NAME%/g, decodeURI(axioData?.res3_data?.user?.user_name))}</p>
+                  </div>
                 </div>
               ) : (
                 <div className="item my-info" onClick={(e) => handleLogin(e.currentTarget)}>
