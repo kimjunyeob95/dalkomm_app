@@ -100,29 +100,31 @@ export default function OrderInfoDetail() {
                   </div>
                 </div>
 
-                <ul className="data-list toggle-wrap">
-                  <li>
-                    <div className="item info-detail">
-                      <div className="title-wrap toggle-switch">
-                        <p className="title">영양 성분 정보</p>
-                      </div>
-                      <div className="detail-wrap toggle-cont" style={{ display: "block" }}>
-                        {/* <p className="text">
+                {axioData?.res1_data?.memo !== "<p>&nbsp;</p>" && (
+                  <ul className="data-list toggle-wrap">
+                    <li>
+                      <div className="item info-detail">
+                        <div className="title-wrap toggle-switch">
+                          <p className="title">영양 성분 정보</p>
+                        </div>
+                        <div className="detail-wrap toggle-cont" style={{ display: "block" }}>
+                          {/* <p className="text">
                           <span>
                             1회 제공량 {axioData?.res1_data?.size} / 열량 {axioData?.res1_data?.kcal} (Kcal)
                           </span>
                         </p>
                         <br /> */}
-                        <div
-                          className="markup"
-                          dangerouslySetInnerHTML={{
-                            __html: axioData?.res1_data?.memo,
-                          }}
-                        ></div>
+                          <div
+                            className="markup"
+                            dangerouslySetInnerHTML={{
+                              __html: axioData?.res1_data?.memo,
+                            }}
+                          ></div>
+                        </div>
                       </div>
-                    </div>
-                  </li>
-                </ul>
+                    </li>
+                  </ul>
+                )}
               </section>
 
               <button type="button" id="moveScrollTop" className="btn scroll-top">
