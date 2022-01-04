@@ -40,10 +40,10 @@ export function Order(props) {
   useEffect(() => {
     setTimeout(() => {
       //말풍선 쿠키 셋팅
-      if (!getCookieValue("orderBalloon")) {
+      if (getCookieValue("orderBalloon") !== "true") {
         setCookie("orderBalloon", true, { expires: 7 });
       }
-    }, 1000);
+    }, 2000);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
     let location_body = { latitude: getCookieValue("latitude"), longitude: getCookieValue("longitude") };
@@ -203,7 +203,7 @@ export function Order(props) {
         <div id="wrap" className="wrap">
           <div id="container" className="container">
             {/* <HeaderSub title="매장선택" type="store" location="/mypage/cart" icon="cart" /> */}
-            <header id="header" className="header undefined">
+            <header id="header" className="header">
               <h1 className="page-title">매장선택</h1>
             </header>
 

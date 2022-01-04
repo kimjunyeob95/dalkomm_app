@@ -134,9 +134,11 @@ export function Main(props) {
     contGap();
     fadeOut();
     SwiperCore.use([Autoplay, Scrollbar]);
-    setTimeout(() => {
-      $(".speech-bubble").fadeOut();
-    }, 2500);
+    if (axioData) {
+      setTimeout(() => {
+        $(".speech-bubble").fadeOut();
+      }, 3000);
+    }
   }, [axioData]);
 
   const handleFavorite = (e, storeCode) => {
