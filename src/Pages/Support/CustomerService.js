@@ -52,15 +52,13 @@ export default function CustomerService() {
                     <em className="em-bold">(!) 기프트카드 환불 안내</em>
                     <div className="item contact">
                       <span className="num" style={{ lineHeight: 1.8 }}>
-                        환불을 원하시는 경우 이메일을 통하여{" "}
-                        <em className="em-bold">
-                          성함, <br />
-                          전화번호, ID, 잔액, 환불 사유
-                        </em>
+                        환불을 원하시는 경우 이메일을 통하여 <br />
+                        <em className="em-bold">성함, 전화번호, ID, 잔액, 환불 사유</em>
                         와 함께 <br />
                         <em className="em-bold">본인 명의 통장 스크린샷/사진</em>을 전달주시면 <br />
-                        정보 확인 후 시스템에서 환불 처리되며 최소 10일 <br />
-                        정도 소요될 수 있습니다. 감사합니다.
+                        정보 확인 후 시스템에서 환불 처리되며 <br />
+                        최소 10일 정도 소요될 수 있습니다.
+                        <br /> 감사합니다.
                       </span>
                     </div>
                   </div>
