@@ -68,7 +68,7 @@ const ContextStore = (props) => {
     let data = {
       callbackFunc: "nativeCallbackFcmToken",
     };
-    getCookieValue("app_type");
+
     data = JSON.stringify(data);
 
     let header_config = {
@@ -77,7 +77,7 @@ const ContextStore = (props) => {
         Authorization: getCookieValue("auth"),
         "X-DALKOMM-STORE": getCookieValue("udid"),
         "X-dalkomm-app-type": checkMobile() === "android" ? "A" : "I",
-        "X-dalkomm-app-version": checkMobile() === "android" ? "64" : getCookieValue("app_version"),
+        "X-dalkomm-app-version": getCookieValue("app_version"),
       },
     };
 
@@ -130,10 +130,6 @@ const ContextStore = (props) => {
   // indexInitialState.auth = "Basic ZGFsa29tbTpkYWxrb21tX2FwcDszNjdjZjUxMjFkM2I3NTc5ZGVlMDA3YTliODcwNTJiYmU3ZDNhNmY2OzIwMjExMjIxMTEyMDM2";
   // indexInitialState.udid = "A0F21C7B-3FDA-48A6-AA1D-07490E7916A4";
 
-  //과장님
-  // indexInitialState.accessToken =
-  //   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiaVRYUzE2RzQ0R2lBTFV6WVZxU3oxcmxKTmFjZmNuR2prQ1BmZTRjK3ZQNklHdlA1cUF1a3VzK25IeVVUWENOKyIsImF1ZCI6IkRBTEtPTU1fQVBQIiwidW5pb25fdXNlcl9pZCI6IlFwRCtZM1hoaXRFMVVFeHl3Y09qRm50b3VVWnZjdkN3QVVkUWlRSEovb1dKTmxOd0MrNjJLRmRxeFNvT1hIQTgiLCJpc3MiOiJEQUxLT01NIiwidXNlcl9sb2dpbl90eXBlIjoiRCIsImlhdCI6MTYzOTUzMTc1M30.auBLY1QzEiTUVTIegOGzkeqpebEieoKK8WaGYrx9aS8";
-  // indexInitialState.auth = "Basic ZGFsa29tbTpkYWxrb21tX2FwcDs4YmZmNTZlMWIwNGMxYzFjMWRlYWU1Y2VjNTVmYWQxMDg4ZDc3NTlkOzIwMjExMjE1MTEzMjMy";
   return <authContext.Provider value={useReducer(indexReducer, indexInitialState)}>{props.children}</authContext.Provider>;
 };
 

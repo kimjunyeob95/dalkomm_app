@@ -13,7 +13,7 @@ export default function Faq() {
   const [axioData, setData] = useState();
   useEffect(() => {
     // 말풍선 스크롤시 hide/show
-    axios.post(`${SERVER_DALKOMM_SUGAR}/api/getFaq`).then((res) => {
+    axios.post(`${SERVER_DALKOMM_SUGAR}/api/getFaq2`).then((res) => {
       let faqList = res.data.list;
       setData({ faqList });
     });
