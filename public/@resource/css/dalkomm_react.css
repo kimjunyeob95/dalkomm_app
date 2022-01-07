@@ -53,4 +53,4 @@ input[type="number"]:disabled{background-color: rgb(255, 255, 255); color:rgb(0,
 #content.app-menu .gnb-list li.active span::before{content: ''; display: inline-block; position: absolute; top: 0.267vw; right: -2.400vw; width: 1.067vw; height: 1.067vw; background-color: #ff592e; border-radius: 50%;}
 .loading-wrap img{width: 80px; height: 80px;}
 
-.em-bold{font-weight: bold; color: #000;}
+.em-bold{color: #000;}
