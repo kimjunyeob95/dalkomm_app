@@ -1,10 +1,7 @@
-import React, { useContext } from "react";
-import { authContext } from "ContextApi/Context";
+import React from "react";
 import { getCookieValue } from "Config/GlobalJs";
 
 export default function DevTest() {
-  const [state] = useContext(authContext);
-
   return (
     <div style={{ wordBreak: "break-all" }}>
       <p> 개발자 : 김준엽</p>

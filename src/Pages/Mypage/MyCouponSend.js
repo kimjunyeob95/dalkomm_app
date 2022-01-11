@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-globals */
 /* eslint-disable react/jsx-pascal-case */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
@@ -53,17 +54,24 @@ export default function MyCouponSend() {
     }
 
     if (validation) {
-      alert("선물 중입니다. 잠시만 기다려주세요.");
-      $(".popup").hide();
-      axios.all([axios.post(`${SERVER_DALKOMM}/app/api/v2/coupon/present`, postBody, header_config)]).then(
-        axios.spread((res1) => {
-          alert(res1.data.meta.msg);
-          $(".popup").show();
-          if (res1.data.meta.code === 20000) {
-            window.location.reload();
-          }
-        })
-      );
+      let title = "";
+      if ($(".giftid").hasClass("current")) {
+        title = $("#giftName2").val();
+      } else {
+        title = $("#giftPhone").val();
+      }
+      if (confirm(title + "님께 선물하시겠습니까?")) {
+        $(".popup").hide();
+        axios.all([axios.post(`${SERVER_DALKOMM}/app/api/v2/coupon/present`, postBody, header_config)]).then(
+          axios.spread((res1) => {
+            alert(res1.data.meta.msg);
+            $(".popup").show();
+            if (res1.data.meta.code === 20000) {
+              window.location.reload();
+            }
+          })
+        );
+      }
     }
   };
   useEffect(() => {
