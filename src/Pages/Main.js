@@ -27,6 +27,7 @@ import Loading from "Components/Loading";
 
 export function Main(props) {
   let dev_count = 1;
+
   const [state] = useContext(authContext);
   const [axioData, setData] = useState(false);
   const [storeData, setStore] = useState(false);
@@ -216,11 +217,12 @@ export function Main(props) {
   };
 
   const handleGoDetail = () => {
-    let link_result = $(".swiper-slide-active").attr("link").split("|");
-    if (link_result[0] === "C") {
-      history.push(`/story/detail/${link_result[1]}`);
-    } else if (link_result[0] === "U") {
-      let data = { data: link_result[1] };
+    let link_result = $(".swiper-slide-active").attr("linktype");
+    let link_result_location = $(".swiper-slide-active").attr("link");
+    if (link_result === "C") {
+      history.push(`/story/detail/${link_result_location}`);
+    } else if (link_result === "U") {
+      let data = { data: link_result_location };
       data = JSON.stringify(data);
       try {
         if (checkMobile() === "android") {
@@ -298,7 +300,7 @@ export function Main(props) {
                 <ul className="swiper-wrapper">
                   {axioData?.res1_data?.list?.map((e, i) => {
                     return (
-                      <li className="swiper-slide" key={i} link={e?.link}>
+                      <li className="swiper-slide" key={i} linktype={e?.linktype} link={e?.linklocation}>
                         <div className="banner-wrap main-top-banner">
                           <div className="img-wrap">
                             <img src={e?.thumb} alt="여름 스테디셀러" />
