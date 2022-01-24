@@ -111,6 +111,7 @@ const ContextStore = (props) => {
     }, 500);
   }, []);
   //상용
+  //김준엽
   // indexInitialState.loginFlag = true;
   // indexInitialState.accessToken =
   //   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoidWxIdzFDYVlEaFJSZDR2NjdsSU1PTE0wOHJaNnFFMEEyenRndXl5MTFvSkRQS2RxR3VBbm9UWUpzZEZJSHI5eiIsImF1ZCI6IkRBTEtPTU1fQVBQIiwidW5pb25fdXNlcl9pZCI6InNCUFhFbnpscXkwUTNQZTQ3eVZLYnJrSnRyLzU1Y3AxUVBhQzZkZGVNTm93eDJaN2pPbzlSekdodTI4L2t3MTUiLCJpc3MiOiJEQUxLT01NIiwidXNlcl9sb2dpbl90eXBlIjoiRCIsImlhdCI6MTYzOTM5NTUxM30.116_x9aJneio-Gsv0l9rI9GI1MEn2XlVJTEps64v6r8";
@@ -122,6 +123,13 @@ const ContextStore = (props) => {
   // indexInitialState.longitude = 127.05642398540016;
   // indexInitialState.udid = "8280af29616a4ec1bb85a9ed17b9594e828e8140";
   // indexInitialState.app_type = "I";
+
+  //오선민과장님
+  // indexInitialState.accessToken =
+  //   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiaVRYUzE2RzQ0R2lBTFV6WVZxU3oxcmxKTmFjZmNuR2prQ1BmZTRjK3ZQNklHdlA1cUF1a3VzK25IeVVUWENOKyIsImF1ZCI6IkRBTEtPTU1fQVBQIiwidW5pb25fdXNlcl9pZCI6IlFwRCtZM1hoaXRFMVVFeHl3Y09qRm50b3VVWnZjdkN3QVVkUWlRSEovb1dKTmxOd0MrNjJLRmRxeFNvT1hIQTgiLCJpc3MiOiJEQUxLT01NIiwidXNlcl9sb2dpbl90eXBlIjoiRCIsImlhdCI6MTY0MjQ2ODY5OX0.R-tJm3aeyhcrVWy85Z23y1gMH-y1-VPY3OP-OG93p7o";
+  // indexInitialState.app_version = "3.0.1";
+  // indexInitialState.auth = "Basic ZGFsa29tbTpkYWxrb21tX2FwcDthNzI4ZWI2MWE1ZjYxMjI5ZjFiOWE5NjBjZTI0YjI2ZmY2YTk0NzNhOzIwMjIwMTE4MTExOTU4";
+  // indexInitialState.udid = "55644711-703B-467E-B0E6-B3D242D9E67C";
 
   //dev
   // indexInitialState.accessToken =

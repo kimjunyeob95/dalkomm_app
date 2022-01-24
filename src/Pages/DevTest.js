@@ -4,6 +4,8 @@ import { getCookieValue } from "Config/GlobalJs";
 export default function DevTest() {
   return (
     <div style={{ wordBreak: "break-all" }}>
+      {/* <p> 서버 : 개발망</p>
+      <br /> */}
       <p> 개발자 : 김준엽</p>
       <br />
       <p> 기획자 : 예원숭이</p>

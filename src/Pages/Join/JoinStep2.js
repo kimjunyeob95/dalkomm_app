@@ -95,7 +95,6 @@ export default function JoinStep2() {
           birthday: $("#datepicker").val() ? $("#datepicker").val().split("-").join("") : "19951114",
           policy: agree_text,
         };
-
         axios.all([axios.post(`${SERVER_DALKOMM}/app/api/account/simple/join`, body, header_config)]).then(
           axios.spread((res1) => {
             if (res1.data.meta.code === 20000 && res1.data.meta.message === "SUCCESS") {

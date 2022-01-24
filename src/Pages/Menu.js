@@ -18,6 +18,7 @@ import { checkMobile, fadeOut, fn_memberName } from "Config/GlobalJs";
 export default function Menu() {
   const [state, dispatch] = useContext(authContext);
   const [axioData, setData] = useState();
+
   useEffect(() => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
 

@@ -28,7 +28,8 @@ export function name_check(name) {
 }
 
 export function email_check(email) {
-  var reg = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
+  // var reg = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
+  var reg = /^[0-9a-z]([-_.]?[0-9a-z])*@[0-9a-z]([-_.]?[0-9a-z])*\.[a-z]{2,4}$/;
   if (!reg.test(email)) {
     $("#resAlert").text("올바른 형식의 이메일 주소를 입력해 주세요.");
     $(".overlay.popupExitJoin").addClass("active");

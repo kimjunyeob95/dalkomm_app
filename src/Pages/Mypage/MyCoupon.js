@@ -28,17 +28,24 @@ export default function MyCoupon() {
   };
 
   const fn_axios = () => {
-    axios.all([axios.post(`${SERVER_DALKOMM}/app/api/v2/coupon/list`, body, header_config)]).then(
-      axios.spread((res1) => {
-        let res1_data = res1.data.data;
-        setData((origin) => {
-          return {
-            ...origin,
-            res1_data,
-          };
-        });
-      })
-    );
+    axios
+      .all([
+        axios.post(`${SERVER_DALKOMM}/app/api/v2/coupon/list`, { type: 0 }, header_config),
+        axios.post(`${SERVER_DALKOMM}/app/api/v2/coupon/list`, { type: 1 }, header_config),
+      ])
+      .then(
+        axios.spread((res1, res2) => {
+          let res1_data = res1.data.data;
+          let res2_data = res2.data.data;
+          setData((origin) => {
+            return {
+              ...origin,
+              res1_data,
+              res2_data,
+            };
+          });
+        })
+      );
   };
 
   useEffect(() => {
@@ -71,7 +78,6 @@ export default function MyCoupon() {
   }, [axioData]);
 
   if (axioData) {
-    // fadeInOut();
     return (
       <React.Fragment>
         <GoContents />
@@ -109,37 +115,35 @@ export default function MyCoupon() {
                   </li>
                 </ul>
                 <div id="availCoupon" className="tab-content active">
-                  {axioData?.res1_data?.coupon_list?.filter((e, i) => e.status === 0)?.length > 0 ? (
+                  {axioData?.res1_data?.coupon_list?.length > 0 ? (
                     <ul className="coupon-list data-list accordion">
-                      {axioData?.res1_data?.coupon_list
-                        ?.filter((e, i) => e.status === 0)
-                        .map((e, i) => (
-                          <li key={i}>
-                            <div className="item coupon js-accordion-switche" onClick={(e) => accordion(e.currentTarget, 0)}>
-                              <div className="data-wrap">
-                                <p className="day num">{e?.due_date}</p>
-                                <p className="title">{e?.coupon_name}</p>
-                              </div>
-                              <div className="ico-wrap flex-center">
-                                <i className="ico accordion-arr"></i>
-                              </div>
+                      {axioData?.res1_data?.coupon_list.map((e, i) => (
+                        <li key={i}>
+                          <div className="item coupon js-accordion-switche" onClick={(e) => accordion(e.currentTarget, 0)}>
+                            <div className="data-wrap">
+                              <p className="day num">{e?.due_date}</p>
+                              <p className="title">{e?.coupon_name}</p>
                             </div>
-                            <div className="item attention js-accordion-content">
-                              <dl>
-                                <dt className="title">
-                                  <i className="ico alert"></i>쿠폰 유의사항
-                                </dt>
-                                <dd className="text">
-                                  <ul className="attention-list">
-                                    {e?.detail_cautions?.split("\r\n").map((e, i) => (
-                                      <li key={i}>{e}</li>
-                                    ))}
-                                  </ul>
-                                </dd>
-                              </dl>
+                            <div className="ico-wrap flex-center">
+                              <i className="ico accordion-arr"></i>
                             </div>
-                          </li>
-                        ))}
+                          </div>
+                          <div className="item attention js-accordion-content">
+                            <dl>
+                              <dt className="title">
+                                <i className="ico alert"></i>쿠폰 유의사항
+                              </dt>
+                              <dd className="text">
+                                <ul className="attention-list">
+                                  {e?.detail_cautions?.split("\r\n").map((e, i) => (
+                                    <li key={i}>{e}</li>
+                                  ))}
+                                </ul>
+                              </dd>
+                            </dl>
+                          </div>
+                        </li>
+                      ))}
                     </ul>
                   ) : (
                     <div className="nodata-wrap">
@@ -151,37 +155,35 @@ export default function MyCoupon() {
                   )}
                 </div>
                 <div id="expiredCoupon" className="tab-content">
-                  {axioData?.res1_data?.coupon_list?.filter((e, i) => e.status === 2)?.length > 0 ? (
+                  {axioData?.res2_data?.coupon_list?.length > 0 ? (
                     <ul className="coupon-list data-list accordion">
-                      {axioData?.res1_data?.coupon_list
-                        ?.filter((e, i) => e?.status === 2)
-                        .map((e, i) => (
-                          <li key={i}>
-                            <div className="item coupon js-accordion-switche" onClick={(e) => accordion(e.currentTarget, 0)}>
-                              <div className="data-wrap">
-                                <p className="day expire">기간만료</p> {/* [D] .day.expire : 기간 만료 */}
-                                <p className="title">{e?.coupon_name}</p>
-                              </div>
-                              <div className="ico-wrap flex-center">
-                                <i className="ico accordion-arr"></i>
-                              </div>
+                      {axioData?.res2_data?.coupon_list.map((e, i) => (
+                        <li key={i}>
+                          <div className="item coupon js-accordion-switche" onClick={(e) => accordion(e.currentTarget, 0)}>
+                            <div className="data-wrap">
+                              <p className="day expire">기간만료</p> {/* [D] .day.expire : 기간 만료 */}
+                              <p className="title">{e?.coupon_name}</p>
                             </div>
-                            <div className="item attention js-accordion-content">
-                              <dl>
-                                <dt className="title">
-                                  <i className="ico alert"></i>쿠폰 유의사항
-                                </dt>
-                                <dd className="text">
-                                  <ul className="attention-list">
-                                    {e?.detail_cautions?.split("\r\n").map((e, i) => (
-                                      <li key={i}>{e}</li>
-                                    ))}
-                                  </ul>
-                                </dd>
-                              </dl>
+                            <div className="ico-wrap flex-center">
+                              <i className="ico accordion-arr"></i>
                             </div>
-                          </li>
-                        ))}
+                          </div>
+                          <div className="item attention js-accordion-content">
+                            <dl>
+                              <dt className="title">
+                                <i className="ico alert"></i>쿠폰 유의사항
+                              </dt>
+                              <dd className="text">
+                                <ul className="attention-list">
+                                  {e?.detail_cautions?.split("\r\n").map((e, i) => (
+                                    <li key={i}>{e}</li>
+                                  ))}
+                                </ul>
+                              </dd>
+                            </dl>
+                          </div>
+                        </li>
+                      ))}
                     </ul>
                   ) : (
                     <div className="nodata-wrap">
