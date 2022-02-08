@@ -67,6 +67,16 @@ export default function Pay() {
             fontSize: 20,
           });
           res2?.data?.data?.charge_card_list?.map((e, i) => {
+            // window.$(`#barcode${i + 1}`).barcode("89801800015012244212651", "code128", {
+            //   barWidth: 1,
+            //   barHeight: 50,
+            //   fontSize: 20,
+            // });
+            // window.$(`#barcode${i + 1}`).barcode("89801800015022278738389", "code128", {
+            //   barWidth: 1,
+            //   barHeight: 50,
+            //   fontSize: 20,
+            // });
             window.$(`#barcode${i + 1}`).barcode(e?.card_number + e?.pin_number, "code128", {
               barWidth: 1,
               barHeight: 50,
