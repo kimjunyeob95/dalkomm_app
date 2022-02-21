@@ -4,8 +4,43 @@
 // eslint-disable-next-line no-unused-vars
 import axios from "axios";
 import React, { useEffect, useReducer } from "react";
-import { getCookieValue, checkMobile } from "Config/GlobalJs";
+import { getCookieValue, checkMobile, setCookie } from "Config/GlobalJs";
 import { SERVER_DALKOMM } from "Config/Server";
+const fn_product = () => {
+  setCookie("loginFlag", true, { expires: 1000 });
+  setCookie(
+    "accessToken",
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoidWxIdzFDYVlEaFJSZDR2NjdsSU1PTE0wOHJaNnFFMEEyenRndXl5MTFvSkRQS2RxR3VBbm9UWUpzZEZJSHI5eiIsImF1ZCI6IkRBTEtPTU1fQVBQIiwidW5pb25fdXNlcl9pZCI6InNCUFhFbnpscXkwUTNQZTQ3eVZLYnJrSnRyLzU1Y3AxUVBhQzZkZGVNTm93eDJaN2pPbzlSekdodTI4L2t3MTUiLCJpc3MiOiJEQUxLT01NIiwidXNlcl9sb2dpbl90eXBlIjoiRCIsImlhdCI6MTYzOTM5NTUxM30.116_x9aJneio-Gsv0l9rI9GI1MEn2XlVJTEps64v6r8",
+    { expires: 1000 }
+  );
+  setCookie("app_version", "3.0.0", { expires: 1000 });
+  setCookie("os", "ios", { expires: 1000 });
+  setCookie("isApp", "Y", { expires: 1000 });
+  setCookie("auth", "Basic ZGFsa29tbTpkYWxrb21tX2FwcDtmMjQ4YWY0YTRlN2RlZDhhNDc1YmIxMzdkOTVmMDYxNzcyMTllZDAwOzIwMjExMjEzMjE0MjQ4", { expires: 1000 });
+  setCookie("latitude", 37.507232666015625, { expires: 1000 });
+  setCookie("longitude", 127.05642398540016, { expires: 1000 });
+  setCookie("udid", "8280af29616a4ec1bb85a9ed17b9594e828e8140", { expires: 1000 });
+  setCookie("app_type", "I", { expires: 1000 });
+};
+
+const fn_dev = () => {
+  setCookie("loginFlag", true, { expires: 1000 });
+  setCookie(
+    "accessToken",
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiVTFTb0I4TXhTUWxMREc0YmtWUjBmRFB0UkxnaTRtd05pK0wwQjJMb1Q2Z3lUallKQlRHcnhkeElmYVZEZHRwQSIsImF1ZCI6IkRBTEtPTU1fQVBQIiwidW5pb25fdXNlcl9pZCI6InE3bEU3SHFKdUdWbEhjNDhld21FOThyRUhaQ1lXU09tcVpXZFFtUEZlUTdJTkNZbXBmaFJxckZjcXNjdDRPRngiLCJpc3MiOiJEQUxLT01NIiwidXNlcl9sb2dpbl90eXBlIjoiRCIsImlhdCI6MTY0MDA0OTY2Mn0.OYjLsuDZpQL0-NPu70HbNQb-3w6wxYzeEv4SZOT7YE8",
+    { expires: 1000 }
+  );
+  setCookie("app_version", "3.0.0", { expires: 1000 });
+  setCookie("os", "ios", { expires: 1000 });
+  setCookie("isApp", "Y", { expires: 1000 });
+  setCookie("auth", "Basic ZGFsa29tbTpkYWxrb21tX2FwcDszNjdjZjUxMjFkM2I3NTc5ZGVlMDA3YTliODcwNTJiYmU3ZDNhNmY2OzIwMjExMjIxMTEyMDM2", { expires: 1000 });
+  setCookie("latitude", 37.507232666015625, { expires: 1000 });
+  setCookie("longitude", 127.05642398540016, { expires: 1000 });
+  setCookie("udid", "A0F21C7B-3FDA-48A6-AA1D-07490E7916A4", { expires: 1000 });
+  setCookie("app_type", "I", { expires: 1000 });
+};
+
+//fn_dev();
 
 export const authContext = React.createContext();
 
@@ -124,19 +159,19 @@ const ContextStore = (props) => {
   // indexInitialState.udid = "8280af29616a4ec1bb85a9ed17b9594e828e8140";
   // indexInitialState.app_type = "I";
 
-  //오선민과장님
-  // indexInitialState.accessToken =
-  //   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiaVRYUzE2RzQ0R2lBTFV6WVZxU3oxcmxKTmFjZmNuR2prQ1BmZTRjK3ZQNklHdlA1cUF1a3VzK25IeVVUWENOKyIsImF1ZCI6IkRBTEtPTU1fQVBQIiwidW5pb25fdXNlcl9pZCI6IlFwRCtZM1hoaXRFMVVFeHl3Y09qRm50b3VVWnZjdkN3QVVkUWlRSEovb1dKTmxOd0MrNjJLRmRxeFNvT1hIQTgiLCJpc3MiOiJEQUxLT01NIiwidXNlcl9sb2dpbl90eXBlIjoiRCIsImlhdCI6MTY0MjQ2ODY5OX0.R-tJm3aeyhcrVWy85Z23y1gMH-y1-VPY3OP-OG93p7o";
-  // indexInitialState.app_version = "3.0.1";
-  // indexInitialState.auth = "Basic ZGFsa29tbTpkYWxrb21tX2FwcDthNzI4ZWI2MWE1ZjYxMjI5ZjFiOWE5NjBjZTI0YjI2ZmY2YTk0NzNhOzIwMjIwMTE4MTExOTU4";
-  // indexInitialState.udid = "55644711-703B-467E-B0E6-B3D242D9E67C";
-
   //dev
   // indexInitialState.accessToken =
   //   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiVTFTb0I4TXhTUWxMREc0YmtWUjBmRFB0UkxnaTRtd05pK0wwQjJMb1Q2Z3lUallKQlRHcnhkeElmYVZEZHRwQSIsImF1ZCI6IkRBTEtPTU1fQVBQIiwidW5pb25fdXNlcl9pZCI6InE3bEU3SHFKdUdWbEhjNDhld21FOThyRUhaQ1lXU09tcVpXZFFtUEZlUTdJTkNZbXBmaFJxckZjcXNjdDRPRngiLCJpc3MiOiJEQUxLT01NIiwidXNlcl9sb2dpbl90eXBlIjoiRCIsImlhdCI6MTY0MDA0OTY2Mn0.OYjLsuDZpQL0-NPu70HbNQb-3w6wxYzeEv4SZOT7YE8";
   // indexInitialState.app_version = "3.0.1";
   // indexInitialState.auth = "Basic ZGFsa29tbTpkYWxrb21tX2FwcDszNjdjZjUxMjFkM2I3NTc5ZGVlMDA3YTliODcwNTJiYmU3ZDNhNmY2OzIwMjExMjIxMTEyMDM2";
   // indexInitialState.udid = "A0F21C7B-3FDA-48A6-AA1D-07490E7916A4";
+
+  //오선민과장님
+  // indexInitialState.accessToken =
+  //   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiaVRYUzE2RzQ0R2lBTFV6WVZxU3oxcmxKTmFjZmNuR2prQ1BmZTRjK3ZQNklHdlA1cUF1a3VzK25IeVVUWENOKyIsImF1ZCI6IkRBTEtPTU1fQVBQIiwidW5pb25fdXNlcl9pZCI6IlFwRCtZM1hoaXRFMVVFeHl3Y09qRm50b3VVWnZjdkN3QVVkUWlRSEovb1dKTmxOd0MrNjJLRmRxeFNvT1hIQTgiLCJpc3MiOiJEQUxLT01NIiwidXNlcl9sb2dpbl90eXBlIjoiRCIsImlhdCI6MTY0MjQ2ODY5OX0.R-tJm3aeyhcrVWy85Z23y1gMH-y1-VPY3OP-OG93p7o";
+  // indexInitialState.app_version = "3.0.1";
+  // indexInitialState.auth = "Basic ZGFsa29tbTpkYWxrb21tX2FwcDthNzI4ZWI2MWE1ZjYxMjI5ZjFiOWE5NjBjZTI0YjI2ZmY2YTk0NzNhOzIwMjIwMTE4MTExOTU4";
+  // indexInitialState.udid = "55644711-703B-467E-B0E6-B3D242D9E67C";
 
   return <authContext.Provider value={useReducer(indexReducer, indexInitialState)}>{props.children}</authContext.Provider>;
 };

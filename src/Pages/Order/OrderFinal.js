@@ -133,9 +133,11 @@ export default function OrderFinal() {
     axios.all([axios.post(`${SERVER_DALKOMM}/app/api/v2/smartorder/order/to/pay/v2`, formData, header_config)]).then(
       axios.spread((res1) => {
         let res1_data = res1.data.data;
+
         setFront((origin) => {
           return {
             ...origin,
+            fk_store_code: res1_data.fk_store_code,
             orderPayment: location?.frontValue?.orderPayment ? location?.frontValue?.orderPayment : saveMethod,
             originPrice: res1_data.total_order_amount,
             ktDiscount: res1_data.total_affiliate_discount_amount,
@@ -407,18 +409,37 @@ export default function OrderFinal() {
                                     {axioData?.res1_data?.affiliate_discount && index === 0 && index2 === 0 ? (
                                       <></>
                                     ) : (
-                                      axioData?.res1_data?.smartorder_detail_list[index]?.user_coupon_detail_list?.map((e, i) => (
-                                        <option
-                                          key={i}
-                                          value={e?.user_coupon_id}
-                                          data-price={e?.discount_price}
-                                          data-oneplus={e?.is_one_plus_one}
-                                          data-originprice={axioData?.res1_data?.smartorder_detail_list[index]?.price}
-                                          data-optionprice={axioData?.res1_data?.smartorder_detail_list[index]?.option_price}
-                                        >
-                                          {e?.coupon_name}
-                                        </option>
-                                      ))
+                                      axioData?.res1_data?.smartorder_detail_list[index]?.user_coupon_detail_list?.map((e, i) => {
+                                        if (frontData.fk_store_code === "dalkomm217") {
+                                          if (e?.coupon_name.indexOf("임직원") < 0) {
+                                            return (
+                                              <option
+                                                key={i}
+                                                value={e?.user_coupon_id}
+                                                data-price={e?.discount_price}
+                                                data-oneplus={e?.is_one_plus_one}
+                                                data-originprice={axioData?.res1_data?.smartorder_detail_list[index]?.price}
+                                                data-optionprice={axioData?.res1_data?.smartorder_detail_list[index]?.option_price}
+                                              >
+                                                {e?.coupon_name}
+                                              </option>
+                                            );
+                                          }
+                                        } else {
+                                          return (
+                                            <option
+                                              key={i}
+                                              value={e?.user_coupon_id}
+                                              data-price={e?.discount_price}
+                                              data-oneplus={e?.is_one_plus_one}
+                                              data-originprice={axioData?.res1_data?.smartorder_detail_list[index]?.price}
+                                              data-optionprice={axioData?.res1_data?.smartorder_detail_list[index]?.option_price}
+                                            >
+                                              {e?.coupon_name}
+                                            </option>
+                                          );
+                                        }
+                                      })
                                     )}
                                   </select>
                                 </li>

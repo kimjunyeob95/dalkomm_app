@@ -27,6 +27,9 @@ import Loading from "Components/Loading";
 
 export function Main(props) {
   let dev_count = 1;
+  const nowTime = new Date().getTime();
+  const startTime = new Date("2022/02/15 00:00:00").getTime();
+  const endTime = new Date("2022/02/22 23:59:59").getTime();
 
   const [state] = useContext(authContext);
   const [axioData, setData] = useState(false);
@@ -263,13 +266,18 @@ export function Main(props) {
   const handleGoPage = (e, link) => {
     history.push(link);
   };
-
+  const handleClosePopup = () => {
+    setCookie("mainPopup", true, { expires: 1 });
+    $("#popupPriceAdjust").removeClass("overlay");
+    $("body").removeClass("modal-opened");
+  };
   const fn_dev = () => {
     dev_count++;
     if (dev_count === 5) {
       history.push("/dev");
     }
   };
+
   //axios 반환 시
   if (axioData) {
     return (
@@ -1127,6 +1135,31 @@ export function Main(props) {
           </div>
         )}
         {/* // 멤버쉽 카드 확대 팝업 */}
+        {nowTime >= startTime && nowTime < endTime && getCookieValue("mainPopup") !== "true" && (
+          <div id="popupPriceAdjust" className="overlay price-adjustment active">
+            <div className="popup">
+              <div className="popup-header">
+                <h2 className="title">
+                  <span className="blind">가격 조정 안내</span>
+                </h2>
+              </div>
+              <div className="popup-body">
+                <div className="img-wrap">
+                  <img src="/@resource/images/popup/popup_price-adjustment.png" alt="가격 조정 안내 이미지" className="img" />
+                </div>
+                <div className="btn-area col-2">
+                  <button type="button" className="btn large dark" onClick={() => handleClosePopup()}>
+                    오늘 그만 보기
+                  </button>
+                  <button type="button" className="btn large dark btn-close">
+                    닫기
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
         <Popup_nomal />
       </React.Fragment>
     );

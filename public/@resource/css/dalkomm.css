@@ -849,3 +849,15 @@ body:not(.body-scroll) .terms-popup.overlay {-webkit-justify-content: flex-start
 
 
 .react-barcode > div {background-color: transparent !important;}
+
+/* 가격 조정 안내 팝업 */
+.overlay.price-adjustment .popup {padding-top: 0;}
+.overlay.price-adjustment .popup-body .img-wrap {font-size: 0;}
+.overlay.price-adjustment .popup-body .img-wrap .img {width: 100%;}
+.overlay.price-adjustment .popup .popup-header + .popup-body ,
+.overlay.price-adjustment .popup .popup-body .btn-area {margin-top: 0;}
+.overlay.price-adjustment .popup .popup-body .btn-area.col-2 .btn + .btn {border-left: 0.267vw solid rgba(255,255,255,0.2); font-weight: 700;}
+
+@media all and (min-width:650px){
+	body:not(.body-scroll) .overlay.price-adjustment {-webkit-justify-content: flex-start; -ms-flex-pack: start; justify-content: flex-start; padding-top: 13.333vw; padding-bottom: 13.333vw;}
+}

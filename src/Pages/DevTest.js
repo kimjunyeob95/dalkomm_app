@@ -2,15 +2,12 @@ import React from "react";
 import { getCookieValue } from "Config/GlobalJs";
 
 export default function DevTest() {
+  const nowTime = new Date().getTime();
   return (
     <div style={{ wordBreak: "break-all" }}>
       {/* <p> 서버 : 개발망</p>
       <br /> */}
       <p> 개발자 : 김준엽</p>
-      <br />
-      <p> 기획자 : 예원숭이</p>
-      <br />
-      <p> 사용하시기에 편하시나요?</p>
       <br />
       <p> Authorization : {getCookieValue("Authorization")}</p>
       <br />
@@ -19,6 +16,8 @@ export default function DevTest() {
       <p> X-DALKOMM-APP-VERSION : {getCookieValue("X-DALKOMM-APP-VERSION")}</p>
       <br />
       <p> udid : {getCookieValue("udid")}</p>
+      <br />
+      <p> nowTime : {nowTime}</p>
       <br />
     </div>
   );
