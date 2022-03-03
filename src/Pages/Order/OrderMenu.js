@@ -271,7 +271,7 @@ export default function OrderMenu() {
                               {e.name_kor}
                               <span className="en">{e.name_eng}</span>
                             </p>
-                            <p className="price">{e.price}원</p>
+                            <p className="price">{e.store_sale_price !== "" ? e.store_sale_price : e.price}원</p>
                           </div>
                         </a>
                       </li>

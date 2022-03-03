@@ -410,35 +410,25 @@ export default function OrderFinal() {
                                       <></>
                                     ) : (
                                       axioData?.res1_data?.smartorder_detail_list[index]?.user_coupon_detail_list?.map((e, i) => {
-                                        if (frontData.fk_store_code === "dalkomm217") {
-                                          if (e?.coupon_name.indexOf("임직원") < 0) {
-                                            return (
-                                              <option
-                                                key={i}
-                                                value={e?.user_coupon_id}
-                                                data-price={e?.discount_price}
-                                                data-oneplus={e?.is_one_plus_one}
-                                                data-originprice={axioData?.res1_data?.smartorder_detail_list[index]?.price}
-                                                data-optionprice={axioData?.res1_data?.smartorder_detail_list[index]?.option_price}
-                                              >
-                                                {e?.coupon_name}
-                                              </option>
-                                            );
-                                          }
-                                        } else {
-                                          return (
-                                            <option
-                                              key={i}
-                                              value={e?.user_coupon_id}
-                                              data-price={e?.discount_price}
-                                              data-oneplus={e?.is_one_plus_one}
-                                              data-originprice={axioData?.res1_data?.smartorder_detail_list[index]?.price}
-                                              data-optionprice={axioData?.res1_data?.smartorder_detail_list[index]?.option_price}
-                                            >
-                                              {e?.coupon_name}
-                                            </option>
-                                          );
+                                        if (frontData.fk_store_code !== "dalkomm217") {
+                                          //분당서현점 처리
+                                          if (e?.coupon_name.indexOf("임직원") > -1) return null;
+                                        } else if (frontData.fk_store_code !== "dalkomm260") {
+                                          //우리은행본점 처리
+                                          if (e?.coupon_name.indexOf("우리은행본점") > -1) return null;
                                         }
+                                        return (
+                                          <option
+                                            key={i}
+                                            value={e?.user_coupon_id}
+                                            data-price={e?.discount_price}
+                                            data-oneplus={e?.is_one_plus_one}
+                                            data-originprice={axioData?.res1_data?.smartorder_detail_list[index]?.price}
+                                            data-optionprice={axioData?.res1_data?.smartorder_detail_list[index]?.option_price}
+                                          >
+                                            {e?.coupon_name}
+                                          </option>
+                                        );
                                       })
                                     )}
                                   </select>

@@ -200,7 +200,7 @@ export default function OrderDetail() {
     return return_result;
   };
   const handleResultText = (type, trigger) => {
-    handleFrontSize(axioData?.res1_data?.menu, type, trigger);
+    handleFrontSize(axioData?.res1_data?.menu, type, axioData?.res1_data?.store_menu);
     handleDefaultPrice(trigger);
     handleOptionText(type, trigger);
 
@@ -208,7 +208,7 @@ export default function OrderDetail() {
       $('input[name="orderSize"]').eq(0).click();
     }
   };
-  const handleFrontSize = (res1_data, start, trigger) => {
+  const handleFrontSize = (res1_data, start, store_menu) => {
     let option_type = $('input[name="orderType"]:checked').attr("text");
     let option_price = 0;
     let cupsize = "";
@@ -218,102 +218,98 @@ export default function OrderDetail() {
 
     if (start === "처음" && ["HOT", "BOTH"].indexOf(res1_data?.type) > -1) {
       if (
-        flagFn(res1_data?.detail_info_hot_big_price) &&
-        flagFn(res1_data?.detail_info_hot_large_price) &&
-        flagFn(res1_data?.detail_info_hot_simple_regular_price)
+        flagFn(store_menu?.store_hot_big_price) &&
+        flagFn(store_menu?.store_hot_large_price) &&
+        flagFn(store_menu?.store_hot_simple_regular_price)
       ) {
         setFront({
-          defaultPrice: res1_data.detail_info_hot_simple_regular_price,
+          defaultPrice: store_menu?.store_hot_simple_regular_price,
           cupsize: "BOTH",
         });
       } else if (
-        !flagFn(res1_data?.detail_info_hot_big_price) &&
-        flagFn(res1_data?.detail_info_hot_large_price) &&
-        flagFn(res1_data?.detail_info_hot_simple_regular_price)
+        !flagFn(store_menu?.store_hot_big_price) &&
+        flagFn(store_menu?.store_hot_large_price) &&
+        flagFn(store_menu?.store_hot_simple_regular_price)
       ) {
         if (res1_data?.size === "LARGE") {
           setFront({
-            defaultPrice: res1_data.detail_info_hot_large_price,
+            defaultPrice: store_menu?.store_hot_large_price,
             cupsize: "LARGE",
           });
         } else {
           setFront({
-            defaultPrice: res1_data.detail_info_hot_simple_regular_price,
+            defaultPrice: store_menu?.store_hot_simple_regular_price,
             cupsize: "BOTH",
           });
         }
       } else if (
-        !flagFn(res1_data?.detail_info_hot_big_price) &&
-        !flagFn(res1_data?.detail_info_hot_large_price) &&
-        flagFn(res1_data?.detail_info_hot_simple_regular_price)
+        !flagFn(store_menu?.store_hot_big_price) &&
+        !flagFn(store_menu?.store_hot_large_price) &&
+        flagFn(store_menu?.store_hot_simple_regular_price)
       ) {
         setFront({
-          defaultPrice: res1_data.detail_info_hot_simple_regular_price,
+          defaultPrice: store_menu?.store_hot_simple_regular_price,
           cupsize: "REGULAR",
         });
       } else if (
-        !flagFn(res1_data?.detail_info_hot_big_price) &&
-        flagFn(res1_data?.detail_info_hot_large_price) &&
-        !flagFn(res1_data?.detail_info_hot_simple_regular_price)
+        !flagFn(store_menu?.store_hot_big_price) &&
+        flagFn(store_menu?.store_hot_large_price) &&
+        !flagFn(store_menu?.store_hot_simple_regular_price)
       ) {
         setFront({
-          defaultPrice: res1_data.detail_info_hot_large_price,
+          defaultPrice: store_menu?.store_hot_large_price,
           cupsize: "LARGE",
         });
       } else if (
-        flagFn(res1_data?.detail_info_hot_big_price) &&
-        !flagFn(res1_data?.detail_info_hot_large_price) &&
-        !flagFn(res1_data?.detail_info_hot_simple_regular_price)
+        flagFn(store_menu?.store_hot_big_price) &&
+        !flagFn(store_menu?.store_hot_large_price) &&
+        !flagFn(store_menu?.store_hot_simple_regular_price)
       ) {
         setFront({
-          defaultPrice: res1_data.detail_info_hot_big_price,
+          defaultPrice: store_menu?.store_hot_big_price,
           cupsize: "BIG",
         });
       }
     } else if (start === "처음" && res1_data?.type === "ICE") {
-      if (
-        flagFn(res1_data?.detail_info_ice_big_price) &&
-        flagFn(res1_data?.detail_info_ice_large_price) &&
-        flagFn(res1_data?.detail_info_ice_regular_price)
-      ) {
+      if (flagFn(store_menu?.store_ice_big_price) && flagFn(store_menu?.store_ice_large_price) && flagFn(store_menu?.store_ice_regular_price)) {
         setFront({
-          defaultPrice: res1_data.detail_info_ice_regular_price,
+          defaultPrice: store_menu?.store_ice_regular_price,
           cupsize: "ALL",
         });
       } else if (
-        !flagFn(res1_data?.detail_info_ice_big_price) &&
-        flagFn(res1_data?.detail_info_ice_large_price) &&
-        flagFn(res1_data?.detail_info_ice_regular_price)
+        !flagFn(store_menu?.store_ice_big_price) &&
+        flagFn(store_menu?.store_ice_large_price) &&
+        flagFn(store_menu?.store_ice_regular_price)
       ) {
         setFront({
-          defaultPrice: res1_data.detail_info_ice_regular_price,
+          defaultPrice: store_menu?.store_ice_regular_price,
           cupsize: "BOTH",
         });
       } else if (
-        !flagFn(res1_data?.detail_info_ice_big_price) &&
-        !flagFn(res1_data?.detail_info_ice_large_price) &&
-        flagFn(res1_data?.detail_info_ice_regular_price)
+        !flagFn(store_menu?.store_ice_big_price) &&
+        !flagFn(store_menu?.store_ice_large_price) &&
+        flagFn(store_menu?.store_ice_regular_price)
       ) {
         setFront({
-          defaultPrice: res1_data.detail_info_ice_regular_price,
+          defaultPrice: store_menu?.store_ice_regular_price,
           cupsize: "REGULAR",
         });
       } else if (
-        !flagFn(res1_data?.detail_info_ice_big_price) &&
-        flagFn(res1_data?.detail_info_ice_large_price) &&
-        !flagFn(res1_data?.detail_info_ice_regular_price)
+        !flagFn(store_menu?.store_ice_big_price) &&
+        flagFn(store_menu?.store_ice_large_price) &&
+        !flagFn(store_menu?.store_ice_regular_price)
       ) {
         setFront({
-          defaultPrice: res1_data.detail_info_ice_large_price,
+          defaultPrice: store_menu?.store_ice_large_price,
           cupsize: "LARGE",
         });
       } else if (
-        flagFn(res1_data?.detail_info_ice_big_price) &&
-        !flagFn(res1_data?.detail_info_ice_large_price) &&
-        !flagFn(res1_data?.detail_info_ice_regular_price)
+        flagFn(store_menu?.store_ice_big_price) &&
+        !flagFn(store_menu?.store_ice_large_price) &&
+        !flagFn(store_menu?.store_ice_regular_price)
       ) {
         setFront({
-          defaultPrice: res1_data.detail_info_ice_big_price,
+          defaultPrice: store_menu?.store_ice_big_price,
           cupsize: "BIG",
         });
       }
@@ -321,56 +317,56 @@ export default function OrderDetail() {
       //베이커리 분기
 
       if (
-        flagFn(res1_data?.detail_info_hot_big_price) &&
-        flagFn(res1_data?.detail_info_hot_large_price) &&
-        flagFn(res1_data?.detail_info_hot_simple_regular_price)
+        flagFn(store_menu?.store_hot_big_price) &&
+        flagFn(store_menu?.store_hot_large_price) &&
+        flagFn(store_menu?.store_hot_simple_regular_price)
       ) {
         setFront({
-          defaultPrice: res1_data.detail_info_hot_simple_regular_price,
+          defaultPrice: store_menu?.store_hot_simple_regular_price,
           cupsize: "ALL",
         });
       } else if (
-        !flagFn(res1_data?.detail_info_hot_big_price) &&
-        flagFn(res1_data?.detail_info_hot_large_price) &&
-        flagFn(res1_data?.detail_info_hot_simple_regular_price)
+        !flagFn(store_menu?.store_hot_big_price) &&
+        flagFn(store_menu?.store_hot_large_price) &&
+        flagFn(store_menu?.store_hot_simple_regular_price)
       ) {
         setFront({
-          defaultPrice: res1_data.detail_info_hot_simple_regular_price,
+          defaultPrice: store_menu?.store_hot_simple_regular_price,
           cupsize: "BOTH",
         });
       } else if (
-        !flagFn(res1_data?.detail_info_hot_big_price) &&
-        !flagFn(res1_data?.detail_info_hot_large_price) &&
-        flagFn(res1_data?.detail_info_hot_simple_regular_price)
+        !flagFn(store_menu?.store_hot_big_price) &&
+        !flagFn(store_menu?.store_hot_large_price) &&
+        flagFn(store_menu?.store_hot_simple_regular_price)
       ) {
         setFront({
-          defaultPrice: res1_data.detail_info_hot_simple_regular_price,
+          defaultPrice: store_menu?.store_hot_simple_regular_price,
           cupsize: "REGULAR",
         });
       } else if (
-        !flagFn(res1_data?.detail_info_hot_big_price) &&
-        flagFn(res1_data?.detail_info_hot_large_price) &&
-        !flagFn(res1_data?.detail_info_hot_simple_regular_price)
+        !flagFn(store_menu?.store_hot_big_price) &&
+        flagFn(store_menu?.store_hot_large_price) &&
+        !flagFn(store_menu?.store_hot_simple_regular_price)
       ) {
         setFront({
-          defaultPrice: res1_data.detail_info_hot_large_price,
+          defaultPrice: store_menu?.store_hot_large_price,
           cupsize: "LARGE",
         });
       } else if (
-        flagFn(res1_data?.detail_info_hot_big_price) &&
-        !flagFn(res1_data?.detail_info_hot_large_price) &&
-        !flagFn(res1_data?.detail_info_hot_simple_regular_price)
+        flagFn(store_menu?.store_hot_big_price) &&
+        !flagFn(store_menu?.store_hot_large_price) &&
+        !flagFn(store_menu?.store_hot_simple_regular_price)
       ) {
         setFront({
-          defaultPrice: res1_data.detail_info_hot_big_price,
+          defaultPrice: store_menu?.store_hot_big_price,
           cupsize: "BIG",
         });
       }
     } else if (start === "중간" && option_type === "HOT") {
       if (
-        flagFn(res1_data?.detail_info_hot_big_price) &&
-        flagFn(res1_data?.detail_info_hot_large_price) &&
-        flagFn(res1_data?.detail_info_hot_simple_regular_price)
+        flagFn(store_menu?.store_hot_big_price) &&
+        flagFn(store_menu?.store_hot_large_price) &&
+        flagFn(store_menu?.store_hot_simple_regular_price)
       ) {
         if (res1_data?.size === "LARGE") {
           cupsize = "LARGE";
@@ -378,9 +374,9 @@ export default function OrderDetail() {
           cupsize = "BOTH";
         }
       } else if (
-        !flagFn(res1_data?.detail_info_hot_big_price) &&
-        flagFn(res1_data?.detail_info_hot_large_price) &&
-        flagFn(res1_data?.detail_info_hot_simple_regular_price)
+        !flagFn(store_menu?.store_hot_big_price) &&
+        flagFn(store_menu?.store_hot_large_price) &&
+        flagFn(store_menu?.store_hot_simple_regular_price)
       ) {
         if (res1_data?.size === "LARGE") {
           cupsize = "LARGE";
@@ -388,47 +384,43 @@ export default function OrderDetail() {
           cupsize = "BOTH";
         }
       } else if (
-        !flagFn(res1_data?.detail_info_hot_big_price) &&
-        !flagFn(res1_data?.detail_info_hot_large_price) &&
-        flagFn(res1_data?.detail_info_hot_simple_regular_price)
+        !flagFn(store_menu?.store_hot_big_price) &&
+        !flagFn(store_menu?.store_hot_large_price) &&
+        flagFn(store_menu?.store_hot_simple_regular_price)
       ) {
         cupsize = "REGULAR";
       } else if (
-        !flagFn(res1_data?.detail_info_hot_big_price) &&
-        flagFn(res1_data?.detail_info_hot_large_price) &&
-        !flagFn(res1_data?.detail_info_hot_simple_regular_price)
+        !flagFn(store_menu?.store_hot_big_price) &&
+        flagFn(store_menu?.store_hot_large_price) &&
+        !flagFn(store_menu?.store_hot_simple_regular_price)
       ) {
         cupsize = "LARGE";
       } else if (
-        flagFn(res1_data?.detail_info_hot_big_price) &&
-        !flagFn(res1_data?.detail_info_hot_large_price) &&
-        !flagFn(res1_data?.detail_info_hot_simple_regular_price)
+        flagFn(store_menu?.store_hot_big_price) &&
+        !flagFn(store_menu?.store_hot_large_price) &&
+        !flagFn(store_menu?.store_hot_simple_regular_price)
       ) {
         cupsize = "BIG";
       }
 
       if (option_size === "L") {
-        option_price = res1_data.detail_info_hot_large_price;
+        option_price = store_menu?.store_hot_large_price;
       } else if (option_size === "R") {
-        option_price = res1_data.detail_info_hot_simple_regular_price;
+        option_price = store_menu?.store_hot_simple_regular_price;
       } else if (option_size === "B") {
-        option_price = res1_data.detail_info_hot_big_price;
+        option_price = store_menu?.store_hot_big_price;
       }
       setFront({
         defaultPrice: option_price,
         cupsize: cupsize,
       });
     } else if (start === "중간" && option_type === "ICE") {
-      if (
-        flagFn(res1_data?.detail_info_ice_big_price) &&
-        flagFn(res1_data?.detail_info_ice_large_price) &&
-        flagFn(res1_data?.detail_info_ice_regular_price)
-      ) {
+      if (flagFn(store_menu?.store_ice_big_price) && flagFn(store_menu?.store_ice_large_price) && flagFn(store_menu?.store_ice_regular_price)) {
         cupsize = "ALL";
       } else if (
-        !flagFn(res1_data?.detail_info_ice_big_price) &&
-        flagFn(res1_data?.detail_info_ice_large_price) &&
-        flagFn(res1_data?.detail_info_ice_regular_price)
+        !flagFn(store_menu?.store_ice_big_price) &&
+        flagFn(store_menu?.store_ice_large_price) &&
+        flagFn(store_menu?.store_ice_regular_price)
       ) {
         if (res1_data?.size === "LARGE") {
           cupsize = "LARGE";
@@ -436,31 +428,31 @@ export default function OrderDetail() {
           cupsize = "BOTH";
         }
       } else if (
-        !flagFn(res1_data?.detail_info_ice_big_price) &&
-        !flagFn(res1_data?.detail_info_ice_large_price) &&
-        flagFn(res1_data?.detail_info_ice_regular_price)
+        !flagFn(store_menu?.store_ice_big_price) &&
+        !flagFn(store_menu?.store_ice_large_price) &&
+        flagFn(store_menu?.store_ice_regular_price)
       ) {
         cupsize = "REGULAR";
       } else if (
-        !flagFn(res1_data?.detail_info_ice_big_price) &&
-        flagFn(res1_data?.detail_info_ice_large_price) &&
-        !flagFn(res1_data?.detail_info_ice_regular_price)
+        !flagFn(store_menu?.store_ice_big_price) &&
+        flagFn(store_menu?.store_ice_large_price) &&
+        !flagFn(store_menu?.store_ice_regular_price)
       ) {
         cupsize = "LARGE";
       } else if (
-        flagFn(res1_data?.detail_info_ice_big_price) &&
-        !flagFn(res1_data?.detail_info_ice_large_price) &&
-        !flagFn(res1_data?.detail_info_ice_regular_price)
+        flagFn(store_menu?.store_ice_big_price) &&
+        !flagFn(store_menu?.store_ice_large_price) &&
+        !flagFn(store_menu?.store_ice_regular_price)
       ) {
         cupsize = "BIG";
       }
 
       if (option_size === "L") {
-        option_price = res1_data.detail_info_ice_large_price;
+        option_price = store_menu?.store_ice_large_price;
       } else if (option_size === "R") {
-        option_price = res1_data.detail_info_ice_regular_price;
+        option_price = store_menu?.store_ice_regular_price;
       } else if (option_size === "B") {
-        option_price = res1_data.detail_info_ice_big_price;
+        option_price = store_menu?.store_ice_big_price;
       }
       setFront({
         defaultPrice: option_price,
@@ -483,20 +475,20 @@ export default function OrderDetail() {
     if (type === "I") {
       $("#orderImg").attr("src", axioData?.res1_data?.menu?.detail_image_ice);
       if (menu_size === "R") {
-        select_price = axioData?.res1_data?.menu?.detail_info_ice_regular_price;
+        select_price = axioData?.res1_data?.store_menu?.store_ice_regular_price;
       } else if (menu_size === "L") {
-        select_price = axioData?.res1_data?.menu?.detail_info_ice_large_price;
+        select_price = axioData?.res1_data?.store_menu?.store_ice_large_price;
       } else if (menu_size === "B") {
-        select_price = axioData?.res1_data?.menu?.detail_info_ice_big_price;
+        select_price = axioData?.res1_data?.store_menu?.store_ice_big_price;
       }
     } else {
       $("#orderImg").attr("src", axioData?.res1_data?.menu?.detail_image_hot_simple);
       if (menu_size === "R") {
-        select_price = axioData?.res1_data?.menu?.detail_info_hot_simple_regular_price;
+        select_price = axioData?.res1_data?.store_menu?.store_hot_simple_regular_price;
       } else if (menu_size === "L") {
-        select_price = axioData?.res1_data?.menu?.detail_info_hot_large_price;
+        select_price = axioData?.res1_data?.store_menu?.store_hot_large_price;
       } else if (menu_size === "B") {
-        select_price = axioData?.res1_data?.menu?.detail_info_hot_big_price;
+        select_price = axioData?.res1_data?.store_menu?.store_hot_big_price;
       }
     }
     handleResultPrice(select_price, trigger);
