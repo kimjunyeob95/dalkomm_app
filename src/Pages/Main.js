@@ -28,8 +28,8 @@ import Loading from "Components/Loading";
 export function Main(props) {
   let dev_count = 1;
   const nowTime = new Date().getTime();
-  const startTime = new Date("2022/02/15 00:00:00").getTime();
-  const endTime = new Date("2022/02/22 23:59:59").getTime();
+  const startTime = new Date("2022/03/04 00:00:00").getTime();
+  const endTime = new Date("2022/03/02 23:59:59").getTime();
 
   const [state] = useContext(authContext);
   const [axioData, setData] = useState(false);
@@ -1144,9 +1144,11 @@ export function Main(props) {
                 </h2>
               </div>
               <div className="popup-body">
-                <div className="img-wrap">
-                  <img src="/@resource/images/popup/popup_price-adjustment.png" alt="가격 조정 안내 이미지" className="img" />
-                </div>
+                <Link to="/story/list">
+                  <div className="img-wrap">
+                    <img src="/@resource/images/popup/popup_app.png" alt="가격 조정 안내 이미지" className="img" />
+                  </div>
+                </Link>
                 <div className="btn-area col-2">
                   <button type="button" className="btn large dark" onClick={() => handleClosePopup()}>
                     오늘 그만 보기

@@ -413,7 +413,8 @@ export default function OrderFinal() {
                                         if (frontData.fk_store_code !== "dalkomm217") {
                                           //분당서현점 처리
                                           if (e?.coupon_name.indexOf("임직원") > -1) return null;
-                                        } else if (frontData.fk_store_code !== "dalkomm260") {
+                                        }
+                                        if (frontData.fk_store_code !== "dalkomm260") {
                                           //우리은행본점 처리
                                           if (e?.coupon_name.indexOf("우리은행본점") > -1) return null;
                                         }
