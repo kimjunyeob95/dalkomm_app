@@ -600,17 +600,19 @@ export default function OrderDetail() {
     option_array.forEach((element, index) => {
       if (element.value !== "0" && element.value !== false && element.value !== undefined) {
         if (element.text === "휘핑 크림") {
-          returnText += `<span class="addopion" text="${element.text}">, ${element.text}</span>`;
+          returnText += `<span class="addopion" text="${element.text}">${element.text}, </span>`;
         } else if (element.text === "휘핑 크림 제거") {
-          returnText += `<span class="addopion" text="${element.text}" >, ${element.text}</span>`;
+          returnText += `<span class="addopion" text="${element.text}" >${element.text}, </span>`;
         } else if (element.text === "꿀양") {
-          returnText += `<span class="addopion" text="${element.value}">, ${element.value}</span>`;
+          returnText += `<span class="addopion" text="${element.value}">${element.value}, </span>`;
+        } else if (element.text === "샷") {
+          returnText += `<span class="addopion" text="${element.text} ${element.value}">, ${element.text} ${element.value}, </span>`;
         } else {
-          returnText += `<span class="addopion" text="${element.text} ${element.value}">, ${element.text} ${element.value}</span>`;
+          returnText += `<span class="addopion" text="${element.text} ${element.value}">${element.text} ${element.value}, </span>`;
         }
       }
     });
-
+    returnText = returnText.slice(0, -9) + "</span>";
     $(".text.option").append(returnText);
   };
   const handleOption = (e, flag, type) => {
@@ -618,6 +620,11 @@ export default function OrderDetail() {
     if (flag === "plus") {
       count = Number($(e).prev("input").val());
       if (count < 10) {
+        if (type === "헤이즐럿" || type === "바닐라") {
+          if (count > 1) {
+            return false;
+          }
+        }
         $(e)
           .prev("input")
           .val(count + 1);

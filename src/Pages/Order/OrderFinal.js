@@ -343,17 +343,37 @@ export default function OrderFinal() {
                                           </span>
                                         </p>
                                         <p className="option flex-both">
-                                          <span>
+                                          <span style={{ width: "calc(100% - 10vw)" }}>
                                             {axioData?.res1_data?.smartorder_detail_list[index]?.get_summary_option
                                               ?.filter((e, i) => {
                                                 let array = ["HOT", "ICE", "레귤러", "라지", "코끼리", "다회용 컵", "일회용 컵", "개인컵(-300원)"];
                                                 return array.indexOf(e) < 0;
                                               })
                                               .map((e, i) => {
-                                                if (i === 0) {
-                                                  return <React.Fragment key={i}>{e}</React.Fragment>;
+                                                if (e.includes("바닐라시럽") || e.includes("헤이즐넛시럽")) {
+                                                  let number = e.substr(0, 1);
+                                                  let text = e.slice(1, -7);
+                                                  if (i === 0) {
+                                                    return <React.Fragment key={i}>{`${text} x${number} (500원)`}</React.Fragment>;
+                                                  } else {
+                                                    return <React.Fragment key={i}>, {`${text} x${number} (500원)`}</React.Fragment>;
+                                                  }
+                                                } else if (e.includes("샷")) {
+                                                  let number = e.substr(0, 1);
+                                                  if (number.includes("샷")) {
+                                                    number = e.substr(0, 1);
+                                                  }
+                                                  if (i === 0) {
+                                                    return <React.Fragment key={i}>{`샷 ${number}추가 (잔당 500원)`}</React.Fragment>;
+                                                  } else {
+                                                    return <React.Fragment key={i}>, {`샷 ${number}추가 (잔당 500원)`}</React.Fragment>;
+                                                  }
                                                 } else {
-                                                  return <React.Fragment key={i}>, {e}</React.Fragment>;
+                                                  if (i === 0) {
+                                                    return <React.Fragment key={i}>{e}</React.Fragment>;
+                                                  } else {
+                                                    return <React.Fragment key={i}>, {e}</React.Fragment>;
+                                                  }
                                                 }
                                               })}
                                           </span>
