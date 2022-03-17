@@ -359,7 +359,7 @@ export default function OrderFinal() {
                                                     return <React.Fragment key={i}>, {`${text} x${number} (500원)`}</React.Fragment>;
                                                   }
                                                 } else if (e.includes("샷")) {
-                                                  let number = e.substr(0, 1);
+                                                  let number = e.substr(0, 2);
                                                   if (number.includes("샷")) {
                                                     number = e.substr(0, 1);
                                                   }
