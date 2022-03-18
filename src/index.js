@@ -12,6 +12,8 @@ import Pay from "Pages/Pay";
 import Order from "Pages/Order";
 import Menu from "Pages/Menu";
 
+import Event from "Pages/Event/index";
+
 //order page
 import OrderMenu from "Pages/Order/OrderMenu";
 import OrderStoreSearch from "Pages/Order/OrderStoreSearch";
@@ -80,6 +82,10 @@ ReactDOM.render(
         <Route exact path="/join/step3" component={() => <JoinStep3 />} />
         <Route exact path="/join/findId" component={() => <FindId />} />
         <Route exact path="/join/findPw" component={() => <FindPw />} />
+
+        <PrivateRoute exact path="/event/:tu_email/:tu_phone/:tu_nick/:tu_birthday">
+          <Event />
+        </PrivateRoute>
 
         <PrivateRoute exact path="/pay">
           <Pay />

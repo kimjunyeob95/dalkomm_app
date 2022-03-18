@@ -127,7 +127,7 @@ function modalOpen(popId) {
   $("body").addClass("modal-opened");
 }
 // modalClose
-function modalClose(popId) {
+export function modalClose(popId) {
   $(popId).removeClass("active");
   $("body").removeClass("modal-opened");
 }

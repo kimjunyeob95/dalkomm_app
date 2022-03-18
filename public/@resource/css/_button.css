@@ -36,6 +36,7 @@ button.btn	{overflow:visible;margin:0;padding:0;background-color:transparent;}
 .btn.full{width: 100%;}
 .btn.bdr{border: 0.267vw solid #ebebeb;color: #000;background-color: #fff;}
 .btn.bdr-r{display: -ms-flexbox; display: -webkit-flex; display: flex; -webkit-justify-content: center; -ms-flex-pack: center; justify-content: center;	-webkit-align-items: center; -ms-flex-align: center; align-items: center; border-radius: 3.467vw;}
+.btn.bg-point {background-color: #ff592e; color: #fff;}
 
 .btn.round {border-radius: 50%;}
 

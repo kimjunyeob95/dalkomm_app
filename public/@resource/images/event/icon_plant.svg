@@ -1,0 +1,12 @@
+<svg data-name="Icons / Plant" xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 36 36">
+    <path data-name="사각형 217" style="fill:none" d="M0 0h36v36H0z"/>
+    <g data-name="그룹 1902">
+        <g data-name="패스 132" style="fill:none">
+            <path d="M19.874 22.424H6.618a1.6 1.6 0 0 1-1.553-1.215L2.083 9.269a.788.788 0 0 1 .765-.979h20.8a.788.788 0 0 1 .765.979l-2.986 11.939a1.6 1.6 0 0 1-1.553 1.216z" style="stroke:none" transform="translate(3.941 12.124)"/>
+            <path d="M19.875 21.024c.091 0 .17-.062.193-.155L22.86 9.69H3.63l2.794 11.183c.022.089.1.15.194.15h13.257m0 1.4H6.618a1.598 1.598 0 0 1-1.553-1.215L2.083 9.27a.788.788 0 0 1 .765-.979h20.795a.789.789 0 0 1 .766.979l-2.982 11.94a1.598 1.598 0 0 1-1.552 1.215z" style="fill:#000;stroke:none" transform="translate(3.941 12.124)"/>
+        </g>
+        <path data-name="패스 656" d="M10.9 15.259S12.493 2.543 23.618 2.543c0 0 1.589 12.716-12.718 12.716z" transform="translate(6.202 -1.043)" style="stroke:#000;stroke-linecap:round;stroke-linejoin:round;stroke-width:1.4px;fill:#ff592e"/>
+        <path data-name="패스 657" d="M14.062 14.179S4.585 12.994 4.585 4.7c0 0 9.477-1.183 9.477 9.479z" transform="translate(3.043 .017)" style="stroke:#000;stroke-linecap:round;stroke-linejoin:round;stroke-width:1.4px;fill:#ff592e"/>
+        <path data-name="선 180" transform="translate(17.102 14.213)" style="stroke:#000;stroke-linecap:round;stroke-linejoin:round;stroke-width:1.4px;fill:none" d="M0 6.201V0"/>
+    </g>
+</svg>

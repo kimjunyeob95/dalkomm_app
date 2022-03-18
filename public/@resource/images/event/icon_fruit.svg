@@ -1,0 +1,12 @@
+<svg data-name="Icons / Purple" xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 36 36">
+    <g data-name="그룹 2329">
+        <g data-name="타원 142" transform="translate(5 5)" style="stroke:#000;stroke-width:1.4px;fill:none">
+            <circle cx="13.5" cy="13.5" r="13.5" style="stroke:none"/>
+            <circle cx="13.5" cy="13.5" r="12.8" style="fill:none"/>
+        </g>
+        <g data-name="그룹 2328">
+            <path data-name="패스 670" d="M7195.486-7198.234c4.339 0 7.325-2.3 7.673-8.371v-1.4h-2.791c-6.277 0-8.37 2.79-8.37 6.278a4.508 4.508 0 0 0 1.4 3.489z" transform="rotate(78 -843.828 -8023.698)" style="stroke-linecap:round;stroke-linejoin:round;fill:#ff592e;stroke:#000;stroke-width:1.4px"/>
+            <path data-name="패스 669" d="M7194.2-7196.5c.681-1.062.97-3.082 4.334-4.5" transform="rotate(78 -842.04 -8023.234)" style="fill:transparent;stroke-linecap:round;stroke-linejoin:round;stroke:#000;stroke-width:1.4px"/>
+        </g>
+    </g>
+</svg>

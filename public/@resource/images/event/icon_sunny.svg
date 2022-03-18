@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+    <g transform="translate(1 1)" data-name="Icons / Sunny" style="opacity:.4">
+        <circle cx="5" cy="5" r="5" transform="translate(6 6)" style="fill:none;stroke:#000;stroke-miterlimit:10;stroke-width:1.8px"/>
+        <path d="M0 0v2" transform="translate(11)" style="stroke-linejoin:round;fill:none;stroke:#000;stroke-miterlimit:10;stroke-width:1.8px"/>
+        <path data-name="Shape" d="M0 0v2" transform="translate(11 20)" style="stroke-linejoin:round;fill:none;stroke:#000;stroke-miterlimit:10;stroke-width:1.8px"/>
+        <path data-name="Shape" d="m0 0 1.42 1.42" transform="translate(3.22 3.22)" style="stroke-linejoin:round;fill:none;stroke:#000;stroke-miterlimit:10;stroke-width:1.8px"/>
+        <path data-name="Shape" d="m0 0 1.42 1.42" transform="translate(17.36 17.36)" style="stroke-linejoin:round;fill:none;stroke:#000;stroke-miterlimit:10;stroke-width:1.8px"/>
+        <path data-name="Shape" d="M0 0h2" transform="translate(0 11)" style="stroke-linejoin:round;fill:none;stroke:#000;stroke-miterlimit:10;stroke-width:1.8px"/>
+        <path data-name="Shape" d="M0 0h2" transform="translate(20 11)" style="stroke-linejoin:round;fill:none;stroke:#000;stroke-miterlimit:10;stroke-width:1.8px"/>
+        <path data-name="Shape" d="M0 1.42 1.42 0" transform="translate(3.22 17.36)" style="stroke-linejoin:round;fill:none;stroke:#000;stroke-miterlimit:10;stroke-width:1.8px"/>
+        <path data-name="Shape" d="M0 1.42 1.42 0" transform="translate(17.36 3.22)" style="stroke-linejoin:round;fill:none;stroke:#000;stroke-miterlimit:10;stroke-width:1.8px"/>
+    </g>
+</svg>
