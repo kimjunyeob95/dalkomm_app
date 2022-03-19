@@ -76,9 +76,10 @@ export function Main(props) {
           axios.post(`${SERVER_DALKOMM_SUGAR}/api/getMd`),
           axios.post(`${SERVER_DALKOMM_SUGAR}/api/getMsg`),
           axios.post(`${SERVER_DALKOMM_SUGAR}/api/contentList`),
+          axios.post(`${SERVER_DALKOMM}/app/api/account/simple/profile`, body, header_config)
         ])
         .then(
-          axios.spread((res1, res2, res3, res4, res5, res6, res7, res8, res9) => {
+          axios.spread((res1, res2, res3, res4, res5, res6, res7, res8, res9,res10) => {
             let res1_data = res1.data;
             let res2_data = res2?.data?.data;
             let res3_data = res3.data.data;
@@ -88,6 +89,7 @@ export function Main(props) {
             let mdList = res7.data.list;
             let join_text = res8.data.msg;
             let contentData = res9.data.centerBanner[0];
+            let userData = res10.data.data;
             setData((origin) => {
               return {
                 ...origin,
@@ -100,6 +102,7 @@ export function Main(props) {
                 mdList,
                 join_text,
                 contentData,
+                userData,
               };
             });
           })
@@ -272,9 +275,12 @@ export function Main(props) {
     $("body").removeClass("modal-opened");
   };
   const fn_dev = () => {
+    const {login_email,mobile,name,birthday} = axioData.userData;
     dev_count++;
-    if (dev_count === 5) {
-      history.push("/dev");
+    if (dev_count === 2) {
+      
+      history.push(`/event/${login_email}/${mobile}/${decodeURI(name)}/${birthday}`);
+      // history.push("/dev");
     }
   };
 

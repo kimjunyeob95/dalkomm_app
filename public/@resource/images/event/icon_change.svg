@@ -1,0 +1,10 @@
+<svg data-name="Icons / Arrow" xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 36 36">
+    <g data-name="그룹 1923">
+        <path data-name="패스 674" d="M7217.925-7196.666a13.14 13.14 0 0 0-14.811-11.2 13.12 13.12 0 0 0-10.3 7.956m-.811-6.481v6.481h6.481" transform="translate(-7186.913 7213.072)" style="stroke-linejoin:round;stroke:#000;stroke-width:1.4px;fill:none"/>
+        <path data-name="패스 675" d="M7192-7199a13.143 13.143 0 0 0 14.81 11.2 13.123 13.123 0 0 0 10.3-7.957m.811 6.481v-6.481h-6.481" transform="translate(-7186.913 7218.647)" style="stroke-linejoin:round;stroke:#000;stroke-width:1.4px;fill:none"/>
+    </g>
+    <g data-name="타원 147" transform="translate(13 13)" style="fill:#ff592e;stroke:#000;stroke-width:1.4px">
+        <circle cx="5" cy="5" r="5" style="stroke:none"/>
+        <circle cx="5" cy="5" r="4.3" style="fill:none"/>
+    </g>
+</svg>

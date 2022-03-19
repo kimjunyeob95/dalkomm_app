@@ -1,0 +1,7 @@
+<svg data-name="Icons / Info" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+    <g data-name="Danger Circle">
+        <path data-name="Stroke 1" d="M9.89 0A9.89 9.89 0 1 1 0 9.89 9.89 9.89 0 0 1 9.89 0z" transform="translate(2 2)" style="stroke-width:1.2px;stroke-linecap:round;fill:none;stroke:#000;stroke-linejoin:round;stroke-miterlimit:10"/>
+        <path data-name="Stroke 3" d="M.5 0v5.272" transform="translate(11.47 11.704)" style="stroke-width:1.5px;fill:none;stroke:#000;stroke-linejoin:round;stroke-miterlimit:10"/>
+        <path data-name="Stroke 5" d="M.5.5h0" transform="translate(11.475 8.204)" style="stroke-width:2px;stroke-linecap:round;fill:none;stroke:#000;stroke-linejoin:round;stroke-miterlimit:10"/>
+    </g>
+</svg>
