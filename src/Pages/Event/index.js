@@ -11,7 +11,6 @@ import { Link,useParams,useHistory } from "react-router-dom";
 import {fn_click_init,fn_click_off,fn_first_init,fn_reset_interval,fn_action,fn_event_start} from "Jquery/event_jquery";
 import { tabLink } from "Jquery/Jquery";
 import { Swiper } from "swiper/react";
-import SwiperCore, { Autoplay } from "swiper/core";
 
 import { SERVER_DALKOMM_SUGAR } from "Config/Server";
 
@@ -46,7 +45,6 @@ export default function Index() {
   }, []);
   
   useEffect(() => {
-    SwiperCore.use([Autoplay]);
     fn_fruit_update();
     if(axioData && Init){
         fn_click_init();

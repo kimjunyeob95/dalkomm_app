@@ -548,17 +548,10 @@ export const fn_click_init = () => {
         $('#eventGuide').addClass('active');
     });
 
-    // 사운드 음소거/음소거해제 버튼
-    $('.btn.sound').click(function () {
-        $('.btn.sound').toggleClass('mute');
-    });
-
     // 커피열매 교환 - 열매 교환하기 버튼
     $('.btn.fruit-change').click(function () {
         $('#fruitChange').addClass('active');
     });
-
-    
 
     // 열매 따기 팝업 확인 후 커피나무 시퀀스 동작 실행
     $('.btn.harvest').click(function () {
@@ -619,8 +612,6 @@ export const fn_click_off = () => {
     $('.btn.event-benefit').off('click');
     // 이벤트 안내 보기 버튼
     $('.btn.event-guide').off('click');
-    // 사운드 음소거/음소거해제 버튼
-    $('.btn.sound').off('click');
     // 커피열매 교환 - 열매 교환하기 버튼
     $('.btn.fruit-change').off('click');
     // 인트로 - 커피나무 키우러가기 버튼
