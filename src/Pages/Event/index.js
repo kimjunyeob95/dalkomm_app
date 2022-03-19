@@ -8,7 +8,7 @@ import $ from "jquery";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link,useParams,useHistory } from "react-router-dom";
-import {fn_click_init,fn_click_off,fn_first_init,fn_reset_interval,fn_action} from "Jquery/event_jquery";
+import {fn_click_init,fn_click_off,fn_first_init,fn_reset_interval,fn_action,fn_event_start} from "Jquery/event_jquery";
 import { tabLink } from "Jquery/Jquery";
 import { Swiper } from "swiper/react";
 import SwiperCore, { Autoplay } from "swiper/core";
@@ -54,15 +54,22 @@ export default function Index() {
     }
   }, [axioData]);
 
-  const goDetail = () =>{
+  const goEvent_page = () =>{
       if(axioData.userType === "기존유저"){
-        $('#CoffeeTreeIntro .btn.event-start').click();
         fn_getBean();
+        $('#CoffeeTreeGame').addClass('active');
       }else{
-        $('#CoffeeTreeIntro').addClass('active');
+        //신규유저
+        if($("#CoffeeTreeIntro").hasClass("active")){
+            fn_getBean();
+            $('#CoffeeTreeIntro').removeClass('active');
+            $('#CoffeeTreeGame').addClass('active');
+        }else{
+            $('#CoffeeTreeGame').removeClass('active');
+            $('#CoffeeTreeIntro').addClass('active');
+        }
       }
   }
-
   const fn_getBean = () => {
     axios
     .all([
@@ -80,6 +87,7 @@ export default function Index() {
             userInfo,
           };
         });
+        fn_event_start();
       })
     );
   }
@@ -181,10 +189,25 @@ export default function Index() {
       history.push('/');
   }
 
-  const handleEvent = (type) => {
-      if(axioData?.userInfo?.tu_possible_action === "T"){
+  const handleAction = (type) => {
+    axios
+    .all([
+      axios.get(`${SERVER_DALKOMM_SUGAR}/api/event/postAction?tu_email=${tu_email}`),
+    ])
+    .then(
+      axios.spread((res1) => {
+        if(res1.data.code==="true"){
+            let userInfo = {...axioData.userInfo,tu_possible_action: "F"};
+            setData((origin) => {
+              return {
+                ...origin,
+                userInfo,
+              };
+            });
+        }
         fn_action(type);
-      }
+      })
+    );
   }
 
   if (axioData) {
@@ -220,7 +243,7 @@ export default function Index() {
                     </div>
 
                     <div className="btn-area">
-                        <button type="button" className="btn close-modal webtoon-start" onClick={(e)=>goDetail(e)}>
+                        <button type="button" className="btn close-modal webtoon-start" onClick={()=>goEvent_page()}>
                             커피나무 키우기를 시작할래요
                         </button>
                     </div>
@@ -248,7 +271,7 @@ export default function Index() {
                     </div>
 
                     <div className="btn-area">
-                        <button type="button" className="btn dark large full close-modal event-start" pop-target="#CoffeeTreeGame" onClick={()=>fn_getBean()}>커피나무 키우러 가기</button>
+                        <button type="button" className="btn dark large full event-start" pop-target="#CoffeeTreeGame" onClick={()=>goEvent_page()}>커피나무 키우러 가기</button>
                     </div>
                 </div>
             </div>
@@ -299,8 +322,24 @@ export default function Index() {
                             커피나무에 <span className="fc-orange">물이 부족</span> 하네요!
                         </p> 
                     </div>
-
-                    <div className="game-sec step4-roop fruit"> {/* .game-sec 상태
+                    
+                    <div className={`game-sec ${
+                        //나무 업그레이드X 분기
+                        axioData?.userInfo?.tt_upgrade_flag !== "T" ? 
+                        axioData?.userInfo?.tt_step === 0 ? "ready" : 
+                        axioData?.userInfo?.tt_step === 1 ? "step1-roop" :
+                        axioData?.userInfo?.tt_step === 2 ? "step2-roop" :
+                        axioData?.userInfo?.tt_step === 3 ? "step3-roop" :
+                        axioData?.userInfo?.tt_step === 4 && axioData?.userInfo?.tt_bean_count > 0 ? "step4-roop fruit" :
+                        axioData?.userInfo?.tt_step === 4 && axioData?.userInfo?.tt_bean_count === 0 ? "step4-roop" : ""
+                    : 
+                    //나무 업그레이드O 분기
+                    axioData?.userInfo?.tt_upgrade_flag === "T" ? 
+                    axioData?.userInfo?.tt_step === 1 ? "step1" :
+                    axioData?.userInfo?.tt_step === 2 ? "step2" :
+                    axioData?.userInfo?.tt_step === 3 ? "step3" :
+                    axioData?.userInfo?.tt_step === 4 ? "step4" : ""
+                    :""}`}> {/* .game-sec 상태
                         .game-sec.ready : 최초 준비상태
                         .game-sec.step1 : 1단계 진화
                         .game-sec.step1-roop : 1단계 진행
@@ -384,7 +423,7 @@ export default function Index() {
                         
                         <ul className="btn-area ingredient-list">
                             <li>
-                                <button type="button" className="btn sunshine" onClick={()=>handleEvent('sunshine')}>
+                                <button type="button" className="btn sunshine" onClick={()=>handleAction('sunshine')}>
                                     <svg viewBox="0 0 24 24">
                                         <g>
                                             <circle className="path-stroke" cx="5" cy="5" r="5" transform="translate(6 6)"/>
@@ -405,7 +444,7 @@ export default function Index() {
                             </li>
     
                             <li>
-                                <button type="button" className="btn water" onClick={()=>handleEvent('water')}>
+                                <button type="button" className="btn water" onClick={()=>handleAction('water')}>
                                     <svg viewBox="0 0 24 23.999">
                                         <g>
                                             <path className="path-transparent" d="M430 354h-24v-24h24v24z" transform="translate(-406 -330)"/>
@@ -419,7 +458,7 @@ export default function Index() {
                             </li>
                             
                             <li>
-                                <button type="button" className="btn heart" onClick={()=>handleEvent('heart')}>
+                                <button type="button" className="btn heart" onClick={()=>handleAction('heart')}>
                                     <svg viewBox="0 0 24 23.999">
                                         <g>
                                             <path className="path-stroke" d="M7207.5-7198.431 7200-7191l-7.5-7.431m0 0a5 5 0 0 1-.1-7.069 5 5 0 0 1 7.07-.091 3.851 3.851 0 0 1 .53.6 5 5 0 0 1 7-1 5 5 0 0 1 1 7 4.934 4.934 0 0 1-.49.56" transform="translate(-7187.993 7211.004)"/>
@@ -1380,3 +1419,4 @@ export default function Index() {
       </React.Fragment>
     );
 }
+

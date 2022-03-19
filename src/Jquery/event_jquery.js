@@ -24,6 +24,7 @@ export const fn_reset_interval = () => {
 }
 
 function treeStep() {
+    
     fn_interval1 = setInterval(function(){
         if($('.game-sec').hasClass('step1')) {
             step1();
@@ -58,6 +59,7 @@ function treeStep() {
 
     // 1단계 -> 2단계
     if($('.game-sec').hasClass('step2')) {
+       
         $('.game-sec').removeClass('.step1-roop');
         step2();
         setTimeout(function() {
@@ -503,6 +505,11 @@ export const fn_action = (type) =>{
     }
 }
 
+// 인트로 - 커피나무 키우러가기 버튼
+export const fn_event_start = () => {
+    treeStep();
+    fruit();
+}
 
 export const fn_click_init = () => {
     $('.coffee-tree .close-modal').click(function() {
@@ -525,13 +532,6 @@ export const fn_click_init = () => {
         },25);
     });
     
-   
-  
-
-    // 메인  - 인트로 시작 버튼 
-    $('#CoffeeTreeHome .btn.webtoon-start').click(function(){
-        $('#CoffeeTreeIntro').addClass('active');
-    });
 
     // 나의 커피열매 현황 버튼
     $('.btn.game-state').click(function () {
@@ -558,12 +558,7 @@ export const fn_click_init = () => {
         $('#fruitChange').addClass('active');
     });
 
-    // 인트로 - 커피나무 키우러가기 버튼
-    $('#CoffeeTreeIntro .btn.event-start').click(function(){
-        $('#CoffeeTreeGame').addClass('active');
-        treeStep();
-        fruit();
-    });
+    
 
     // 열매 따기 팝업 확인 후 커피나무 시퀀스 동작 실행
     $('.btn.harvest').click(function () {
