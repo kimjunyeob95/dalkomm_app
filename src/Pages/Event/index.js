@@ -6,20 +6,19 @@
 // eslint-disable-next-line no-unused-vars
 import $ from "jquery";
 import axios from "axios";
-import React, { useEffect, useContext, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link,useParams,useHistory } from "react-router-dom";
-import {fn_init} from "Jquery/event_jquery";
+import {fn_click_init,fn_click_off,fn_first_init,fn_reset_interval,fn_action} from "Jquery/event_jquery";
 import { tabLink } from "Jquery/Jquery";
-import { Swiper, SwiperSlide } from "swiper/react";
+import { Swiper } from "swiper/react";
 import SwiperCore, { Autoplay } from "swiper/core";
 
-import { authContext } from "ContextApi/Context";
-import {  SERVER_DALKOMM_SUGAR } from "Config/Server";
+import { SERVER_DALKOMM_SUGAR } from "Config/Server";
 
 export default function Index() {
-  const [state, dispatch] = useContext(authContext);
   const [axioData, setData] = useState();
-  const history = useHistory();
+  const [Init,setInit] = useState(true);
+  const history = useHistory(true);
   const {tu_email,tu_phone,tu_nick,tu_birthday} = useParams();
   
   useEffect(() => {
@@ -37,14 +36,22 @@ export default function Index() {
                 userType
               };
             });
+            fn_first_init();
           })
         );
+    return ()=>{
+        fn_first_init();
+        fn_reset_interval();
+    }
   }, []);
   
   useEffect(() => {
     SwiperCore.use([Autoplay]);
-    fn_init(); 
     fn_fruit_update();
+    if(axioData && Init){
+        fn_click_init();
+        setInit(false);
+    }
   }, [axioData]);
 
   const goDetail = () =>{
@@ -95,7 +102,7 @@ export default function Index() {
   const fn_fruit_update = () =>{
     let _length = $('.fruit-chart').length;
     for (let index = 0; index < _length; index++) {
-        let _value = $('.fruit-chart').eq(index).attr('data-percent');
+        let _value = $('.fruit-chart')?.eq(index)?.attr('data-percent');
         window?.$('.fruit-chart')?.eq(index)?.data("easyPieChart")?.update(_value);    
     }
   }
@@ -124,7 +131,6 @@ export default function Index() {
   }
 
   const handleHarvest = (e) => {
-    
       if(axioData?.userInfo?.tt_step >= 3){
         axios
         .all([
@@ -169,19 +175,31 @@ export default function Index() {
     );
   }
 
+  const goMain = () =>{
+    fn_click_off();
+    fn_reset_interval();
+      history.push('/');
+  }
+
+  const handleEvent = (type) => {
+      if(axioData?.userInfo?.tu_possible_action === "T"){
+        fn_action(type);
+      }
+  }
+
   if (axioData) {
-      console.log(axioData);
+    console.log(axioData);
     return (
       <React.Fragment>
      {/* 나의 달콤 커피나무 - 메인 */}
     <div id="CoffeeTreeHome" className="overlay coffee-tree active">
 		<div className="modal-wrap">
             <div className="header modal-header">
-                <Link to="/" type="button" className="btn back">
+                <button onClick={()=>goMain()} type="button" className="btn back">
                     <i className="ico back">
                         <span className="blind">뒤로</span>
                     </i>
-                </Link>
+                </button>
             </div>
 
             <div className="modal-body">
@@ -366,7 +384,7 @@ export default function Index() {
                         
                         <ul className="btn-area ingredient-list">
                             <li>
-                                <button type="button" className="btn sunshine">
+                                <button type="button" className="btn sunshine" onClick={()=>handleEvent('sunshine')}>
                                     <svg viewBox="0 0 24 24">
                                         <g>
                                             <circle className="path-stroke" cx="5" cy="5" r="5" transform="translate(6 6)"/>
@@ -387,7 +405,7 @@ export default function Index() {
                             </li>
     
                             <li>
-                                <button type="button" className="btn water">
+                                <button type="button" className="btn water" onClick={()=>handleEvent('water')}>
                                     <svg viewBox="0 0 24 23.999">
                                         <g>
                                             <path className="path-transparent" d="M430 354h-24v-24h24v24z" transform="translate(-406 -330)"/>
@@ -401,7 +419,7 @@ export default function Index() {
                             </li>
                             
                             <li>
-                                <button type="button" className="btn heart">
+                                <button type="button" className="btn heart" onClick={()=>handleEvent('heart')}>
                                     <svg viewBox="0 0 24 23.999">
                                         <g>
                                             <path className="path-stroke" d="M7207.5-7198.431 7200-7191l-7.5-7.431m0 0a5 5 0 0 1-.1-7.069 5 5 0 0 1 7.07-.091 3.851 3.851 0 0 1 .53.6 5 5 0 0 1 7-1 5 5 0 0 1 1 7 4.934 4.934 0 0 1-.49.56" transform="translate(-7187.993 7211.004)"/>
@@ -710,7 +728,7 @@ export default function Index() {
                                     <li className="swiper-slide">
                                         <div className="item fruit yellow">
                                             <div className="chart-wrap">
-                                                <div className="fruit-chart" data-percent={Math.floor((axioData?.userInfo?.ts_bean_yellow /30)*100)}></div>
+                                                <div className="fruit-chart" data-percent={axioData?.userInfo?.ts_bean_yellow ? Math.floor((axioData?.userInfo?.ts_bean_yellow /30)*100) : 0}></div>
                                                 <div className="img-wrap"></div>
                                             </div>
                                             <div className="data-wrap">
@@ -723,7 +741,7 @@ export default function Index() {
                                     <li className="swiper-slide">
                                         <div className="item fruit orange">
                                             <div className="chart-wrap">
-                                                <div className="fruit-chart" data-percent={Math.floor((axioData?.userInfo?.ts_bean_orange /30)*100)}></div>
+                                                <div className="fruit-chart" data-percent={axioData?.userInfo?.ts_bean_orange ? Math.floor((axioData?.userInfo?.ts_bean_orange /30)*100) : 0}></div>
                                                 <div className="img-wrap"></div>
                                             </div>
                                             <div className="data-wrap">
@@ -736,7 +754,7 @@ export default function Index() {
                                     <li className="swiper-slide">
                                         <div className="item fruit pink">
                                             <div className="chart-wrap">
-                                                <div className="fruit-chart" data-percent={Math.floor((axioData?.userInfo?.ts_bean_pink /30)*100)}></div>
+                                                <div className="fruit-chart" data-percent={axioData?.userInfo?.ts_bean_pink ? Math.floor((axioData?.userInfo?.ts_bean_pink /30)*100) : 0}></div>
                                                 <div className="img-wrap"></div>
                                             </div>
                                             <div className="data-wrap">
@@ -749,7 +767,7 @@ export default function Index() {
                                     <li className="swiper-slide">
                                         <div className="item fruit red" >
                                             <div className="chart-wrap">
-                                                <div className="fruit-chart " data-percent={Math.floor((axioData?.userInfo?.ts_bean_red /30)*100)}></div>
+                                                <div className="fruit-chart " data-percent={axioData?.userInfo?.ts_bean_red ? Math.floor((axioData?.userInfo?.ts_bean_red /30)*100) : 0}></div>
                                                 <div className="img-wrap"></div>
                                             </div>
                                             <div className="data-wrap">
@@ -762,7 +780,7 @@ export default function Index() {
                                     <li className="swiper-slide">
                                         <div className="item fruit purple" >
                                             <div className="chart-wrap">
-                                                <div className="fruit-chart" data-percent={Math.floor((axioData?.userInfo?.ts_bean_purple /30)*100)}></div>
+                                                <div className="fruit-chart" data-percent={axioData?.userInfo?.ts_bean_purple ? Math.floor((axioData?.userInfo?.ts_bean_purple /30)*100) : 0}></div>
                                                 <div className="img-wrap"></div>
                                             </div>
                                             <div className="data-wrap">

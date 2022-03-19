@@ -40,7 +40,7 @@ const fn_dev = () => {
   setCookie("app_type", "I", { expires: 1000 });
 };
 
-//fn_dev();
+//fn_product();
 
 export const authContext = React.createContext();
 

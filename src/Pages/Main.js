@@ -278,7 +278,6 @@ export function Main(props) {
     const {login_email,mobile,name,birthday} = axioData.userData;
     dev_count++;
     if (dev_count === 2) {
-      
       history.push(`/event/${login_email}/${mobile}/${decodeURI(name)}/${birthday}`);
       // history.push("/dev");
     }
