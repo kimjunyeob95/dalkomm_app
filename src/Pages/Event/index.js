@@ -52,6 +52,7 @@ export default function Index() {
         fn_click_init();
         setInit(false);
     }
+    fn_fruit_markup();
   }, [axioData]);
 
   const goEvent_page = () =>{
@@ -210,8 +211,45 @@ export default function Index() {
     );
   }
 
+  const fn_fruit_markup = () => {
+    let all_count = axioData?.userInfo?.tt_bean_count;
+    let $index = 1;
+    let fruit_array = [{"color":"yellow","count":axioData?.userInfo?.tt_bean_yellow},{"color":"orange","count":axioData?.userInfo?.tt_bean_orange},{"color":"pink","count":axioData?.userInfo?.tt_bean_pink},{"color":"red","count":axioData?.userInfo?.tt_bean_red},{"color":"purple","count":axioData?.userInfo?.tt_bean_purple}];
+    let result_array = fruit_array.filter(e=>e.count>0);
+    let result_text1 = "";
+    let result_text2 = "";
+    if(all_count>3){
+        result_array.forEach(element => {
+            for (let index = 0; index < element.count; index++) {
+                if($index < 4){
+                    result_text1 += `<div class="img-wrap img${$index}">
+                    <img src="/@resource/images/event/sequence/fruit_red/fruit_red_0.png" alt="" class="img fruit-animation fruit ${element.color}" />
+                    </div>`;
+                }else if($index>3){
+                    result_text2 += `<div class="img-wrap img${$index-3}">
+                    <img src="/@resource/images/event/sequence/fruit_red/fruit_red_0.png" alt="" class="img fruit-animation fruit ${element.color}" />
+                    </div>`;
+                }
+                $index++;
+            }
+        });
+        $('.fruit-brunch.top').html(result_text1);
+        $('.fruit-brunch.bottom').html(result_text2);
+    }else if(all_count<4){
+        result_array.forEach(element => {
+            for (let index = 0; index < element.count; index++) {
+                result_text1 += `<div class="img-wrap img${$index}">
+                    <img src="/@resource/images/event/sequence/fruit_red/fruit_red_0.png" alt="" class="img fruit-animation fruit ${element.color}" />
+                </div>`;
+                $index++;
+            }
+        });
+        $('.fruit-brunch.top').html(result_text1);
+    }
+  }
+
   if (axioData) {
-    console.log(axioData);
+    // console.log(axioData);
     return (
       <React.Fragment>
      {/* 나의 달콤 커피나무 - 메인 */}
@@ -371,7 +409,6 @@ export default function Index() {
                                 </div>
                             </div>
                             <div className="float sequence-fruit">
-                                <div className="fruit-brunch top fruit-3 growing"> 
                                 {/* [D]  
                                      * 열매 생겼을때 : .fruit-brunch.growing
                                      * 열매 갯수 상태 
@@ -379,30 +416,36 @@ export default function Index() {
                                     .fruit-brunch.fruit-2 : 열매 두개
                                     .fruit-brunch.fruit-3 : 열매 세개 
                                 */}
-                                    <div className="img-wrap img1">
+                                
+                                <div className={`fruit-brunch top growing ${axioData?.userInfo?.tt_bean_count > 3 ? "fruit-3" : axioData?.userInfo?.tt_bean_count ===0 ? "" : "fruit-"+axioData?.userInfo?.tt_bean_count}`}> 
+                                
+                                    {/* <div className="img-wrap img1">
                                         <img src="/@resource/images/event/sequence/fruit_red/fruit_red_0.png" alt="" className="img fruit-animation fruit purple" />
-                                        {/* [D] 열린 열매 색상 
+                                         [D] 열린 열매 색상 
                                         .fruit.yellow : Yellow 열매
                                         .fruit.orange : Orange 열매
                                         .fruit.pink   : Pink 열매
                                         .fruit.red    : Red 열매
                                         .fruit.purple : Purple 열매
-                                        */}
+                                       
                                     </div>
                                     <div className="img-wrap img2">
                                         <img src="/@resource/images/event/sequence/fruit_orange/fruit_orange_0.png" alt="" className="img fruit-animation fruit red" />
                                     </div>
                                     <div className="img-wrap img3">
                                         <img src="/@resource/images/event/sequence/fruit_red/fruit_red_0.png" alt="" className="img fruit-animation fruit orange" />
-                                    </div>
+                                    </div> */}
                                 </div>
-                                <div className="fruit-brunch bottom fruit-3 growing"> {/* [D]  
+                                
+                                {/* [D]  
                                      * 열매 생겼을때 : .fruit-brunch.growing
                                      * 열매 갯수 상태 
                                     .fruit-brunch.fruit-1 : 열매 하나
                                     .fruit-brunch.fruit-2 : 열매 두개
                                     .fruit-brunch.fruit-3 : 열매 세개 */}
-                                    <div className="img-wrap img1">
+                                 <div className={`fruit-brunch bottom growing ${axioData?.userInfo?.tt_bean_count < 4 ? "" : "fruit-"+(axioData?.userInfo?.tt_bean_count-3)} `}>
+                                     
+                                    {/* <div className="img-wrap img1">
                                         <img src="/@resource/images/event/sequence/fruit_red/fruit_red_0.png" alt="" className="img fruit-animation fruit red" />
                                     </div>
                                     <div className="img-wrap img3">
@@ -410,8 +453,8 @@ export default function Index() {
                                     </div>
                                     <div className="img-wrap img2">
                                         <img src="/@resource/images/event/sequence/fruit_red/fruit_red_0.png" alt="" className="img fruit-animation fruit purple" />
-                                    </div>
-                                </div>
+                                    </div> */}
+                                </div> 
                             </div>
                             <div className="float sequence-water">
                                 <img src="/@resource/images/event/sequence/water/water_25.png" alt="물" className="img water-animation" />
