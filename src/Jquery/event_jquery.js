@@ -504,7 +504,6 @@ export const fn_action = (type) =>{
             heart();
         },50);
     }
-    setCookie(`action_${type}`, true, { expiresHours: true });
 }
 
 // 인트로 - 커피나무 키우러가기 버튼

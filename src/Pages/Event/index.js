@@ -11,7 +11,7 @@ import { Link,useParams,useHistory } from "react-router-dom";
 import {fn_click_init,fn_click_off,fn_first_init,fn_reset_interval,fn_action,fn_event_start} from "Jquery/event_jquery";
 import { tabLink } from "Jquery/Jquery";
 import { Swiper } from "swiper/react";
-import { getCookieValue } from "Config/GlobalJs";
+import { getCookieValue,setCookie } from "Config/GlobalJs";
 
 import { SERVER_DALKOMM_SUGAR } from "Config/Server";
 
@@ -190,7 +190,7 @@ export default function Index() {
   }
 
   const handleAction = (type) => {
-      if(getCookieValue(`action_${type}`)){
+      if(getCookieValue(`action_${type}`)==="true"){
           alert('오늘은 이미 액션을 했습니다.');
       }else{
         axios
@@ -208,6 +208,7 @@ export default function Index() {
                   };
                 });
             }
+            setCookie(`action_${type}`, true, { expiresHours: true });
             fn_action(type);
           })
         );

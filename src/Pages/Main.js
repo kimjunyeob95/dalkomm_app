@@ -277,7 +277,7 @@ export function Main(props) {
   const fn_dev = () => {
     const {login_email,mobile,name,birthday} = axioData.userData;
     dev_count++;
-    if (dev_count === 2) {
+    if (dev_count === 5) {
       history.push(`/event/${login_email}/${mobile}/${decodeURI(name)}/${birthday}`);
       // history.push("/dev");
     }
@@ -342,7 +342,7 @@ export function Main(props) {
               {/* myinfo-wrap */}
               {state?.loginFlag ? (
                 <div className="item my-info">
-                  <p className="user">
+                  <p className="user" onClick={()=>fn_dev()}>
                     <span className="fc-orange">{decodeURI(axioData?.res3_data?.user?.user_name)}</span> 고객님
                   </p>
                   <button
