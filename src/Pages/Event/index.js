@@ -11,6 +11,7 @@ import { Link,useParams,useHistory } from "react-router-dom";
 import {fn_click_init,fn_click_off,fn_first_init,fn_reset_interval,fn_action,fn_event_start} from "Jquery/event_jquery";
 import { tabLink } from "Jquery/Jquery";
 import { Swiper } from "swiper/react";
+import { getCookieValue } from "Config/GlobalJs";
 
 import { SERVER_DALKOMM_SUGAR } from "Config/Server";
 
@@ -189,24 +190,29 @@ export default function Index() {
   }
 
   const handleAction = (type) => {
-    axios
-    .all([
-      axios.get(`${SERVER_DALKOMM_SUGAR}/api/event/postAction?tu_email=${tu_email}`),
-    ])
-    .then(
-      axios.spread((res1) => {
-        if(res1.data.code==="true"){
-            let userInfo = {...axioData.userInfo,tu_possible_action: "F"};
-            setData((origin) => {
-              return {
-                ...origin,
-                userInfo,
-              };
-            });
-        }
-        fn_action(type);
-      })
-    );
+      if(getCookieValue(`action_${type}`)){
+          alert('오늘은 이미 액션을 했습니다.');
+      }else{
+        axios
+        .all([
+          axios.get(`${SERVER_DALKOMM_SUGAR}/api/event/postAction?tu_email=${tu_email}`),
+        ])
+        .then(
+          axios.spread((res1) => {
+            if(res1.data.code==="true"){
+                let userInfo = {...axioData.userInfo,tu_possible_action: "F"};
+                setData((origin) => {
+                  return {
+                    ...origin,
+                    userInfo,
+                  };
+                });
+            }
+            fn_action(type);
+          })
+        );
+      }
+    
   }
 
   const fn_fruit_markup = () => {

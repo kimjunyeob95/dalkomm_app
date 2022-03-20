@@ -90,10 +90,15 @@ export function setCookie(name, value, options = {}) {
     // 필요한 경우, 옵션 기본값을 설정할 수도 있습니다.
     ...options,
   };
+  var date = new Date();
   if (options.expires) {
-    var date = new Date();
     date.setDate(date.getDate() + options.expires);
     options.expires = date.toGMTString();
+  }
+  if (options.expiresHours) {
+    //내일 자정까지 설정
+    let max_time = date.setUTCHours(24,0,0,0);
+    options.expires = new Date(max_time).toGMTString();
   }
 
   let updatedCookie = "";

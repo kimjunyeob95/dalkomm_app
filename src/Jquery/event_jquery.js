@@ -3,6 +3,7 @@
 /* eslint-disable no-unused-vars */
 import $ from "jquery";
 import { modalClose } from "./Jquery";
+import { setCookie } from "Config/GlobalJs";
 
 var fn_interval1,fn_interval2,fn_interval3,fn_interval4,fn_interval5,fn_interval6,fn_interval7,fn_interval8,fn_interval9,fn_interval10,fn_interval11,fn_interval12,fn_interval13,fn_interval14;
 
@@ -503,6 +504,7 @@ export const fn_action = (type) =>{
             heart();
         },50);
     }
+    setCookie(`action_${type}`, true, { expiresHours: true });
 }
 
 // 인트로 - 커피나무 키우러가기 버튼
@@ -562,7 +564,7 @@ export const fn_click_init = () => {
                 step4roop();
             }, 20);
         }else{
-            alert('수확할 열매가 없습니다.');
+            alert('수확 할 열매가 없습니다.');
         }
     });
 
@@ -600,10 +602,7 @@ export const fn_click_off = () => {
     $('.btn.fruit-red').off('click');
     // 커피열매 교환 - purple 열매 교환하기 버튼
     $('.btn.fruit-pruple').off('click');
-    // 햇빛
-    $('.btn.sunshine').off('click');
-    $('.btn.water').off('click');
-    $('.btn.heart').off('click');
+
     // 메인  - 인트로 시작 버튼 
     $('#CoffeeTreeHome .btn.webtoon-start').off('click');
     // 나의 커피열매 현황 버튼
