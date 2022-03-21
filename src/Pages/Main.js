@@ -76,10 +76,10 @@ export function Main(props) {
           axios.post(`${SERVER_DALKOMM_SUGAR}/api/getMd`),
           axios.post(`${SERVER_DALKOMM_SUGAR}/api/getMsg`),
           axios.post(`${SERVER_DALKOMM_SUGAR}/api/contentList`),
-          axios.post(`${SERVER_DALKOMM}/app/api/account/simple/profile`, body, header_config)
+          axios.post(`${SERVER_DALKOMM}/app/api/account/simple/profile`, body, header_config),
         ])
         .then(
-          axios.spread((res1, res2, res3, res4, res5, res6, res7, res8, res9,res10) => {
+          axios.spread((res1, res2, res3, res4, res5, res6, res7, res8, res9, res10) => {
             let res1_data = res1.data;
             let res2_data = res2?.data?.data;
             let res3_data = res3.data.data;
@@ -274,15 +274,22 @@ export function Main(props) {
     $("#popupPriceAdjust").removeClass("overlay");
     $("body").removeClass("modal-opened");
   };
-  const fn_dev = () => {
-    const {login_email,mobile,name,birthday} = axioData.userData;
+  const fn_dev = (type = "dev") => {
     dev_count++;
     if (dev_count === 5) {
-      history.push(`/event/${login_email}/${mobile}/${decodeURI(name)}/${birthday}`);
-      // history.push("/dev");
+      history.push("/dev");
     }
   };
-
+  const fn_event = () => {
+    const { login_email, mobile, name, birthday } = axioData?.userData;
+    if (!state.loginFlag) {
+      handleLogin();
+    } else {
+      if (login_email && mobile && name && birthday) {
+        history.push(`/event/${login_email}/${mobile}/${decodeURI(name)}/${birthday}`);
+      }
+    }
+  };
   //axios 반환 시
   if (axioData) {
     return (
@@ -342,7 +349,7 @@ export function Main(props) {
               {/* myinfo-wrap */}
               {state?.loginFlag ? (
                 <div className="item my-info">
-                  <p className="user" onClick={()=>fn_dev()}>
+                  <p className="user" onClick={() => fn_dev()}>
                     <span className="fc-orange">{decodeURI(axioData?.res3_data?.user?.user_name)}</span> 고객님
                   </p>
                   <button
@@ -1095,6 +1102,21 @@ export function Main(props) {
               <button type="button" id="moveScrollTop" className="btn scroll-top" onClick={() => moveScrollTop()}>
                 <i className="ico arr-top"></i>
               </button>
+              <div className="overlay event-banner active">
+                <div className="content-wrap">
+                  <button type="button" className="btn btn-close"></button>
+
+                  <button onClick={() => fn_event()} className="item">
+                    <div className="img-wrap">
+                      <img src="/@resource/images/event/banner_coffee.png" alt="달콤커피나무 배너 이미지" className="img" />
+                    </div>
+
+                    <div className="text-wrap">
+                      <img src="/@resource/images/event/banner_text.svg" alt="달콤커피나무" className="img" />
+                    </div>
+                  </button>
+                </div>
+              </div>
             </div>
             {/* // #content */}
           </div>

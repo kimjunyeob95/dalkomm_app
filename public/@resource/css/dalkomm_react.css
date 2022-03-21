@@ -1,5 +1,8 @@
 #content.fade-in {opacity: 0; }
 #content.fade-out {opacity: 1; transition: all 600ms ease-in-out;}
+#event-wrap-id.fade-in {opacity: 0; }
+.overlay.event-banner.active{background: none;}
+#event-wrap-id.fade-out {opacity: 1; transition: all 600ms ease-in-out;}
 .order-state.fade-in {opacity: 0; }
 .order-state.fade-out {opacity: 1; transition: all 600ms ease-in-out;}
 

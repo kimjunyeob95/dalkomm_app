@@ -1,5 +1,8 @@
 @charset "UTF-8";
 
+a,
+button {-webkit-tap-highlight-color: rgba(0,0,0,0);}
+
 button {-webkit-appearance:none; background-color: transparent; border:0 none;font-family: inherit;}
 button:focus,
 a:focus	{outline-color: transparent;outline-style: none;}

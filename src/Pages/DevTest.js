@@ -19,6 +19,16 @@ export default function DevTest() {
       <br />
       <p> nowTime : {nowTime}</p>
       <br />
+      <p> nowTime : {nowTime}</p>
+      <br />
+      <p> nowTime : {nowTime}</p>
+      <br />
+      <p> action_heart : {getCookieValue("action_heart")}</p>
+      <br />
+      <p> action_water : {getCookieValue("action_water")}</p>
+      <br />
+      <p> action_sunshine : {getCookieValue("action_sunshine")}</p>
+      <br />
     </div>
   );
 }
