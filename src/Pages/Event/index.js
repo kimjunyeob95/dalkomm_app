@@ -30,7 +30,6 @@ export default function Index() {
       "나무는 <span class='fc-orange'>빛</span>을 좋아해요!",
     ],
   };
-  const [Init, setInit] = useState(true);
   const [eventStart, setEvent] = useState(false);
   const [loading, setLoading] = useState(false);
   const history = useHistory(true);
@@ -91,23 +90,49 @@ export default function Index() {
       .then(
         axios.spread((res1, res2) => {
           let userType = res1?.data?.msg === "기존유저" ? "기존유저" : "신규유저";
-          let getBean = res2?.data?.data?.getBean;
-          let userInfo = { ...res2?.data?.data?.user };
-          setData((origin) => {
-            return {
-              ...origin,
-              getBean,
-              userInfo,
-              userType,
-            };
-          });
-          fn_first_init();
-          loading_img(get_type(userInfo)).then((res) => {
-            //이미지 미리 불러오기 비동기 처리
-            if (res) {
-              setLoading(true);
-            }
-          });
+          let getBean;
+          let userInfo;
+          if (userType === "기존유저") {
+            userInfo = { ...res2?.data?.data?.user };
+            getBean = res2?.data?.data?.getBean;
+            setData((origin) => {
+              return {
+                ...origin,
+                getBean,
+                userInfo,
+                userType,
+              };
+            });
+            fn_first_init();
+            loading_img(get_type(userInfo)).then((res) => {
+              //이미지 미리 불러오기 비동기 처리
+              if (res) {
+                setLoading(true);
+              }
+            });
+          } else {
+            axios.all([axios.get(`${SERVER_DALKOMM_SUGAR}/api/event/getBean?tu_email=${tu_email}`)]).then(
+              axios.spread((res1_1) => {
+                userInfo = { ...res1_1?.data?.data?.user };
+                getBean = res2?.data?.data?.getBean;
+                setData((origin) => {
+                  return {
+                    ...origin,
+                    getBean,
+                    userInfo,
+                    userType,
+                  };
+                });
+                fn_first_init();
+                loading_img(get_type(userInfo)).then((res) => {
+                  //이미지 미리 불러오기 비동기 처리
+                  if (res) {
+                    setLoading(true);
+                  }
+                });
+              })
+            );
+          }
         })
       );
 
@@ -119,12 +144,14 @@ export default function Index() {
 
   useEffect(() => {
     fn_fruit_update();
-    if (axioData && Init) {
-      fn_click_init();
-      setInit(false);
-    }
     get_titieName();
   }, [axioData]);
+
+  useEffect(() => {
+    if (axioData && loading) {
+      fn_click_init();
+    }
+  }, [loading]);
 
   const goEvent_page = () => {
     if (axioData.userType === "기존유저") {
@@ -198,22 +225,30 @@ export default function Index() {
   };
 
   const handleHarvest = (e) => {
-    if (axioData?.userInfo?.tt_step >= 3) {
-      axios.all([axios.get(`${SERVER_DALKOMM_SUGAR}/api/event/harvestTree?tu_email=${tu_email}`)]).then(
-        axios.spread((res1) => {
-          if (res1.data.code === "true") {
-            let userInfo = { ...axioData?.userInfo, ...res1?.data?.userInfo };
-            let harvestBean = res1?.data?.harvestBean;
-            setData((origin) => {
-              return {
-                ...origin,
-                userInfo,
-                harvestBean,
-              };
-            });
-          }
-        })
-      );
+    if (axioData?.userInfo?.tt_step >= 4) {
+      if ($(e).parent().hasClass("active")) {
+        axios.all([axios.get(`${SERVER_DALKOMM_SUGAR}/api/event/harvestTree?tu_email=${tu_email}`)]).then(
+          axios.spread((res1) => {
+            if (res1.data.code === "true") {
+              let userInfo = { ...axioData?.userInfo, ...res1?.data?.userInfo };
+              let harvestBean = res1?.data?.harvestBean.filter((e) => e?.value > 0);
+              setData((origin) => {
+                return {
+                  ...origin,
+                  userInfo,
+                  harvestBean,
+                };
+              });
+              $("#layerHarvest").addClass("active");
+              $(".game-sec").addClass("complete").removeClass("step2-roop").removeClass("step3-roop").removeClass("step4-roop").removeClass("fruit");
+            }
+          })
+        );
+      } else {
+        alert("수확 할 열매가 없습니다.");
+      }
+    } else {
+      alert("나무가 더 자라야 해요!");
     }
   };
 
@@ -694,10 +729,10 @@ export default function Index() {
               <p className="text">
                 {axioData?.harvestBean?.map((e, i) => {
                   if (e?.value > 0) {
-                    if (i === 4) {
-                      return e.type + " ";
+                    if (i === axioData?.harvestBean?.length - 1) {
+                      return e?.type + " ";
                     } else {
-                      return e.type + ",";
+                      return e?.type + ",";
                     }
                   }
                 })}

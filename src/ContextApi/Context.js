@@ -36,20 +36,38 @@ const fn_dev = () => {
   setCookie("loginFlag", true, { expires: 1000 });
   setCookie(
     "accessToken",
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiVTFTb0I4TXhTUWxMREc0YmtWUjBmRFB0UkxnaTRtd05pK0wwQjJMb1Q2Z3lUallKQlRHcnhkeElmYVZEZHRwQSIsImF1ZCI6IkRBTEtPTU1fQVBQIiwidW5pb25fdXNlcl9pZCI6InE3bEU3SHFKdUdWbEhjNDhld21FOThyRUhaQ1lXU09tcVpXZFFtUEZlUTdJTkNZbXBmaFJxckZjcXNjdDRPRngiLCJpc3MiOiJEQUxLT01NIiwidXNlcl9sb2dpbl90eXBlIjoiRCIsImlhdCI6MTY0MDA0OTY2Mn0.OYjLsuDZpQL0-NPu70HbNQb-3w6wxYzeEv4SZOT7YE8",
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoicnlzQTJGdFg1aFNiSDI1NW9YdkJUdjZ4TXRLRUxybFBZb2l1WFJORDdjWGxzd2pYNVQvYlQrRWFtc20xUHkzTiIsImF1ZCI6IkRBTEtPTU1fQVBQIiwidW5pb25fdXNlcl9pZCI6IllaZG40TUNIc0NRTDlOejFtTFEweUsrcVB6alZrdWNaUzdqdmtkdHI3T2dCcWJ6alBERVJnZEFYN25zU0MwMkoiLCJpc3MiOiJEQUxLT01NIiwidXNlcl9sb2dpbl90eXBlIjoiRCIsImlhdCI6MTY0ODAxNjU4M30.6jdC5fuW7bqevpafG9-1DB1JwSREueLCC0wRFA_dh8o",
     { expires: 1000 }
   );
   setCookie("app_version", "3.0.0", { expires: 1000 });
   setCookie("os", "ios", { expires: 1000 });
   setCookie("isApp", "Y", { expires: 1000 });
-  setCookie("auth", "Basic ZGFsa29tbTpkYWxrb21tX2FwcDszNjdjZjUxMjFkM2I3NTc5ZGVlMDA3YTliODcwNTJiYmU3ZDNhNmY2OzIwMjExMjIxMTEyMDM2", { expires: 1000 });
+  setCookie("auth", "Basic ZGFsa29tbTpkYWxrb21tX2FwcDs3NDk0Mjk2OTNlMDUwMzRiZTI3YmQ2NThmYWMyOTQ3MGRmN2U5NmNiOzIwMjIwMzIzMTg1NTQx", { expires: 1000 });
   setCookie("latitude", 37.507232666015625, { expires: 1000 });
   setCookie("longitude", 127.05642398540016, { expires: 1000 });
   setCookie("udid", "A0F21C7B-3FDA-48A6-AA1D-07490E7916A4", { expires: 1000 });
   setCookie("app_type", "I", { expires: 1000 });
 };
 
-//fn_product();
+const fn_dev_ex = () => {
+  //구회원
+  setCookie("loginFlag", true, { expires: 1000 });
+  setCookie(
+    "accessToken",
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiS1F1Sk1IdnhCNzVCU3J1V2JlNmlvUT09IiwiYXVkIjoiREFMS09NTV9BUFAiLCJ1bmlvbl91c2VyX2lkIjpudWxsLCJpc3MiOiJEQUxLT01NIiwidXNlcl9sb2dpbl90eXBlIjoiRCIsImlhdCI6MTY0ODAxMzk2NH0.-5jcCH1b-lvpYam-do2pRjio3kHkzbl8q4wB7bhnGpM",
+    { expires: 1000 }
+  );
+  setCookie("app_version", "3.0.0", { expires: 1000 });
+  setCookie("os", "ios", { expires: 1000 });
+  setCookie("isApp", "Y", { expires: 1000 });
+  setCookie("auth", "Basic ZGFsa29tbTpkYWxrb21tX2FwcDs5ZjYzNDQ1ODQyOGI5NGQ4MzUwYzY2ZTk5YzRlMzg1YmRmNjJiZTZlOzIwMjIwMzIzMTUzOTM4", { expires: 1000 });
+  setCookie("latitude", 37.507232666015625, { expires: 1000 });
+  setCookie("longitude", 127.05642398540016, { expires: 1000 });
+  setCookie("udid", "A0F21C7B-3FDA-48A6-AA1D-07490E7916A4", { expires: 1000 });
+  setCookie("app_type", "I", { expires: 1000 });
+};
+
+//fn_dev();
 
 export const authContext = React.createContext();
 

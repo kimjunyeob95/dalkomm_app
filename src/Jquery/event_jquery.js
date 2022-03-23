@@ -42,7 +42,6 @@ export function loading_img(type) {
   let total_count = 0;
   let count_array;
   var loadCnt = 0;
-  let flag = false;
   if (type === "ready") {
     count_array = [46, 59, 67];
     imageArray = new Array(count_array?.length);
@@ -188,8 +187,8 @@ export function loading_img(type) {
       }
     }
   }
-
   function fn_promise(count_array, imageArray) {
+    //react state hooks 처리로 인해 비동기로 반환함
     return new Promise((resolve) => {
       for (let i = 0; i < count_array?.length; i++) {
         for (let j = 0; j < imageArray[i]?.length; j++) {
@@ -798,18 +797,18 @@ export const fn_click_init = () => {
   });
 
   // 열매 따기 팝업 확인 후 커피나무 시퀀스 동작 실행
-  $(".btn.harvest").click(function () {
-    if ($(this).parent().hasClass("active")) {
-      $("#layerHarvest").addClass("active");
-      $(".game-sec").addClass("complete").removeClass("step2-roop").removeClass("step3-roop").removeClass("step4-roop").removeClass("fruit");
+  // $(".btn.harvest").click(function () {
+  //   if ($(this).parent().hasClass("active")) {
+  //     $("#layerHarvest").addClass("active");
+  //     $(".game-sec").addClass("complete").removeClass("step2-roop").removeClass("step3-roop").removeClass("step4-roop").removeClass("fruit");
 
-      // fn_interval14 = setInterval(function () {
-      //   step4roop();
-      // }, 20);
-    } else {
-      alert("수확 할 열매가 없습니다.");
-    }
-  });
+  //     // fn_interval14 = setInterval(function () {
+  //     //   step4roop();
+  //     // }, 20);
+  //   } else {
+  //     alert("수확 할 열매가 없습니다.");
+  //   }
+  // });
 
   // 팝업 뒤로가기
   $("#CoffeeTreeIntro .btn.back").click(function () {
