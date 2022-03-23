@@ -8,6 +8,13 @@ import { getCookieValue, checkMobile, setCookie } from "Config/GlobalJs";
 import { SERVER_DALKOMM } from "Config/Server";
 const fn_product = () => {
   setCookie("loginFlag", true, { expires: 1000 });
+  // setCookie(
+  //   "accessToken",
+  //   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiTkdwcW1nRERua0szL25JVXlXODF1UT09IiwiYXVkIjoiREFMS09NTV9BUFAiLCJ1bmlvbl91c2VyX2lkIjpudWxsLCJpc3MiOiJEQUxLT01NIiwidXNlcl9sb2dpbl90eXBlIjoiRCIsImlhdCI6MTY0NzkxNDMwOH0.qeYlULikRWtE3VZwoqa9NfrVKVAk5hqxexFVRu8hnfU",
+  //   {
+  //     expires: 1000,
+  //   }
+  // );
   setCookie(
     "accessToken",
     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoidWxIdzFDYVlEaFJSZDR2NjdsSU1PTE0wOHJaNnFFMEEyenRndXl5MTFvSkRQS2RxR3VBbm9UWUpzZEZJSHI5eiIsImF1ZCI6IkRBTEtPTU1fQVBQIiwidW5pb25fdXNlcl9pZCI6InNCUFhFbnpscXkwUTNQZTQ3eVZLYnJrSnRyLzU1Y3AxUVBhQzZkZGVNTm93eDJaN2pPbzlSekdodTI4L2t3MTUiLCJpc3MiOiJEQUxLT01NIiwidXNlcl9sb2dpbl90eXBlIjoiRCIsImlhdCI6MTYzOTM5NTUxM30.116_x9aJneio-Gsv0l9rI9GI1MEn2XlVJTEps64v6r8",
@@ -17,9 +24,11 @@ const fn_product = () => {
   setCookie("os", "ios", { expires: 1000 });
   setCookie("isApp", "Y", { expires: 1000 });
   setCookie("auth", "Basic ZGFsa29tbTpkYWxrb21tX2FwcDtmMjQ4YWY0YTRlN2RlZDhhNDc1YmIxMzdkOTVmMDYxNzcyMTllZDAwOzIwMjExMjEzMjE0MjQ4", { expires: 1000 });
+  // setCookie("auth", "Basic ZGFsa29tbTpkYWxrb21tX2FwcDs3MmU5YzdiY2NmMDE5OWRlOTFjMDdiYjdiY2MxNDMxOGM0ZWMwYzYxOzIwMjIwMzIyMTE1OTI4", { expires: 1000 });
   setCookie("latitude", 37.507232666015625, { expires: 1000 });
   setCookie("longitude", 127.05642398540016, { expires: 1000 });
   setCookie("udid", "8280af29616a4ec1bb85a9ed17b9594e828e8140", { expires: 1000 });
+  // setCookie("udid", "A8450275-40C7-45A7-9640-C8D658E51401", { expires: 1000 });
   setCookie("app_type", "I", { expires: 1000 });
 };
 
@@ -40,7 +49,7 @@ const fn_dev = () => {
   setCookie("app_type", "I", { expires: 1000 });
 };
 
-//fn_dev();
+//fn_product();
 
 export const authContext = React.createContext();
 

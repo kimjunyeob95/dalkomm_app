@@ -142,8 +142,16 @@ export default function StoryDetail() {
                       <p className="date">{axioData?.contentData?.data?.date}</p>
                     </div>
                   </div>
+
                   <div className="item board">
                     <div dangerouslySetInnerHTML={{ __html: axioData?.contentDetail }}></div>
+                    {axioData?.contentData?.data?.cate === "PICK" && axioData?.contentData?.data?.tb_buyurl && (
+                      <div className="btn-area">
+                        <a className="btn dark full large window_open_a" data-href={axioData?.contentData?.data?.tb_buyurl}>
+                          지금 바로 구매하기
+                        </a>
+                      </div>
+                    )}
                   </div>
                 </section>
                 {axioData?.contentData?.menu?.length > 0 && (

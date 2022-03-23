@@ -2,6 +2,7 @@
 #content.fade-out {opacity: 1; transition: all 600ms ease-in-out;}
 #event-wrap-id.fade-in {opacity: 0; }
 .overlay.event-banner.active{background: none;}
+.story-detail-wrap .btn-area .btn {background: #fff; color: #ff592e; font-weight: 900;font-size: 4.300vw;letter-spacing: -0.120vw;border: 1px solid #ff592e; width: 95%; margin: 0 auto;height: 74px;line-height: 74px;}
 #event-wrap-id.fade-out {opacity: 1; transition: all 600ms ease-in-out;}
 .order-state.fade-in {opacity: 0; }
 .order-state.fade-out {opacity: 1; transition: all 600ms ease-in-out;}

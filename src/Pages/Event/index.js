@@ -10,7 +10,7 @@ import $ from "jquery";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link, useParams, useHistory } from "react-router-dom";
-import { fn_click_init, fn_click_off, fn_first_init, fn_reset_interval, fn_action, fn_event_start } from "Jquery/event_jquery";
+import { fn_click_init, fn_click_off, fn_first_init, fn_reset_interval, fn_action, fn_event_start, loading_img } from "Jquery/event_jquery";
 import { tabLink } from "Jquery/Jquery";
 import { Swiper } from "swiper/react";
 
@@ -31,6 +31,7 @@ export default function Index() {
     ],
   };
   const [Init, setInit] = useState(true);
+  const [eventStart, setEvent] = useState(false);
   const [loading, setLoading] = useState(false);
   const history = useHistory(true);
   const { tu_email, tu_phone, tu_nick, tu_birthday } = useParams();
@@ -61,7 +62,7 @@ export default function Index() {
           ? "step2-looping"
           : axioData?.tt_step === 3
           ? "step3-looping"
-          : axioData?.tt_step === 4 && axioData?.tt_bean_count === 0
+          : axioData?.tt_step === 4
           ? "step4-looping"
           : "";
     } else if (axioData?.tt_upgrade_flag === "T") {
@@ -78,167 +79,6 @@ export default function Index() {
     }
     return get_type;
   };
-  function loading_img(type) {
-    let total_count = 0;
-    let count_array;
-    let imageArray;
-    var loadCnt = 0;
-    if (type === "ready") {
-      count_array = [46, 59, 67];
-      imageArray = new Array(count_array?.length);
-    } else if (type === "step1") {
-      count_array = [46, 59, 32, 58, 67];
-      imageArray = new Array(count_array?.length);
-    } else if (type === "step1-looping") {
-      count_array = [46, 59, 58, 67];
-      imageArray = new Array(count_array?.length);
-    } else if (type === "step2") {
-      count_array = [46, 59, 66, 62, 67];
-      imageArray = new Array(count_array?.length);
-    } else if (type === "step2-looping") {
-      count_array = [46, 59, 62, 67];
-      imageArray = new Array(count_array?.length);
-    } else if (type === "step3") {
-      count_array = [46, 59, 75, 62, 67];
-      imageArray = new Array(count_array?.length);
-    } else if (type === "step3-looping") {
-      count_array = [46, 59, 62, 67];
-      imageArray = new Array(count_array?.length);
-    } else if (type === "step4") {
-      count_array = [46, 59, 85, 218, 67];
-      imageArray = new Array(count_array?.length);
-    } else if (type === "step4-looping") {
-      count_array = [15, 15, 15, 15, 15, 46, 59, 218, 67];
-      imageArray = new Array(count_array?.length);
-    }
-
-    for (let index = 0; index < imageArray?.length; index++) {
-      imageArray[index] = new Array(count_array[index]);
-    }
-    for (let i = 0; i < count_array?.length; i++) {
-      total_count += count_array[i];
-      for (let j = 0; j < imageArray[i]?.length; j++) {
-        imageArray[i][j] = new Image();
-        if (type === "ready") {
-          if (i === 0) {
-            imageArray[i][j].src = "/@resource/images/event/sequence/heart/heart_" + j + ".png";
-          } else if (i === 1) {
-            imageArray[i][j].src = "/@resource/images/event/sequence/paper/paper_" + j + ".png";
-          } else if (i === 2) {
-            imageArray[i][j].src = "/@resource/images/event/sequence/water/water_" + j + ".png";
-          }
-        } else if (type === "step1") {
-          if (i === 0) {
-            imageArray[i][j].src = "/@resource/images/event/sequence/heart/heart_" + j + ".png";
-          } else if (i === 1) {
-            imageArray[i][j].src = "/@resource/images/event/sequence/paper/paper_" + j + ".png";
-          } else if (i === 2) {
-            imageArray[i][j].src = "/@resource/images/event/sequence/tree1/tree_step1_" + j + ".png";
-          } else if (i === 3) {
-            imageArray[i][j].src = "/@resource/images/event/sequence/tree1_roop/tree_step1_roop_" + j + ".png";
-          } else if (i === 4) {
-            imageArray[i][j].src = "/@resource/images/event/sequence/water/water_" + j + ".png";
-          }
-        } else if (type === "step1-looping") {
-          if (i === 0) {
-            imageArray[i][j].src = "/@resource/images/event/sequence/heart/heart_" + j + ".png";
-          } else if (i === 1) {
-            imageArray[i][j].src = "/@resource/images/event/sequence/paper/paper_" + j + ".png";
-          } else if (i === 2) {
-            imageArray[i][j].src = "/@resource/images/event/sequence/tree1_roop/tree_step1_roop_" + j + ".png";
-          } else if (i === 3) {
-            imageArray[i][j].src = "/@resource/images/event/sequence/water/water_" + j + ".png";
-          }
-        } else if (type === "step2") {
-          if (i === 0) {
-            imageArray[i][j].src = "/@resource/images/event/sequence/heart/heart_" + j + ".png";
-          } else if (i === 1) {
-            imageArray[i][j].src = "/@resource/images/event/sequence/paper/paper_" + j + ".png";
-          } else if (i === 2) {
-            imageArray[i][j].src = "/@resource/images/event/sequence/tree2/tree_step2_" + j + ".png";
-          } else if (i === 3) {
-            imageArray[i][j].src = "/@resource/images/event/sequence/tree2_roop/tree_step2_roop_" + j + ".png";
-          } else if (i === 4) {
-            imageArray[i][j].src = "/@resource/images/event/sequence/water/water_" + j + ".png";
-          }
-        } else if (type === "step2-looping") {
-          if (i === 0) {
-            imageArray[i][j].src = "/@resource/images/event/sequence/heart/heart_" + j + ".png";
-          } else if (i === 1) {
-            imageArray[i][j].src = "/@resource/images/event/sequence/paper/paper_" + j + ".png";
-          } else if (i === 2) {
-            imageArray[i][j].src = "/@resource/images/event/sequence/tree2_roop/tree_step2_roop_" + j + ".png";
-          } else if (i === 3) {
-            imageArray[i][j].src = "/@resource/images/event/sequence/water/water_" + j + ".png";
-          }
-        } else if (type === "step3") {
-          if (i === 0) {
-            imageArray[i][j].src = "/@resource/images/event/sequence/heart/heart_" + j + ".png";
-          } else if (i === 1) {
-            imageArray[i][j].src = "/@resource/images/event/sequence/paper/paper_" + j + ".png";
-          } else if (i === 2) {
-            imageArray[i][j].src = "/@resource/images/event/sequence/tree3/tree_step3_" + j + ".png";
-          } else if (i === 3) {
-            imageArray[i][j].src = "/@resource/images/event/sequence/tree3_roop/tree_step3_roop_" + j + ".png";
-          } else if (i === 4) {
-            imageArray[i][j].src = "/@resource/images/event/sequence/water/water_" + j + ".png";
-          }
-        } else if (type === "step3-looping") {
-          if (i === 0) {
-            imageArray[i][j].src = "/@resource/images/event/sequence/heart/heart_" + j + ".png";
-          } else if (i === 1) {
-            imageArray[i][j].src = "/@resource/images/event/sequence/paper/paper_" + j + ".png";
-          } else if (i === 2) {
-            imageArray[i][j].src = "/@resource/images/event/sequence/tree3_roop/tree_step3_roop_" + j + ".png";
-          } else if (i === 3) {
-            imageArray[i][j].src = "/@resource/images/event/sequence/water/water_" + j + ".png";
-          }
-        } else if (type === "step4") {
-          if (i === 0) {
-            imageArray[i][j].src = "/@resource/images/event/sequence/heart/heart_" + j + ".png";
-          } else if (i === 1) {
-            imageArray[i][j].src = "/@resource/images/event/sequence/paper/paper_" + j + ".png";
-          } else if (i === 2) {
-            imageArray[i][j].src = "/@resource/images/event/sequence/tree4/tree_step4_" + j + ".png";
-          } else if (i === 3) {
-            imageArray[i][j].src = "/@resource/images/event/sequence/tree4_roop/tree_step4_roop_" + j + ".png";
-          } else if (i === 4) {
-            imageArray[i][j].src = "/@resource/images/event/sequence/water/water_" + j + ".png";
-          }
-        } else if (type === "step4-looping") {
-          if (i === 0) {
-            imageArray[i][j].src = "/@resource/images/event/sequence/fruit_orange/fruit_orange_" + j + ".png";
-          } else if (i === 1) {
-            imageArray[i][j].src = "/@resource/images/event/sequence/fruit_pink/fruit_pink_" + j + ".png";
-          } else if (i === 2) {
-            imageArray[i][j].src = "/@resource/images/event/sequence/fruit_purple/fruit_purple_" + j + ".png";
-          } else if (i === 3) {
-            imageArray[i][j].src = "/@resource/images/event/sequence/fruit_red/fruit_red_" + j + ".png";
-          } else if (i === 4) {
-            imageArray[i][j].src = "/@resource/images/event/sequence/fruit_yellow/fruit_yellow_" + j + ".png";
-          } else if (i === 5) {
-            imageArray[i][j].src = "/@resource/images/event/sequence/heart/heart_" + j + ".png";
-          } else if (i === 6) {
-            imageArray[i][j].src = "/@resource/images/event/sequence/paper/paper_" + j + ".png";
-          } else if (i === 7) {
-            imageArray[i][j].src = "/@resource/images/event/sequence/tree4_roop/tree_step4_roop_" + j + ".png";
-          } else if (i === 8) {
-            imageArray[i][j].src = "/@resource/images/event/sequence/water/water_" + j + ".png";
-          }
-        }
-      }
-    }
-    for (let i = 0; i < count_array?.length; i++) {
-      for (let j = 0; j < imageArray[i]?.length; j++) {
-        imageArray[i][j].onload = () => {
-          loadCnt++;
-          if (loadCnt >= total_count) {
-            setLoading(false);
-          }
-        };
-      }
-    }
-  }
 
   useEffect(() => {
     axios
@@ -262,7 +102,12 @@ export default function Index() {
             };
           });
           fn_first_init();
-          loading_img(get_type(userInfo));
+          loading_img(get_type(userInfo)).then((res) => {
+            //이미지 미리 불러오기 비동기 처리
+            if (res) {
+              setLoading(true);
+            }
+          });
         })
       );
 
@@ -284,15 +129,21 @@ export default function Index() {
   const goEvent_page = () => {
     if (axioData.userType === "기존유저") {
       $("#CoffeeTreeGame").addClass("active");
-      fn_event_start();
-      fn_fruit_markup();
+      if (!eventStart) {
+        fn_event_start();
+        fn_fruit_markup();
+        setEvent(true);
+      }
     } else {
       //신규유저
       if ($("#CoffeeTreeIntro").hasClass("active")) {
         $("#CoffeeTreeIntro").removeClass("active");
         $("#CoffeeTreeGame").addClass("active");
-        fn_event_start();
-        fn_fruit_markup();
+        if (!eventStart) {
+          fn_event_start();
+          fn_fruit_markup();
+          setEvent(true);
+        }
       } else {
         $("#CoffeeTreeGame").removeClass("active");
         $("#CoffeeTreeIntro").addClass("active");
@@ -456,7 +307,7 @@ export default function Index() {
     }
   };
 
-  if (axioData && !loading) {
+  if (axioData && loading) {
     return (
       <React.Fragment>
         {/* 나의 달콤 커피나무 - 메인 */}

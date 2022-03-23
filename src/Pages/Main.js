@@ -274,7 +274,7 @@ export function Main(props) {
     $("#popupPriceAdjust").removeClass("overlay");
     $("body").removeClass("modal-opened");
   };
-  const fn_dev = (type = "dev") => {
+  const fn_dev = () => {
     dev_count++;
     if (dev_count === 5) {
       history.push("/dev");
@@ -349,7 +349,7 @@ export function Main(props) {
               {/* myinfo-wrap */}
               {state?.loginFlag ? (
                 <div className="item my-info">
-                  <p className="user" onClick={() => fn_dev()}>
+                  <p className="user">
                     <span className="fc-orange">{decodeURI(axioData?.res3_data?.user?.user_name)}</span> 고객님
                   </p>
                   <button
@@ -1102,7 +1102,7 @@ export function Main(props) {
               <button type="button" id="moveScrollTop" className="btn scroll-top" onClick={() => moveScrollTop()}>
                 <i className="ico arr-top"></i>
               </button>
-              <div className="overlay event-banner active">
+              {/* <div className="overlay event-banner active">
                 <div className="content-wrap">
                   <button type="button" className="btn btn-close"></button>
 
@@ -1116,7 +1116,7 @@ export function Main(props) {
                     </div>
                   </button>
                 </div>
-              </div>
+              </div> */}
             </div>
             {/* // #content */}
           </div>
