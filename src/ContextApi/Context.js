@@ -54,19 +54,12 @@ const fn_dev_ex = () => {
   setCookie("loginFlag", true, { expires: 1000 });
   setCookie(
     "accessToken",
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiS1F1Sk1IdnhCNzVCU3J1V2JlNmlvUT09IiwiYXVkIjoiREFMS09NTV9BUFAiLCJ1bmlvbl91c2VyX2lkIjpudWxsLCJpc3MiOiJEQUxLT01NIiwidXNlcl9sb2dpbl90eXBlIjoiRCIsImlhdCI6MTY0ODAxMzk2NH0.-5jcCH1b-lvpYam-do2pRjio3kHkzbl8q4wB7bhnGpM",
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiVGlXVWtXVzNHWHdWSWVoQjkrdkN4QT09IiwiYXVkIjoiREFMS09NTV9BUFAiLCJ1bmlvbl91c2VyX2lkIjpudWxsLCJpc3MiOiJEQUxLT01NIiwidXNlcl9sb2dpbl90eXBlIjoiRCIsImlhdCI6MTY0ODA4ODA3M30.9_ih9r6GcZk1arhEPtfsXEXmIv4HReBW62-ynafHJyM",
     { expires: 1000 }
   );
-  setCookie("app_version", "3.0.0", { expires: 1000 });
-  setCookie("os", "ios", { expires: 1000 });
-  setCookie("isApp", "Y", { expires: 1000 });
-  setCookie("auth", "Basic ZGFsa29tbTpkYWxrb21tX2FwcDs5ZjYzNDQ1ODQyOGI5NGQ4MzUwYzY2ZTk5YzRlMzg1YmRmNjJiZTZlOzIwMjIwMzIzMTUzOTM4", { expires: 1000 });
-  setCookie("latitude", 37.507232666015625, { expires: 1000 });
-  setCookie("longitude", 127.05642398540016, { expires: 1000 });
+  setCookie("auth", "Basic ZGFsa29tbTpkYWxrb21tX2FwcDsxNmYwY2FkMDBkMTk5ZmY0MTgxZDRhNGMzY2E2ZWExYWEzMTc2ZTA4OzIwMjIwMzI0MTIxNDQy", { expires: 1000 });
   setCookie("udid", "A0F21C7B-3FDA-48A6-AA1D-07490E7916A4", { expires: 1000 });
-  setCookie("app_type", "I", { expires: 1000 });
 };
-
 //fn_dev();
 
 export const authContext = React.createContext();
