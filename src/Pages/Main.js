@@ -1102,21 +1102,23 @@ export function Main(props) {
               <button type="button" id="moveScrollTop" className="btn scroll-top" onClick={() => moveScrollTop()}>
                 <i className="ico arr-top"></i>
               </button>
-              <div className="overlay event-banner active">
-                <div className="content-wrap">
-                  <button type="button" className="btn btn-close"></button>
+              {axioData?.userData?.is_union_user && (
+                <div className="overlay event-banner active">
+                  <div className="content-wrap">
+                    <button type="button" className="btn btn-close"></button>
 
-                  <button onClick={() => fn_event()} className="item">
-                    <div className="img-wrap">
-                      <img src="/@resource/images/event/banner_coffee.png" alt="달콤커피나무 배너 이미지" className="img" />
-                    </div>
+                    <button onClick={() => fn_event()} className="item">
+                      <div className="img-wrap">
+                        <img src="/@resource/images/event/banner_coffee.png" alt="달콤커피나무 배너 이미지" className="img" />
+                      </div>
 
-                    <div className="text-wrap">
-                      <img src="/@resource/images/event/banner_text.svg" alt="달콤커피나무" className="img" />
-                    </div>
-                  </button>
+                      <div className="text-wrap">
+                        <img src="/@resource/images/event/banner_text.svg" alt="달콤커피나무" className="img" />
+                      </div>
+                    </button>
+                  </div>
                 </div>
-              </div>
+              )}
             </div>
             {/* // #content */}
           </div>
