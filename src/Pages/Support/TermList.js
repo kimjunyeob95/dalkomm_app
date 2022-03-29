@@ -42,7 +42,7 @@ export default function TermList() {
               <ul className="data-list">
                 <li>
                   <a onClick={() => handleDetail(`/support/terms`)} className="item list">
-                    다날에프엔비 이용약관
+                    서비스 이용약관
                   </a>
                 </li>
                 <li>

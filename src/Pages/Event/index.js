@@ -10,7 +10,16 @@ import $ from "jquery";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link, useParams, useHistory } from "react-router-dom";
-import { fn_click_init, fn_click_off, fn_first_init, fn_reset_interval, fn_action, fn_event_start, loading_img } from "Jquery/event_jquery";
+import {
+  fn_click_init,
+  fn_click_off,
+  fn_first_init,
+  fn_reset_interval,
+  fn_action,
+  fn_event_start,
+  loading_img,
+  fn_change_purple,
+} from "Jquery/event_jquery";
 import { tabLink } from "Jquery/Jquery";
 import { Swiper } from "swiper/react";
 
@@ -240,6 +249,7 @@ export default function Index() {
             if (res1.data.code === "true") {
               let userInfo = { ...axioData?.userInfo, ...res1?.data?.userInfo };
               let harvestBean = res1?.data?.harvestBean.filter((e) => e?.value > 0);
+              let purple_flag = res1?.data?.harvestBean.filter((e) => e?.type === "purple")[0];
               setData((origin) => {
                 return {
                   ...origin,
@@ -247,8 +257,20 @@ export default function Index() {
                   harvestBean,
                 };
               });
-              $("#layerHarvest").addClass("active");
-              $(".game-sec").addClass("complete").removeClass("step2-roop").removeClass("step3-roop").removeClass("step4-roop").removeClass("fruit");
+              if (purple_flag?.value > 0) {
+                //퍼블열매 수확했을경우
+                $("#CoffeeTreeGame").removeClass("active");
+                fn_change_purple();
+              } else {
+                //그 외 열매
+                $("#layerHarvest").addClass("active");
+                $(".game-sec")
+                  .addClass("complete")
+                  .removeClass("step2-roop")
+                  .removeClass("step3-roop")
+                  .removeClass("step4-roop")
+                  .removeClass("fruit");
+              }
             }
           })
         );
@@ -1031,7 +1053,7 @@ export default function Index() {
                             <div className="chart-wrap">
                               <div
                                 className="fruit-chart"
-                                data-percent={axioData?.userInfo?.ts_bean_yellow ? Math.floor((axioData?.userInfo?.ts_bean_yellow / 30) * 100) : 0}
+                                data-percent={axioData?.userInfo?.ts_bean_yellow ? Math.floor((axioData?.userInfo?.ts_bean_yellow / 10) * 100) : 0}
                               ></div>
                               <div className="img-wrap"></div>
                             </div>
@@ -1047,7 +1069,7 @@ export default function Index() {
                             <div className="chart-wrap">
                               <div
                                 className="fruit-chart"
-                                data-percent={axioData?.userInfo?.ts_bean_orange ? Math.floor((axioData?.userInfo?.ts_bean_orange / 30) * 100) : 0}
+                                data-percent={axioData?.userInfo?.ts_bean_orange ? Math.floor((axioData?.userInfo?.ts_bean_orange / 10) * 100) : 0}
                               ></div>
                               <div className="img-wrap"></div>
                             </div>
@@ -1063,7 +1085,7 @@ export default function Index() {
                             <div className="chart-wrap">
                               <div
                                 className="fruit-chart"
-                                data-percent={axioData?.userInfo?.ts_bean_pink ? Math.floor((axioData?.userInfo?.ts_bean_pink / 30) * 100) : 0}
+                                data-percent={axioData?.userInfo?.ts_bean_pink ? Math.floor((axioData?.userInfo?.ts_bean_pink / 10) * 100) : 0}
                               ></div>
                               <div className="img-wrap"></div>
                             </div>
@@ -1079,7 +1101,7 @@ export default function Index() {
                             <div className="chart-wrap">
                               <div
                                 className="fruit-chart "
-                                data-percent={axioData?.userInfo?.ts_bean_red ? Math.floor((axioData?.userInfo?.ts_bean_red / 30) * 100) : 0}
+                                data-percent={axioData?.userInfo?.ts_bean_red ? Math.floor((axioData?.userInfo?.ts_bean_red / 10) * 100) : 0}
                               ></div>
                               <div className="img-wrap"></div>
                             </div>
@@ -1095,7 +1117,7 @@ export default function Index() {
                             <div className="chart-wrap">
                               <div
                                 className="fruit-chart"
-                                data-percent={axioData?.userInfo?.ts_bean_purple ? Math.floor((axioData?.userInfo?.ts_bean_purple / 30) * 100) : 0}
+                                data-percent={axioData?.userInfo?.ts_bean_purple ? Math.floor((axioData?.userInfo?.ts_bean_purple / 10) * 100) : 0}
                               ></div>
                               <div className="img-wrap"></div>
                             </div>
@@ -1115,7 +1137,7 @@ export default function Index() {
                     <h3 className="section-title small">Red 열매 교환하기</h3>
 
                     <ul className="data-list">
-                      <li className={axioData?.userInfo?.ts_bean_yellow >= 30 ? "exchange" : ""}>
+                      <li className={axioData?.userInfo?.ts_bean_yellow >= 10 ? "exchange" : ""}>
                         {" "}
                         {/* [D] 열매 교환 가능시 .exchange 활성화 */}
                         <div className="item fruit-ticket">
@@ -1126,8 +1148,8 @@ export default function Index() {
                             <div className="text-wrap">
                               <p className="name">Yellow</p>
                               <p className="text">
-                                {axioData?.userInfo?.ts_bean_yellow >= 30
-                                  ? `열매 ${Math.floor(axioData?.userInfo?.ts_bean_yellow / 30)}개를 교환할 수 있어요.`
+                                {axioData?.userInfo?.ts_bean_yellow >= 10
+                                  ? `열매 ${Math.floor(axioData?.userInfo?.ts_bean_yellow / 10)}개를 교환할 수 있어요.`
                                   : "열매가 부족해요."}
                               </p>
                             </div>
@@ -1136,14 +1158,14 @@ export default function Index() {
                             <button
                               onClick={() => handleChangeBean("yellow")}
                               type="button"
-                              className={`btn ${axioData?.userInfo?.ts_bean_yellow >= 30 ? "fruit-red" : ""}`}
+                              className={`btn ${axioData?.userInfo?.ts_bean_yellow >= 10 ? "fruit-red" : ""}`}
                             >
                               <p className="data">교환</p>
                             </button>
                           </div>
                         </div>
                       </li>
-                      <li className={axioData?.userInfo?.ts_bean_orange >= 30 ? "exchange" : ""}>
+                      <li className={axioData?.userInfo?.ts_bean_orange >= 10 ? "exchange" : ""}>
                         <div className="item fruit-ticket">
                           <div className="fruit-wrap">
                             <div className="img-wrap">
@@ -1152,8 +1174,8 @@ export default function Index() {
                             <div className="text-wrap">
                               <p className="name">Orange</p>
                               <p className="text">
-                                {axioData?.userInfo?.ts_bean_orange >= 30
-                                  ? `열매 ${Math.floor(axioData?.userInfo?.ts_bean_orange / 30)}개를 교환할 수 있어요.`
+                                {axioData?.userInfo?.ts_bean_orange >= 10
+                                  ? `열매 ${Math.floor(axioData?.userInfo?.ts_bean_orange / 10)}개를 교환할 수 있어요.`
                                   : "열매가 부족해요."}
                               </p>
                             </div>
@@ -1162,7 +1184,7 @@ export default function Index() {
                             <button
                               onClick={() => handleChangeBean("orange")}
                               type="button"
-                              className={`btn ${axioData?.userInfo?.ts_bean_orange >= 30 ? "fruit-red" : ""}`}
+                              className={`btn ${axioData?.userInfo?.ts_bean_orange >= 10 ? "fruit-red" : ""}`}
                               pop-target="#layerChange"
                             >
                               <p className="data">교환</p>
@@ -1170,7 +1192,7 @@ export default function Index() {
                           </div>
                         </div>
                       </li>
-                      <li className={axioData?.userInfo?.ts_bean_pink >= 30 ? "exchange" : ""}>
+                      <li className={axioData?.userInfo?.ts_bean_pink >= 10 ? "exchange" : ""}>
                         <div className="item fruit-ticket">
                           <div className="fruit-wrap">
                             <div className="img-wrap">
@@ -1179,8 +1201,8 @@ export default function Index() {
                             <div className="text-wrap">
                               <p className="name">Pink</p>
                               <p className="text">
-                                {axioData?.userInfo?.ts_bean_pink >= 30
-                                  ? `열매 ${Math.floor(axioData?.userInfo?.ts_bean_pink / 30)}개를 교환할 수 있어요.`
+                                {axioData?.userInfo?.ts_bean_pink >= 10
+                                  ? `열매 ${Math.floor(axioData?.userInfo?.ts_bean_pink / 10)}개를 교환할 수 있어요.`
                                   : "열매가 부족해요."}
                               </p>
                             </div>
@@ -1189,7 +1211,7 @@ export default function Index() {
                             <button
                               onClick={() => handleChangeBean("pink")}
                               type="button"
-                              className={`btn ${axioData?.userInfo?.ts_bean_pink >= 30 ? "fruit-red" : ""}`}
+                              className={`btn ${axioData?.userInfo?.ts_bean_pink >= 10 ? "fruit-red" : ""}`}
                               pop-target="#layerChange"
                             >
                               <p className="data">교환</p>
@@ -1203,7 +1225,7 @@ export default function Index() {
                     <h3 className="section-title small">Purple 열매 교환하기</h3>
 
                     <ul className="data-list">
-                      <li className={axioData?.userInfo?.ts_bean_red >= 30 ? "exchange" : ""}>
+                      <li className={axioData?.userInfo?.ts_bean_red >= 10 ? "exchange" : ""}>
                         {" "}
                         {/* [D] 열매 교환 가능시 .exchange 활성화 */}
                         <div className="item fruit-ticket">
@@ -1214,8 +1236,8 @@ export default function Index() {
                             <div className="text-wrap">
                               <p className="name">Red</p>
                               <p className="text">
-                                {axioData?.userInfo?.ts_bean_red >= 30
-                                  ? `열매 ${Math.floor(axioData?.userInfo?.ts_bean_red / 30)}개를 교환할 수 있어요.`
+                                {axioData?.userInfo?.ts_bean_red >= 10
+                                  ? `열매 ${Math.floor(axioData?.userInfo?.ts_bean_red / 10)}개를 교환할 수 있어요.`
                                   : "열매가 부족해요."}
                               </p>
                             </div>
@@ -1224,7 +1246,7 @@ export default function Index() {
                             <button
                               onClick={() => handleChangeBean("red")}
                               type="button"
-                              className={`btn close-modal ${axioData?.userInfo?.ts_bean_red >= 30 ? "fruit-pruple" : ""}`}
+                              className={`btn close-modal ${axioData?.userInfo?.ts_bean_red >= 10 ? "fruit-pruple" : ""}`}
                             >
                               <p className="data">교환</p>
                             </button>
@@ -1363,7 +1385,7 @@ export default function Index() {
                         <dd className="text">
                           5가지 열매를 획득하면,
                           <br />
-                          쿠폰 3종 세트가 기본 제공
+                          경품에 자동으로 응모
                         </dd>
                       </dl>
                       <div className="img-wrap flex-end">

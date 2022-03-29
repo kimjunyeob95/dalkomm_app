@@ -755,6 +755,13 @@ export const fn_event_start = () => {
   fruit();
 };
 
+export const fn_change_purple = () => {
+  $("#fruitPruple").addClass("active");
+  fn_interval11 = setInterval(function () {
+    paper2();
+  }, 25);
+};
+
 export const fn_click_init = () => {
   $(".coffee-tree .close-modal").click(function () {
     var target = $(this).closest(".overlay");
@@ -796,6 +803,13 @@ export const fn_click_init = () => {
     $("#fruitChange").addClass("active");
   });
 
+  $("#layerChange .btn-close,#fruitPruple .btn").click(function () {
+    frameNumberPaper1 = 0;
+    clearInterval(fn_interval10);
+    frameNumberPaper2 = 0;
+    clearInterval(fn_interval11);
+  });
+
   // 열매 따기 팝업 확인 후 커피나무 시퀀스 동작 실행
   // $(".btn.harvest").click(function () {
   //   if ($(this).parent().hasClass("active")) {
@@ -828,7 +842,7 @@ export const fn_click_init = () => {
 
   $("#fruitPruple .change-btn,#fruitPruple .btn.back").click(function () {
     $("#fruitPruple").removeClass("active");
-    $("#myCoffeeTree").addClass("active");
+    $("#CoffeeTreeGame").addClass("active");
   });
 
   $("#eventBenefit .btn.back, #eventGuide .btn.back").click(function () {
@@ -865,4 +879,5 @@ export const fn_click_off = () => {
   $("#fruitChange .btn.back").off("click");
   $("#fruitPruple .change-btn,#fruitPruple .btn.back").off("click");
   $("#eventBenefit .btn.back, #eventGuide .btn.back").off("click");
+  $("#layerChange .btn-close,#fruitPruple .btn").off("click");
 };
