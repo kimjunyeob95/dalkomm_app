@@ -78,6 +78,7 @@ export default function Index() {
     }
     return get_type;
   };
+  let time = new Date().toLocaleDateString();
 
   useEffect(() => {
     axios
@@ -135,8 +136,15 @@ export default function Index() {
           }
         })
       );
-
+    let get_timeOut = setInterval(function () {
+      //백그라운드 앱에서 머물고 있으면 현재 시간과 비교해 강제 메인페이지 이동
+      let currentTime = new Date().toLocaleDateString();
+      if (time !== currentTime) {
+        history.push("/");
+      }
+    }, 1000);
     return () => {
+      clearInterval(get_timeOut);
       fn_first_init();
       fn_reset_interval();
     };
