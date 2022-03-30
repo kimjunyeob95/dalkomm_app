@@ -408,9 +408,8 @@ export default function Index() {
                     달콤 커피나무
                   </h2>
                   <p className="text">
-                    달콤앱 출석체크 하고
-                    <br />
-                    매일 커피나무를 키워보세요!
+                    달콤 커피나무를 키워 <br />
+                    보라색 열매를 획득하세요!
                   </p>
                 </div>
 
@@ -943,11 +942,11 @@ export default function Index() {
         </div>
         {/* 나의 달콤 커피나무 - 나의 커피열매 */}
 
-        {/* 나의 달콤 커피나무 - 나의 커피열매 (열매 모으는 방법 팝업) */}
+        {/* 나의 달콤 커피나무 - 나의 커피열매 (열매 교환 방법 팝업) */}
         <div id="layerMethod" className="overlay layer-fruit">
           <div className="popup">
             <div className="popup-body">
-              <p className="title">열매 모으는 방법</p>
+              <p className="title">열매 교환 방법</p>
               <ul className="data-list col-2">
                 <li>
                   <div className="item harvest-method">
@@ -961,7 +960,7 @@ export default function Index() {
                       </span>
                     </div>
                     <div className="text-wrap">
-                      <p className="text">Yellow 30개</p>
+                      <p className="text">Yellow 10개</p>
                       <p className="text">
                         <strong>Red 1개로 교환</strong>
                       </p>
@@ -980,7 +979,7 @@ export default function Index() {
                       </span>
                     </div>
                     <div className="text-wrap">
-                      <p className="text">Orange 30개</p>
+                      <p className="text">Orange 10개</p>
                       <p className="text">
                         <strong>Red 1개로 교환</strong>
                       </p>
@@ -999,7 +998,7 @@ export default function Index() {
                       </span>
                     </div>
                     <div className="text-wrap">
-                      <p className="text">Pink 30개</p>
+                      <p className="text">Pink 10개</p>
                       <p className="text">
                         <strong>Red 1개로 교환</strong>
                       </p>
@@ -1018,7 +1017,7 @@ export default function Index() {
                       </span>
                     </div>
                     <div className="text-wrap">
-                      <p className="text">Red 30개</p>
+                      <p className="text">Red 10개</p>
                       <p className="text">
                         <strong>Purple 1개로 교환</strong>
                       </p>
@@ -1344,9 +1343,9 @@ export default function Index() {
                   <h2 className="section-title large">
                     축하해요!
                     <br />
-                    Purple 열매를 획득했어요.
+                    경품 이벤트에 응모 되었어요.
                   </h2>
-                  <p>열매를 모을수록 당첨 확률이 올라가요!</p>
+                  <p>더 많은 열매를 모아 당첨 확률을 높여보세요!</p>
                 </div>
 
                 <div className="btn-area">

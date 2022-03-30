@@ -906,7 +906,7 @@ body .overlay.active.coffee-tree {display: block; background-color: #fff;}
 .coffee-tree .sequence-fruit .fruit-brunch {position: absolute; width: 11.2vw; height: 8.533vw;}
 .coffee-tree .sequence-fruit .fruit-brunch .img-wrap {display: none;}
 
-.coffee-tree .sequence-fruit .fruit-brunch.top {top: 29.2vw; left: calc(50% - 9.2vw);}
+.coffee-tree .sequence-fruit .fruit-brunch.top {top: 30.2vw; left: calc(50% - 9.2vw);}
 .coffee-tree .sequence-fruit .fruit-brunch.top .img-wrap.img3 {top: -2vw; left: -3vw; transform: rotate(-45deg); z-index: 0;}
 .coffee-tree .sequence-fruit .fruit-brunch.top .img-wrap.img2 {top: -0.5vw; left: 0.3vw; transform: rotate(-260deg);}
 .coffee-tree .sequence-fruit .fruit-brunch.top .img-wrap.img1 {top: 2vw; left: -2vw; transform: rotate(25deg); z-index: 1;}
@@ -920,7 +920,7 @@ body .overlay.active.coffee-tree {display: block; background-color: #fff;}
 .coffee-tree .sequence-fruit .fruit-brunch.middle.right .img-wrap:nth-child(3) {transform: rotate(75deg);}
 .coffee-tree .sequence-fruit .fruit-brunch.middle.right .img-wrap:nth-child(5) {top: 3vw; left: -1vw; transform: rotate(-85deg);}
 .coffee-tree .sequence-fruit .fruit-brunch.middle.behind {top: 31vw; left: calc(50% - 10vw); transform: rotate(-25deg); z-index: -1;}
-.coffee-tree .sequence-fruit .fruit-brunch.bottom {top: 46vw; left: calc(50% - 5vw);}
+.coffee-tree .sequence-fruit .fruit-brunch.bottom {top: 49.5vw; left: calc(50% - 5vw);}
 .coffee-tree .sequence-fruit .fruit-brunch.bottom .img-wrap.img1 {top: 2.85vw; left: 2.75vw; transform:rotate(-25deg); z-index: 1;}
 .coffee-tree .sequence-fruit .fruit-brunch.bottom .img-wrap.img3 {top: 6.5vw; left: 2vw; transform: rotate(-75deg);}
 .coffee-tree .sequence-fruit .fruit-brunch.bottom .img-wrap.img2 {top: 4.95vw; left: 5vw; transform: rotate(-225deg); z-index: 0;}
@@ -1014,7 +1014,7 @@ body .overlay.active.coffee-tree {display: block; background-color: #fff;}
 
 #CoffeeTreeGame .sequence-area .sequence-tree {position: relative; width: auto; height: auto; margin: 0 auto;}
 #CoffeeTreeGame .game-sec .sequence-area::before {content: ''; display: none; position: absolute; top: 0; right: 0; width: 156.800vw; height: 100%; background: url('../images/event/bg_sunshine.png') no-repeat 0 0 / cover; z-index: 1;}
-#CoffeeTreeGame .game-sec.sunshine .sequence-area::before {display: inline-block; animation: sunshine 3s ease-in 0.25s 1 both;}
+#CoffeeTreeGame .game-sec.sunshine .sequence-area::before {display: inline-block; animation: sunshine 3s ease-in 0.15s 1 both;}
 @keyframes sunshine {
 	0%{transform: translate(20%, -5%); opacity: 0;}
 	20%{transform: translate(0%, 0%); opacity: 1;}
@@ -1069,7 +1069,7 @@ body .overlay.active.coffee-tree {display: block; background-color: #fff;}
 	#CoffeeTreeGame .sequence-area,
 	#CoffeeTreeGame .sequence-tree {height: 100%;}
 	#CoffeeTreeGame .animation-wrap {height: 100%;}
-	#CoffeeTreeGame .sequence-area .sequence-tree {height: 122.709vw;}
+	#CoffeeTreeGame .sequence-area .sequence-tree {height: 124.709vw;}
 }
 
 @media all and (min-width: 300px) and (max-width: 375px) and (max-height: 680px) {
