@@ -712,6 +712,7 @@ export const fn_action = (type) => {
       }
       setTimeout(function () {
         $(".game-sec").removeClass("sunshine");
+        $(".btn-area.ingredient-list").fadeIn();
         action_flag = false;
       }, 3500);
     }
@@ -732,6 +733,7 @@ export const fn_action = (type) => {
       setTimeout(function () {
         $(".game-sec").removeClass("water");
         clearInterval(fn_interval12);
+        $(".btn-area.ingredient-list").fadeIn();
         action_flag = false;
       }, 3300);
     }
@@ -751,6 +753,7 @@ export const fn_action = (type) => {
       setTimeout(function () {
         $(".game-sec").removeClass("heart");
         clearInterval(fn_interval13);
+        $(".btn-area.ingredient-list").fadeIn();
         action_flag = false;
       }, 3500);
     }

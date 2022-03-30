@@ -326,6 +326,7 @@ export default function Index() {
   };
 
   const handleAction = (type) => {
+    $(".btn-area.ingredient-list").hide();
     axios.all([axios.get(`${SERVER_DALKOMM_SUGAR}/api/event/postAction?tu_email=${tu_email}`)]).then(
       axios.spread((res1) => {
         if (res1.data.code === "true") {
