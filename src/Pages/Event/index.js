@@ -242,6 +242,7 @@ export default function Index() {
   };
 
   const handleHarvest = (e) => {
+    let audio;
     if (axioData?.userInfo?.tt_step >= 4) {
       if ($(e).parent().hasClass("active")) {
         axios.all([axios.get(`${SERVER_DALKOMM_SUGAR}/api/event/harvestTree?tu_email=${tu_email}`)]).then(
@@ -257,6 +258,10 @@ export default function Index() {
                   harvestBean,
                 };
               });
+              if (!$(".btn.sound").hasClass("mute")) {
+                audio = new Audio("/@resource/mp3/water.mp3");
+                audio.play();
+              }
               if (purple_flag?.value > 0) {
                 //퍼블열매 수확했을경우
                 $("#CoffeeTreeGame").removeClass("active");
@@ -275,9 +280,17 @@ export default function Index() {
           })
         );
       } else {
+        if (!$(".btn.sound").hasClass("mute")) {
+          audio = new Audio("/@resource/mp3/notHarvest.mp3");
+          audio.play();
+        }
         alert("수확 할 열매가 없습니다.");
       }
     } else {
+      if (!$(".btn.sound").hasClass("mute")) {
+        audio = new Audio("/@resource/mp3/notHarvest.mp3");
+        audio.play();
+      }
       alert("나무가 더 자라야 해요!");
     }
   };

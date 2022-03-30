@@ -43,31 +43,31 @@ export function loading_img(type) {
   let count_array;
   var loadCnt = 0;
   if (type === "ready") {
-    count_array = [46, 59, 67];
+    count_array = [142, 59, 67];
     imageArray = new Array(count_array?.length);
   } else if (type === "step1") {
-    count_array = [46, 59, 67, 32, 58];
+    count_array = [142, 59, 67, 32, 58];
     imageArray = new Array(count_array?.length);
   } else if (type === "step1-looping") {
-    count_array = [46, 59, 67, 58];
+    count_array = [142, 59, 67, 58];
     imageArray = new Array(count_array?.length);
   } else if (type === "step2") {
-    count_array = [46, 59, 67, 66, 62];
+    count_array = [142, 59, 67, 66, 62];
     imageArray = new Array(count_array?.length);
   } else if (type === "step2-looping") {
-    count_array = [46, 59, 67, 62];
+    count_array = [142, 59, 67, 62];
     imageArray = new Array(count_array?.length);
   } else if (type === "step3") {
-    count_array = [46, 59, 67, 75, 62];
+    count_array = [142, 59, 67, 75, 62];
     imageArray = new Array(count_array?.length);
   } else if (type === "step3-looping") {
-    count_array = [46, 59, 67, 62];
+    count_array = [142, 59, 67, 62];
     imageArray = new Array(count_array?.length);
   } else if (type === "step4") {
-    count_array = [46, 59, 67, 85, 218];
+    count_array = [142, 59, 67, 85, 218];
     imageArray = new Array(count_array?.length);
   } else if (type === "step4-looping") {
-    count_array = [46, 59, 67, 218, 15, 15, 15, 15, 15];
+    count_array = [142, 59, 67, 218, 15, 15, 15, 15, 15];
     imageArray = new Array(count_array?.length);
   }
 
@@ -373,7 +373,7 @@ var frameNumberHeart = 0;
 function heart() {
   var $heart = $(".heart-animation");
   var imagePathHeart = "/@resource/images/event/sequence/heart/";
-  var totalFramesHeart = 45;
+  var totalFramesHeart = 140;
   var animationDuration2 = 1300;
   var timePerFrameHeart = timePerFrameHeart / totalFramesHeart;
   //$heart.attr("src", imagePathHeart + `heart_${frameNumberHeart}.png`);
@@ -699,6 +699,7 @@ export const fn_first_init = () => {
 var action_flag = false;
 export const fn_action = (type) => {
   if (action_flag) return false;
+  let audio = new Audio(`/@resource/mp3/${type}.mp3`);
   if (type === "sunshine") {
     // 햇빛
     if (!$(".game-sec").hasClass("sunshine")) {
@@ -706,6 +707,9 @@ export const fn_action = (type) => {
       $(".game-sec").removeClass("heart");
       $(".game-sec").addClass("sunshine");
       action_flag = true;
+      if (!$(".btn.sound").hasClass("mute")) {
+        audio.play();
+      }
       setTimeout(function () {
         $(".game-sec").removeClass("sunshine");
         action_flag = false;
@@ -713,12 +717,14 @@ export const fn_action = (type) => {
     }
   } else if (type === "water") {
     frameNumberWater = 0;
-
     if (!$(".game-sec").hasClass("water")) {
       $(".game-sec").removeClass("sunshine");
       $(".game-sec").removeClass("heart");
       $(".game-sec").addClass("water");
       action_flag = true;
+      if (!$(".btn.sound").hasClass("mute")) {
+        audio.play();
+      }
       fn_interval12 = setInterval(function () {
         water();
       }, 30);
@@ -736,15 +742,17 @@ export const fn_action = (type) => {
       $(".game-sec").removeClass("water");
       $(".game-sec").addClass("heart");
       action_flag = true;
-      var fn_interval13 = setInterval(function () {
+      fn_interval13 = setInterval(function () {
         heart();
-      }, 50);
-
+      }, 18);
+      if (!$(".btn.sound").hasClass("mute")) {
+        audio.play();
+      }
       setTimeout(function () {
         $(".game-sec").removeClass("heart");
         clearInterval(fn_interval13);
         action_flag = false;
-      }, 2700);
+      }, 3500);
     }
   }
 };
