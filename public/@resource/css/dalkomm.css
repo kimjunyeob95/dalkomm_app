@@ -890,7 +890,7 @@ body .overlay.active.coffee-tree {display: block; background-color: #fff;}
 .coffee-tree .title-wrap .text {font-weight: 700; text-align: left; word-break: keep-all;}
 .coffee-tree .content-wrap .img {width: 100%; height: 100%;}
 .coffee-tree .content-wrap > div:last-child:not(.pdb-0):not(.tab-content) {padding-bottom: 10.667vw;}
-.coffee-tree .btn.game-state {display: -ms-flexbox; display: -webkit-flex; display: inline-flex; -webkit-align-items: center; -ms-flex-align: center; align-items: center; position: relative; top: -0.267vw; height: 9.333vw; line-height: 9.333vw; border-radius: 6.667vw; background-color: #fff; border: 0.267vw solid #ebebeb; font-size: 0; padding-left: 3.2vw; padding-right: 3.2vw;}
+.coffee-tree .btn.game-state {display: -ms-flexbox; display: -webkit-flex; display: inline-flex; -webkit-align-items: center; -ms-flex-align: center; align-items: center; position: relative; top: -0.267vw; height: 9.333vw; border-radius: 6.667vw; background-color: #fff; border: 0.267vw solid #ebebeb; font-weight: 700; font-size: 3.2vw; padding-left: 3.2vw; padding-right: 3.2vw;}
 .coffee-tree .btn.game-state .num {position: relative; font-weight: 700; font-size: 3.733vw;}
 .coffee-tree .btn.game-state .num::after {content: ''; display: inline-block; position: relative; width: 4.8vw; height: 4.8vw; background-color: #ff592e; border-radius: 50%; vertical-align: middle; margin-left: 2.667vw; margin-top: -0.5vw}
 .coffee-tree .btn.sound {width: 6.933vw; height: 6.933vw; background-image: url('../images/com/icon_sound.svg'); background-repeat: no-repeat; background-position: 0 0; background-size: 6.4vw 6.4vw;}
@@ -997,12 +997,14 @@ body .overlay.active.coffee-tree {display: block; background-color: #fff;}
 #CoffeeTreeGame .game-sec {width: calc(100% + (5.333vw*2)); margin-left: -5.333vw;}
 /* #CoffeeTreeGame .game-sec {margin-top: -5vw;} */
 /* #CoffeeTreeGame .game-sec {margin-top: -8.267vw;} */
+#CoffeeTreeIntro .btn.normal {font-weight: 700;}
 
 #CoffeeTreeGame.overlay {background-image: url('../images/event/bg_game.jpg');}
 
 #CoffeeTreeHome.coffee-tree .modal-header,
 #CoffeeTreeIntro.coffee-tree .modal-header,
-#CoffeeTreeGame.coffee-tree .modal-header {background-color: transparent;}
+#CoffeeTreeGame.coffee-tree .modal-header,
+#CoffeeTreeGuide.coffee-tree .modal-header {background-color: transparent;}
 #CoffeeTreeGame .modal-wrap {padding-bottom: 16vw;}
 #CoffeeTreeGame .modal-body {height: 100%;}
 #CoffeeTreeGame .content-wrap {padding-top: 13.867vw; padding-bottom: 4vw;}
@@ -1266,3 +1268,24 @@ body .overlay.active.coffee-tree {display: block; background-color: #fff;}
 	80% {margin-top: 0;}
 	100% {margin-top: 0;}
 }
+
+#CoffeeTreeGuide .modal-body {height: 100%;}
+#CoffeeTreeGuide.coffee-tree .modal-header + .modal-body {padding-top: 5vh;}
+#CoffeeTreeGuide .header .btn.skip{font-weight: 600; font-size: 3.733vw; color: #000; margin-top: 1.333vw;}
+#CoffeeTreeGuide.coffee-tree .content-wrap {padding-top: 0;}
+#CoffeeTreeGuide .swiper-container {width: calc(100% + (5.333vw * 2)); margin-left: -5.333vw; /* margin-bottom: 42.667vw;*/ transition: opacity 0.3s ease, z-index 0.3s ease;}
+#CoffeeTreeGuide .swiper-pagination-bullet-active {background-color:#ff592e;}
+#CoffeeTreeGuide .swiper-container-horizontal > .swiper-pagination-bullets {bottom: 3vh;}
+#CoffeeTreeGuide .cont-wrap {position: relative; font-size: 0;}
+#CoffeeTreeGuide .text-wrap {position: absolute; bottom: 5.2vh; left: 0; width: 100%; padding: 0 5.333vw; box-sizing: border-box;}
+#CoffeeTreeGuide li.step01 .text-wrap {bottom: 8.067vh;}
+#CoffeeTreeGuide .text-wrap .title {font-weight: 600; font-size: 4.267vw; text-align: center;}
+#CoffeeTreeGuide .text-wrap .text {font-size: 3.2vw; color: rgba(0,0,0,0.8); text-align: center; margin-top: 1.5vh;}
+/* #CoffeeTreeGuide .content-wrap .btn-area {position: fixed; bottom: 10.667vw; left: 5.333vw; width: calc(100% - (5.333vw * 2)); padding-bottom: 0; z-index: 1;} */
+/* #CoffeeTreeGuide .content-wrap .btn-area {margin-top: 17.067vw;} */
+#CoffeeTreeGuide .content-wrap .btn.event-next {font-weight: 700; color: #fff;  transition: opacity 0.3s ease, z-index 0.3s ease;}
+#CoffeeTreeGuide .swiper-button-next {position: fixed; top: auto; bottom: 10.667vw; left: 5.333vw; right: auto; width: calc(100% - (5.333vw * 2)); font-weight: 700; font-size: 4.267vw; color: #000; margin-top: 0; -webkit-tap-highlight-color: transparent;}
+#CoffeeTreeGuide .swiper-button-next:after {display: none;}
+#CoffeeTreeGuide .content-wrap .btn.event-next,
+#CoffeeTreeGuide .swiper-container.last-slide .swiper-button-next {opacity: 0; z-index: -1;}
+#CoffeeTreeGuide .swiper-container.last-slide + .btn-area .btn.event-next {opacity: 1; z-index: 1;}

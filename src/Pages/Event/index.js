@@ -21,7 +21,8 @@ import {
   fn_change_purple,
 } from "Jquery/event_jquery";
 import { tabLink } from "Jquery/Jquery";
-import { Swiper } from "swiper/react";
+import { Swiper, SwiperSlide } from "swiper/react";
+import SwiperCore, { Pagination, Navigation } from "swiper/core";
 
 import { SERVER_DALKOMM_SUGAR } from "Config/Server";
 import Loading from "Components/Loading";
@@ -90,6 +91,7 @@ export default function Index() {
   let time = new Date().toLocaleDateString();
 
   useEffect(() => {
+    SwiperCore.use([Pagination, Navigation]);
     axios
       .all([
         axios.get(
@@ -170,7 +172,7 @@ export default function Index() {
     }
   }, [loading]);
 
-  const goEvent_page = () => {
+  const goEvent_page = (link) => {
     if (axioData.userType === "기존유저") {
       $("#CoffeeTreeGame").addClass("active");
       if (!eventStart) {
@@ -180,9 +182,13 @@ export default function Index() {
       }
     } else {
       //신규유저
-      if ($("#CoffeeTreeIntro").hasClass("active")) {
-        $("#CoffeeTreeIntro").removeClass("active");
-        $("#CoffeeTreeGame").addClass("active");
+      if (link) {
+        if (link === "CoffeeTreeGame") {
+          $("#CoffeeTreeGuide").removeClass("active");
+        } else if (link === "CoffeeTreeGuide") {
+          $("#CoffeeTreeIntro").removeClass("active");
+        }
+        $(`#${link}`).addClass("active");
         if (!eventStart) {
           fn_event_start();
           fn_fruit_markup();
@@ -447,8 +453,13 @@ export default function Index() {
                 </div>
 
                 <div className="btn-area">
-                  <button type="button" className="btn dark large full event-start" pop-target="#CoffeeTreeGame" onClick={() => goEvent_page()}>
-                    커피나무 키우러 가기
+                  <button
+                    type="button"
+                    className="btn normal large full close-modal event-start"
+                    pop-target="#CoffeeTreeGame"
+                    onClick={() => goEvent_page("CoffeeTreeGuide")}
+                  >
+                    다음
                   </button>
                 </div>
               </div>
@@ -456,6 +467,118 @@ export default function Index() {
           </div>
         </div>
         {/* 나의 달콤 커피나무 - 인트로 */}
+
+        {/* [D] 220330 참여안내 추가 */}
+        {/* 나의 달콤 커피나무 - 참여안내 */}
+        <div id="CoffeeTreeGuide" className="overlay coffee-tree ">
+          <div className="modal-wrap">
+            <div className="header modal-header">
+              <button type="button" className="btn back btn-close" onClick={(e) => backPage(e.currentTarget)}>
+                <i className="ico back">
+                  <span className="blind">뒤로</span>
+                </i>
+              </button>
+              <div className="btn-area">
+                <button type="button" className="btn close-modal skip" onClick={() => goEvent_page("CoffeeTreeGame")}>
+                  <span className="en">SKIP</span>
+                </button>
+              </div>
+            </div>
+
+            <div className="modal-body">
+              <div className="content-wrap">
+                <Swiper
+                  id="gameGuide"
+                  className="swiper-container"
+                  slidesPerView={1}
+                  pagination={{
+                    el: ".swiper-pagination",
+                    clickable: true,
+                  }}
+                  navigation={{
+                    nextEl: ".swiper-button-next",
+                  }}
+                  observer={true}
+                  observeParents={true}
+                  onSlideChange={function () {
+                    if (this.activeIndex === 3) {
+                      $("#CoffeeTreeGuide .swiper-container").addClass("last-slide");
+                    } else {
+                      $("#CoffeeTreeGuide .swiper-container").removeClass("last-slide");
+                    }
+                  }}
+                >
+                  <ul className="swiper-wrapper data-list">
+                    <SwiperSlide className="swiper-slide step01">
+                      <div className="cont-wrap">
+                        <img src="/@resource/images/event/event_guide_01.png" alt="" className="img" />
+                        <div className="text-wrap">
+                          <p className="title">
+                            보라색 열매를 획득해 <br />
+                            쿠폰3종을 얻고 푸짐한 경품에 도전!
+                          </p>
+                          <p className="text">
+                            달콤나무를 키우고 보라색 열매를 획득하면 <br />
+                            달콤 3종 쿠폰에 당첨되며 경품 이벤트에 자동 응모됩니다!
+                          </p>
+                        </div>
+                      </div>
+                    </SwiperSlide>
+                    <SwiperSlide className="swiper-slide step02">
+                      <div className="cont-wrap">
+                        <img src="/@resource/images/event/event_guide_02.png" alt="" className="img" />
+
+                        <div className="text-wrap">
+                          <p className="title">나무를 키워서 열매를 수확하는 방법</p>
+                          <p className="text">
+                            작은 달콤 커피나무에 <br />
+                            매일 매일 물과 사랑을 주세요!
+                          </p>
+                        </div>
+                      </div>
+                    </SwiperSlide>
+                    <SwiperSlide className="swiper-slide step03">
+                      <div className="cont-wrap">
+                        <img src="/@resource/images/event/event_guide_03.png" alt="" className="img" />
+
+                        <div className="text-wrap">
+                          <p className="title">나무를 키워서 열매를 수확하는 방법</p>
+                          <p className="text">
+                            나무가 다 자라고 열매가 열리면 <br />
+                            열매를 수확해 주세요!
+                          </p>
+                        </div>
+                      </div>
+                    </SwiperSlide>
+                    <SwiperSlide className="swiper-slide step04">
+                      <div className="cont-wrap">
+                        <img src="/@resource/images/event/event_guide_04.png" alt="" className="img" />
+
+                        <div className="text-wrap">
+                          <p className="title">이벤트 참여 완료</p>
+                          <p className="text">
+                            다양한 색상의 열매 중 <br />
+                            보라색 열매를 획득하면 이벤트 참여 완료!
+                          </p>
+                        </div>
+                      </div>
+                    </SwiperSlide>
+                  </ul>
+                  <div className="swiper-pagination"></div>
+                  <div className="swiper-button-next btn normal large full ">다음</div>
+                </Swiper>
+
+                <div className="btn-area">
+                  <button type="button" className="btn dark large full close-modal event-next" onClick={(e) => goEvent_page("CoffeeTreeGame")}>
+                    시작하기
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        {/* 나의 달콤 커피나무 - 인트로 */}
+        {/* // [D] 220330 참여안내 추가 */}
 
         {/* 나의 달콤 커피나무 - 게임 */}
         <div id="CoffeeTreeGame" className="overlay coffee-tree">
@@ -468,7 +591,7 @@ export default function Index() {
               </button>
               <div className="btn-area flex-center">
                 <button type="button" className="btn close-modal game-state" pop-target="#myCoffeeTree">
-                  <strong className="num fc-orange">{axioData?.userInfo?.ts_bean_count}</strong>
+                  열매 획득 현황
                 </button>
 
                 <button type="button" className="btn close-modal event-benefit">
