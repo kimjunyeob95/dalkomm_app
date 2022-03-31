@@ -1100,8 +1100,9 @@ export function Main(props) {
               <button type="button" id="moveScrollTop" className="btn scroll-top" onClick={() => moveScrollTop()}>
                 <i className="ico arr-top"></i>
               </button>
-              {/* {axioData?.userData?.is_union_user && ( */}
-              {nowTime >= eventStartTime && nowTime < eventEndTime && axioData?.userData?.is_union_user && (
+
+              {/* {nowTime >= eventStartTime && nowTime < eventEndTime && axioData?.userData?.is_union_user && ( */}
+              {axioData?.userData?.is_union_user && (
                 <div className="overlay event-banner active">
                   <div className="content-wrap">
                     <button type="button" className="btn btn-close"></button>
