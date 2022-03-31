@@ -1268,24 +1268,24 @@ body .overlay.active.coffee-tree {display: block; background-color: #fff;}
 	80% {margin-top: 0;}
 	100% {margin-top: 0;}
 }
-
+#CoffeeTreeGuide {padding-left: 0; padding-right: 0;;}
 #CoffeeTreeGuide .modal-body {height: 100%;}
-#CoffeeTreeGuide.coffee-tree .modal-header + .modal-body {padding-top: 5vh;}
+#CoffeeTreeGuide.coffee-tree .modal-header + .modal-body {padding-top: 5vh; overflow: hidden;}
 #CoffeeTreeGuide .header .btn.skip{font-weight: 600; font-size: 3.733vw; color: #000; margin-top: 1.333vw;}
 #CoffeeTreeGuide.coffee-tree .content-wrap {padding-top: 0;}
-#CoffeeTreeGuide .swiper-container {width: calc(100% + (5.333vw * 2)); margin-left: -5.333vw; /* margin-bottom: 42.667vw;*/ transition: opacity 0.3s ease, z-index 0.3s ease;}
+#CoffeeTreeGuide .swiper-container {width: 100%; /* margin-bottom: 42.667vw;*/}
 #CoffeeTreeGuide .swiper-pagination-bullet-active {background-color:#ff592e;}
-#CoffeeTreeGuide .swiper-container-horizontal > .swiper-pagination-bullets {bottom: 3vh;}
-#CoffeeTreeGuide .cont-wrap {position: relative; font-size: 0;}
-#CoffeeTreeGuide .text-wrap {position: absolute; bottom: 5.2vh; left: 0; width: 100%; padding: 0 5.333vw; box-sizing: border-box;}
-#CoffeeTreeGuide li.step01 .text-wrap {bottom: 8.067vh;}
-#CoffeeTreeGuide .text-wrap .title {font-weight: 600; font-size: 4.267vw; text-align: center;}
-#CoffeeTreeGuide .text-wrap .text {font-size: 3.2vw; color: rgba(0,0,0,0.8); text-align: center; margin-top: 1.5vh;}
-/* #CoffeeTreeGuide .content-wrap .btn-area {position: fixed; bottom: 10.667vw; left: 5.333vw; width: calc(100% - (5.333vw * 2)); padding-bottom: 0; z-index: 1;} */
-/* #CoffeeTreeGuide .content-wrap .btn-area {margin-top: 17.067vw;} */
-#CoffeeTreeGuide .content-wrap .btn.event-next {font-weight: 700; color: #fff;  transition: opacity 0.3s ease, z-index 0.3s ease;}
-#CoffeeTreeGuide .swiper-button-next {position: fixed; top: auto; bottom: 10.667vw; left: 5.333vw; right: auto; width: calc(100% - (5.333vw * 2)); font-weight: 700; font-size: 4.267vw; color: #000; margin-top: 0; -webkit-tap-highlight-color: transparent;}
+#CoffeeTreeGuide .swiper-container-horizontal > .swiper-pagination-bullets {bottom: 12vw;}
+#CoffeeTreeGuide .cont-wrap {position: relative; height: 138.4vw; font-size: 0;}
+#CoffeeTreeGuide .cont-wrap .img{height: auto;}
+#CoffeeTreeGuide .text-wrap {position: absolute; bottom: 18vw; left: 0; width: 100%; padding: 0 5.333vw; box-sizing: border-box; font-size: 0 !important;}
+#CoffeeTreeGuide .step01 .text-wrap {bottom: 19vw;}
+#CoffeeTreeGuide .text-wrap .title {font-weight: 600; font-size: 4.267vw !important; text-align: center;}
+#CoffeeTreeGuide .text-wrap .text {font-size: 3.2vw !important; color: rgba(0,0,0,0.8); text-align: center; margin-top: 1.5vw;}
+#CoffeeTreeGuide .content-wrap .btn-area {position: fixed; bottom: 10.667vw; left: 5.333vw; width: calc(100% - (5.333vw * 2)); padding-bottom: 0; z-index: 1;}
+#CoffeeTreeGuide .content-wrap .btn-area {margin-top: 17.067vw;} 
+#CoffeeTreeGuide .content-wrap .btn.event-next {font-weight: 700; color: #fff; }
+#CoffeeTreeGuide .swiper-button-next {position: fixed; bottom: 10.667vw; top: auto; left: 5.333vw; right: auto; width: calc(100% - (5.333vw * 2)); height: 16vw !important;  font-weight: 700; font-size: 4.267vw; color: #000; margin-top: 0; -webkit-tap-highlight-color: transparent;}
 #CoffeeTreeGuide .swiper-button-next:after {display: none;}
-#CoffeeTreeGuide .content-wrap .btn.event-next,
-#CoffeeTreeGuide .swiper-container.last-slide .swiper-button-next {opacity: 0; z-index: -1;}
+#CoffeeTreeGuide .swiper-container.last-slide + .btn-area .swiper-button-next {opacity: 0; z-index: -1;}
 #CoffeeTreeGuide .swiper-container.last-slide + .btn-area .btn.event-next {opacity: 1; z-index: 1;}

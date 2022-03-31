@@ -492,11 +492,11 @@ export default function Index() {
                   className="swiper-container"
                   slidesPerView={1}
                   pagination={{
-                    el: ".swiper-pagination",
+                    el: "#CoffeeTreeGuide .swiper-pagination",
                     clickable: true,
                   }}
                   navigation={{
-                    nextEl: ".swiper-button-next",
+                    nextEl: "#CoffeeTreeGuide .swiper-button-next",
                   }}
                   observer={true}
                   observeParents={true}
@@ -508,8 +508,8 @@ export default function Index() {
                     }
                   }}
                 >
-                  <ul className="swiper-wrapper data-list" slot="container-start">
-                    <li className="swiper-slide step01">
+                  <ul className="swiper-wrapper data-list">
+                    <SwiperSlide className="swiper-slide step01">
                       <div className="cont-wrap">
                         <img src="/@resource/images/event/event_guide_01.png" alt="" className="img" />
                         <div className="text-wrap">
@@ -523,8 +523,8 @@ export default function Index() {
                           </p>
                         </div>
                       </div>
-                    </li>
-                    <li className="swiper-slide step02">
+                    </SwiperSlide>
+                    <SwiperSlide className="swiper-slide step02">
                       <div className="cont-wrap">
                         <img src="/@resource/images/event/event_guide_02.png" alt="" className="img" />
 
@@ -536,8 +536,8 @@ export default function Index() {
                           </p>
                         </div>
                       </div>
-                    </li>
-                    <li className="swiper-slide step03">
+                    </SwiperSlide>
+                    <SwiperSlide className="swiper-slide step03">
                       <div className="cont-wrap">
                         <img src="/@resource/images/event/event_guide_03.png" alt="" className="img" />
 
@@ -549,8 +549,8 @@ export default function Index() {
                           </p>
                         </div>
                       </div>
-                    </li>
-                    <li className="swiper-slide step04">
+                    </SwiperSlide>
+                    <SwiperSlide className="swiper-slide step04">
                       <div className="cont-wrap">
                         <img src="/@resource/images/event/event_guide_04.png" alt="" className="img" />
 
@@ -562,16 +562,16 @@ export default function Index() {
                           </p>
                         </div>
                       </div>
-                    </li>
+                    </SwiperSlide>
                   </ul>
                   <div className="swiper-pagination"></div>
-                  <div className="swiper-button-next btn normal large full ">다음</div>
                 </Swiper>
 
                 <div className="btn-area">
                   <button type="button" className="btn dark large full close-modal event-next" onClick={(e) => goEvent_page("CoffeeTreeGame")}>
                     시작하기
                   </button>
+                  <div className="swiper-button-next btn normal large full ">다음</div>
                 </div>
               </div>
             </div>
@@ -1047,10 +1047,10 @@ export default function Index() {
 
                 <div
                   className={`btn-area ${
-                    axioData?.userInfo?.ts_bean_yellow > 30 ||
-                    axioData?.userInfo?.ts_bean_orange > 30 ||
-                    axioData?.userInfo?.ts_bean_pink > 30 ||
-                    axioData?.userInfo?.ts_bean_red > 30
+                    axioData?.userInfo?.ts_bean_yellow > 10 ||
+                    axioData?.userInfo?.ts_bean_orange > 10 ||
+                    axioData?.userInfo?.ts_bean_pink > 10 ||
+                    axioData?.userInfo?.ts_bean_red > 10
                       ? "active"
                       : ""
                   }`}
