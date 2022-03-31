@@ -1733,21 +1733,7 @@ export default function Index() {
                   </div>
 
                   <div className="section">
-                    <div className="attention-wrap">
-                      <div className="item attention">
-                        <div className="title">이벤트 유의사항</div>
-                        <div className="text">
-                          <ul className="attention-list">
-                            <li>본 이벤트는 식목일 이벤트 미션 완료 고객에 한하여 자동 응모됩니다.</li>
-                            <li>식목일 이벤트 미션 완료 시 개인 정보 수집/이용에 동의한 것으로 간주됩니다.</li>
-                            <li>이벤트 응모는 ID당 1회 가능하며 1인 1당첨을 원칙으로 합니다.</li>
-                            <li>당첨자 발표 후 7일 이내 연락 혹은 정보를 기입하지 않을 경우 자동 취소 처리되며 당첨자를 재선정합니다.</li>
-                            <li>경품 발송은 당첨자 발표 및 정보 수집 이후 진행됩니다.</li>
-                            <li>이벤트 내용과 기간은 사전 공지 없이 취소, 변경될 수 있습니다.</li>
-                          </ul>
-                        </div>
-                      </div>
-                    </div>
+                    <div className="attention-wrap"></div>
                   </div>
                 </div>
                 {/* // 참여 안내 */}
@@ -1849,21 +1835,7 @@ export default function Index() {
                   </div>
 
                   <div className="section">
-                    <div className="attention-wrap">
-                      <div className="item attention">
-                        <div className="title">이벤트 유의사항</div>
-                        <div className="text">
-                          <ul className="attention-list">
-                            <li>본 이벤트는 식목일 이벤트 미션 완료 고객에 한하여 자동 응모됩니다.</li>
-                            <li>식목일 이벤트 미션 완료 시 개인 정보 수집/이용에 동의한 것으로 간주됩니다.</li>
-                            <li>이벤트 응모는 ID당 1회 가능하며 1인 1당첨을 원칙으로 합니다.</li>
-                            <li>당첨자 발표 후 7일 이내 연락 혹은 정보를 기입하지 않을 경우 자동 취소 처리되며 당첨자를 재선정합니다.</li>
-                            <li>경품 발송은 당첨자 발표 및 정보 수집 이후 진행됩니다.</li>
-                            <li>이벤트 내용과 기간은 사전 공지 없이 취소, 변경될 수 있습니다.</li>
-                          </ul>
-                        </div>
-                      </div>
-                    </div>
+                    <div className="attention-wrap"></div>
                   </div>
                 </div>
                 {/* // 경품 안내 */}

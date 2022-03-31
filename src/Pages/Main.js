@@ -353,7 +353,6 @@ export function Main(props) {
                 </button>
               </Swiper>
               {/* // main-visual */}
-
               {/* myinfo-wrap */}
               {state?.loginFlag ? (
                 <div className="item my-info">
@@ -486,7 +485,6 @@ export function Main(props) {
                 </ul>
               </div>
               {/* // myinfo-wrap */}
-
               {/* 나의 최근 주문 */}
               {state?.loginFlag && (
                 <section className="section">
@@ -543,9 +541,7 @@ export function Main(props) {
                   )}
                 </section>
               )}
-
               {/* // 나의 최근 주문 */}
-
               {/* 나의 보유 쿠폰 */}
               {state?.loginFlag && axioData?.res4_data?.coupon_list?.length > 0 && (
                 <section className="section">
@@ -596,7 +592,6 @@ export function Main(props) {
                 </section>
               )}
               {/* // 나의 보유 쿠폰 */}
-
               {/* 달콤 스토리 */}
               {axioData?.contentData && (
                 <section className="section">
@@ -637,9 +632,7 @@ export function Main(props) {
                   </div>
                 </section>
               )}
-
               {/* // 달콤 스토리 */}
-
               <section className="section">
                 {/* 주변 매장 찾기 */}
                 <div className="title-wrap w-inner flex-both">
@@ -789,7 +782,6 @@ export function Main(props) {
                    [D] 위치 권한 미허용일 시  
                 </section>
               */}
-
               {/* 달콤 MD */}
               <section className="section">
                 <div className="title-wrap w-inner flex-both">
@@ -825,7 +817,6 @@ export function Main(props) {
                 </Swiper>
               </section>
               {/* //달콤 MD */}
-
               {/* 테이블 오더 가능 매장 */}
               <div id="tableOrderAble" className="fixed-con layer-pop store-pop">
                 <div className="popup">
@@ -1106,7 +1097,6 @@ export function Main(props) {
                 </div>
               </div>
               {/* // 테이블 오더 가능 매장 */}
-
               <button type="button" id="moveScrollTop" className="btn scroll-top" onClick={() => moveScrollTop()}>
                 <i className="ico arr-top"></i>
               </button>
