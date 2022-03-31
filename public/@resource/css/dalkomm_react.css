@@ -58,3 +58,12 @@ input[type="number"]:disabled{background-color: rgb(255, 255, 255); color:rgb(0,
 .loading-wrap img{width: 80px; height: 80px;}
 
 .em-bold{color: #000;}
+
+#CoffeeTreeGuide .step01 .text-wrap {bottom: 8.067vh;}
+.coffee-tree .btn.game-state {color: #000;}
+#CoffeeTreeGuide .swiper-button-next,
+#CoffeeTreeGuide .content-wrap .btn.event-next {transition: none;}
+#CoffeeTreeGuide .swiper-container,
+#CoffeeTreeGuide .swiper-slide {font-size: 0 !important;}
+#CoffeeTreeGuide .text-wrap .title {font-weight: 600; font-size: 4.267vw !important; text-align: center;}
+#CoffeeTreeGuide .text-wrap .text {font-size: 3.2vw !important; color: rgba(0,0,0,0.8); text-align: center; margin-top: 1.5vh;}

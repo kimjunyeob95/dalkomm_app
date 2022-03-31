@@ -508,8 +508,8 @@ export default function Index() {
                     }
                   }}
                 >
-                  <ul className="swiper-wrapper data-list">
-                    <SwiperSlide className="swiper-slide step01">
+                  <ul className="swiper-wrapper data-list" slot="container-start">
+                    <li className="swiper-slide step01">
                       <div className="cont-wrap">
                         <img src="/@resource/images/event/event_guide_01.png" alt="" className="img" />
                         <div className="text-wrap">
@@ -523,8 +523,8 @@ export default function Index() {
                           </p>
                         </div>
                       </div>
-                    </SwiperSlide>
-                    <SwiperSlide className="swiper-slide step02">
+                    </li>
+                    <li className="swiper-slide step02">
                       <div className="cont-wrap">
                         <img src="/@resource/images/event/event_guide_02.png" alt="" className="img" />
 
@@ -536,8 +536,8 @@ export default function Index() {
                           </p>
                         </div>
                       </div>
-                    </SwiperSlide>
-                    <SwiperSlide className="swiper-slide step03">
+                    </li>
+                    <li className="swiper-slide step03">
                       <div className="cont-wrap">
                         <img src="/@resource/images/event/event_guide_03.png" alt="" className="img" />
 
@@ -549,8 +549,8 @@ export default function Index() {
                           </p>
                         </div>
                       </div>
-                    </SwiperSlide>
-                    <SwiperSlide className="swiper-slide step04">
+                    </li>
+                    <li className="swiper-slide step04">
                       <div className="cont-wrap">
                         <img src="/@resource/images/event/event_guide_04.png" alt="" className="img" />
 
@@ -562,7 +562,7 @@ export default function Index() {
                           </p>
                         </div>
                       </div>
-                    </SwiperSlide>
+                    </li>
                   </ul>
                   <div className="swiper-pagination"></div>
                   <div className="swiper-button-next btn normal large full ">다음</div>

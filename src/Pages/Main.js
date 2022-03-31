@@ -29,6 +29,7 @@ export function Main(props) {
   let dev_count = 1;
   const nowTime = new Date().getTime();
   const startTime = new Date("2022/03/04 00:00:00").getTime();
+  const eventStartTime = new Date("2022/04/05 00:00:00").getTime();
   const endTime = new Date("2022/03/02 23:59:59").getTime();
 
   const [state] = useContext(authContext);
@@ -224,7 +225,13 @@ export function Main(props) {
 
   const handleGoDetail = () => {
     let link_result = $(".swiper-slide-active").attr("linktype");
+    let link_title = $(".swiper-slide-active").attr("title");
     let link_result_location = $(".swiper-slide-active").attr("link");
+
+    if (nowTime >= eventStartTime && link_title === "나의 달콤 커피나무") {
+      return fn_event();
+    }
+
     if (link_result === "C") {
       history.push(`/story/detail/${link_result_location}`);
     } else if (link_result === "U") {
@@ -320,7 +327,7 @@ export function Main(props) {
                 <ul className="swiper-wrapper">
                   {axioData?.res1_data?.list?.map((e, i) => {
                     return (
-                      <li className="swiper-slide" key={i} linktype={e?.linktype} link={e?.linklocation}>
+                      <li className="swiper-slide" key={i} linktype={e?.linktype} link={e?.linklocation} title={e?.title}>
                         <div className="banner-wrap main-top-banner">
                           <div className="img-wrap">
                             <img src={e?.thumb} alt="여름 스테디셀러" />
@@ -1102,6 +1109,7 @@ export function Main(props) {
               <button type="button" id="moveScrollTop" className="btn scroll-top" onClick={() => moveScrollTop()}>
                 <i className="ico arr-top"></i>
               </button>
+              {/* {nowTime >= eventStartTime && axioData?.userData?.is_union_user && ( */}
               {axioData?.userData?.is_union_user && (
                 <div className="overlay event-banner active">
                   <div className="content-wrap">
